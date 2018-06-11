@@ -1,0 +1,48 @@
+diff --git a/docs/build/Markdown文档规范V1.0.pdf b/docs/build/Markdown文档规范V1.0.pdf
+new file mode 100644
+index 0000000..5d79dc3
+Binary files /dev/null and b/docs/build/Markdown文档规范V1.0.pdf differ
+diff --git a/docs/build/MySQL数据库设计规范V1.0-20180530.pdf b/docs/build/MySQL数据库设计规范V1.0.pdf
+similarity index 100%
+rename from docs/build/MySQL数据库设计规范V1.0-20180530.pdf
+rename to docs/build/MySQL数据库设计规范V1.0.pdf
+diff --git a/docs/build/服务端接口开发设计规范V1.0-20180530.pdf b/docs/build/服务端接口开发设计规范V1.0.pdf
+similarity index 100%
+rename from docs/build/服务端接口开发设计规范V1.0-20180530.pdf
+rename to docs/build/服务端接口开发设计规范V1.0.pdf
+diff --git a/docs/build/服务端接口设计规范V1.1.pdf b/docs/build/服务端接口设计规范V1.1.pdf
+new file mode 100644
+index 0000000..55d5497
+Binary files /dev/null and b/docs/build/服务端接口设计规范V1.1.pdf differ
+diff --git a/docs/build/软件开发规范V1.0.pdf b/docs/build/软件开发规范V1.0.pdf
+new file mode 100644
+index 0000000..b70d6b9
+Binary files /dev/null and b/docs/build/软件开发规范V1.0.pdf differ
+diff --git a/docs/src/和指数平台数据库设计.md b/docs/src/和指数平台数据库设计.md
+index cc59fd1..1356578 100644
+--- a/docs/src/和指数平台数据库设计.md
++++ b/docs/src/和指数平台数据库设计.md
+@@ -2,6 +2,10 @@
+ 
+ 2018-06-04，由[朱寅](mailto:zhuyin@chinamobile.com)创建。
+ 
++更新历史：
++
++1. 
++
+ # 和指数平台数据库设计
+ 
+ ## 应用信息表 app_info
+diff --git a/docs/src/服务端接口设计规范.md b/docs/src/服务端接口设计规范.md
+index bb9b026..634cee6 100644
+--- a/docs/src/服务端接口设计规范.md
++++ b/docs/src/服务端接口设计规范.md
+@@ -303,7 +303,7 @@ HTTP定义了很多有意义的[状态码](https://link.zhihu.com/?target=http%3
+ 
+ 1. 对于必须参数，使用`@RequestParam`注解明确说明该参数是required的；
+ 2. java程序中的参数采用驼峰命名；
+-3. 若参数包含大写字母，使用`@RequestParam`注解做转换，例如`@RequestParam("utype")`。
++3. 若参数包含大写字母，请使用`@RequestParam`注解做转换，例如`@RequestParam("utype")`。
+ 
+ # 5 参考
+ 

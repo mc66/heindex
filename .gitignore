@@ -1,0 +1,34 @@
+# tmp files
+dump.rdb
+*.tmp
+~\$*
+
+# Compiled sources
+*.o
+*.class
+*.pyc
+target
+rlease
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# project ide configs
+.idea
+*.iml
+
+# other file types
+*.log
+.svn
+.DS_Store
+diff.patch
+nohup.out
+metastore_db
+dependency-reduced-pom.xml
