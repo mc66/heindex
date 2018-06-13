@@ -10,35 +10,27 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author lch
+ * Created on 2018/06/13 15:15
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AppMauMapperTest {
+public class AppCommentMapperTest {
     @Autowired
-    private AppMauMapper mapper;
-    private String month = "201712";
+    private AppCommentMapper commentMapper;
+    private String month = "201806";
     private List items=new ArrayList<>();
 
     @Test
-    public void count() {
-        int count = mapper.count(month);
-        Assert.assertTrue(count > 0);
-    }
-
-    @Test
-    public void find() {
-        items = mapper.find(month, 1, 1);
-        Assert.assertTrue(items.size() > 0);
-    }
-
-    @Test
     public void countOfCategory() {
-        int count = mapper.countOfCategory(month, "移动视频类");
+        int count = commentMapper.countOfCategory(month, "移动视频类");
         Assert.assertTrue(count > 0);
     }
 
     @Test
     public void findByCategory() {
-        items = mapper.findByCategory(month, "移动视频类", 1, 1);
+        items = commentMapper.findByCategory(month, "移动视频类", 1, 1);
         Assert.assertTrue(items.size() > 0);
     }
 }
