@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+import java.util.Map;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AppMauMapperTest {
@@ -23,7 +26,7 @@ public class AppMauMapperTest {
 
     @Test
     public void find() {
-        val items = mapper.find(month, 1, 1);
+        List<Map<String, Object>> items = mapper.find(month, 1, 1);
         Assert.assertTrue(items.size() > 0);
     }
 
@@ -35,7 +38,7 @@ public class AppMauMapperTest {
 
     @Test
     public void findByCategory() {
-        val items = mapper.findByCategory(month, "移动视频类", 1, 1);
+        List<Map<String, Object>> items = mapper.findByCategory(month, "移动视频类", 1, 1);
         Assert.assertTrue(items.size() > 0);
     }
 }
