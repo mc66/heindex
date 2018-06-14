@@ -11,8 +11,8 @@ import java.util.Map;
 /**
  * 查询当前应用类所有应用的运营数据的服务类的实现
  *
- * @author zhuyin
- * Created on 2018/6/4
+ * @author machao
+ * Created on 2018/6/13
  */
 @Service
 public class AppOperationsServiceImpl implements AppOperationsService {
