@@ -4,10 +4,7 @@ import com.cmri.spring.common.controller.ZRestController;
 import com.cmri.spring.common.data.ResponseMessage;
 import com.cmri.um.he.index.service.AppQualityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
 * 查询某类应用品质指数
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 */
 @RestController
 @RequestMapping("/app-quality-list")
+@CrossOrigin
 public class AppQualityListController extends ZRestController {
     @Autowired
     private AppQualityService appQualityService;

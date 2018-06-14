@@ -4,12 +4,7 @@ import com.cmri.spring.common.controller.ZRestController;
 import com.cmri.spring.common.data.ResponseMessage;
 import com.cmri.um.he.index.service.AppFeaturesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 查询应用的关键点数据
@@ -19,6 +14,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/app-features")
+@CrossOrigin
 public class AppFeaturesController extends ZRestController {
 
     @Autowired
