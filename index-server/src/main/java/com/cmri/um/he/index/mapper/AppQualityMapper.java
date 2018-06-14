@@ -32,7 +32,7 @@ public interface AppQualityMapper {
     @Select("SELECT app.name AS app, qua.features AS features, qua.views AS views,qua.delay AS delay,\n" +
             "qua.consume AS consume,qua.experience AS experience,qua.qindex AS qindex\n" +
             "FROM app_info app right JOIN app_category category ON app.category = category.id LEFT JOIN app_quality qua ON app.id = qua.app \n" +
-            "where category.name = #{category} and qua.month=#{month} ORDER BY qua.qindex desc limit #{offset}, #{rows}")
+            "where category.id = #{category} and qua.month=#{month} ORDER BY qua.qindex desc limit #{offset}, #{rows}")
     List<Map<String, Object>> getQualityList(@Param("month") String month, @Param("category") String category, @Param("offset") int offset, @Param("rows") int rows);
 
 }
