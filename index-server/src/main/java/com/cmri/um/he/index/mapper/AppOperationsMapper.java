@@ -10,8 +10,8 @@ import java.util.Map;
 /**
  * 应用运营指数数据库访问的sql配置
  *
- * @author zhuyin
- * Created on 2018/6/4
+ * @author machao
+ * Created on 2018/6/13
  */
 @Mapper
 public interface AppOperationsMapper {
@@ -38,8 +38,8 @@ public interface AppOperationsMapper {
      * @return 应用运营指数集合
      */
     @Select("SELECT app.name AS app, ope.content AS content, ope.channel AS channel,ope.tariff AS tariff,\n" +
-            "ope.service AS service,ope.market AS market,ope.experience AS experience\n" +
+            "ope.service AS service,ope.market AS market,ope.experience AS experience,ope.oindex as oindex\n" +
             "FROM app_info app RIGHT JOIN app_category category ON app.category = category.id LEFT JOIN app_operations ope ON app.id = ope.app \n" +
-            "WHERE category.name = #{category} AND ope.month=#{month} ORDER BY ope.oindex DESC LIMIT #{offset}, #{rows}")
+            "WHERE category.id = #{category} AND ope.month=#{month} ORDER BY ope.oindex DESC LIMIT #{offset}, #{rows}")
     List<Map<String, Object>> getOperationsList(@Param("month") String month, @Param("category") String category, @Param("offset") int offset, @Param("rows") int rows);
 }
