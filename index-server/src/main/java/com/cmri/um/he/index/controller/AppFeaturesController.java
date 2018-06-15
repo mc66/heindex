@@ -6,6 +6,9 @@ import com.cmri.um.he.index.service.AppFeaturesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 查询应用的关键点数据
  *
@@ -33,13 +36,14 @@ public class AppFeaturesController extends ZRestController {
      *   查询应用的关键点数据
      * @param month
      * @param app
-     * @param page
-     * @param step
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseMessage get(@RequestParam String month, int app, @RequestParam Integer page, @RequestParam Integer step) {
-            return appFeaturesService.find(month, app, page, step).updateResponse(genResponseMessage());
+    public ResponseMessage get(@RequestParam String month, int app) {
+        List<Map<String, Object>> maps = appFeaturesService.find(month, app);
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("emotions",maps);
+        return responseMessage;
     }
 
 
