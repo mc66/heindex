@@ -22,8 +22,8 @@ public interface AppCommentMapper {
      * @param category 类别
      * @return 应用数
      */
-    @Select("SELECT COUNT(1) FROM app_comment com JOIN app_category category ON com.category=category.id WHERE category.`name`=#{category} AND com.`month`=#{month}")
-    int countOfCategory(@Param("month") String month, @Param("category") String category);
+    @Select("SELECT COUNT(1) FROM app_comment com  WHERE com.category=#{category} AND com.`month`=#{month}")
+    int countOfCategory(@Param("month") String month, @Param("category") int category);
 
     /**
      * 分页查询指定月份、指定类别的应用的评论
@@ -34,8 +34,8 @@ public interface AppCommentMapper {
      * @param rows     最多查询记录数
      * @return 应用评论集合
      */
-    @Select("select com.id,com.source,com.`month`,app.`name` AS app,category.`name` AS category\n" +
-            "FROM app_comment com JOIN app_category category ON com.category=category.id JOIN app_info app ON com.app=app.id\n" +
-            "WHERE category.`name`=#{category} AND com.month=#{month} limit #{offset}, #{rows}")
-    List<Map<String, Object>> findByCategory(@Param("month") String month, @Param("category") String category, @Param("offset") int offset, @Param("rows") int rows);
+    @Select("select com.id,com.source,com.comm,com.`month`,app.`name` AS app\n" +
+            "FROM app_comment com JOIN app_info app ON com.app=app.id\n" +
+            "WHERE com.category=#{category} AND com.month=#{month} limit #{offset}, #{rows}")
+    List<Map<String, Object>> findByCategory(@Param("month") String month, @Param("category") int category, @Param("offset") int offset, @Param("rows") int rows);
 }

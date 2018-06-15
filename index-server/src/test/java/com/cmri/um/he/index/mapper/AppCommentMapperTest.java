@@ -24,13 +24,13 @@ public class AppCommentMapperTest {
 
     @Test
     public void countOfCategory() {
-        int count = commentMapper.countOfCategory(month, "移动视频类");
+        int count = commentMapper.countOfCategory(month, 1);
         Assert.assertTrue(count > 0);
     }
 
     @Test
     public void findByCategory() {
-        items = commentMapper.findByCategory(month, "移动视频类", 1, 1);
+        items = commentMapper.findByCategory(month, 1, 1, 1);
         Assert.assertTrue(items.size() > 0);
     }
 }

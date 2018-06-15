@@ -23,7 +23,7 @@ public class AppEmotionDao extends BaseDao {
      * 查询指定类别、指定月份的应用情感得分
      *
      * */
-    public List<Map<String, Object>> findByCategory(String month, String category) {
+    public List<Map<String, Object>> findByCategory(String month, Integer category) {
         return Mapper.findByCategory(month, category);
     }
 }

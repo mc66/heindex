@@ -19,14 +19,14 @@ public class AppCommentDao extends BaseDao{
     /**
      * 查询指定月份、指定类别的应用数
      */
-    public int countOfCategory(String month, String category) {
+    public int countOfCategory(String month, int category) {
         return mapper.countOfCategory(month, category);
     }
 
     /**
      * 分页查询指定月份、指定类别的应用的评论
      */
-    public List<Map<String, Object>> findByCategory(String month, String category, int page, int step) {
+    public List<Map<String, Object>> findByCategory(String month, int category, int page, int step) {
         return addNo(mapper.findByCategory(month, category, offset(page, step), step));
     }
 

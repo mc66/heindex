@@ -20,5 +20,5 @@ public interface AppCommentService {
      * @param step     每页的记录容量
      * @return 分页查询结果
      */
-    PagingData<Map<String, Object>> find(String month, String category, int page, int step);
+    PagingData<Map<String, Object>> find(String month, int category, int page, int step);
 }

@@ -19,7 +19,7 @@ public class AppCommentController extends ZRestController{
     private AppCommentService commentService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseMessage get(@RequestParam String month,@RequestParam String category, @RequestParam Integer page, @RequestParam Integer step) {
+    public ResponseMessage get(@RequestParam String month,@RequestParam Integer category, @RequestParam Integer page, @RequestParam Integer step) {
 
             return commentService.find(month, category, page, step).updateResponse(genResponseMessage());
     }

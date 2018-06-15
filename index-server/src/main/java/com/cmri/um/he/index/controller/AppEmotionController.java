@@ -25,7 +25,7 @@ public class AppEmotionController extends ZRestController{
     private AppEmotionService appEmontionService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseMessage get(@RequestParam String month,@RequestParam String category){
+    public ResponseMessage get(@RequestParam String month,@RequestParam Integer category){
         List<Map<String, Object>> maps = appEmontionService.find(month, category);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("emotions",maps);

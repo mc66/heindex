@@ -19,7 +19,7 @@ public class AppCommentServiceImpl implements AppCommentService{
     private AppCommentDao appCommentDao;
 
     @Override
-    public PagingData<Map<String, Object>> find(String month, String category, int page, int step) {
+    public PagingData<Map<String, Object>> find(String month, int category, int page, int step) {
         return new PagingData<>(appCommentDao.countOfCategory(month, category),
                 page,
                 step,

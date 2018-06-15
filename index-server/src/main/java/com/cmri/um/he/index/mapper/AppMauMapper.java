@@ -42,7 +42,7 @@ public interface AppMauMapper {
      * @param category 类别
      * @return 应用数
      */
-    @Select("SELECT count(1) FROM app_info app right JOIN app_category category ON app.category = category.id LEFT JOIN app_mau active ON app.id = active.app  where category.name = #{category} and active.month=#{month}")
+    @Select("SELECT count(1) FROM app_info app right JOIN app_category category ON app.category = category.id LEFT JOIN app_mau active ON app.id = active.app  where category.id = #{category} and active.month=#{month}")
     int countOfCategory(@Param("month") String month, @Param("category") String category);
 
     /**
@@ -54,6 +54,6 @@ public interface AppMauMapper {
      * @param rows     最多查询记录数
      * @return 应用月活集合
      */
-    @Select("SELECT category.name AS category, app.name AS app, app.logo, active.mau, active.basis FROM app_info app right JOIN app_category category ON app.category = category.id LEFT JOIN app_mau active ON app.id = active.app where category.name = #{category} and active.month=#{month} ORDER BY active.mau desc limit #{offset}, #{rows}")
+    @Select("SELECT category.name AS category, app.name AS app, app.logo, active.mau, active.basis FROM app_info app right JOIN app_category category ON app.category = category.id LEFT JOIN app_mau active ON app.id = active.app where category.id = #{category} and active.month=#{month} ORDER BY active.mau desc limit #{offset}, #{rows}")
     List<Map<String, Object>> findByCategory(@Param("month") String month, @Param("category") String category, @Param("offset") int offset, @Param("rows") int rows);
 }
