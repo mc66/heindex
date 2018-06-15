@@ -22,19 +22,12 @@ public class AppFeaturesDao extends BaseDao {
 
 
 
-    /**
-     *  查询指定月份、应用名的应用的关键点数据的个数
-     */
-    public int countOfApp(String month, int app) {
-        return appFeaturesMapper.countOfApp(month, app);
-    }
-
 
     /**
-     *  分页查询指定月份、应用名的应用的关键点数据
+     *  查询指定月份、应用名的应用的关键点数据
      */
-    public List<Map<String, Object>> findByApp(String month, int app, int page, int step) {
-        return addNo(appFeaturesMapper.findByApp(month, app, offset(page, step), step));
+    public List<Map<String,Object>> findByApp(String month, int app) {
+        return appFeaturesMapper.findByApp(month, app);
     }
 
     /**
@@ -46,5 +39,6 @@ public class AppFeaturesDao extends BaseDao {
         }
         return items;
     }
+
 
 }

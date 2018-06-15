@@ -26,18 +26,16 @@ public interface AppFeaturesMapper {
      * @param app
      * @return
      */
-   @Select(" SELECT COUNT(1) from app_features afe LEFT JOIN app_info ai on afe.app = ai.id where ai.id= #{app} and afe.month = #{month}  ")
-    int countOfApp(@Param("month") String month, @Param("app") int app);
+   /*@Select(" SELECT COUNT(1) from app_features afe LEFT JOIN app_info ai on afe.app = ai.id where ai.id= #{app} and afe.month = #{month}  ")
+    int countOfApp(@Param("month") String month, @Param("app") int app);*/
 
     /**
-     *  分页查询指定月份、应用名的应用的关键点数据
+     *  查询指定月份、应用名的应用的关键点数据
      * @param month
      * @param app
-     * @param offset
-     * @param rows
      * @return
      */
-    @Select(" SELECT afe.id,ai.name,afe.features,afe.month,afe.atime from app_features afe LEFT JOIN app_info ai on afe.app = ai.id where ai.id= #{app} and afe.month= #{month} limit #{offset}, #{rows} ")
-    List<Map<String,Object>> findByApp(@Param("month") String month, @Param("app") int app, @Param("offset") int offset, @Param("rows") int rows);
+    @Select(" SELECT afe.id,ai.name as app,afe.features,afe.month,afe.atime from app_features afe LEFT JOIN app_info ai on afe.app = ai.id where ai.id= #{app} and afe.month= #{month}")
+    List<Map<String,Object>> findByApp(@Param("month") String month, @Param("app") int app);
 
 }

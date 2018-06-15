@@ -21,15 +21,11 @@ public class AppFeaturesMapperTest {
 
 
 
-    @Test
-    public void countOfApp() {
-        int count = appFeaturesMapper.countOfApp(month, 2);
-        Assert.assertTrue(count > 0);
-    }
+
 
     @Test
     public void findByApp() {
-        List<Map<String, Object>> list = appFeaturesMapper.findByApp(month, 2, 0, 1);
+        List<Map<String, Object>> list = appFeaturesMapper.findByApp(month, 2);
         Assert.assertTrue(list.size() > 0);
     }
 
