@@ -20,7 +20,7 @@ public interface AppMonthMapper {
      * 查询所有报告期数
      * @return 报告期数集合
      */
-    @Select("SELECT `month` from app_mau GROUP BY `month` DESC")
+    @Select("SELECT `month` from app_mau GROUP BY `month` DESC limit 0,6")
     List<Map<String,Object>> findMonths();
 
 }
