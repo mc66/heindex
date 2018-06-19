@@ -10,7 +10,13 @@ import java.util.Map;
 */
 public interface AppQualityService {
     /**
-     * AppQualityService
+     * 查询指定期数、指定类别的所有应用的运营指数
+     *
+     * @param month    月份，格式示例'201706'
+     * @param category 应用类别
+     * @param page     所要查询的分页，从1开始
+     * @param step     每页的记录容量
+     * @return 分页查询结果
      */
     PagingData<Map<String, Object>> find(String month,String category, int page, int step);
 }
