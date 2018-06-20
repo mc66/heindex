@@ -19,5 +19,5 @@ public interface AppEmotionService {
      * @param category 应用类别
      * @return 查询结果
      */
-    List<Map<String,Object>> find(String month,Integer category);
+    List<Map<String,Object>> find(Integer category);
 }

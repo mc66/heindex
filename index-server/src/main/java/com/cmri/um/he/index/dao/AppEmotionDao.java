@@ -1,6 +1,7 @@
 package com.cmri.um.he.index.dao;
 
 import com.cmri.um.he.index.mapper.AppEmotionMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,13 +18,13 @@ import java.util.Map;
 public class AppEmotionDao extends BaseDao {
 
     @Autowired
-    private AppEmotionMapper Mapper;
+    private AppEmotionMapper mapper;
 
     /**
      * 查询指定类别、指定月份的应用情感得分
      *
      * */
-    public List<Map<String, Object>> findByCategory(String month, Integer category) {
-        return Mapper.findByCategory(month, category);
+    public List<Map<String, Object>> findByCategory(Integer category) {
+        return mapper.findByCategory(category);
     }
 }

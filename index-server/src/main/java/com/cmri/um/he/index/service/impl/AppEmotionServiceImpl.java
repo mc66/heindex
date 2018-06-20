@@ -21,7 +21,7 @@ public class AppEmotionServiceImpl implements AppEmotionService {
     private AppEmotionDao appEmotionDao;
 
     @Override
-    public List<Map<String, Object>> find(String month, Integer category) {
-        return appEmotionDao.findByCategory(month,category);
+    public List<Map<String, Object>> find(Integer category) {
+        return appEmotionDao.findByCategory(category);
     }
 }
