@@ -24,6 +24,6 @@ public interface AppEmotionMapper {
      * @param category 类别
      * @return 应用月活集合
      */
-    @Select("select emotion.id,info.name AS app,emotion.emotion,emotion.month,emotion.atime FROM app_emotion emotion LEFT JOIN app_category category ON emotion.category = category.id LEFT JOIN app_info info ON emotion.app = info.id where category.id = #{category} AND month = #{month}")
+    @Select("SELECT emotion.id,ai.name,emotion.features,emotion.emotion,ai.flag,emotion.`month` from app_emotion emotion LEFT JOIN app_info ai on emotion.app = ai.id LEFT JOIN app_category category on emotion.category=category.id where category.id= #{category} and emotion.`month`= #{month}")
     List<Map<String,Object>> findByCategory(@Param("month") String month,@Param("category") Integer category);
 }
