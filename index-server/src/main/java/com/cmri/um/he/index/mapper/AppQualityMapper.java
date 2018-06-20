@@ -29,7 +29,7 @@ public interface AppQualityMapper {
      * @param rows     最多查询记录数
      * @return 应用月活集合
      */
-    @Select("SELECT app.name AS app, qua.features AS features, qua.views AS views,qua.delay AS delay,\n" +
+    @Select("SELECT app.name AS app,app.flag AS flag, qua.features AS features, qua.views AS views,qua.delay AS delay,\n" +
             "qua.consume AS consume,qua.experience AS experience,qua.qindex AS qindex\n" +
             "FROM app_info app right JOIN app_category category ON app.category = category.id LEFT JOIN app_quality qua ON app.id = qua.app \n" +
             "where category.id = #{category} and qua.month=#{month} ORDER BY qua.qindex desc limit #{offset}, #{rows}")

@@ -26,8 +26,8 @@ public class AppFeaturesDao extends BaseDao {
     /**
      *  查询指定月份、应用名的应用的关键点数据
      */
-    public List<Map<String,Object>> findByApp(String month, int app) {
-        return appFeaturesMapper.findByApp(month, app);
+    public List<Map<String,Object>> findByApp(String month, int category) {
+        return appFeaturesMapper.findByApp(month, category);
     }
 
     /**
