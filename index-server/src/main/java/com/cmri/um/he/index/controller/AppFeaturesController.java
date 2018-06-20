@@ -35,12 +35,12 @@ public class AppFeaturesController extends ZRestController {
     /**
      *   查询应用的关键点数据
      * @param month
-     * @param app
+     * @param category
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseMessage get(@RequestParam String month, int app) {
-        List<Map<String, Object>> maps = appFeaturesService.find(month, app);
+    public ResponseMessage get(@RequestParam String month, @RequestParam Integer category) {
+        List<Map<String, Object>> maps = appFeaturesService.find(month, category);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("emotions",maps);
         return responseMessage;

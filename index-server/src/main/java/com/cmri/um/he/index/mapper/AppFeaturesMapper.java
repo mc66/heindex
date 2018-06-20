@@ -32,10 +32,10 @@ public interface AppFeaturesMapper {
     /**
      *  查询指定月份、应用名的应用的关键点数据
      * @param month
-     * @param app
+     * @param category
      * @return
      */
-    @Select(" SELECT afe.id,ai.name as app,afe.features,afe.month,afe.atime from app_features afe LEFT JOIN app_info ai on afe.app = ai.id where ai.id= #{app} and afe.month= #{month}")
-    List<Map<String,Object>> findByApp(@Param("month") String month, @Param("app") int app);
+    @Select(" SELECT emotion.id,ai.name,emotion.features,emotion.emotion,ai.flag,emotion.`month` from app_emotion emotion LEFT JOIN app_info ai on emotion.app = ai.id LEFT JOIN app_category category on emotion.category=category.id where category.id= #{category} and emotion.`month`=#{month} ")
+    List<Map<String,Object>> findByApp(@Param("month") String month, @Param("category") int category);
 
 }

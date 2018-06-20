@@ -19,7 +19,6 @@ public interface AppEmotionMapper {
 
     /**
      * 查询指定月份、指定类别的应用情感得分
-     *
      * @param category 类别
      * @return 应用月活集合
      */
