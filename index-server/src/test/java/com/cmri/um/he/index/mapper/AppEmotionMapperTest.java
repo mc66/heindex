@@ -19,7 +19,7 @@ public class AppEmotionMapperTest {
 
     @Test
     public void findByCategory(){
-        List<Map<String, Object>> items = mapper.findByCategory(month, 1);
+        List<Map<String, Object>> items = mapper.findByCategory(1);
         Assert.assertTrue(items.size()>0);
     }
 
