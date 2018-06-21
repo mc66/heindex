@@ -1,0 +1,111 @@
+diff --git a/index-server/src/main/conf/application.properties b/index-server/src/main/conf/application.properties
+index 65769f1..2e6805e 100644
+--- a/index-server/src/main/conf/application.properties
++++ b/index-server/src/main/conf/application.properties
+@@ -1,5 +1,6 @@
+ # Listen port for incoming HTTP requests
+-server.port=18081
++ server.port=18081
++# server.port=18082
+ # interface address to bind to
+ server.address=0.0.0.0
+ # ContextPath must start with '/' and not end with '/'
+@@ -36,6 +37,7 @@ spring.redis.lettuce.pool.min-idle=1
+ #----------------------------------------
+ ## mysql 配置
+ spring.datasource.url=jdbc:mysql://223.105.1.80:1128/heindex_test?useUnicode=true&zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8&allowMasterDownConnections=true&allowSlaveDownConnections=true&readFromMasterWhenNoSlaves=true&loadBalanceBlacklistTimeout=300000&retriesAllDown=1
++# spring.datasource.url=jdbc:mysql://10.1.0.5:1128/heindex_test?useUnicode=true&zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8&allowMasterDownConnections=true&allowSlaveDownConnections=true&readFromMasterWhenNoSlaves=true&loadBalanceBlacklistTimeout=300000&retriesAllDown=1
+ spring.datasource.username=heindex
+ spring.datasource.password=CMCC@heindex2018
+ spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+diff --git a/index-server/src/main/java/com/cmri/um/he/index/mapper/AppCommentMapper.java b/index-server/src/main/java/com/cmri/um/he/index/mapper/AppCommentMapper.java
+index 6d6ae21..ce01039 100644
+--- a/index-server/src/main/java/com/cmri/um/he/index/mapper/AppCommentMapper.java
++++ b/index-server/src/main/java/com/cmri/um/he/index/mapper/AppCommentMapper.java
+@@ -34,8 +34,8 @@ public interface AppCommentMapper {
+      * @param rows     最多查询记录数
+      * @return 应用评论集合
+      */
+-    @Select("select com.id,com.source,com.comm,com.`month`,app.`name` AS app\n" +
+-            "FROM app_comment com JOIN app_info app ON com.app=app.id\n" +
++    @Select("select com.id,com.source,com.comm,com.`month`,app.`name` AS app,logo.logo\n" +
++            "FROM app_comment com JOIN app_info app ON com.app=app.id JOIN app_logo logo ON app.id=logo.app\n" +
+             "WHERE com.category=#{category} AND com.month=#{month} limit #{offset}, #{rows}")
+     List<Map<String, Object>> findByCategory(@Param("month") String month, @Param("category") int category, @Param("offset") int offset, @Param("rows") int rows);
+ }
+diff --git a/index-server/src/main/java/com/cmri/um/he/index/mapper/AppMauMapper.java b/index-server/src/main/java/com/cmri/um/he/index/mapper/AppMauMapper.java
+index aefbc35..7bb98e9 100644
+--- a/index-server/src/main/java/com/cmri/um/he/index/mapper/AppMauMapper.java
++++ b/index-server/src/main/java/com/cmri/um/he/index/mapper/AppMauMapper.java
+@@ -21,7 +21,7 @@ public interface AppMauMapper {
+      * @param month 月份，格式`MM`
+      * @return 应用数
+      */
+-    @Select("select count(1) from app_info app LEFT JOIN app_mau active ON app.id = active.app where active.month = #{month}")
++    @Select("select count(1) from app_info app LEFT JOIN app_mau active ON app.id = active.app JOIN app_logo logo ON app.id=logo.app where active.month = #{month}")
+     int count(String month);
+ 
+     /**
+@@ -32,7 +32,7 @@ public interface AppMauMapper {
+      * @param rows   最多查询记录数
+      * @return 应用月活集合
+      */
+-    @Select("SELECT category.name AS category, app.name AS app, app.logo, active.mau, active.basis FROM app_info app LEFT JOIN app_category category ON app.category = category.id LEFT JOIN app_mau active ON app.id = active.app where active.month=#{month} ORDER BY active.mau desc limit #{offset}, #{rows}")
++    @Select("SELECT category.name AS category, app.name AS app, logo.logo, active.mau, active.basis FROM app_info app LEFT JOIN app_category category ON app.category = category.id LEFT JOIN app_mau active ON app.id = active.app JOIN app_logo logo ON app.id=logo.app  where active.month=#{month} ORDER BY active.mau desc limit #{offset}, #{rows}")
+     List<Map<String, Object>> find(@Param("month") String month, @Param("offset") int offset, @Param("rows") int rows);
+ 
+     /**
+@@ -42,7 +42,7 @@ public interface AppMauMapper {
+      * @param category 类别
+      * @return 应用数
+      */
+-    @Select("SELECT count(1) FROM app_info app right JOIN app_category category ON app.category = category.id LEFT JOIN app_mau active ON app.id = active.app  where category.id = #{category} and active.month=#{month}")
++    @Select("SELECT count(1) FROM app_info app right JOIN app_category category ON app.category = category.id LEFT JOIN app_mau active ON app.id = active.app JOIN app_logo logo ON app.id=logo.app where category.id = #{category} and active.month=#{month}")
+     int countOfCategory(@Param("month") String month, @Param("category") String category);
+ 
+     /**
+@@ -54,6 +54,6 @@ public interface AppMauMapper {
+      * @param rows     最多查询记录数
+      * @return 应用月活集合
+      */
+-    @Select("SELECT category.name AS category, app.name AS app, app.logo, active.mau, active.basis FROM app_info app right JOIN app_category category ON app.category = category.id LEFT JOIN app_mau active ON app.id = active.app where category.id = #{category} and active.month=#{month} ORDER BY active.mau desc limit #{offset}, #{rows}")
++    @Select("SELECT category.name AS category, app.name AS app, logo.logo, active.mau, active.basis FROM app_info app right JOIN app_category category ON app.category = category.id LEFT JOIN app_mau active ON app.id = active.app JOIN app_logo logo ON app.id=logo.app where category.id = #{category} and active.month=#{month} ORDER BY active.mau desc limit #{offset}, #{rows}")
+     List<Map<String, Object>> findByCategory(@Param("month") String month, @Param("category") String category, @Param("offset") int offset, @Param("rows") int rows);
+ }
+diff --git a/index-server/src/test/java/com/cmri/um/he/index/FileUploadTest.java b/index-server/src/test/java/com/cmri/um/he/index/FileUploadTest.java
+new file mode 100644
+index 0000000..76d04be
+--- /dev/null
++++ b/index-server/src/test/java/com/cmri/um/he/index/FileUploadTest.java
+@@ -0,0 +1,31 @@
++package com.cmri.um.he.index;
++
++import org.csource.fastdfs.*;
++
++/**
++ * @author lch
++ * Created on 2018/06/19 15:45
++ */
++public class FileUploadTest {
++    /**
++     */
++    public static void main(String[] args) throws Exception {
++        //1、
++        ClientGlobal.init("D:\\IdeaProjects\\hezhishu\\heindex\\index-server\\src\\main\\conf\\application.properties");
++        //2、
++        TrackerClient trackerClient = new TrackerClient();
++        //3、
++        TrackerServer trackerServer = trackerClient.getConnection();
++        //4、
++        StorageServer storageServer = null;
++        //5、
++        StorageClient storageClient = new StorageClient(trackerServer,storageServer);
++        //6、
++        String[] jpgs = storageClient.upload_file("D:\\图片\\1.jpg", "jpg", null);
++        for (String string : jpgs) {
++            System.out.println(string);
++        }
++
++
++    }
++}
