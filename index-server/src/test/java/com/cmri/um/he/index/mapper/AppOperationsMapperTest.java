@@ -10,7 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Map;
-
+/**
+ * @author machao
+ * Created on 2018/06/13 15:15
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AppOperationsMapperTest {
