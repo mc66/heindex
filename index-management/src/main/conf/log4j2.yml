@@ -1,0 +1,72 @@
+Configuration:
+  status: warn
+
+  Properties: # 定义全局变量
+    Property: # 缺省配置（用于开发环境）。其他环境需要在VM参数中指定，如下：
+      #测试：-Dlog.level.chookin=trace
+      #生产：-Dlog.level.chookin=info
+      - name: log.level.chookin
+        value: info
+      - name: log.path
+        value: logs
+      - name: project.name
+        value: he_index
+      - name: PID
+        value: ????
+      - name: LOG_EXCEPTION_CONVERSION_WORD
+        value: "%xwEx"
+      - name: LOG_LEVEL_PATTERN
+        value: "%5p"
+      - name: LOG_DATEFORMAT_PATTERN
+        value: yyyy-MM-dd HH:mm:ss.SS
+      - name: CONSOLE_LOG_PATTERN
+        value: "%clr{%d{${LOG_DATEFORMAT_PATTERN}}}{faint} %clr{${LOG_LEVEL_PATTERN}} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}"
+      - name: FILE_LOG_PATTERN
+        value: "%d{${LOG_DATEFORMAT_PATTERN}} ${LOG_LEVEL_PATTERN} ${sys:PID} --- [%t] %-40.40c{1.} : %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}"
+
+  Appenders:
+    Console:  #输出到控制台
+      name: CONSOLE
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: ${sys:CONSOLE_LOG_PATTERN}
+    RollingFile: # 输出到文件，超过128MB归档
+      - name: ROLLING_FILE
+        ignoreExceptions: false
+        fileName: ${log.path}/${project.name}.log
+        filePattern: "${log.path}/$${date:yyyy-MM}/${project.name}-%d{yyyy-MM-dd}-%i.log.gz"
+        PatternLayout:
+          pattern: ${sys:FILE_LOG_PATTERN}
+        Policies:
+          SizeBasedTriggeringPolicy:
+            size: "128 MB"
+        DefaultRolloverStrategy:
+          max: 100
+
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+        - ref: CONSOLE  
+        - ref: ROLLING_FILE
+    Logger:
+      # 默认情况下子Logger会继承父Logger的appender，也就是说子Logger会在父Logger的appender里输出。若是additivity设为false，则子Logger只会在自己的appender里输出，而不会在父Logger的appender里输出。
+      # 为com.cmri.um.recm包配置特殊的Log级别，方便调试
+      - name: com.cmri.um.recm
+        level: ${sys:log.level.chookin}
+      - name: org.apache.catalina.startup.DigesterFactor
+        level: error
+      - name: org.apache.catalina.util.LifecycleBase
+        level: warn
+      - name: org.apache.coyote.http11.Http11NioProtocol
+        level: warn
+      - name: org.apache.sshd.common.util.SecurityUtils
+        level: warn
+      - name: org.apache.tomcat.util.net.NioSelectorPool
+        level: warn
+      - name: org.eclipse.jetty.util.component.AbstractLifeCycle
+        level: error
+      - name: org.hibernate.validator.internal.util.Version
+        level: warn
+      - name: org.springframework.boot.actuate.endpoint.jmx
+        level: warn
