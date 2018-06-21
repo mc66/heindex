@@ -37,7 +37,7 @@ public interface AppOperationsMapper {
      * @param rows     最多查询记录数
      * @return 应用运营指数集合
      */
-    @Select("SELECT app.name AS app, ope.content AS content, ope.channel AS channel,ope.tariff AS tariff,\n" +
+    @Select("SELECT app.name AS app, app.flag AS flag, ope.content AS content, ope.channel AS channel,ope.tariff AS tariff,\n" +
             "ope.service AS service,ope.market AS market,ope.experience AS experience,ope.oindex AS oindex\n" +
             "FROM app_info app RIGHT JOIN app_category category ON app.category = category.id LEFT JOIN app_operations ope ON app.id = ope.app \n" +
             "WHERE category.id = #{category} AND ope.month=#{month} ORDER BY ope.oindex DESC LIMIT #{offset}, #{rows}")
