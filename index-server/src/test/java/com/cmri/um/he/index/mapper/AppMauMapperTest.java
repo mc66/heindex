@@ -14,7 +14,10 @@ import java.util.Map;
 import java.util.ArrayList;
 
 
-
+/**
+ * @author zhuyin
+ * Created on 2018/06/13 15:15
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AppMauMapperTest {
