@@ -24,11 +24,11 @@ public class AppFeaturesServiceImpl implements AppFeaturesService {
     /**
      *    查询指定月份、应用名的应用的关键点数据
      * @param month    月份，格式示例'201712'
-     * @param app      应用名
+     * @param category      应用名
      * @return
      */
     @Override
-    public List<Map<String, Object>> find(String month, int app) {
-        return appFeaturesDao.findByApp(month,app);
+    public List<Map<String, Object>> find(String month,int category) {
+        return appFeaturesDao.findByApp(month,category);
     }
 }
