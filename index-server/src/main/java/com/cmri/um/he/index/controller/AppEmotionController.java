@@ -7,8 +7,7 @@ import com.cmri.um.he.index.service.AppEmotionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 口碑指数，当前年应用的情感得分
@@ -27,7 +26,30 @@ public class AppEmotionController extends ZRestController{
     @RequestMapping(method = RequestMethod.GET)
     public ResponseMessage get(@RequestParam Integer category){
         List<Map<String, Object>> maps = appEmontionService.find(category);
+        Map<String,Object> ma = new HashMap<String, Object>();
+        List list=new ArrayList();
+        for (Map<String, Object> map : maps) {
+            String o =(String) map.get("app");
+            if (ma.containsKey(o)){
+                ma.put(o,ma.get(o)+","+map.get("emotion"));
+            }else {
+                ma.put(o,map.get("emotion"));
+            }
+
+      }
+
+        Iterator it = ma.entrySet().iterator();
+        while (it.hasNext()) {
+            Map<String,Object> mapp = new HashMap<String, Object>();
+            Map.Entry entry = (Map.Entry) it.next();
+            Object key = entry.getKey();
+            Object value = entry.getValue();
+            mapp.put("name",key);
+            mapp.put("emotion",value);
+            list.add(mapp);
+        }
         ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("emotion",list);
         responseMessage.set("emotions",maps);
         return responseMessage;
     }
