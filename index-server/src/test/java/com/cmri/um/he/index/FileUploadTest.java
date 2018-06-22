@@ -1,6 +1,6 @@
 package com.cmri.um.he.index;
 
-import org.csource.fastdfs.*;
+
 
 /**
  * @author lch
@@ -10,7 +10,7 @@ public class FileUploadTest {
     /**
      */
     public static void main(String[] args) throws Exception {
-        //1、
+      /*  //1、
         ClientGlobal.init("D:\\IdeaProjects\\hezhishu\\heindex\\index-server\\src\\main\\conf\\application.properties");
         //2、
         TrackerClient trackerClient = new TrackerClient();
@@ -25,7 +25,7 @@ public class FileUploadTest {
         for (String string : jpgs) {
             System.out.println(string);
         }
-
+*/
 
     }
 }
