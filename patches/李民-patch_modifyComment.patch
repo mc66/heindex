@@ -1,0 +1,61 @@
+diff --git a/index-server/src/test/java/com/cmri/um/he/index/FileUploadTest.java b/index-server/src/test/java/com/cmri/um/he/index/FileUploadTest.java
+index 76d04be..245f792 100644
+--- a/index-server/src/test/java/com/cmri/um/he/index/FileUploadTest.java
++++ b/index-server/src/test/java/com/cmri/um/he/index/FileUploadTest.java
+@@ -1,6 +1,6 @@
+ package com.cmri.um.he.index;
+ 
+-import org.csource.fastdfs.*;
++
+ 
+ /**
+  * @author lch
+@@ -10,7 +10,7 @@ public class FileUploadTest {
+     /**
+      */
+     public static void main(String[] args) throws Exception {
+-        //1、
++      /*  //1、
+         ClientGlobal.init("D:\\IdeaProjects\\hezhishu\\heindex\\index-server\\src\\main\\conf\\application.properties");
+         //2、
+         TrackerClient trackerClient = new TrackerClient();
+@@ -25,7 +25,7 @@ public class FileUploadTest {
+         for (String string : jpgs) {
+             System.out.println(string);
+         }
+-
++*/
+ 
+     }
+ }
+diff --git a/index-server/src/test/java/com/cmri/um/he/index/mapper/AppEmotionMapperTest.java b/index-server/src/test/java/com/cmri/um/he/index/mapper/AppEmotionMapperTest.java
+index 62a6c06..c8c42d3 100644
+--- a/index-server/src/test/java/com/cmri/um/he/index/mapper/AppEmotionMapperTest.java
++++ b/index-server/src/test/java/com/cmri/um/he/index/mapper/AppEmotionMapperTest.java
+@@ -19,7 +19,7 @@ public class AppEmotionMapperTest {
+ 
+     @Test
+     public void findByCategory(){
+-        List<Map<String, Object>> items = mapper.findByCategory(month, 1);
++        List<Map<String, Object>> items = mapper.findByCategory(1);
+         Assert.assertTrue(items.size()>0);
+     }
+ 
+diff --git a/patches/yjj-patch_modfiyEmotion.patch b/patches/yjj-patch_modfiyEmotion.patch
+deleted file mode 100644
+index 0acafa8..0000000
+--- a/patches/yjj-patch_modfiyEmotion.patch
++++ /dev/null
+@@ -1,12 +0,0 @@
+-diff --git a/index-server/src/main/java/com/cmri/um/he/index/mapper/AppEmotionMapper.java b/index-server/src/main/java/com/cmri/um/he/index/mapper/AppEmotionMapper.java
+-index 66db420..44f0fcf 100644
+---- a/index-server/src/main/java/com/cmri/um/he/index/mapper/AppEmotionMapper.java
+-+++ b/index-server/src/main/java/com/cmri/um/he/index/mapper/AppEmotionMapper.java
+-@@ -23,6 +23,6 @@ public interface AppEmotionMapper {
+-      * @param category 类别
+-      * @return 应用月活集合
+-      */
+--    @Select("select emotion.id,info.name AS app,emotion.emotion,emotion.month,emotion.atime FROM app_emotion emotion LEFT JOIN app_category category ON emotion.category = category.id LEFT JOIN app_info info ON emotion.app = info.id where category.id = #{category} AND emotion.`month` in(SELECT x.`month` FROM (SELECT distinct `month` FROM app_emotion GROUP BY `month` DESC LIMIT 0,4)as x )")
+-+    @Select("select emotion.id,info.name AS app,info.flag,emotion.emotion,emotion.month,emotion.atime FROM app_emotion emotion LEFT JOIN app_category category ON emotion.category = category.id LEFT JOIN app_info info ON emotion.app = info.id where category.id = #{category} AND emotion.`month` in(SELECT x.`month` FROM (SELECT distinct `month` FROM app_emotion GROUP BY `month` DESC LIMIT 0,4)as x )")
+-     List<Map<String,Object>> findByCategory(@Param("category") Integer category);
+- }
