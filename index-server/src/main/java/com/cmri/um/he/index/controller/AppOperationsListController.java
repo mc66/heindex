@@ -6,6 +6,9 @@ import com.cmri.um.he.index.service.AppOperationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 体验指数，当前是根据期数查询当前应用类所有应用的运营数据
  *
@@ -23,7 +26,8 @@ public class AppOperationsListController extends ZRestController {
     @RequestMapping(method = RequestMethod.GET)
     public ResponseMessage get(@RequestParam String month, String category, @RequestParam Integer page, @RequestParam Integer step) {
 
-            return appOperationsService.getOperationsList(month, category, page, step).updateResponse(genResponseMessage());
+        return appOperationsService.getOperationsList(month, category, page, step).updateResponse(genResponseMessage());
+
 
     }
 }
