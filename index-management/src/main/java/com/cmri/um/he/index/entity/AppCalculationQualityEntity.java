@@ -19,7 +19,7 @@ public class AppCalculationQualityEntity implements Serializable{
     private Double consume;
     private Double experience;
     private String version;
-    private Integer flag;
+    private Integer status;
     private char month;
     private Date atime;
 
@@ -35,7 +35,7 @@ public class AppCalculationQualityEntity implements Serializable{
                 ", consume=" + consume +
                 ", experience=" + experience +
                 ", version='" + version + '\'' +
-                ", flag=" + flag +
+                ", status=" + status +
                 ", month=" + month +
                 ", atime=" + atime +
                 '}';
@@ -113,12 +113,12 @@ public class AppCalculationQualityEntity implements Serializable{
         this.version = version;
     }
 
-    public Integer getFlag() {
-        return flag;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setFlag(Integer flag) {
-        this.flag = flag;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public char getMonth() {
@@ -141,7 +141,7 @@ public class AppCalculationQualityEntity implements Serializable{
 
     }
 
-    public AppCalculationQualityEntity(Integer id, Integer app, Integer catrgory, Double features, Double view, Double delay, Double consume, Double experience, String version, Integer flag, char month, Date atime) {
+    public AppCalculationQualityEntity(Integer id, Integer app, Integer catrgory, Double features, Double view, Double delay, Double consume, Double experience, String version, Integer status, char month, Date atime) {
 
         this.id = id;
         this.app = app;
@@ -152,7 +152,7 @@ public class AppCalculationQualityEntity implements Serializable{
         this.consume = consume;
         this.experience = experience;
         this.version = version;
-        this.flag = flag;
+        this.status = status;
         this.month = month;
         this.atime = atime;
     }
