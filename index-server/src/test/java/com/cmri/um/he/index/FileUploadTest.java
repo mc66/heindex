@@ -1,5 +1,7 @@
 package com.cmri.um.he.index;
 
+
+
 /**
  * @author lch
  * Created on 2018/06/19 15:45
@@ -8,7 +10,7 @@ public class FileUploadTest {
     /**
      */
     public static void main(String[] args) throws Exception {
-        /*//1、
+      /*  //1、
         ClientGlobal.init("D:\\IdeaProjects\\hezhishu\\heindex\\index-server\\src\\main\\conf\\application.properties");
         //2、
         TrackerClient trackerClient = new TrackerClient();

@@ -13,6 +13,7 @@ public class AppOriginalListEntity implements Serializable {
 
     private List<AppOriginalDelayEntity> appOrgDellist;
     private List<AppOriginalFeaturesEntity> appOrgFealist;
+    private List<AppCalculationQualityEntity> appCalculationQuality;
 
     public List<AppOriginalDelayEntity> getAppOrgDellist() {
         return appOrgDellist;
@@ -28,5 +29,13 @@ public class AppOriginalListEntity implements Serializable {
 
     public void setAppOrgFealist(List<AppOriginalFeaturesEntity> appOrgFealist) {
         this.appOrgFealist = appOrgFealist;
+    }
+
+    public List<AppCalculationQualityEntity> getAppCalculationQuality() {
+        return appCalculationQuality;
+    }
+
+    public void setAppCalculationQuality(List<AppCalculationQualityEntity> appCalculationQuality) {
+        this.appCalculationQuality = appCalculationQuality;
     }
 }
