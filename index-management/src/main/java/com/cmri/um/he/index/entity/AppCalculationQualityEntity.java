@@ -20,7 +20,7 @@ public class AppCalculationQualityEntity implements Serializable{
     private Double experience;
     private String version;
     private Integer status;
-    private char month;
+    private String month;
     private Date atime;
 
     @Override
@@ -121,11 +121,11 @@ public class AppCalculationQualityEntity implements Serializable{
         this.status = status;
     }
 
-    public char getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(char month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 
@@ -141,7 +141,7 @@ public class AppCalculationQualityEntity implements Serializable{
 
     }
 
-    public AppCalculationQualityEntity(Integer id, Integer app, Integer catrgory, Double features, Double view, Double delay, Double consume, Double experience, String version, Integer status, char month, Date atime) {
+    public AppCalculationQualityEntity(Integer id, Integer app, Integer catrgory, Double features, Double view, Double delay, Double consume, Double experience, String version, Integer status, String month, Date atime) {
 
         this.id = id;
         this.app = app;
@@ -156,4 +156,5 @@ public class AppCalculationQualityEntity implements Serializable{
         this.month = month;
         this.atime = atime;
     }
+
 }
