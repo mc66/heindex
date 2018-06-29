@@ -7,12 +7,11 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 /**
- * 批量添加的数据库操作
- * @author yinjnujun
- * Created on 2018/6/28
+ * 批量添加的数据库访问
+ * @author yinjunjun
+ * Created on 2018/06/28
  * */
 public class AppCalculationDaoProvider {
-
     public String saveAll(Map map) {
         List<AppQualityEntity> appQualityEntities = (List<AppQualityEntity>) map.get("list");
         StringBuilder sb = new StringBuilder();

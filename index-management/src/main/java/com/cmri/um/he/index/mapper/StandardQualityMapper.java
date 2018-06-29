@@ -23,9 +23,9 @@ public interface StandardQualityMapper {
      * @param month 需要查询的月份
      * @return 未处理集合
      */
-    @Select("SELECT acq.id,acq.features,acq.`view`,acq.delay,acq.consume,acq.experience,acq.version,acq.`month`,acq.atime,info.id app,info.`name`,info.special,cate.id category,cate.`name` categoryName\n" +
-            "FROM app_calculation_quality acq LEFT JOIN app_info info on acq.app = info.id \n" +
-            "LEFT JOIN app_category cate ON acq.category = cate.id\n" +
+    @Select("SELECT acq.id,acq.features,acq.`view`,acq.delay,acq.consume,acq.experience,acq.version,acq.`month`,acq.atime,info.id app,info.`name`,info.special,cate.id category,cate.`name` categoryName \n" +
+            "    FROM app_calculation_quality acq LEFT JOIN app_info info on acq.app = info.id\n" +
+            "  LEFT JOIN app_category cate ON acq.category = cate.id\n" +
             "WHERE acq.`status` = 0 AND acq.category=#{category} AND acq.`month` = #{month}")
     List<Map<String,Object>> unprocessedStandard(Integer category,String month);
 

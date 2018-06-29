@@ -19,7 +19,7 @@ import java.util.Map;
  * Created on 2018/6/13
  */
 @RestController
-@RequestMapping("/app-month")
+@RequestMapping("/app-qualityMonth")
 @CrossOrigin
 public class QualityMonthController extends ZRestController {
     @Autowired
