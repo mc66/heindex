@@ -18,4 +18,8 @@ public class AppWeightQualityDao {
     public AppWeightQualityEntity findQualityConfig(int category){
         return mapper.findQualityConfig(category);
     }
+
+    public AppWeightQualityEntity getWeight(int category){
+        return mapper.getWeight(category);
+    }
 }
