@@ -1,0 +1,676 @@
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/controller/AppOriginalDelayController.java b/index-management/src/main/java/com/cmri/um/he/index/controller/AppOriginalDelayController.java
+new file mode 100644
+index 0000000..11f0b39
+--- /dev/null
++++ b/index-management/src/main/java/com/cmri/um/he/index/controller/AppOriginalDelayController.java
+@@ -0,0 +1,51 @@
++package com.cmri.um.he.index.controller;
++
++import com.cmri.spring.common.controller.ZRestController;
++import com.cmri.spring.common.data.ResponseMessage;
++import com.cmri.um.he.index.entity.AppOriginalDelayEntity;
++import com.cmri.um.he.index.entity.AppOriginalListEntity;
++import com.cmri.um.he.index.service.AppOriginalDelayService;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.web.bind.annotation.*;
++
++import java.util.List;
++import java.util.Map;
++
++/**
++ * 品质得分中时延、功耗
++ * @author lch
++ * Created on 2018/06/27 09:53
++ */
++@RestController
++@CrossOrigin
++public class AppOriginalDelayController extends ZRestController{
++
++    @Autowired
++    private AppOriginalDelayService service;
++
++    /**
++     * 根据应用类别查app
++     * @param category
++     * @return
++     */
++    @RequestMapping(value = "/app-findAppByCategory",method = RequestMethod.GET)
++    public ResponseMessage findAppByCategory(@RequestParam Integer category) {
++        List<Map<String, Object>> resultList = service.findAppByCategory(category);
++        ResponseMessage responseMessage = this.genResponseMessage();
++        responseMessage.set("apps",resultList);
++        return responseMessage;
++    }
++    @RequestMapping(value = "/app-quality-original-delay",method = RequestMethod.POST)
++    public ResponseMessage saveAppOriginalDelayList(@RequestParam AppOriginalListEntity entity){
++        List<AppOriginalDelayEntity> list = entity.getAppOrgDellist();
++        boolean b1 = service.saveAppOriginalDelayList(list);
++        boolean b2 = service.dealAppOriginalDelayList(list);
++        ResponseMessage responseMessage = this.genResponseMessage();
++        if (b1 && b2){
++            responseMessage.set("msg","提交成功!");
++        }else {
++            responseMessage.set("msg","修改失败");
++        }
++        return responseMessage;
++    }
++}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/dao/AppOriginalDelayDao.java b/index-management/src/main/java/com/cmri/um/he/index/dao/AppOriginalDelayDao.java
+new file mode 100644
+index 0000000..4b6ad7f
+--- /dev/null
++++ b/index-management/src/main/java/com/cmri/um/he/index/dao/AppOriginalDelayDao.java
+@@ -0,0 +1,49 @@
++package com.cmri.um.he.index.dao;
++
++import com.cmri.um.he.index.entity.AppCalculationQualityEntity;
++import com.cmri.um.he.index.entity.AppOriginalDelayEntity;
++import com.cmri.um.he.index.mapper.AppOriginalDelayMapper;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Repository;
++
++import java.util.List;
++import java.util.Map;
++
++/**
++ * 品质得分中时延、功耗
++ * @author lch
++ * Created on 2018/06/27 09:54
++ */
++@Repository
++public class AppOriginalDelayDao extends BaseDao{
++    @Autowired
++    private AppOriginalDelayMapper mapper;
++
++    /**
++     * 根据应用类别查询app
++     * @param category
++     * @return
++     */
++    public List<Map<String, Object>> findAppByCategory(Integer category) {
++        return mapper.findAppByCategory(category);
++    }
++
++    /**
++     * 新增时延功耗原始数据
++     * @param entity
++     * @return
++     */
++    public int saveOriginal(AppOriginalDelayEntity entity){
++        return mapper.saveOriginal(entity);
++    }
++
++    /**
++     * 保存延时计算值,这里顺便把app,category,experience,status,version,month,atime补全
++     * @param
++     * @return
++     */
++    public int saveDelay(AppCalculationQualityEntity entity){
++        return mapper.saveDelay(entity);
++    }
++
++}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/dao/AppWeightQualityDao.java b/index-management/src/main/java/com/cmri/um/he/index/dao/AppWeightQualityDao.java
+new file mode 100644
+index 0000000..4d7f07d
+--- /dev/null
++++ b/index-management/src/main/java/com/cmri/um/he/index/dao/AppWeightQualityDao.java
+@@ -0,0 +1,21 @@
++package com.cmri.um.he.index.dao;
++
++import com.cmri.um.he.index.entity.AppWeightQualityEntity;
++import com.cmri.um.he.index.mapper.AppWeightQualityMapper;
++import org.springframework.beans.factory.annotation.Autowired;
++
++import java.util.List;
++
++/**
++ * 品质得分权重
++ * @author lch
++ * Created on 2018/06/28 09:26
++ */
++public class AppWeightQualityDao {
++    @Autowired
++    private AppWeightQualityMapper mapper;
++
++    public List<AppWeightQualityEntity> findQualityConfig(){
++        return mapper.findQualityConfig();
++    }
++}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/entity/AppCalculationQualityEntity.java b/index-management/src/main/java/com/cmri/um/he/index/entity/AppCalculationQualityEntity.java
+index 0cb36d5..dec3399 100644
+--- a/index-management/src/main/java/com/cmri/um/he/index/entity/AppCalculationQualityEntity.java
++++ b/index-management/src/main/java/com/cmri/um/he/index/entity/AppCalculationQualityEntity.java
+@@ -20,7 +20,7 @@ public class AppCalculationQualityEntity implements Serializable{
+     private Double experience;
+     private String version;
+     private Integer status;
+-    private char month;
++    private String month;
+     private Date atime;
+ 
+     @Override
+@@ -121,11 +121,11 @@ public class AppCalculationQualityEntity implements Serializable{
+         this.status = status;
+     }
+ 
+-    public char getMonth() {
++    public String getMonth() {
+         return month;
+     }
+ 
+-    public void setMonth(char month) {
++    public void setMonth(String month) {
+         this.month = month;
+     }
+ 
+@@ -141,7 +141,7 @@ public class AppCalculationQualityEntity implements Serializable{
+ 
+     }
+ 
+-    public AppCalculationQualityEntity(Integer id, Integer app, Integer catrgory, Double features, Double view, Double delay, Double consume, Double experience, String version, Integer status, char month, Date atime) {
++    public AppCalculationQualityEntity(Integer id, Integer app, Integer catrgory, Double features, Double view, Double delay, Double consume, Double experience, String version, Integer status, String month, Date atime) {
+ 
+         this.id = id;
+         this.app = app;
+@@ -156,4 +156,5 @@ public class AppCalculationQualityEntity implements Serializable{
+         this.month = month;
+         this.atime = atime;
+     }
++
+ }
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/entity/AppOriginalDelayEntity.java b/index-management/src/main/java/com/cmri/um/he/index/entity/AppOriginalDelayEntity.java
+index 10801c0..588add4 100644
+--- a/index-management/src/main/java/com/cmri/um/he/index/entity/AppOriginalDelayEntity.java
++++ b/index-management/src/main/java/com/cmri/um/he/index/entity/AppOriginalDelayEntity.java
+@@ -21,7 +21,7 @@ public class AppOriginalDelayEntity implements Serializable {
+     private double standard;
+     private double challenge;
+     private int status;
+-    private char month;
++    private String month;
+ 
+     public int getId() {
+         return id;
+@@ -105,11 +105,11 @@ public class AppOriginalDelayEntity implements Serializable {
+         this.status = status;
+     }
+ 
+-    public char getMonth() {
++    public String getMonth() {
+         return month;
+     }
+ 
+-    public void setMonth(char month) {
++    public void setMonth(String month) {
+         this.month = month;
+     }
+ 
+@@ -138,4 +138,22 @@ public class AppOriginalDelayEntity implements Serializable {
+                 ", atime=" + atime +
+                 '}';
+     }
++
++    public AppOriginalDelayEntity(int id, int app, int category, String version, String measuring, String network, double measure, double standard, double challenge, int status, String month, Date atime) {
++        this.id = id;
++        this.app = app;
++        this.category = category;
++        this.version = version;
++        this.measuring = measuring;
++        this.network = network;
++        this.measure = measure;
++        this.standard = standard;
++        this.challenge = challenge;
++        this.status = status;
++        this.month = month;
++        this.atime = atime;
++    }
++
++    public AppOriginalDelayEntity() {
++    }
+ }
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/entity/AppWeightQualityEntity.java b/index-management/src/main/java/com/cmri/um/he/index/entity/AppWeightQualityEntity.java
+new file mode 100644
+index 0000000..532eec7
+--- /dev/null
++++ b/index-management/src/main/java/com/cmri/um/he/index/entity/AppWeightQualityEntity.java
+@@ -0,0 +1,128 @@
++package com.cmri.um.he.index.entity;
++
++import java.io.Serializable;
++
++/**
++ * 品质得分权重实体类
++ * @author lch
++ * Created on 2018/06/27 17:21
++ */
++public class AppWeightQualityEntity implements Serializable{
++    private int id;
++    private int category;
++    private double w3g;
++    private double w4g;
++    private double wwlan;
++    private int whigh;
++    private int wmiddle;
++    private int wlow;
++    private double wfeatures;
++    private double wview;
++    private double wdelay;
++    private double wconsume;
++    private double wexperience;
++
++    public int getId() {
++        return id;
++    }
++
++    public void setId(int id) {
++        this.id = id;
++    }
++
++    public int getCategory() {
++        return category;
++    }
++
++    public void setCategory(int category) {
++        this.category = category;
++    }
++
++    public double getW3g() {
++        return w3g;
++    }
++
++    public void setW3g(double w3g) {
++        this.w3g = w3g;
++    }
++
++    public double getW4g() {
++        return w4g;
++    }
++
++    public void setW4g(double w4g) {
++        this.w4g = w4g;
++    }
++
++    public double getWwlan() {
++        return wwlan;
++    }
++
++    public void setWwlan(double wwlan) {
++        this.wwlan = wwlan;
++    }
++
++    public int getWhigh() {
++        return whigh;
++    }
++
++    public void setWhigh(int whigh) {
++        this.whigh = whigh;
++    }
++
++    public int getWmiddle() {
++        return wmiddle;
++    }
++
++    public void setWmiddle(int wmiddle) {
++        this.wmiddle = wmiddle;
++    }
++
++    public int getWlow() {
++        return wlow;
++    }
++
++    public void setWlow(int wlow) {
++        this.wlow = wlow;
++    }
++
++    public double getWfeatures() {
++        return wfeatures;
++    }
++
++    public void setWfeatures(double wfeatures) {
++        this.wfeatures = wfeatures;
++    }
++
++    public double getWview() {
++        return wview;
++    }
++
++    public void setWview(double wview) {
++        this.wview = wview;
++    }
++
++    public double getWdelay() {
++        return wdelay;
++    }
++
++    public void setWdelay(double wdelay) {
++        this.wdelay = wdelay;
++    }
++
++    public double getWconsume() {
++        return wconsume;
++    }
++
++    public void setWconsume(double wconsume) {
++        this.wconsume = wconsume;
++    }
++
++    public double getWexperience() {
++        return wexperience;
++    }
++
++    public void setWexperience(double wexperience) {
++        this.wexperience = wexperience;
++    }
++}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/mapper/AppOriginalDelayMapper.java b/index-management/src/main/java/com/cmri/um/he/index/mapper/AppOriginalDelayMapper.java
+new file mode 100644
+index 0000000..4e33115
+--- /dev/null
++++ b/index-management/src/main/java/com/cmri/um/he/index/mapper/AppOriginalDelayMapper.java
+@@ -0,0 +1,36 @@
++package com.cmri.um.he.index.mapper;
++
++import com.cmri.um.he.index.entity.AppCalculationQualityEntity;
++import com.cmri.um.he.index.entity.AppOriginalDelayEntity;
++import org.apache.ibatis.annotations.Insert;
++import org.apache.ibatis.annotations.Mapper;
++import org.apache.ibatis.annotations.Select;
++
++import java.util.List;
++import java.util.Map;
++
++/**
++ * 品质得分中时延、功耗的sql配置
++ * @author lch
++ * Created on 2018/06/27 09:55
++ */
++@Mapper
++public interface AppOriginalDelayMapper {
++
++    /**
++     * 查询应用类别
++     * @param category
++     * @return 应用类别集合
++     */
++    @Select("SELECT app.id,app.`name`,app.flag,app.special FROM app_info app WHERE app.category=#{category} ORDER BY app.id")
++    List<Map<String,Object>> findAppByCategory(Integer category);
++
++    @Insert("insert into app_original_delay values (#{id},#{app},#{category},#{version},#{measuring},#{network}," +
++            "#{measure},#{standard},#{challenge},#{status},#{month},#{atime})")
++    int saveOriginal(AppOriginalDelayEntity appOriginalDelayEntity);
++
++    @Insert("INSERT INTO app_calculation_quality VALUES (#{id},#{app},#{category},#{features},#{view},#{delay}," +
++            "#{consume},#{experience},#{status},#{version},#{month},#{atime})")
++    int saveDelay(AppCalculationQualityEntity entity);
++
++}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/mapper/AppWeightQualityMapper.java b/index-management/src/main/java/com/cmri/um/he/index/mapper/AppWeightQualityMapper.java
+new file mode 100644
+index 0000000..f45127e
+--- /dev/null
++++ b/index-management/src/main/java/com/cmri/um/he/index/mapper/AppWeightQualityMapper.java
+@@ -0,0 +1,17 @@
++package com.cmri.um.he.index.mapper;
++
++import com.cmri.um.he.index.entity.AppWeightQualityEntity;
++import org.apache.ibatis.annotations.Select;
++
++import java.util.List;
++
++/**
++ * 品质得分权重的sql配置
++ * @author lch
++ * Created on 2018/06/28 09:12
++ */
++public interface AppWeightQualityMapper {
++
++    @Select("SELECT * FROM app_weight_quality")
++    List<AppWeightQualityEntity> findQualityConfig();
++}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/service/AppOriginalDelayService.java b/index-management/src/main/java/com/cmri/um/he/index/service/AppOriginalDelayService.java
+new file mode 100644
+index 0000000..9e163cb
+--- /dev/null
++++ b/index-management/src/main/java/com/cmri/um/he/index/service/AppOriginalDelayService.java
+@@ -0,0 +1,35 @@
++package com.cmri.um.he.index.service;
++
++import com.cmri.um.he.index.entity.AppOriginalDelayEntity;
++
++import java.util.List;
++import java.util.Map;
++
++/**
++ * 品质得分中时延、功耗
++ * @author lch
++ * Created on 2018/06/27 09:55
++ */
++public interface AppOriginalDelayService {
++
++    /**
++     * 根据应用类别查询app
++     * @param category
++     * @return
++     */
++    List<Map<String, Object>> findAppByCategory(Integer category);
++
++    /**
++     * 批量新增时延功耗原始数据
++     * @param list
++     * @return
++     */
++    boolean saveAppOriginalDelayList(List<AppOriginalDelayEntity> list);
++
++    /**
++     * 处理延时功耗数据，存入app_calculation_quality表
++     * @param list
++     * @return
++     */
++    boolean dealAppOriginalDelayList(List<AppOriginalDelayEntity> list);
++}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/service/impl/AppOriginalDelayServiceImpl.java b/index-management/src/main/java/com/cmri/um/he/index/service/impl/AppOriginalDelayServiceImpl.java
+new file mode 100644
+index 0000000..4e62d5c
+--- /dev/null
++++ b/index-management/src/main/java/com/cmri/um/he/index/service/impl/AppOriginalDelayServiceImpl.java
+@@ -0,0 +1,112 @@
++package com.cmri.um.he.index.service.impl;
++
++import com.cmri.um.he.index.dao.AppOriginalDelayDao;
++import com.cmri.um.he.index.entity.AppCalculationQualityEntity;
++import com.cmri.um.he.index.entity.AppOriginalDelayEntity;
++import com.cmri.um.he.index.service.AppOriginalDelayService;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Service;
++import org.springframework.transaction.annotation.Transactional;
++
++import java.util.Date;
++import java.util.List;
++import java.util.Map;
++
++/**
++ * 品质得分中时延、功耗
++ * @author lch
++ * Created on 2018/06/27 09:55
++ */
++@Service
++public class AppOriginalDelayServiceImpl implements AppOriginalDelayService {
++    @Autowired
++    private AppOriginalDelayDao delayDao;
++
++    @Override
++    public List<Map<String, Object>> findAppByCategory(Integer category) {
++        return delayDao.findAppByCategory(category);
++    }
++
++    @Override
++    @Transactional(rollbackFor = Exception.class)
++    public boolean saveAppOriginalDelayList(List<AppOriginalDelayEntity> list) {
++        Date date=new Date();
++        for (AppOriginalDelayEntity entity:list) {
++            entity.setAtime(date);
++            //1--正常 0--已删除
++            entity.setStatus(1);
++        }
++        return true;
++    }
++
++    @Override
++    @Transactional(rollbackFor = Exception.class)
++    public boolean dealAppOriginalDelayList(List<AppOriginalDelayEntity> list) {
++        //启动时延
++        AppOriginalDelayEntity entity1=list.get(0);
++        AppOriginalDelayEntity entity2=list.get(1);
++        AppOriginalDelayEntity entity3=list.get(2);
++        double S1 = dealEntityList(entity1, entity2, entity3);
++        //浏览时延
++        AppOriginalDelayEntity entity4=list.get(3);
++        AppOriginalDelayEntity entity5=list.get(4);
++        AppOriginalDelayEntity entity6=list.get(5);
++        double S2 = dealEntityList(entity4, entity5, entity6);
++        //上传速率
++        AppOriginalDelayEntity entity7=list.get(6);
++        AppOriginalDelayEntity entity8=list.get(7);
++        AppOriginalDelayEntity entity9=list.get(8);
++        double S3 = dealEntityList(entity7, entity8, entity9);
++        //下载速率
++        AppOriginalDelayEntity entity10=list.get(9);
++        AppOriginalDelayEntity entity11=list.get(10);
++        AppOriginalDelayEntity entity12=list.get(11);
++        double S4 = dealEntityList(entity10, entity11, entity12);
++        //延时计算值
++        double delay=(S1+S2+S3+S4)/4;
++        //CPU耗电量
++        AppOriginalDelayEntity entity13=list.get(12);
++        AppOriginalDelayEntity entity14=list.get(13);
++        AppOriginalDelayEntity entity15=list.get(14);
++        double S5 = dealEntityList(entity13, entity14, entity15);
++        //CPU占用峰值
++        AppOriginalDelayEntity entity16=list.get(15);
++        AppOriginalDelayEntity entity17=list.get(16);
++        AppOriginalDelayEntity entity18=list.get(17);
++        double S6 = dealEntityList(entity16, entity17, entity18);
++        //内存占用峰值
++        AppOriginalDelayEntity entity19=list.get(18);
++        AppOriginalDelayEntity entity20=list.get(19);
++        AppOriginalDelayEntity entity21=list.get(20);
++        double S7 = dealEntityList(entity19, entity20, entity21);
++        //功耗计算值
++        double consume=(S5+S6+S7)/3;
++        //补全数据
++        AppCalculationQualityEntity entity=new AppCalculationQualityEntity(0,entity1.getApp(),entity1.getCategory(),0.0,0.0,delay,consume,0.0,entity1.getVersion(),1,entity1.getMonth(),new Date());
++        int i = delayDao.saveDelay(entity);
++        if (i>0){
++            return true;
++        }else {
++            return false;
++        }
++    }
++
++    private double dealEntityList(AppOriginalDelayEntity entity1,AppOriginalDelayEntity entity2,AppOriginalDelayEntity entity3){
++        double S1 = dealEntity(entity1);
++        double S2 = dealEntity(entity2);
++        double S3 = dealEntity(entity3);
++        double S=(S1+S2+S3)/3;
++        return S;
++    }
++
++    private double dealEntity(AppOriginalDelayEntity entity){
++        //测量值
++        double X=entity.getMeasure();
++        //挑战值
++        double A=entity.getChallenge();
++        //达标值
++        double B=entity.getStandard();
++        double Sx=(B-X)/(B-A)*40+60;
++        return Sx;
++    }
++}
+diff --git a/index-management/src/test/java/com/cmri/um/he/index/mapper/AppOriginalDelayMapperTest.java b/index-management/src/test/java/com/cmri/um/he/index/mapper/AppOriginalDelayMapperTest.java
+new file mode 100644
+index 0000000..9f25c47
+--- /dev/null
++++ b/index-management/src/test/java/com/cmri/um/he/index/mapper/AppOriginalDelayMapperTest.java
+@@ -0,0 +1,28 @@
++package com.cmri.um.he.index.mapper;
++
++import com.cmri.um.he.index.entity.AppOriginalDelayEntity;
++import org.junit.Assert;
++import org.junit.runner.RunWith;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.boot.test.context.SpringBootTest;
++import org.springframework.test.context.junit4.SpringRunner;
++
++import java.util.Date;
++
++/**
++ * @author lch
++ * Created on 2018/06/27 11:17
++ */
++@RunWith(SpringRunner.class)
++@SpringBootTest
++public class AppOriginalDelayMapperTest {
++    @Autowired
++    private AppOriginalDelayMapper mapper;
++
++    @org.junit.Test
++    public void saveOriginalDelay() {
++        AppOriginalDelayEntity entity=new AppOriginalDelayEntity(0,1,1,"V2018","真好","3g",55.6,55.69,12,0,"201806",new Date());
++        int save = mapper.save(entity);
++        Assert.assertTrue(save > 0);
++    }
++}
+diff --git a/index-server/src/main/conf/application.properties b/index-server/src/main/conf/application.properties
+index 8483b96..c39ef34 100644
+--- a/index-server/src/main/conf/application.properties
++++ b/index-server/src/main/conf/application.properties
+@@ -1,6 +1,6 @@
+ # Listen port for incoming HTTP requests
+-server.port=18081
+-# server.port=18082
++# server.port=18081
++server.port=18082
+ # interface address to bind to
+ server.address=0.0.0.0
+ # ContextPath must start with '/' and not end with '/'
+@@ -36,8 +36,8 @@ spring.redis.lettuce.pool.max-idle=8
+ spring.redis.lettuce.pool.min-idle=1
+ #----------------------------------------
+ ## mysql 配置
+-spring.datasource.url=jdbc:mysql://223.105.1.80:1128/heindex_test?useUnicode=true&zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8&allowMasterDownConnections=true&allowSlaveDownConnections=true&readFromMasterWhenNoSlaves=true&loadBalanceBlacklistTimeout=300000&retriesAllDown=1
+-# spring.datasource.url=jdbc:mysql://10.1.0.5:1128/heindex_test?useUnicode=true&zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8&allowMasterDownConnections=true&allowSlaveDownConnections=true&readFromMasterWhenNoSlaves=true&loadBalanceBlacklistTimeout=300000&retriesAllDown=1
++# spring.datasource.url=jdbc:mysql://223.105.1.80:1128/heindex_test?useUnicode=true&zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8&allowMasterDownConnections=true&allowSlaveDownConnections=true&readFromMasterWhenNoSlaves=true&loadBalanceBlacklistTimeout=300000&retriesAllDown=1
++spring.datasource.url=jdbc:mysql://10.1.0.5:1128/heindex_test?useUnicode=true&zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8&allowMasterDownConnections=true&allowSlaveDownConnections=true&readFromMasterWhenNoSlaves=true&loadBalanceBlacklistTimeout=300000&retriesAllDown=1
+ spring.datasource.username=heindex
+ spring.datasource.password=CMCC@heindex2018
+ spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+diff --git a/index-server/src/main/java/com/cmri/um/he/index/controller/AppCategoryController.java b/index-server/src/main/java/com/cmri/um/he/index/controller/AppCategoryController.java
+index 39e0287..f0e86b0 100644
+--- a/index-server/src/main/java/com/cmri/um/he/index/controller/AppCategoryController.java
++++ b/index-server/src/main/java/com/cmri/um/he/index/controller/AppCategoryController.java
+@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
+ import org.springframework.web.bind.annotation.RequestMethod;
+ import org.springframework.web.bind.annotation.RestController;
+ 
+-import javax.servlet.http.HttpServletResponse;
+ import java.util.List;
+ 
+ /**
+@@ -26,15 +25,7 @@ public class AppCategoryController extends ZRestController {
+     private AppCategoryService appCategoryService;
+ 
+     @RequestMapping(method = RequestMethod.GET)
+-    public ResponseMessage get(HttpServletResponse response) {
+-
+-        //以下三行response.set..是为了解决跨域访问拒绝的问题一定要写
+-        //response.setHeader("Access-Control-Allow-Origin", "*");
+-        // 响应类型
+-        //response.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+-        // 响应头设置
+-        //response.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With");
+-
++    public ResponseMessage get() {
+         List resultList = appCategoryService.find();
+         ResponseMessage responseMessage = this.genResponseMessage();
+         responseMessage.set("categorys",resultList);

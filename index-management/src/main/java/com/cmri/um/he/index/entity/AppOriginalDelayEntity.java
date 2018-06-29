@@ -21,7 +21,7 @@ public class AppOriginalDelayEntity implements Serializable {
     private double standard;
     private double challenge;
     private int status;
-    private char month;
+    private String month;
 
     public int getId() {
         return id;
@@ -105,11 +105,11 @@ public class AppOriginalDelayEntity implements Serializable {
         this.status = status;
     }
 
-    public char getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(char month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 
@@ -137,5 +137,23 @@ public class AppOriginalDelayEntity implements Serializable {
                 ", month=" + month +
                 ", atime=" + atime +
                 '}';
+    }
+
+    public AppOriginalDelayEntity(int id, int app, int category, String version, String measuring, String network, double measure, double standard, double challenge, int status, String month, Date atime) {
+        this.id = id;
+        this.app = app;
+        this.category = category;
+        this.version = version;
+        this.measuring = measuring;
+        this.network = network;
+        this.measure = measure;
+        this.standard = standard;
+        this.challenge = challenge;
+        this.status = status;
+        this.month = month;
+        this.atime = atime;
+    }
+
+    public AppOriginalDelayEntity() {
     }
 }

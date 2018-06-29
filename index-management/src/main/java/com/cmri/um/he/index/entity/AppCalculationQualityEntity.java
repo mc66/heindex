@@ -167,4 +167,5 @@ public class AppCalculationQualityEntity implements Serializable{
         this.month = month;
         this.atime = atime;
     }
+
 }
