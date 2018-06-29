@@ -22,4 +22,9 @@ public class AppWeightQualityDao {
     public AppWeightQualityEntity getWeight(int category){
         return mapper.getWeight(category);
     }
+
+    public AppWeightQualityEntity findWegihtByApp(int app){
+        return mapper.findWegihtByApp(app);
+    }
+
 }

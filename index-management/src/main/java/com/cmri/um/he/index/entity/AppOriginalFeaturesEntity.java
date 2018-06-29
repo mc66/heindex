@@ -22,7 +22,7 @@ public class AppOriginalFeaturesEntity implements Serializable {
     private int score;
     private String degree;
     private int status;
-    private char month;
+    private String month;
     private Date atime;
 
 
@@ -114,11 +114,11 @@ public class AppOriginalFeaturesEntity implements Serializable {
         this.status = status;
     }
 
-    public char getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(char month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 
