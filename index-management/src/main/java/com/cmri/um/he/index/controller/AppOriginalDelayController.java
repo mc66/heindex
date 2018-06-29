@@ -3,11 +3,12 @@ package com.cmri.um.he.index.controller;
 import com.cmri.spring.common.controller.ZRestController;
 import com.cmri.spring.common.data.ResponseMessage;
 import com.cmri.um.he.index.entity.AppOriginalDelayEntity;
-import com.cmri.um.he.index.entity.AppOriginalListEntity;
 import com.cmri.um.he.index.service.AppOriginalDelayService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -35,16 +36,18 @@ public class AppOriginalDelayController extends ZRestController{
         responseMessage.set("apps",resultList);
         return responseMessage;
     }
+
     @RequestMapping(value = "/app-quality-original-delay",method = RequestMethod.POST)
-    public ResponseMessage saveAppOriginalDelayList(@RequestParam AppOriginalListEntity entity){
-        List<AppOriginalDelayEntity> list = entity.getAppOrgDellist();
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseMessage saveAppOriginalDelayList(@RequestBody Map<String,List<AppOriginalDelayEntity>> map) throws IOException {
+        List<AppOriginalDelayEntity> list = map.get("data");
         boolean b1 = service.saveAppOriginalDelayList(list);
         boolean b2 = service.dealAppOriginalDelayList(list);
         ResponseMessage responseMessage = this.genResponseMessage();
         if (b1 && b2){
-            responseMessage.set("msg","提交成功!");
+            responseMessage.setMsg("提交成功!");
         }else {
-            responseMessage.set("msg","修改失败");
+            responseMessage.setMsg("提交失败!");
         }
         return responseMessage;
     }

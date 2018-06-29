@@ -22,7 +22,7 @@ public class AppOriginalDelayMapperTest {
     @org.junit.Test
     public void saveOriginalDelay() {
         AppOriginalDelayEntity entity=new AppOriginalDelayEntity(0,1,1,"V2018","真好","3g",55.6,55.69,12,0,"201806",new Date());
-        int save = mapper.save(entity);
+        int save = mapper.saveOriginal(entity);
         Assert.assertTrue(save > 0);
     }
 }
