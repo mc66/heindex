@@ -27,4 +27,13 @@ public interface AppWeightQualityMapper {
      */
     @Select("SELECT wfeatures,wview,wdelay,wconsume,wexperience FROM app_weight_quality WHERE category=#{category}")
     AppWeightQualityEntity getWeight(int category);
+
+
+    /**
+     * 查找app对用的类别id
+     * @param app
+     * @return
+     */
+    @Select("SELECT * FROM app_weight_quality WHERE CATEGORY=(SELECT CATEGORY FROM app_info WHERE id=#{app})")
+    AppWeightQualityEntity  findWegihtByApp(int app);
 }
