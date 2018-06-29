@@ -1,0 +1,416 @@
+diff --git a/index-management/pom.xml b/index-management/pom.xml
+index 9fe8790..28fafba 100644
+--- a/index-management/pom.xml
++++ b/index-management/pom.xml
+@@ -123,7 +123,12 @@
+ 			<artifactId>lombok</artifactId>
+ 			<version>1.16.20</version>
+ 		</dependency>
+-		<!--fastDFS-->
++        <dependency>
++            <groupId>cmri.heindex</groupId>
++            <artifactId>index-server</artifactId>
++            <version>0.1.0</version>
++        </dependency>
++        <!--fastDFS-->
+ 		<!-- <dependency>
+              <groupId>fastdfs_client</groupId>
+              <artifactId>fastdfs_client</artifactId>
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/controller/AppOriginalExperienceController.java b/index-management/src/main/java/com/cmri/um/he/index/controller/AppOriginalExperienceController.java
+new file mode 100644
+index 0000000..f94e1c4
+--- /dev/null
++++ b/index-management/src/main/java/com/cmri/um/he/index/controller/AppOriginalExperienceController.java
+@@ -0,0 +1,72 @@
++package com.cmri.um.he.index.controller;
++
++import com.cmri.spring.common.controller.ZRestController;
++import com.cmri.spring.common.data.ResponseMessage;
++import com.cmri.um.he.index.service.AppOriginalExperienceService;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.web.bind.annotation.*;
++
++import java.util.HashMap;
++import java.util.List;
++import java.util.Map;
++
++/**
++ * 查询某类未添加应用体验接口
++ *
++ * @author limin
++ * Created on 2018/6/26
++ */
++@RestController
++@RequestMapping("/app-quality-original-experience-list")
++@CrossOrigin
++public class AppOriginalExperienceController  extends ZRestController {
++
++    @Autowired
++    private AppOriginalExperienceService appOriginalExperienceService;
++
++    /**
++     *
++      * @return
++     */
++    @RequestMapping("findWhole")
++    public ResponseMessage findWhole() {
++        List<Map<String, Object>> maps = appOriginalExperienceService.findWhole();
++        ResponseMessage responseMessage = this.genResponseMessage();
++        responseMessage.set("emotions",maps);
++        return responseMessage;
++    }
++
++    /**
++     *
++     * @param category
++     * @return
++     */
++    @RequestMapping(method = RequestMethod.GET)
++    public ResponseMessage get( @RequestParam Integer category) {
++        List<Map<String, Object>> maps = appOriginalExperienceService.find( category);
++        ResponseMessage responseMessage = this.genResponseMessage();
++        responseMessage.set("emotions",maps);
++        return responseMessage;
++    }
++
++
++    @RequestMapping("updateExperience")
++    public Map<String,Object> updateExperience( @RequestParam Integer id,@RequestParam Double experience) {
++        Map<String,Object> map = new HashMap<>(16);
++         int n = appOriginalExperienceService.updateExperience( id,experience);
++         if(n > 0){
++             map.put("code",200 );
++             map.put("succeed",true);
++             map.put("msg","修改成功");
++         }else {
++             map.put("code",500 );
++             map.put("succeed",false);
++             map.put("msg","修改失败");
++         }
++        return map;
++    }
++
++
++
++
++}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/controller/OriginalExperienceController.java b/index-management/src/main/java/com/cmri/um/he/index/controller/OriginalExperienceController.java
+deleted file mode 100644
+index 7593a10..0000000
+--- a/index-management/src/main/java/com/cmri/um/he/index/controller/OriginalExperienceController.java
++++ /dev/null
+@@ -1,42 +0,0 @@
+-package com.cmri.um.he.index.controller;
+-
+-import com.cmri.spring.common.controller.ZRestController;
+-import com.cmri.spring.common.data.ResponseMessage;
+-import com.cmri.um.he.index.service.OriginalExperienceService;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.*;
+-
+-import java.util.List;
+-import java.util.Map;
+-
+-/**
+- * 查询某类未添加应用体验接口
+- *
+- * @author limin
+- * Created on 2018/6/26
+- */
+-@RestController
+-@RequestMapping("/app-quality-original-experience-list")
+-@CrossOrigin
+-public class OriginalExperienceController  extends ZRestController {
+-
+-    @Autowired
+-    private OriginalExperienceService originalExperienceService;
+-
+-    /**
+-     *
+-     * @param category
+-     * @return
+-     */
+-    @RequestMapping(method = RequestMethod.GET)
+-    public ResponseMessage get( @RequestParam Integer category) {
+-        List<Map<String, Object>> maps = originalExperienceService.find( category);
+-        ResponseMessage responseMessage = this.genResponseMessage();
+-        responseMessage.set("emotions",maps);
+-        return responseMessage;
+-    }
+-
+-
+-
+-
+-}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/dao/AppOriginalExperiencDao.java b/index-management/src/main/java/com/cmri/um/he/index/dao/AppOriginalExperiencDao.java
+new file mode 100644
+index 0000000..e4a49e3
+--- /dev/null
++++ b/index-management/src/main/java/com/cmri/um/he/index/dao/AppOriginalExperiencDao.java
+@@ -0,0 +1,33 @@
++package com.cmri.um.he.index.dao;
++
++import com.cmri.um.he.index.mapper.AppOriginalExperiencMapper;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Repository;
++
++import java.util.List;
++import java.util.Map;
++/**
++ * 查询某类未添加应用体验接口的数据库访问
++ *
++ * @author Limin
++ * Created on 2018/6/26
++ */
++@Repository
++public class AppOriginalExperiencDao extends BaseDao {
++
++    @Autowired
++    private AppOriginalExperiencMapper appOriginalExperiencMapper;
++
++    public List<Map<String,Object>> findWhole() {
++        return appOriginalExperiencMapper.findWhole();
++    }
++
++    public List<Map<String,Object>> find( Integer category) {
++        return appOriginalExperiencMapper.findExperience( category);
++    }
++
++
++    public int updateExperience(Integer id, Double experience) {
++        return appOriginalExperiencMapper.updateExperience(id,experience);
++    }
++}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/dao/OriginalExperiencDao.java b/index-management/src/main/java/com/cmri/um/he/index/dao/OriginalExperiencDao.java
+deleted file mode 100644
+index 6d943f6..0000000
+--- a/index-management/src/main/java/com/cmri/um/he/index/dao/OriginalExperiencDao.java
++++ /dev/null
+@@ -1,19 +0,0 @@
+-package com.cmri.um.he.index.dao;
+-
+-import com.cmri.um.he.index.mapper.OriginalExperiencMapper;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.stereotype.Repository;
+-
+-import java.util.List;
+-import java.util.Map;
+-
+-@Repository
+-public class OriginalExperiencDao extends BaseDao {
+-
+-    @Autowired
+-    private OriginalExperiencMapper originalExperiencMapper;
+-
+-    public List<Map<String,Object>> find( Integer category) {
+-        return originalExperiencMapper.findExperience( category);
+-    }
+-}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/mapper/AppOriginalExperiencMapper.java b/index-management/src/main/java/com/cmri/um/he/index/mapper/AppOriginalExperiencMapper.java
+new file mode 100644
+index 0000000..2e01c89
+--- /dev/null
++++ b/index-management/src/main/java/com/cmri/um/he/index/mapper/AppOriginalExperiencMapper.java
+@@ -0,0 +1,42 @@
++package com.cmri.um.he.index.mapper;
++
++import org.apache.ibatis.annotations.Mapper;
++import org.apache.ibatis.annotations.Param;
++import org.apache.ibatis.annotations.Select;
++import org.apache.ibatis.annotations.Update;
++
++import java.util.List;
++import java.util.Map;
++/**
++ * 查询某类未添加应用体验接口数据库访问的sql配置
++ *
++ * @author limin
++ * Created on 2018/6/26
++ */
++@Mapper
++public interface AppOriginalExperiencMapper {
++
++    /**
++     *  查询所有的体验数据
++     * @return
++     */
++    @Select(" SELECT acq.id, acq.`month`,ac.`name` AS category,ai.`name` AS app,acq.version,acq.experience FROM app_calculation_quality acq LEFT JOIN app_category ac on acq.category=ac.id LEFT JOIN app_info ai on acq.app=ai.id ")
++    List<Map<String,Object>> findWhole();
++    /**
++     *  is_valid
++     * @param category
++     * @return
++     */
++    @Select(" SELECT acq.id, acq.`month`,ac.`name` AS category,ai.`name` AS app,acq.version,acq.experience FROM app_calculation_quality acq \n" +
++            "LEFT JOIN app_category ac on acq.category=ac.id LEFT JOIN app_info ai on acq.app=ai.id\n" +
++            "WHERE ac.id=#{category} and acq.experience=0 ")
++    List<Map<String,Object>> findExperience(  @Param("category") Integer category);
++    /**
++     *修改体验数据
++     * @param id
++     * @param experience
++     * @return
++     */
++    @Update(" update app_calculation_quality acq set acq.experience = #{experience} where acq.id=#{id} ")
++    int updateExperience(@Param("id")Integer id, @Param("experience")Double experience);
++}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/mapper/OriginalExperiencMapper.java b/index-management/src/main/java/com/cmri/um/he/index/mapper/OriginalExperiencMapper.java
+deleted file mode 100644
+index 2b9eec0..0000000
+--- a/index-management/src/main/java/com/cmri/um/he/index/mapper/OriginalExperiencMapper.java
++++ /dev/null
+@@ -1,17 +0,0 @@
+-package com.cmri.um.he.index.mapper;
+-
+-import org.apache.ibatis.annotations.Mapper;
+-import org.apache.ibatis.annotations.Param;
+-import org.apache.ibatis.annotations.Select;
+-
+-import java.util.List;
+-import java.util.Map;
+-
+-@Mapper
+-public interface OriginalExperiencMapper {
+-
+-    @Select(" SELECT acq.id, acq.`month`,ac.`name` AS category,ai.`name` AS app,acq.version,acq.experience FROM app_calculation_quality acq \n" +
+-            "LEFT JOIN app_category ac on acq.category=ac.id LEFT JOIN app_info ai on acq.app=ai.id\n" +
+-            "WHERE ac.id=#{category} and acq.experience=0 ")
+-    List<Map<String,Object>> findExperience(  @Param("category") Integer category);
+-}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/service/AppOriginalExperienceService.java b/index-management/src/main/java/com/cmri/um/he/index/service/AppOriginalExperienceService.java
+new file mode 100644
+index 0000000..a9c2d13
+--- /dev/null
++++ b/index-management/src/main/java/com/cmri/um/he/index/service/AppOriginalExperienceService.java
+@@ -0,0 +1,32 @@
++package com.cmri.um.he.index.service;
++
++import java.util.List;
++import java.util.Map;
++/**
++ * 查询某类未添加应用体验接口的服务类
++ *
++ * @author Limin
++ * Created on 2018/6/13
++ */
++public interface AppOriginalExperienceService {
++
++    /**
++     *  查询所有的体验数据
++     * @return
++     */
++    List<Map<String,Object>> findWhole();
++
++    /**
++     *  is_valid
++     * @param category
++     * @return
++     */
++    List<Map<String,Object>> find( Integer category);
++    /**
++     *修改体验数据
++     * @param id
++     * @param experience
++     * @return
++     */
++    int updateExperience(Integer id, Double experience);
++}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/service/OriginalExperienceService.java b/index-management/src/main/java/com/cmri/um/he/index/service/OriginalExperienceService.java
+deleted file mode 100644
+index 6907e77..0000000
+--- a/index-management/src/main/java/com/cmri/um/he/index/service/OriginalExperienceService.java
++++ /dev/null
+@@ -1,10 +0,0 @@
+-package com.cmri.um.he.index.service;
+-
+-import java.util.List;
+-import java.util.Map;
+-
+-public interface OriginalExperienceService {
+-
+-
+-    List<Map<String,Object>> find( Integer category);
+-}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/service/impl/AppOriginalExperienceServiceImpl.java b/index-management/src/main/java/com/cmri/um/he/index/service/impl/AppOriginalExperienceServiceImpl.java
+new file mode 100644
+index 0000000..eee115f
+--- /dev/null
++++ b/index-management/src/main/java/com/cmri/um/he/index/service/impl/AppOriginalExperienceServiceImpl.java
+@@ -0,0 +1,36 @@
++package com.cmri.um.he.index.service.impl;
++
++import com.cmri.um.he.index.dao.AppOriginalExperiencDao;
++import com.cmri.um.he.index.service.AppOriginalExperienceService;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Service;
++
++import java.util.List;
++import java.util.Map;
++/**
++ * 查询某类未添加应用体验接口的服务类的服务类实现
++ * @author limin
++ * Created on 2018/6/26
++ */
++@Service
++public class AppOriginalExperienceServiceImpl implements AppOriginalExperienceService {
++
++    @Autowired
++    private AppOriginalExperiencDao appOriginalExperiencDao;
++
++    @Override
++    public List<Map<String, Object>> findWhole() {
++        return appOriginalExperiencDao.findWhole();
++    }
++
++    @Override
++    public List<Map<String, Object>> find(  Integer category) {
++
++        return appOriginalExperiencDao.find( category);
++    }
++
++    @Override
++    public int updateExperience(Integer id, Double experience) {
++        return appOriginalExperiencDao.updateExperience(id,experience);
++    }
++}
+diff --git a/index-management/src/main/java/com/cmri/um/he/index/service/impl/OriginalExperienceServiceImpl.java b/index-management/src/main/java/com/cmri/um/he/index/service/impl/OriginalExperienceServiceImpl.java
+deleted file mode 100644
+index 54cbd93..0000000
+--- a/index-management/src/main/java/com/cmri/um/he/index/service/impl/OriginalExperienceServiceImpl.java
++++ /dev/null
+@@ -1,22 +0,0 @@
+-package com.cmri.um.he.index.service.impl;
+-
+-import com.cmri.um.he.index.dao.OriginalExperiencDao;
+-import com.cmri.um.he.index.service.OriginalExperienceService;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.stereotype.Service;
+-
+-import java.util.List;
+-import java.util.Map;
+-
+-@Service
+-public class OriginalExperienceServiceImpl implements OriginalExperienceService {
+-
+-    @Autowired
+-    private OriginalExperiencDao originalExperiencDao;
+-
+-    @Override
+-    public List<Map<String, Object>> find(  Integer category) {
+-
+-        return originalExperiencDao.find( category);
+-    }
+-}
+diff --git a/index-server/src/main/java/com/cmri/um/he/index/service/AppFeaturesService.java b/index-server/src/main/java/com/cmri/um/he/index/service/AppFeaturesService.java
+index 9602b07..d8a2151 100644
+--- a/index-server/src/main/java/com/cmri/um/he/index/service/AppFeaturesService.java
++++ b/index-server/src/main/java/com/cmri/um/he/index/service/AppFeaturesService.java
+@@ -1,7 +1,6 @@
+ package com.cmri.um.he.index.service;
+ 
+-import com.cmri.spring.common.data.PagingData;
+-import com.cmri.spring.common.data.ResponseMessage;
++
+ 
+ import java.util.List;
+ import java.util.Map;
