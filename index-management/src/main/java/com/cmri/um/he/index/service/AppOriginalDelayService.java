@@ -1,6 +1,7 @@
 package com.cmri.um.he.index.service;
 
 import com.cmri.um.he.index.entity.AppOriginalDelayEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Map;
  * @author lch
  * Created on 2018/06/27 09:55
  */
+@Service
 public interface AppOriginalDelayService {
 
     /**

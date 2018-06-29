@@ -25,10 +25,20 @@ public interface AppOriginalDelayMapper {
     @Select("SELECT app.id,app.`name`,app.flag,app.special FROM app_info app WHERE app.category=#{category} ORDER BY app.id")
     List<Map<String,Object>> findAppByCategory(Integer category);
 
+    /**
+     * 延时功耗原始数据入库
+     * @param appOriginalDelayEntity
+     * @return
+     */
     @Insert("insert into app_original_delay values (#{id},#{app},#{category},#{version},#{measuring},#{network}," +
             "#{measure},#{standard},#{challenge},#{status},#{month},#{atime})")
     int saveOriginal(AppOriginalDelayEntity appOriginalDelayEntity);
 
+    /**
+     * 延时功耗计算值入库
+     * @param entity
+     * @return
+     */
     @Insert("INSERT INTO app_calculation_quality VALUES (#{id},#{app},#{category},#{features},#{view},#{delay}," +
             "#{consume},#{experience},#{status},#{version},#{month},#{atime})")
     int saveDelay(AppCalculationQualityEntity entity);
