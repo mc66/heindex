@@ -15,7 +15,6 @@ public interface AppEmotionService {
     /**
      * 查询指定月份、指定类别的应用的市场表现
      *
-     * @param month    月份，格式示例'201712'
      * @param category 应用类别
      * @return 查询结果
      */
