@@ -2,7 +2,11 @@ package com.cmri.um.he.index.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
+/**
+ * 创建表 app_quality 实体对象
+ * @author yinjunjun
+ * Created on 2018/6/28
+ * */
 public class AppQualityEntity implements Serializable {
     private Integer id;
     private Integer app;

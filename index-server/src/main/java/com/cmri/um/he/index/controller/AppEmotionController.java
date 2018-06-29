@@ -21,12 +21,12 @@ import java.util.*;
 public class AppEmotionController extends ZRestController{
 
     @Autowired
-    private AppEmotionService appEmontionService;
+    private AppEmotionService service;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseMessage get(@RequestParam Integer category){
-        List<Map<String, Object>> maps = appEmontionService.find(category);
-        Map<String,Object> ma = new HashMap<String, Object>();
+        List<Map<String, Object>> maps = service.find(category);
+        Map<String,Object> ma = new HashMap(16);
         List list=new ArrayList();
         for (Map<String, Object> map : maps) {
             String o =(String) map.get("app");
@@ -40,7 +40,7 @@ public class AppEmotionController extends ZRestController{
 
         Iterator it = ma.entrySet().iterator();
         while (it.hasNext()) {
-            Map<String,Object> mapp = new HashMap<String, Object>();
+            Map<String,Object> mapp = new HashMap<>(16);
             Map.Entry entry = (Map.Entry) it.next();
             Object key = entry.getKey();
             Object value = entry.getValue();

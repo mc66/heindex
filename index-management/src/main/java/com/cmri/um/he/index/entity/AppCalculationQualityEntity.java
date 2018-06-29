@@ -11,8 +11,9 @@ import java.util.Date;
  */
 public class AppCalculationQualityEntity implements Serializable{
     private Integer id;
+    private Integer special;
     private Integer app;
-    private Integer catrgory;
+    private Integer category;
     private Double features;
     private Double view;
     private Double delay;
@@ -20,15 +21,16 @@ public class AppCalculationQualityEntity implements Serializable{
     private Double experience;
     private String version;
     private Integer status;
-    private char month;
+    private String month;
     private Date atime;
 
     @Override
     public String toString() {
         return "AppCalculationQualityEntity{" +
                 "id=" + id +
+                ", special=" + special +
                 ", app=" + app +
-                ", catrgory=" + catrgory +
+                ", category=" + category +
                 ", features=" + features +
                 ", view=" + view +
                 ", delay=" + delay +
@@ -36,7 +38,7 @@ public class AppCalculationQualityEntity implements Serializable{
                 ", experience=" + experience +
                 ", version='" + version + '\'' +
                 ", status=" + status +
-                ", month=" + month +
+                ", month='" + month + '\'' +
                 ", atime=" + atime +
                 '}';
     }
@@ -49,6 +51,14 @@ public class AppCalculationQualityEntity implements Serializable{
         this.id = id;
     }
 
+    public Integer getSpecial() {
+        return special;
+    }
+
+    public void setSpecial(Integer special) {
+        this.special = special;
+    }
+
     public Integer getApp() {
         return app;
     }
@@ -57,12 +67,12 @@ public class AppCalculationQualityEntity implements Serializable{
         this.app = app;
     }
 
-    public Integer getCatrgory() {
-        return catrgory;
+    public Integer getCategory() {
+        return category;
     }
 
-    public void setCatrgory(Integer catrgory) {
-        this.catrgory = catrgory;
+    public void setCategory(Integer category) {
+        this.category = category;
     }
 
     public Double getFeatures() {
@@ -121,11 +131,11 @@ public class AppCalculationQualityEntity implements Serializable{
         this.status = status;
     }
 
-    public char getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(char month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 
@@ -141,11 +151,12 @@ public class AppCalculationQualityEntity implements Serializable{
 
     }
 
-    public AppCalculationQualityEntity(Integer id, Integer app, Integer catrgory, Double features, Double view, Double delay, Double consume, Double experience, String version, Integer status, char month, Date atime) {
+    public AppCalculationQualityEntity(Integer id, Integer special, Integer app, Integer category, Double features, Double view, Double delay, Double consume, Double experience, String version, Integer status, String month, Date atime) {
 
         this.id = id;
+        this.special = special;
         this.app = app;
-        this.catrgory = catrgory;
+        this.category = category;
         this.features = features;
         this.view = view;
         this.delay = delay;
