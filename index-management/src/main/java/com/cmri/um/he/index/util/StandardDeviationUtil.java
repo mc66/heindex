@@ -11,7 +11,7 @@ public class StandardDeviationUtil {
     /**
      * 格式化Duble  取小数点后四位
      */
-    private final static DecimalFormat DF=new DecimalFormat("#,##0.0000");
+    private final static DecimalFormat DF=new DecimalFormat("#,##0.00");
     /**
      * 求取平均值
      * @param x 维度数组
