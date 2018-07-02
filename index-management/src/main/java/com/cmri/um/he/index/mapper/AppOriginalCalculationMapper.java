@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Update;
  * Created on 2018/6/27
  */
 @Mapper
-public interface AppCalMapper  {
+public interface AppOriginalCalculationMapper {
 
     @Update("update app_calculation_quality set features=#{features}, view=#{view} where app=#{app} ")
     int upadte(AppCalculationQualityEntity appCalculationQualityEntity);
