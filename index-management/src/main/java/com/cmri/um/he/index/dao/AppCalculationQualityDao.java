@@ -1,7 +1,7 @@
 package com.cmri.um.he.index.dao;
 
 import com.cmri.um.he.index.entity.AppCalculationQualityEntity;
-import com.cmri.um.he.index.mapper.AppCalMapper;
+import com.cmri.um.he.index.mapper.AppOriginalCalculationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public class AppCalculationQualityDao extends BaseDao {
 
     @Autowired
-    private AppCalMapper mapper;
+    private AppOriginalCalculationMapper mapper;
 
    public int update(AppCalculationQualityEntity appCalculationQualityEntity){
       return  mapper.upadte(appCalculationQualityEntity);

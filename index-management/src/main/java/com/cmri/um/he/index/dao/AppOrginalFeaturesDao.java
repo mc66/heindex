@@ -1,7 +1,7 @@
 package com.cmri.um.he.index.dao;
 
 import com.cmri.um.he.index.entity.AppOriginalFeaturesEntity;
-import com.cmri.um.he.index.mapper.AppFeaMapper;
+import com.cmri.um.he.index.mapper.AppOriginalFeaturesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AppOrginalFeaturesDao extends BaseDao {
     @Autowired
-    private AppFeaMapper mapper;
+    private AppOriginalFeaturesMapper mapper;
 
     /**
      * 新增功能界面的原始数据

@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
  * Created on 2018/6/24
  */
 @Mapper
-public interface AppFeaMapper {
+public interface AppOriginalFeaturesMapper {
 
     @Insert("insert into app_original_features values (#{id},#{app},#{category},#{version},#{dimensions},#{des}," +
             "#{experience},#{frequency},#{score},#{degree},#{status},#{month},#{atime})")
