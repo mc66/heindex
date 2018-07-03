@@ -37,4 +37,29 @@ public class AppQualityServiceImpl implements AppQualityService {
         List resultList= appQualityDao.getQualityData(app,month2,month);
         return resultList;
     }
+
+    @Override
+    public List<Map<String, Object>> queryQualityFeatures(Integer app, String month) {
+        return appQualityDao.queryQualityFeatures(app,month);
+    }
+
+    @Override
+    public List<Map<String, Object>> queryQualityViews(Integer app, String month) {
+        return appQualityDao.queryQualityViews(app,month);
+    }
+
+    @Override
+    public List<Map<String, Object>> queryQualityDelay(Integer app, String month) {
+        return appQualityDao.queryQualityDelay(app,month);
+    }
+
+    @Override
+    public List<Map<String, Object>> queryQualityConsume(Integer app, String month) {
+        return appQualityDao.queryQualityConsume(app,month);
+    }
+
+    @Override
+    public List<Map<String, Object>> queryQualityExperience(Integer app, String month) {
+        return appQualityDao.queryQualityExperience(app,month);
+    }
 }
