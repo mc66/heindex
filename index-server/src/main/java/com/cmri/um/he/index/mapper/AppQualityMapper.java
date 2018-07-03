@@ -35,4 +35,13 @@ public interface AppQualityMapper {
             "where category.id = #{category} and qua.month=#{month} ORDER BY qua.qindex desc limit #{offset}, #{rows}")
     List<Map<String, Object>> getQualityList(@Param("month") String month, @Param("category") String category, @Param("offset") int offset, @Param("rows") int rows);
 
+    /**
+     * 查询单个app的月份数据
+     * @param app app的id
+     * @param month 月份
+     * @param month2 前两月份
+     * @return
+     */
+    @Select("SELECT * FROM app_quality q WHERE q.app=#{app} and q.`month` BETWEEN #{month2} and #{month}" )
+    List<Map<String, Object>> getQualityData(@Param("app") int app, @Param("month2") String month2, @Param("month") String month );
 }
