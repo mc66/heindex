@@ -34,11 +34,18 @@ public class AppQualityDao extends BaseDao {
     /**
      * 为记录添加序号
      */
-    private List<Map<String, Object>> addNo(List<Map<String, Object>> items) {
+    public List<Map<String, Object>> addNo(List<Map<String, Object>> items) {
         for (int i = 0; i < items.size(); i++) {
             items.get(i).put("no", i);
         }
         return items;
     }
 
+    /**
+     * 查询单个app及月份的数据
+     */
+    public List<Map<String, Object>> getQualityData(int app, String month2,String month){
+       List resultList= qumapper.getQualityData(app,month2,month);
+       return  resultList;
+    }
 }

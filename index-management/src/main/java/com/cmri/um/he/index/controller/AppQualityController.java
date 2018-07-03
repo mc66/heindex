@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 查询未计算体验指数的所有应用，计算应用的品质总分
@@ -35,6 +36,7 @@ public class AppQualityController extends ZRestController {
         if(resultList!=null && resultList.size()!=0){
             responseMessage.set("qualityList",resultList);
         }else {
+            responseMessage.set("qualityList",resultList);
             responseMessage.setMsg("没有需要处理数据！！！");
         }
         return responseMessage;
@@ -46,7 +48,7 @@ public class AppQualityController extends ZRestController {
      */
     @RequestMapping(value = "/app-quality-qindex",method = RequestMethod.GET)
     public ResponseMessage setQindex(){
-        List quaryList = appQualityService.quary();
+        List<Map<String,Object>> quaryList = appQualityService.quary();
         ResponseMessage responseMessage = this.genResponseMessage();
         if(quaryList!=null && quaryList.size()!=0){
             boolean b = appQualityService.setQindex(quaryList);
@@ -56,7 +58,7 @@ public class AppQualityController extends ZRestController {
                 responseMessage.setMsg("处理失败！");
             }
         }else {
-            return responseMessage.setMsg("没有需要处理数据！！！");
+            responseMessage.setMsg("没有需要处理数据！！！");
         }
         return responseMessage;
     }
