@@ -44,4 +44,49 @@ public interface AppQualityMapper {
      */
     @Select("SELECT * FROM app_quality q WHERE q.app=#{app} and q.`month` BETWEEN #{month2} and #{month}" )
     List<Map<String, Object>> getQualityData(@Param("app") int app, @Param("month2") String month2, @Param("month") String month );
+
+    /**
+     *  查询功能指标
+     * @param app
+     * @param month
+     * @return
+     */
+    @Select("  SELECT aq.id,ai.`name` as app,aq.features,ai.flag FROM app_quality aq LEFT JOIN app_info ai ON aq.app = ai.id WHERE aq.category= (SELECT a.category FROM app_info a WHERE id = #{app} ) and aq.`month`= #{month} ORDER BY aq.features DESC \n ")
+    List<Map<String,Object>> queryQualityFeatures(@Param("app")Integer app,@Param("month") String month);
+
+    /**
+     *  查询界面指标
+     * @param app
+     * @param month
+     * @return
+     */
+    @Select("  SELECT aq.id,ai.`name` as app,aq.views,ai.flag FROM app_quality aq LEFT JOIN app_info ai ON aq.app = ai.id WHERE aq.category= (SELECT a.category FROM app_info a WHERE id = #{app} ) and aq.`month`= #{month} ORDER BY aq.views DESC \n ")
+    List<Map<String,Object>> queryQualityViews(@Param("app")Integer app,@Param("month") String month);
+
+    /**
+     *  查询时延指标
+     * @param app
+     * @param month
+     * @return
+     */
+    @Select("  SELECT aq.id,ai.`name` as app,aq.delay,ai.flag FROM app_quality aq LEFT JOIN app_info ai ON aq.app = ai.id WHERE aq.category= (SELECT a.category FROM app_info a WHERE id = #{app} ) and aq.`month`= #{month} ORDER BY aq.delay DESC \n ")
+    List<Map<String,Object>> queryQualityDelay(@Param("app")Integer app,@Param("month") String month);
+
+    /**
+     *  查询功耗指标
+     * @param app
+     * @param month
+     * @return
+     */
+    @Select("  SELECT aq.id,ai.`name` as app,aq.consume,ai.flag FROM app_quality aq LEFT JOIN app_info ai ON aq.app = ai.id WHERE aq.category= (SELECT a.category FROM app_info a WHERE id = #{app} ) and aq.`month`= #{month} ORDER BY aq.consume DESC \n ")
+    List<Map<String,Object>> queryQualityConsume(@Param("app")Integer app,@Param("month") String month);
+
+    /**
+     *  查询使用体验
+     * @param app
+     * @param month
+     * @return
+     */
+    @Select("  SELECT aq.id,ai.`name` as app,aq.experience,ai.flag FROM app_quality aq LEFT JOIN app_info ai ON aq.app = ai.id WHERE aq.category= (SELECT a.category FROM app_info a WHERE id = #{app} ) and aq.`month`= #{month} ORDER BY aq.experience DESC \n ")
+    List<Map<String,Object>> queryQualityExperience(@Param("app")Integer app,@Param("month") String month);
 }
