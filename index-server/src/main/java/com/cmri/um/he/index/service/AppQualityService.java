@@ -2,6 +2,7 @@ package com.cmri.um.he.index.service;
 
 import com.cmri.spring.common.data.PagingData;
 
+import java.util.List;
 import java.util.Map;
 /**
 * 查询某类应用品质指数
@@ -19,4 +20,12 @@ public interface AppQualityService {
      * @return 分页查询结果
      */
     PagingData<Map<String, Object>> find(String month,String category, int page, int step);
+
+    /**
+     * 查询单个app及月份的数据
+     * @param app
+     * @param mouth
+     * @return
+     */
+    List getQualityData(int app, String month);
 }
