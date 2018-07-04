@@ -37,11 +37,11 @@ public interface AppQualityMapper {
 
     /**
      * 查询单个app的月份数据
-     * @param app app的id
+     * @param id app的id
      * @param month 月份
      * @param month2 前两月份
      * @return
      */
-    @Select("SELECT * FROM app_quality q WHERE q.app=#{app} and q.`month` BETWEEN #{month2} and #{month}" )
-    List<Map<String, Object>> getQualityData(@Param("app") int app, @Param("month2") String month2, @Param("month") String month );
+    @Select("SELECT * FROM app_quality q WHERE q.app=#{id} and q.`month` BETWEEN #{month2} and #{month}" )
+    List<Map<String, Object>> getQualityData(@Param("id") int id, @Param("month2") String month2, @Param("month") String month );
 }

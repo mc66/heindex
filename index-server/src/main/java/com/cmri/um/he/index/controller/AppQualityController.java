@@ -22,8 +22,8 @@ public class AppQualityController extends ZRestController {
     private AppQualityService appQualityService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseMessage getQuliatyData(@RequestParam Integer app,@RequestParam String month){
-        List resultList= appQualityService.getQualityData(app,month);
+    public ResponseMessage getQuliatyData(@RequestParam Integer id,@RequestParam String month){
+        List resultList= appQualityService.getQualityData(id,month);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("quality",resultList);
         return responseMessage;

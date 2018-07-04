@@ -44,8 +44,8 @@ public class AppQualityDao extends BaseDao {
     /**
      * 查询单个app及月份的数据
      */
-    public List<Map<String, Object>> getQualityData(int app, String month2,String month){
-       List resultList= qumapper.getQualityData(app,month2,month);
+    public List<Map<String, Object>> getQualityData(int id, String month2,String month){
+       List resultList= qumapper.getQualityData(id,month2,month);
        return  resultList;
     }
 }
