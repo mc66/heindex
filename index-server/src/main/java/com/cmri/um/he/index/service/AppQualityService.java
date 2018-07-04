@@ -23,11 +23,12 @@ public interface AppQualityService {
 
     /**
      * 查询单个app及月份的数据
-     * @param app
+     * @param id
      * @param month
      * @return
      */
-    List getQualityData(int app, String month);
+    List getQualityData(int id, String month);
+
 
     /**
      *   查询功能指标

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +31,13 @@ public class AppMonthController extends ZRestController {
         List<Map<String, Object>> maps = appMonthService.findMonths();
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("items",maps);
-        Map<String, Object> map = maps.get(0);
-        String month = (String)map.get("month");
-        Cookie cookie=new Cookie("newmonth",month);
-        cookie.setMaxAge(300);
-        response.addCookie(cookie);
+//        Map<String, Object> map = maps.get(0);
+//        String month = (String)map.get("month");
+//        Cookie cookie=new Cookie("newmonth",month);
+//        cookie.setMaxAge(1000*60*60);
+//        response.addCookie(cookie);
+//        response.setHeader("Set-Cookie","token=cowshield");
+//        response.setHeader("Access-Control-Allow-Credentials","true");
         return responseMessage;
     }
 }

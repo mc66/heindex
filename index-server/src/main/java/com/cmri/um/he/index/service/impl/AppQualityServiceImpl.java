@@ -30,11 +30,11 @@ public class AppQualityServiceImpl implements AppQualityService {
     }
 
     @Override
-    public List<Map<String, Object>> getQualityData(int app, String month) {
+    public List<Map<String, Object>> getQualityData(int id, String month) {
         int months = Integer.parseInt(month);
         months=months-2;
         String month2 = Integer.toString(months);
-        List resultList= appQualityDao.getQualityData(app,month2,month);
+        List resultList= appQualityDao.getQualityData(id,month2,month);
         return resultList;
     }
 
