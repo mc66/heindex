@@ -21,6 +21,12 @@ public class AppQualityController extends ZRestController {
     @Autowired
     private AppQualityService appQualityService;
 
+    /**
+     * 查询单个app及月份的数据
+     * @param id
+     * @param month
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ResponseMessage getQuliatyData(@RequestParam Integer id,@RequestParam String month){
         List resultList= appQualityService.getQualityData(id,month);
