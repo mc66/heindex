@@ -48,4 +48,54 @@ public class AppQualityDao extends BaseDao {
        List resultList= qumapper.getQualityData(id,month2,month);
        return  resultList;
     }
+
+    /**
+     *   查询功能指标
+     * @param app
+     * @param month
+     * @return
+     */
+    public List<Map<String, Object>> queryQualityFeatures(Integer app, String month) {
+        return  qumapper.queryQualityFeatures(app,month);
+    }
+
+    /**
+     *    查询界面指标
+     * @param app
+     * @param month
+     * @return
+     */
+    public List<Map<String,Object>> queryQualityViews(Integer app, String month) {
+        return  qumapper.queryQualityViews(app,month);
+    }
+
+    /**
+     *   查询时延指标
+     * @param app
+     * @param month
+     * @return
+     */
+    public List<Map<String,Object>> queryQualityDelay(Integer app, String month) {
+        return  qumapper.queryQualityDelay(app,month);
+    }
+
+    /**
+     *   查询功耗指标
+     * @param app
+     * @param month
+     * @return
+     */
+    public List<Map<String,Object>> queryQualityConsume(Integer app, String month) {
+        return  qumapper.queryQualityConsume(app,month);
+    }
+
+    /**
+     *   查询使用体验
+     * @param app
+     * @param month
+     * @return
+     */
+    public List<Map<String,Object>> queryQualityExperience(Integer app, String month) {
+        return  qumapper.queryQualityExperience(app,month);
+    }
 }

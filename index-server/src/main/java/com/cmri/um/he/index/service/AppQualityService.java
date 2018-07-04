@@ -28,4 +28,45 @@ public interface AppQualityService {
      * @return
      */
     List getQualityData(int id, String month);
+
+
+    /**
+     *   查询功能指标
+     * @param app
+     * @param month
+     * @return
+     */
+    List queryQualityFeatures(Integer app, String month);
+
+    /**
+     *    查询界面指标
+     * @param app
+     * @param month
+     * @return
+     */
+    List queryQualityViews(Integer app, String month);
+
+    /**
+     *    查询时延指标
+     * @param app
+     * @param month
+     * @return
+     */
+    List queryQualityDelay(Integer app, String month);
+
+    /**
+     *    查询功耗指标
+     * @param app
+     * @param month
+     * @return
+     */
+    List queryQualityConsume(Integer app, String month);
+
+    /**
+     *    查询使用体验
+     * @param app
+     * @param month
+     * @return
+     */
+    List queryQualityExperience(Integer app, String month);
 }
