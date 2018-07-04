@@ -42,4 +42,27 @@ public class AppOperationsDao extends BaseDao {
         return items;
     }
 
+    public List<Map<String,Object>> queryQualityContent(Integer id, String month) {
+        return appOperationsMapper.queryQualityContent(id,month);
+    }
+
+    public List<Map<String,Object>> queryQualityChannel(Integer id, String month) {
+        return appOperationsMapper.queryQualityChannel(id,month);
+    }
+
+    public List<Map<String,Object>> queryQualityMarket(Integer id, String month) {
+        return appOperationsMapper.queryQualityMarket(id,month);
+    }
+
+    public List<Map<String,Object>> queryQualityTariff(Integer id, String month) {
+        return appOperationsMapper.queryQualityTariff(id,month);
+    }
+
+    public List<Map<String,Object>> queryQualityServe(Integer id, String month) {
+        return appOperationsMapper.queryQualityServe(id,month);
+    }
+
+    public List<Map<String,Object>> queryQualityExperience(Integer id, String month) {
+        return appOperationsMapper.queryQualityExperience(id,month);
+    }
 }
