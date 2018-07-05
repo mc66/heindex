@@ -31,4 +31,52 @@ public interface AppOperationsService {
      * @return
      */
     List<Map<String, Object>> getOperationsData(int id, String month);
+
+    /**
+     *  查询内容指标
+     * @param id
+     * @param month
+     * @return
+     */
+    List queryQualityContent(Integer id, String month);
+
+    /**
+     *  查询渠道指标
+     * @param id
+     * @param month
+     * @return
+     */
+    List queryQualityChannel(Integer id, String month);
+
+    /**
+     *  查询营销指标
+     * @param id
+     * @param month
+     * @return
+     */
+    List queryQualityMarket(Integer id, String month);
+
+    /**
+     *  查询资费指标
+     * @param id
+     * @param month
+     * @return
+     */
+    List queryQualityTariff(Integer id, String month);
+
+    /**
+     *  查询服务体验
+     * @param id
+     * @param month
+     * @return
+     */
+    List queryQualityServe(Integer id, String month);
+
+    /**
+     *  查询运营体验
+     * @param id
+     * @param month
+     * @return
+     */
+    List queryQualityExperience(Integer id, String month);
 }

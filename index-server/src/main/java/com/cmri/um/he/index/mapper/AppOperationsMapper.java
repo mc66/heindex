@@ -46,4 +46,58 @@ public interface AppOperationsMapper {
 
     @Select("SELECT * FROM app_operations q WHERE q.app=#{id} and q.`month` BETWEEN #{month2} and #{month}" )
     List<Map<String, Object>> getOperationsData(@Param("id") int id,@Param("month2") String month2,@Param("month") String month);
+
+    /**
+     *  查询内容指标
+     * @param id
+     * @param month
+     * @return
+     */
+    @Select(" SELECT aos.id,ai.`name` as app,aos.content,ai.flag FROM app_operations aos LEFT JOIN app_info ai ON aos.app = ai.id WHERE aos.category= (SELECT a.category FROM app_info a WHERE id = #{id} ) and aos.`month`= #{month} ORDER BY aos.content DESC ")
+    List<Map<String,Object>> queryQualityContent(@Param("id")Integer id,@Param("month") String month);
+
+    /**
+     *  查询渠道指标
+     * @param id
+     * @param month
+     * @return
+     */
+    @Select(" SELECT aos.id,ai.`name` as app,aos.channel,ai.flag FROM app_operations aos LEFT JOIN app_info ai ON aos.app = ai.id WHERE aos.category= (SELECT a.category FROM app_info a WHERE id = #{id} ) and aos.`month`= #{month} ORDER BY aos.channel DESC ")
+    List<Map<String,Object>> queryQualityChannel(@Param("id")Integer id,@Param("month") String month);
+
+    /**
+     *  查询营销指标
+     * @param id
+     * @param month
+     * @return
+     */
+    @Select(" SELECT aos.id,ai.`name` as app,aos.market,ai.flag FROM app_operations aos LEFT JOIN app_info ai ON aos.app = ai.id WHERE aos.category= (SELECT a.category FROM app_info a WHERE id = #{id} ) and aos.`month`= #{month} ORDER BY aos.market DESC ")
+    List<Map<String,Object>> queryQualityMarket(@Param("id")Integer id,@Param("month") String month);
+
+    /**
+     *  查询资费指标
+     * @param id
+     * @param month
+     * @return
+     */
+    @Select(" SELECT aos.id,ai.`name` as app,aos.tariff,ai.flag FROM app_operations aos LEFT JOIN app_info ai ON aos.app = ai.id WHERE aos.category= (SELECT a.category FROM app_info a WHERE id = #{id} ) and aos.`month`= #{month} ORDER BY aos.tariff DESC ")
+    List<Map<String,Object>> queryQualityTariff(@Param("id")Integer id,@Param("month") String month);
+
+    /**
+     *  查询服务体验
+     * @param id
+     * @param month
+     * @return
+     */
+    @Select(" SELECT aos.id,ai.`name` as app,aos.service,ai.flag FROM app_operations aos LEFT JOIN app_info ai ON aos.app = ai.id WHERE aos.category= (SELECT a.category FROM app_info a WHERE id = #{id} ) and aos.`month`= #{month} ORDER BY aos.service DESC ")
+    List<Map<String,Object>> queryQualityServe(@Param("id")Integer id,@Param("month") String month);
+
+    /**
+     *  查询运营体验
+     * @param id
+     * @param month
+     * @return
+     */
+    @Select(" SELECT aos.id,ai.`name` as app,aos.experience,ai.flag FROM app_operations aos LEFT JOIN app_info ai ON aos.app = ai.id WHERE aos.category= (SELECT a.category FROM app_info a WHERE id = #{id} ) and aos.`month`= #{month} ORDER BY aos.experience DESC ")
+    List<Map<String,Object>> queryQualityExperience(@Param("id")Integer id,@Param("month") String month);
 }

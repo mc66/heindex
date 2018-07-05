@@ -39,4 +39,33 @@ public class AppOperationsServiceImpl implements AppOperationsService {
         return resultList;
     }
 
+    @Override
+    public List<Map<String, Object>> queryQualityContent(Integer id, String month) {
+        return appOperationsDao.queryQualityContent(id,month);
+    }
+
+    @Override
+    public List<Map<String, Object>> queryQualityChannel(Integer id, String month) {
+        return appOperationsDao.queryQualityChannel(id,month);
+    }
+
+    @Override
+    public List<Map<String, Object>> queryQualityMarket(Integer id, String month) {
+        return appOperationsDao.queryQualityMarket(id,month);
+    }
+
+    @Override
+    public List<Map<String, Object>> queryQualityTariff(Integer id, String month) {
+        return appOperationsDao.queryQualityTariff(id,month);
+    }
+
+    @Override
+    public List<Map<String, Object>> queryQualityServe(Integer id, String month) {
+        return appOperationsDao.queryQualityServe(id,month);
+    }
+
+    @Override
+    public List<Map<String, Object>> queryQualityExperience(Integer id, String month) {
+        return appOperationsDao.queryQualityExperience(id,month);
+    }
 }
