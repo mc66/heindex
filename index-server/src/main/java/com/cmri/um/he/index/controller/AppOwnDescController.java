@@ -22,9 +22,24 @@ public class AppOwnDescController extends ZRestController {
 
     @Autowired
     private AppOwnDescService service;
-    @RequestMapping(method = RequestMethod.GET)
+
+    /**
+     * 咪咕视频介绍以及所属类品质分数
+     * @param id
+     * @param month
+     * @return
+     */
+    @RequestMapping(value = "/quality",method = RequestMethod.GET)
     public ResponseMessage get(@RequestParam Integer id,@RequestParam String month){
         List<Map<String, Object>> appDesc = service.findByAppId(id, month);
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("items",appDesc);
+        return responseMessage;
+    }
+
+    @RequestMapping(value = "/operations",method = RequestMethod.GET)
+    public ResponseMessage getData(@RequestParam Integer id,@RequestParam String month){
+        List<Map<String, Object>> appDesc = service.findByIdAndMonth(id, month);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("items",appDesc);
         return responseMessage;

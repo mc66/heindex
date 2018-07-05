@@ -6,6 +6,7 @@ import com.cmri.um.he.index.service.AppOperationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +28,15 @@ public class AppOperationsServiceImpl implements AppOperationsService {
                 step,
                 appOperationsDao.getOperationsList(month, category, page, step)
         );
+    }
+
+    @Override
+    public  List<Map<String, Object>> getOperationsData(int id, String month) {
+        int months = Integer.parseInt(month);
+        months=months-2;
+        String month2 = Integer.toString(months);
+        List resultList= appOperationsDao.getOperationsData(id,month2,month);
+        return resultList;
     }
 
 }

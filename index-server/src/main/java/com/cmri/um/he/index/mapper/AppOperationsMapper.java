@@ -43,4 +43,7 @@ public interface AppOperationsMapper {
             "FROM app_info app RIGHT JOIN app_category category ON app.category = category.id LEFT JOIN app_operations ope ON app.id = ope.app \n" +
             "WHERE category.id = #{category} AND ope.month=#{month} ORDER BY ope.oindex DESC LIMIT #{offset}, #{rows}")
     List<Map<String, Object>> getOperationsList(@Param("month") String month, @Param("category") String category, @Param("offset") int offset, @Param("rows") int rows);
+
+    @Select("SELECT * FROM app_operations q WHERE q.app=#{id} and q.`month` BETWEEN #{month2} and #{month}" )
+    List<Map<String, Object>> getOperationsData(@Param("id") int id,@Param("month2") String month2,@Param("month") String month);
 }

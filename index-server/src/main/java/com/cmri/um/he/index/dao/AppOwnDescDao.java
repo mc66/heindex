@@ -26,4 +26,11 @@ public class AppOwnDescDao extends BaseDao {
         return mapper.findByAppId(id, month);
     }
 
+    /**
+     * 查询指定id，指定月份的运营分数及描述
+     * */
+    public List<Map<String,Object>> findByIdAndMonth(Integer id,String month){
+        return mapper.findByIdAndMonth(id, month);
+    }
+
 }
