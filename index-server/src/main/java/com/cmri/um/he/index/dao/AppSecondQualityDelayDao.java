@@ -19,13 +19,13 @@ public class AppSecondQualityDelayDao extends BaseDao{
 
     /**
      * 根据应用类别、测量指标、网络环境、月份来查询测量值
-     * @param category
+     * @param id
      * @param measuring
      * @param network
      * @param month
      * @return
      */
-    public List<Map<String,Object>> findQualityMeasureBySome(Integer category,String measuring, String network, String month){
-        return delayMapper.findQualityMeasureBySome(category,measuring,network,month);
+    public List<Map<String,Object>> findQualityMeasureBySome(Integer id,String measuring, String network, String month){
+        return delayMapper.findQualityMeasureBySome(id,measuring,network,month);
     }
 }

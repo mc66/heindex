@@ -12,11 +12,11 @@ public interface AppSecondQualityDelayService {
 
     /**
      * 根据应用类别、测量指标、网络环境、月份来查询测量值
-     * @param category
+     * @param id
      * @param measuring
      * @param network
      * @param month
      * @return
      */
-    List<Map<String,Object>> findQualityMeasureBySome(Integer category,String measuring, String network, String month);
+    List<Map<String,Object>> findQualityMeasureBySome(Integer id,String measuring, String network, String month);
 }

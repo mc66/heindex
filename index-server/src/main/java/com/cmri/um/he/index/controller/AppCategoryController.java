@@ -18,15 +18,22 @@ import java.util.List;
  * Created on 2018/6/13
  */
 @RestController
-@RequestMapping("/app-category")
 @CrossOrigin
 public class AppCategoryController extends ZRestController {
     @Autowired
     private AppCategoryService appCategoryService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value="/app-category",method = RequestMethod.GET)
     public ResponseMessage get() {
         List resultList = appCategoryService.find();
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("category",resultList);
+        return responseMessage;
+    }
+
+    @RequestMapping(value="/app-category-nav",method = RequestMethod.GET)
+    public ResponseMessage gets() {
+        List resultList = appCategoryService.finds();
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("categorys",resultList);
         return responseMessage;
