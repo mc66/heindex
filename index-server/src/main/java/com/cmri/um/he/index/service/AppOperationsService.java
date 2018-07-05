@@ -2,6 +2,7 @@ package com.cmri.um.he.index.service;
 
 import com.cmri.spring.common.data.PagingData;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -22,4 +23,60 @@ public interface AppOperationsService {
      * @return 分页查询结果
      */
     PagingData<Map<String, Object>> getOperationsList(String month, String category, int page, int step);
+
+    /**
+     * 查询某个app某月的运用数据和该月前两个月的数据
+     * @param id
+     * @param month
+     * @return
+     */
+    List<Map<String, Object>> getOperationsData(int id, String month);
+
+    /**
+     *  查询内容指标
+     * @param id
+     * @param month
+     * @return
+     */
+    List queryQualityContent(Integer id, String month);
+
+    /**
+     *  查询渠道指标
+     * @param id
+     * @param month
+     * @return
+     */
+    List queryQualityChannel(Integer id, String month);
+
+    /**
+     *  查询营销指标
+     * @param id
+     * @param month
+     * @return
+     */
+    List queryQualityMarket(Integer id, String month);
+
+    /**
+     *  查询资费指标
+     * @param id
+     * @param month
+     * @return
+     */
+    List queryQualityTariff(Integer id, String month);
+
+    /**
+     *  查询服务体验
+     * @param id
+     * @param month
+     * @return
+     */
+    List queryQualityServe(Integer id, String month);
+
+    /**
+     *  查询运营体验
+     * @param id
+     * @param month
+     * @return
+     */
+    List queryQualityExperience(Integer id, String month);
 }

@@ -91,11 +91,11 @@ public class AppQualityDao extends BaseDao {
 
     /**
      *   查询使用体验
-     * @param app
+     * @param id
      * @param month
      * @return
      */
-    public List<Map<String,Object>> queryQualityExperience(Integer app, String month) {
-        return  qumapper.queryQualityExperience(app,month);
+    public List<Map<String,Object>> queryQualityExperience(Integer id, String month) {
+        return  qumapper.queryQualityExperience(id,month);
     }
 }
