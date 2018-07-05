@@ -21,6 +21,19 @@ public class AppOperationsController extends ZRestController {
 
     @Autowired
     private AppOperationsService appOperationsService;
+    /**
+     * 查询单个app及月份的数据
+     * @param id
+     * @param month
+     * @return
+     */
+    @RequestMapping(value = "/monthdata",method = RequestMethod.GET)
+    public ResponseMessage getQuliatyData(@RequestParam Integer id, @RequestParam String month){
+        List resultList= appOperationsService.getOperationsData(id,month);
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("quality",resultList);
+        return responseMessage;
+    }
 
     /**
      *    查询内容指标

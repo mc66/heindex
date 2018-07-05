@@ -25,6 +25,14 @@ public interface AppOperationsService {
     PagingData<Map<String, Object>> getOperationsList(String month, String category, int page, int step);
 
     /**
+     * 查询某个app某月的运用数据和该月前两个月的数据
+     * @param id
+     * @param month
+     * @return
+     */
+    List<Map<String, Object>> getOperationsData(int id, String month);
+
+    /**
      *  查询内容指标
      * @param id
      * @param month

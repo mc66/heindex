@@ -41,6 +41,10 @@ public class AppOperationsDao extends BaseDao {
         }
         return items;
     }
+    public List<Map<String, Object>>getOperationsData(int id,String month2,String month){
+        List resultList= appOperationsMapper.getOperationsData(id,month2,month);
+        return resultList;
+    }
 
     public List<Map<String,Object>> queryQualityContent(Integer id, String month) {
         return appOperationsMapper.queryQualityContent(id,month);

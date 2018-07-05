@@ -44,6 +44,9 @@ public interface AppOperationsMapper {
             "WHERE category.id = #{category} AND ope.month=#{month} ORDER BY ope.oindex DESC LIMIT #{offset}, #{rows}")
     List<Map<String, Object>> getOperationsList(@Param("month") String month, @Param("category") String category, @Param("offset") int offset, @Param("rows") int rows);
 
+    @Select("SELECT * FROM app_operations q WHERE q.app=#{id} and q.`month` BETWEEN #{month2} and #{month}" )
+    List<Map<String, Object>> getOperationsData(@Param("id") int id,@Param("month2") String month2,@Param("month") String month);
+
     /**
      *  查询内容指标
      * @param id

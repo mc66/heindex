@@ -31,6 +31,15 @@ public class AppOperationsServiceImpl implements AppOperationsService {
     }
 
     @Override
+    public  List<Map<String, Object>> getOperationsData(int id, String month) {
+        int months = Integer.parseInt(month);
+        months=months-2;
+        String month2 = Integer.toString(months);
+        List resultList= appOperationsDao.getOperationsData(id,month2,month);
+        return resultList;
+    }
+
+    @Override
     public List<Map<String, Object>> queryQualityContent(Integer id, String month) {
         return appOperationsDao.queryQualityContent(id,month);
     }
