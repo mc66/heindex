@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 提供App维度问题列表
- * Created by machao on 2018/7/3.
+ * 查询app某维度的问题
+ * @author machao
+ * Created on 2018/7/4
  */
 @RestController
-@RequestMapping("/app-problem")
 @CrossOrigin
 public class AppProblemController extends ZRestController{
 
@@ -25,17 +25,38 @@ public class AppProblemController extends ZRestController{
     AppProblemService appProblemService;
 
     /**
-     * 查询app某一个维度问题点方法
-     * @param app
+     * 查询app某一个维度产品品质问题的方法
+     * @param id
      * @param dimensions
+     * @param month
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseMessage getAppProblem(int app,String dimensions,String month){
-        List<Map<String, Object>> appProblemList = appProblemService.getAppProblem(app, dimensions,month);
+    @RequestMapping(value = "/app-quality-problem",method = RequestMethod.GET)
+    public ResponseMessage getAppQualityProblem(int id,String dimensions,String month){
+        List<Map<String, Object>> appQualityProblemList = appProblemService.getAppQualityProblem(id, dimensions,month);
         ResponseMessage responseMessage=this.genResponseMessage();
-        if (appProblemList!=null && appProblemList.size()!=0){
-            responseMessage.set("appProblemList",appProblemList);
+        if (appQualityProblemList!=null && appQualityProblemList.size()!=0){
+            responseMessage.set("appQualityProblemList",appQualityProblemList);
+        }else {
+            responseMessage.set("message","当前维度还没有记录问题！！！");
+        }
+        return responseMessage;
+    }
+
+
+    /**
+     * 查询app某一个维度产品运营问题的方法
+     * @param id
+     * @param dimensions
+     * @param month
+     * @return
+     */
+    @RequestMapping(value = "/app-operation-problem",method = RequestMethod.GET)
+    public ResponseMessage getAppOperationProblem(int id,String dimensions,String month){
+        List<Map<String, Object>> appOperationProblemList = appProblemService.getAppOperationProblem(id, dimensions,month);
+        ResponseMessage responseMessage=this.genResponseMessage();
+        if (appOperationProblemList!=null && appOperationProblemList.size()!=0){
+            responseMessage.set("appOperationProblemList",appOperationProblemList);
         }else {
             responseMessage.set("message","当前维度还没有记录问题！！！");
         }
