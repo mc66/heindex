@@ -17,8 +17,15 @@ import java.util.Map;
 public class AppCategoryServiceImpl implements AppCategoryService {
     @Autowired
     private AppCategoryDao appCategoryDao;
+
+
     @Override
     public List<Map<String, Object>> find() {
         return appCategoryDao.find();
+    }
+
+    @Override
+    public List<Map<String, Object>> finds() {
+        return appCategoryDao.finds();
     }
 }

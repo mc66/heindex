@@ -3,7 +3,6 @@ package com.cmri.um.he.index.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 import java.util.Map;
@@ -36,7 +35,7 @@ public interface AppProblemMapper {
      * @param month
      * @return
      */
-    @Select("SELECT aof.`month`,ac.name,ai.`name`,aof.`version`,aof.`dimensions`,aof.`three_level_index`,aof.`specific_channel`,aof.`detailed_description`,aof.`test_value` " +
+    @Select("SELECT aof.`month`,ac.name as category,ai.`name` as app,aof.`version`,aof.`dimensions`,aof.`three_level_index`,aof.`specific_channel`,aof.`detailed_description`,aof.`test_value` " +
             "FROM app_info ai JOIN app_original_features aof ON ai.`id`=aof.`app` LEFT JOIN app_category ac ON ai.`category`= ac.id\n" +
             "WHERE ai.`id`=#{id} AND aof.`dimensions`=#{dimensions} AND aof.`month`=#{month}")
     List<Map<String, Object>> getAppOperationProblem(@Param("id")int id,@Param("dimensions")String dimensions,@Param("month")String month);

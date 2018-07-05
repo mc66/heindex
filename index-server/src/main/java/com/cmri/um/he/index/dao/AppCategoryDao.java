@@ -22,7 +22,13 @@ public class AppCategoryDao extends BaseDao {
      * 查询所有应用类别
      */
     public List<Map<String, Object>> find() {
-        return mapper.findCategorys();
+        return mapper.findCategory();
     }
 
+    /**s
+     * 查询应用类别及对应的app数据
+     */
+    public List<Map<String, Object>> finds() {
+        return mapper.findCategorys();
+    }
 }

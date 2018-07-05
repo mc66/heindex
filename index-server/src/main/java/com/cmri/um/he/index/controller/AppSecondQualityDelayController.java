@@ -22,10 +22,10 @@ public class AppSecondQualityDelayController extends ZRestController {
     private AppSecondQualityDelayService delayService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseMessage get(@RequestParam Integer category,@RequestParam String measuring,@RequestParam String month) {
-        List<Map<String, Object>> list3g = delayService.findQualityMeasureBySome(category,measuring, "3g", month);
-        List<Map<String, Object>> list4g = delayService.findQualityMeasureBySome(category,measuring, "4g", month);
-        List<Map<String, Object>> listWlan = delayService.findQualityMeasureBySome(category,measuring, "WLAN", month);
+    public ResponseMessage get(@RequestParam Integer id,@RequestParam String measuring,@RequestParam String month) {
+        List<Map<String, Object>> list3g = delayService.findQualityMeasureBySome(id,measuring, "3g", month);
+        List<Map<String, Object>> list4g = delayService.findQualityMeasureBySome(id,measuring, "4g", month);
+        List<Map<String, Object>> listWlan = delayService.findQualityMeasureBySome(id,measuring, "WLAN", month);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("list3g",list3g);
         responseMessage.set("list4g",list4g);

@@ -16,4 +16,11 @@ public interface AppCategoryService {
      * @return 应用类别集合
      */
     List<Map<String, Object>> find();
+
+    /**
+     * 查询应用类别及对应的app数据
+     *
+     * @return 查询应用类别及对应的app数据
+     */
+    List<Map<String, Object>> finds();
 }
