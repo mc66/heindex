@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +34,9 @@ public class AppProblemController extends ZRestController{
      * @return
      */
     @RequestMapping(value = "/app-quality-problem",method = RequestMethod.GET)
-    public ResponseMessage getAppQualityProblem(int id,String dimensions,String month){
+    public ResponseMessage getAppQualityProblem(HttpServletRequest request,int id, String dimensions, String month)throws IOException{
+        String dimensions1 = request.getParameter("dimensions");
+        dimensions = new String(dimensions1.getBytes("iso-8859-1"), "utf-8");
         List<Map<String, Object>> appQualityProblemList = appProblemService.getAppQualityProblem(id, dimensions,month);
         ResponseMessage responseMessage=this.genResponseMessage();
         if (appQualityProblemList!=null && appQualityProblemList.size()!=0){
@@ -52,7 +56,9 @@ public class AppProblemController extends ZRestController{
      * @return
      */
     @RequestMapping(value = "/app-operation-problem",method = RequestMethod.GET)
-    public ResponseMessage getAppOperationProblem(int id,String dimensions,String month){
+    public ResponseMessage getAppOperationProblem(HttpServletRequest request,int id,String dimensions,String month)throws IOException{
+        String dimensions1 = request.getParameter("dimensions");
+        dimensions = new String(dimensions1.getBytes("iso-8859-1"), "utf-8");
         List<Map<String, Object>> appOperationProblemList = appProblemService.getAppOperationProblem(id, dimensions,month);
         ResponseMessage responseMessage=this.genResponseMessage();
         if (appOperationProblemList!=null && appOperationProblemList.size()!=0){
