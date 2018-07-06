@@ -75,5 +75,5 @@ public interface AppQualityService {
      * @param appId
      * @return
      */
-    String getAppLogo(int appId);
+    List<Map<String,Object>> getAppLogo(int appId);
 }

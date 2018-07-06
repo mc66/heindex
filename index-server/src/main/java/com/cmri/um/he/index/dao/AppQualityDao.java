@@ -104,7 +104,7 @@ public class AppQualityDao extends BaseDao {
      * @param appId
      * @return
      */
-    public String getAppLogo(int appId){
+    public List<Map<String,Object>> getAppLogo(int appId){
         return qumapper.getAppLogo(appId);
     }
 }

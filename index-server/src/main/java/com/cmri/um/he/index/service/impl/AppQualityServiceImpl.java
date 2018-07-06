@@ -64,7 +64,7 @@ public class AppQualityServiceImpl implements AppQualityService {
     }
 
     @Override
-    public String getAppLogo(int appId) {
+    public List<Map<String,Object>> getAppLogo(int appId) {
         return appQualityDao.getAppLogo(appId);
     }
 }
