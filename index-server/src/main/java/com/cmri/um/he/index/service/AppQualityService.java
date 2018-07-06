@@ -69,4 +69,11 @@ public interface AppQualityService {
      * @return
      */
     List queryQualityExperience(Integer app, String month);
+
+    /**
+     * 查询app的logo
+     * @param appId
+     * @return
+     */
+    String getAppLogo(int appId);
 }

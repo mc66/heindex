@@ -62,4 +62,9 @@ public class AppQualityServiceImpl implements AppQualityService {
     public List<Map<String, Object>> queryQualityExperience(Integer app, String month) {
         return appQualityDao.queryQualityExperience(app,month);
     }
+
+    @Override
+    public String getAppLogo(int appId) {
+        return appQualityDao.getAppLogo(appId);
+    }
 }
