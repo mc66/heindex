@@ -6,6 +6,7 @@ import com.cmri.um.he.index.service.AppSecondQualityDelayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,9 +28,11 @@ public class AppSecondQualityDelayController extends ZRestController {
         List<Map<String, Object>> list4g = delayService.findQualityMeasureBySome(id,measuring, "4g", month);
         List<Map<String, Object>> listWlan = delayService.findQualityMeasureBySome(id,measuring, "WLAN", month);
         ResponseMessage responseMessage = this.genResponseMessage();
-        responseMessage.set("list3g",list3g);
-        responseMessage.set("list4g",list4g);
-        responseMessage.set("listWlan",listWlan);
+        List list =new ArrayList();
+        list.add(list3g);
+        list.add(list4g);
+        list.add(listWlan);
+        responseMessage.set("list",list);
         return responseMessage;
     }
 }
