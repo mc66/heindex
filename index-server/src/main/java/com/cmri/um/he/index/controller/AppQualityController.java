@@ -110,4 +110,16 @@ public class AppQualityController extends ZRestController {
         return responseMessage;
     }
 
+    /**
+     * 查询app的logo
+     * @param appId
+     * @return
+     */
+    @RequestMapping(value = "/logo",method = RequestMethod.GET)
+    public ResponseMessage getAppLogo(int appId){
+        String logo= appQualityService.getAppLogo(appId);
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("logo",logo);
+        return responseMessage;
+    }
 }
