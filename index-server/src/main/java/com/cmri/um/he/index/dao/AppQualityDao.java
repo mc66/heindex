@@ -98,4 +98,13 @@ public class AppQualityDao extends BaseDao {
     public List<Map<String,Object>> queryQualityExperience(Integer id, String month) {
         return  qumapper.queryQualityExperience(id,month);
     }
+
+    /**
+     * 查询app的logo
+     * @param appId
+     * @return
+     */
+    public String getAppLogo(int appId){
+        return qumapper.getAppLogo(appId);
+    }
 }

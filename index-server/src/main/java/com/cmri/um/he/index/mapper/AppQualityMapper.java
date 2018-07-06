@@ -89,4 +89,13 @@ public interface AppQualityMapper {
      */
     @Select("  SELECT aq.id,ai.`name` as app,aq.experience,ai.flag FROM app_quality aq LEFT JOIN app_info ai ON aq.app = ai.id WHERE aq.category= (SELECT a.category FROM app_info a WHERE id = #{app} ) and aq.`month`= #{month} ORDER BY aq.experience DESC \n ")
     List<Map<String,Object>> queryQualityExperience(@Param("app")Integer app,@Param("month") String month);
+
+    /**
+     * 查询app的logo
+     * @param appId
+     * @return
+     */
+    @Select("SELECT logo FROM app_logo WHERE app=#{appId}")
+    String getAppLogo(@Param("appId")int appId);
+
 }
