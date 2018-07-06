@@ -95,7 +95,7 @@ public interface AppQualityMapper {
      * @param appId
      * @return
      */
-    @Select("SELECT logo FROM app_logo WHERE app=#{appId}")
-    String getAppLogo(@Param("appId")int appId);
+    @Select("SELECT ai.`name`,al.`logo` FROM app_logo al JOIN app_info ai ON al.`app`=ai.`id` WHERE app=#{appId}")
+    List<Map<String,Object>> getAppLogo(@Param("appId")int appId);
 
 }
