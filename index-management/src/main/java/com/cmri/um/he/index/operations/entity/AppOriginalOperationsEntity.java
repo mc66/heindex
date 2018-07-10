@@ -2,7 +2,7 @@ package com.cmri.um.he.index.operations.entity;
 
 import java.util.Date;
 
-public class AppOriginalOperations {
+public class AppOriginalOperationsEntity {
 
     private int id;
     //测评时间
@@ -28,7 +28,8 @@ public class AppOriginalOperations {
     //记录添加时间
     private Date atime;
 
-    public AppOriginalOperations(int id, String month, int category, int app, String version, String measureIndex, String specificChannel, String serverFrom, int measureValue, String explain, int dimensionsId, Date atime) {
+
+    public AppOriginalOperationsEntity(int id, String month, int category, int app, String version, String measureIndex, String specificChannel, String serverFrom, int measureValue, String explain, int dimensionsId, Date atime) {
         this.id = id;
         this.month = month;
         this.category = category;
@@ -141,7 +142,7 @@ public class AppOriginalOperations {
 
     @Override
     public String toString() {
-        return "AppOriginalOperations{" +
+        return "AppOriginalOperationsEntity{" +
                 "id=" + id +
                 ", month='" + month + '\'' +
                 ", category=" + category +
