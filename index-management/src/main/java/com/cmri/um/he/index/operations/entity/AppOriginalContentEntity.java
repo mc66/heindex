@@ -3,11 +3,11 @@ package com.cmri.um.he.index.operations.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class AppOriginalContent implements Serializable {
+public class AppOriginalContentEntity implements Serializable {
 
     private int id;
     //测评时间
-    private String  month;
+    private String month;
     //应用类别id
     private int category;
     //应用名称id
@@ -24,12 +24,16 @@ public class AppOriginalContent implements Serializable {
     private String measuredProblem;
     //测量值（1/0）
     private int measuredValue;
+    //内容分类id
+    private  String contentId;
     //备注
     private String remarks;
     //记录添加时间
     private Date atime;
 
-    public AppOriginalContent(int id, String month, int category, int app, String version, String contentName, String contentHome, String measuredIndex, String measuredProblem, int measuredValue, String remarks, Date atime) {
+
+
+    public AppOriginalContentEntity(int id, String month, int category, int app, String version, String contentName, String contentHome, String measuredIndex, String measuredProblem, int measuredValue, String remarks, Date atime) {
         this.id = id;
         this.month = month;
         this.category = category;
@@ -140,9 +144,17 @@ public class AppOriginalContent implements Serializable {
         this.atime = atime;
     }
 
+    public String getContentId() {
+        return contentId;
+    }
+
+    public void setcontentId(String contentId) {
+        this.contentId = contentId;
+    }
+
     @Override
     public String toString() {
-        return "AppOriginalContent{" +
+        return "AppOriginalContentEntity{" +
                 "id=" + id +
                 ", month='" + month + '\'' +
                 ", category=" + category +
