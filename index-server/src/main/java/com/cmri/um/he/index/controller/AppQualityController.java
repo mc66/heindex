@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 查询单个应用品质数据
@@ -117,9 +118,9 @@ public class AppQualityController extends ZRestController {
      */
     @RequestMapping(value = "/logo",method = RequestMethod.GET)
     public ResponseMessage getAppLogo(int appId){
-        String logo= appQualityService.getAppLogo(appId);
+        List<Map<String, Object>> appLogo = appQualityService.getAppLogo(appId);
         ResponseMessage responseMessage = this.genResponseMessage();
-        responseMessage.set("logo",logo);
+        responseMessage.set("appLogo",appLogo);
         return responseMessage;
     }
 }

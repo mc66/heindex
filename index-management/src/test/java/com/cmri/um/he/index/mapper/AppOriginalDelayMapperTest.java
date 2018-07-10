@@ -1,6 +1,7 @@
 package com.cmri.um.he.index.mapper;
 
-import com.cmri.um.he.index.entity.AppOriginalDelayEntity;
+import com.cmri.um.he.index.quality.entity.AppOriginalDelayEntity;
+import com.cmri.um.he.index.quality.mapper.AppOriginalDelayMapper;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
