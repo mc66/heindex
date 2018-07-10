@@ -8,7 +8,7 @@ import java.util.Date;
  * @author yinjunjun
  * Created on 2018/07/10
  */
-public class AppOperations implements Serializable {
+public class AppOperationsEntity implements Serializable {
     private Integer id;
     private Integer app;
     private Integer category;
@@ -146,11 +146,11 @@ public class AppOperations implements Serializable {
         this.atime = atime;
     }
 
-    public AppOperations() {
+    public AppOperationsEntity() {
 
     }
 
-    public AppOperations(Integer id, Integer app, Integer category, Double content, Double channel, Double tariff, Double service, Double market, Double experience, Double oindex, String version, String month, Date atime) {
+    public AppOperationsEntity(Integer id, Integer app, Integer category, Double content, Double channel, Double tariff, Double service, Double market, Double experience, Double oindex, String version, String month, Date atime) {
 
         this.id = id;
         this.app = app;
