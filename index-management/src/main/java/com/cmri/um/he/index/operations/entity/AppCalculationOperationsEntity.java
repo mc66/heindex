@@ -1,5 +1,7 @@
 package com.cmri.um.he.index.operations.entity;
 
+import org.springframework.data.annotation.Transient;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,6 +16,8 @@ public class AppCalculationOperationsEntity implements Serializable {
     private String month;
     private Integer app;
     private Integer category;
+    @Transient
+    private Integer special;
     private String version;
     private Double content;
     private Double channel;
@@ -31,6 +35,7 @@ public class AppCalculationOperationsEntity implements Serializable {
                 ", month='" + month + '\'' +
                 ", app=" + app +
                 ", category=" + category +
+                ", special=" + special +
                 ", version='" + version + '\'' +
                 ", content=" + content +
                 ", channel=" + channel +
@@ -73,6 +78,14 @@ public class AppCalculationOperationsEntity implements Serializable {
 
     public void setCategory(Integer category) {
         this.category = category;
+    }
+
+    public Integer getSpecial() {
+        return special;
+    }
+
+    public void setSpecial(Integer special) {
+        this.special = special;
     }
 
     public String getVersion() {
@@ -151,12 +164,13 @@ public class AppCalculationOperationsEntity implements Serializable {
 
     }
 
-    public AppCalculationOperationsEntity(Integer id, String month, Integer app, Integer category, String version, Double content, Double channel, Double tariff, Double service, Double market, Double experience, Integer status, Date atime) {
+    public AppCalculationOperationsEntity(Integer id, String month, Integer app, Integer category, Integer special, String version, Double content, Double channel, Double tariff, Double service, Double market, Double experience, Integer status, Date atime) {
 
         this.id = id;
         this.month = month;
         this.app = app;
         this.category = category;
+        this.special = special;
         this.version = version;
         this.content = content;
         this.channel = channel;
