@@ -1,5 +1,6 @@
 package com.cmri.um.he.index.operations.dao;
 
+import com.cmri.um.he.index.operations.entity.AppOriginalContentEntity;
 import com.cmri.um.he.index.operations.mapper.AppCmtariffMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,4 +16,7 @@ public class AppCmtariffDao extends BaseDao {
     @Autowired
     private AppCmtariffMapper appCmtariffMapper;
 
+    public int saveAppOriginalContentEntity(AppOriginalContentEntity entity) {
+         return appCmtariffMapper.saveAppOriginalContentEntity(entity);
+    }
 }
