@@ -28,6 +28,23 @@ public class AppCalculationOperationsEntity implements Serializable {
     private Integer status;
     private Date atime;
 
+
+    public AppCalculationOperationsEntity(Integer id, String month, Integer app, Integer category, String version, Double content, Double channel, Double tariff, Double service, Double market, Double experience, Integer status, Date atime) {
+        this.id = id;
+        this.month = month;
+        this.app = app;
+        this.category = category;
+        this.version = version;
+        this.content = content;
+        this.channel = channel;
+        this.tariff = tariff;
+        this.service = service;
+        this.market = market;
+        this.experience = experience;
+        this.status = status;
+        this.atime = atime;
+    }
+
     @Override
     public String toString() {
         return "AppCalculationOperationsEntity{" +
