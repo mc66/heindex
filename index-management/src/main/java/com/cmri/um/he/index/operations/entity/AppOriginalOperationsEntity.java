@@ -28,22 +28,6 @@ public class AppOriginalOperationsEntity {
     //记录添加时间
     private Date atime;
 
-
-    public AppOriginalOperationsEntity(int id, String month, int category, int app, String version, String measureIndex, String specificChannel, String serverFrom, int measureValue, String explain, int dimensionsId, Date atime) {
-        this.id = id;
-        this.month = month;
-        this.category = category;
-        this.app = app;
-        this.version = version;
-        this.measureIndex = measureIndex;
-        this.specificChannel = specificChannel;
-        this.serverFrom = serverFrom;
-        this.measureValue = measureValue;
-        this.explain = explain;
-        this.dimensionsId = dimensionsId;
-        this.atime = atime;
-    }
-
     public int getId() {
         return id;
     }
@@ -138,23 +122,5 @@ public class AppOriginalOperationsEntity {
 
     public void setAtime(Date atime) {
         this.atime = atime;
-    }
-
-    @Override
-    public String toString() {
-        return "AppOriginalOperationsEntity{" +
-                "id=" + id +
-                ", month='" + month + '\'' +
-                ", category=" + category +
-                ", app=" + app +
-                ", version='" + version + '\'' +
-                ", measureIndex='" + measureIndex + '\'' +
-                ", specificChannel='" + specificChannel + '\'' +
-                ", serverFrom='" + serverFrom + '\'' +
-                ", measureValue=" + measureValue +
-                ", explain='" + explain + '\'' +
-                ", dimensionsId=" + dimensionsId +
-                ", atime=" + atime +
-                '}';
     }
 }

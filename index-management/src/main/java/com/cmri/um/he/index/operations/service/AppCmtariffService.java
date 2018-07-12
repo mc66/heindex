@@ -1,7 +1,8 @@
 package com.cmri.um.he.index.operations.service;
-import com.cmri.um.he.index.operations.entity.AppOriginalContentEntity;
+import com.cmri.um.he.index.operations.entity.AppOriginalOperationsEntity;
 
-import java.util.List; /**
+import java.util.List;
+/**
  * 	渠道、营销、资费、服务原始数据
  *
  * @author limin
@@ -14,11 +15,11 @@ public interface AppCmtariffService {
      * @param list
      * @return
      */
-    boolean saveAppOriginalContentEntity(List<AppOriginalContentEntity> list);
+    boolean saveAppOriginalContentEntity(List<AppOriginalOperationsEntity> list);
     /**
-     *  处理渠道、营销、资费、服务原始数据，存入app_calculation_operations表
+     *  新增或修改渠道、营销、资费、服务原始数据
      * @param list
      * @return
      */
-    boolean dealAppOriginalContentEntity(List<AppOriginalContentEntity> list);
+    boolean updateAppOriginalContentEntity(List<AppOriginalOperationsEntity> list);
 }
