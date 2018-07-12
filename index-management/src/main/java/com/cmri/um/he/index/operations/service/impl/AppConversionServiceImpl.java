@@ -4,7 +4,6 @@ import com.cmri.um.he.index.operations.dao.AppConversionDao;
 import com.cmri.um.he.index.operations.entity.AppCalculationOperationsEntity;
 import com.cmri.um.he.index.operations.entity.AppOperationsEntity;
 import com.cmri.um.he.index.operations.service.AppConversionService;
-import com.cmri.um.he.index.quality.entity.AppCalculationQualityEntity;
 import com.cmri.um.he.index.quality.entity.AppWeightQualityEntity;
 import com.cmri.um.he.index.util.StandardDeviationUtil;
 import org.springframework.beans.factory.annotation.Autowired;

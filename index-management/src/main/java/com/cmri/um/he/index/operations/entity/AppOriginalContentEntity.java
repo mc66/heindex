@@ -2,7 +2,11 @@ package com.cmri.um.he.index.operations.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
+/**
+ * 运营指数内容原始数据表
+ * @author shihao
+ * Created on 2018/7/11
+ */
 public class AppOriginalContentEntity implements Serializable {
 
     private int id;
@@ -25,28 +29,11 @@ public class AppOriginalContentEntity implements Serializable {
     //测量值（1/0）
     private int measuredValue;
     //内容分类id
-    private  String contentId;
+    private  int contentId;
     //备注
     private String remarks;
     //记录添加时间
     private Date atime;
-
-
-
-    public AppOriginalContentEntity(int id, String month, int category, int app, String version, String contentName, String contentHome, String measuredIndex, String measuredProblem, int measuredValue, String remarks, Date atime) {
-        this.id = id;
-        this.month = month;
-        this.category = category;
-        this.app = app;
-        this.version = version;
-        this.contentName = contentName;
-        this.contentHome = contentHome;
-        this.measuredIndex = measuredIndex;
-        this.measuredProblem = measuredProblem;
-        this.measuredValue = measuredValue;
-        this.remarks = remarks;
-        this.atime = atime;
-    }
 
     public int getId() {
         return id;
@@ -128,6 +115,14 @@ public class AppOriginalContentEntity implements Serializable {
         this.measuredValue = measuredValue;
     }
 
+    public int getContentId() {
+        return contentId;
+    }
+
+    public void setContentId(int contentId) {
+        this.contentId = contentId;
+    }
+
     public String getRemarks() {
         return remarks;
     }
@@ -142,31 +137,5 @@ public class AppOriginalContentEntity implements Serializable {
 
     public void setAtime(Date atime) {
         this.atime = atime;
-    }
-
-    public String getContentId() {
-        return contentId;
-    }
-
-    public void setcontentId(String contentId) {
-        this.contentId = contentId;
-    }
-
-    @Override
-    public String toString() {
-        return "AppOriginalContentEntity{" +
-                "id=" + id +
-                ", month='" + month + '\'' +
-                ", category=" + category +
-                ", app=" + app +
-                ", version='" + version + '\'' +
-                ", contentName='" + contentName + '\'' +
-                ", contentHome='" + contentHome + '\'' +
-                ", measuredIndex='" + measuredIndex + '\'' +
-                ", measuredProblem='" + measuredProblem + '\'' +
-                ", measuredValue=" + measuredValue +
-                ", remarks='" + remarks + '\'' +
-                ", atime=" + atime +
-                '}';
     }
 }

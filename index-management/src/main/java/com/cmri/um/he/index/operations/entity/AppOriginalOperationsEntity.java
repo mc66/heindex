@@ -1,7 +1,11 @@
 package com.cmri.um.he.index.operations.entity;
 
 import java.util.Date;
-
+/**
+ * 运营指数个维度原始数据表
+ * @author shihao
+ * Created on 2018/7/11
+ */
 public class AppOriginalOperationsEntity {
 
     private int id;
