@@ -2,6 +2,7 @@ package com.cmri.um.he.index.operations.mapper;
 
 import com.cmri.um.he.index.operations.entity.AppOperationsEntity;
 import com.cmri.um.he.index.operations.provider.AppOperationdDaoProvider;
+import com.cmri.um.he.index.quality.entity.AppWeightQualityEntity;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -52,4 +53,11 @@ public interface AppConversionMapper {
     @Select("SELECT name,category from app_info ")
     List<Map<String,Object>> ceshi();
 
+    /**
+     * 查询维度权重
+     * @param category
+     * @return
+     */
+    @Select("SELECT wcontent,wchannel,wmarket,wexpenses,wservice,wexperience_operation FROM app_weight_quality WHERE category=#{category}")
+    AppWeightQualityEntity getWeight(int category);
 }

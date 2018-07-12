@@ -21,6 +21,61 @@ public class AppWeightQualityEntity implements Serializable{
     private double wdelay;
     private double wconsume;
     private double wexperience;
+    private double wcontent;
+    private double wchannel;
+    private double wmarket;
+    private double wexpenses;
+    private double wservice;
+    private double wexperienceOperation;
+
+
+    public double getWcontent() {
+        return wcontent;
+    }
+
+    public void setWcontent(double wcontent) {
+        this.wcontent = wcontent;
+    }
+
+    public double getWchannel() {
+        return wchannel;
+    }
+
+    public void setWchannel(double wchannel) {
+        this.wchannel = wchannel;
+    }
+
+    public double getWmarket() {
+        return wmarket;
+    }
+
+    public void setWmarket(double wmarket) {
+        this.wmarket = wmarket;
+    }
+
+    public double getWexpenses() {
+        return wexpenses;
+    }
+
+    public void setWexpenses(double wexpenses) {
+        this.wexpenses = wexpenses;
+    }
+
+    public double getWservice() {
+        return wservice;
+    }
+
+    public void setWservice(double wservice) {
+        this.wservice = wservice;
+    }
+
+    public double getWexperienceOperation() {
+        return wexperienceOperation;
+    }
+
+    public void setWexperienceOperation(double wexperienceOperation) {
+        this.wexperienceOperation = wexperienceOperation;
+    }
 
     public int getId() {
         return id;

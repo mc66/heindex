@@ -6,6 +6,7 @@ import com.cmri.um.he.index.operations.mapper.AppOperationExperienceMapper;
 import com.cmri.um.he.index.operations.service.AppOperationExperienceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -35,6 +36,7 @@ public class AppOperationExperienceServiceImpl implements AppOperationExperience
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void add(AppCalculationOperationsEntity appCalculationOperationsEntity) {
         Date atime = new Date();
         AppCalculationOperationsEntity acoe = new AppCalculationOperationsEntity(0, appCalculationOperationsEntity.getMonth(), appCalculationOperationsEntity.getApp(), appCalculationOperationsEntity.getCategory(), appCalculationOperationsEntity.getVersion(), 0.0, 0.0, 0.0, 0.0, 0.0, appCalculationOperationsEntity.getExperience(), 0, atime);
