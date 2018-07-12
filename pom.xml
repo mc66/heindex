@@ -9,6 +9,7 @@
     <version>0.1.0</version>
     <packaging>pom</packaging>
 
+    
     <modules>
         <module>index-server</module>
     </modules>
