@@ -1,5 +1,7 @@
 package com.cmri.um.he.index.operations.entity;
 
+import org.springframework.data.annotation.Transient;
+
 import java.io.Serializable;
 import java.util.Date;
 

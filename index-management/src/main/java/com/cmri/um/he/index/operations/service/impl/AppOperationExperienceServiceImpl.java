@@ -2,7 +2,6 @@ package com.cmri.um.he.index.operations.service.impl;
 
 import com.cmri.um.he.index.operations.dao.AppOperationExperienceDao;
 import com.cmri.um.he.index.operations.entity.AppCalculationOperationsEntity;
-import com.cmri.um.he.index.operations.mapper.AppOperationExperienceMapper;
 import com.cmri.um.he.index.operations.service.AppOperationExperienceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
