@@ -5,6 +5,7 @@ import com.cmri.um.he.index.operations.entity.AppCalculationOperationsEntity;
 import com.cmri.um.he.index.operations.entity.AppOperationsEntity;
 import com.cmri.um.he.index.operations.service.AppConversionService;
 import com.cmri.um.he.index.quality.entity.AppCalculationQualityEntity;
+import com.cmri.um.he.index.quality.entity.AppWeightQualityEntity;
 import com.cmri.um.he.index.util.StandardDeviationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,7 @@ public class AppConversionServiceImpl implements AppConversionService {
         double[] serviceArr = new double[7];
         double[] marketArr = new double[7];
         double[] experienceArr = new double[7];
+        double oindex=0;
 
         int i = 0;
         for (AppCalculationOperationsEntity appCalculationOperationsEntity : appCalculationOperationsEntities) {
@@ -117,7 +119,22 @@ public class AppConversionServiceImpl implements AppConversionService {
             double newEx = Double.valueOf(forEx);
 
             String version = appCalculationOperationsEntity.getVersion();
-            AppOperationsEntity appOperationsEntity = new AppOperationsEntity(null,app,category,newCon,newCha,newTar,newSer,newMar,newEx,0.0,version,month,new Date());
+
+            //根据应用类别查询各维度权重值
+            AppWeightQualityEntity appWeightQualityEntity = dao.getWeight(category);
+            double wcontent = appWeightQualityEntity.getWcontent();
+            double wchannel = appWeightQualityEntity.getWchannel();
+            double wmarket = appWeightQualityEntity.getWmarket();
+            double wexpenses = appWeightQualityEntity.getWexpenses();
+            double wservice = appWeightQualityEntity.getWservice();
+            double wexperience = appWeightQualityEntity.getWexperienceOperation();
+
+            //APP运营总得分=Σ（各维度品质标准值*该维度权重）
+            oindex = newCon*wcontent+newCha*wchannel+newMar*wmarket+newEx*wexpenses+newSer*wservice+newExperience*wexperience;
+            String oindex1 = DF.format(oindex);
+            oindex = Double.valueOf(oindex1);
+
+            AppOperationsEntity appOperationsEntity = new AppOperationsEntity(null,app,category,newCon,newCha,newTar,newSer,newMar,newEx,oindex,version,month,new Date());
             appOperationsEntities.add(appOperationsEntity);
         }
         dao.saveAll(appOperationsEntities);

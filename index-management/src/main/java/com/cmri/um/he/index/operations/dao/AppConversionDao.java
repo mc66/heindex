@@ -2,6 +2,7 @@ package com.cmri.um.he.index.operations.dao;
 
 import com.cmri.um.he.index.operations.entity.AppOperationsEntity;
 import com.cmri.um.he.index.operations.mapper.AppConversionMapper;
+import com.cmri.um.he.index.quality.entity.AppWeightQualityEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -50,5 +51,14 @@ public class AppConversionDao{
 
     public List<Map<String,Object>> ceshi(){
        return mapper.ceshi();
+    }
+
+    /**
+     * 查询维度权重
+     * @param category
+     * @return
+     */
+    public AppWeightQualityEntity getWeight(int category){
+        return mapper.getWeight(category);
     }
 }
