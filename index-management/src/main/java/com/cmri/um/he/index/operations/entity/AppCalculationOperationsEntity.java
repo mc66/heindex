@@ -15,6 +15,9 @@ public class AppCalculationOperationsEntity implements Serializable {
     private Integer app;
     private Integer category;
     private String version;
+    private String content_cover;
+    private String content_update;
+    private String content_recommend;
     private Double content;
     private Double channel;
     private Double tariff;
@@ -24,23 +27,23 @@ public class AppCalculationOperationsEntity implements Serializable {
     private Integer status;
     private Date atime;
 
-    @Override
-    public String toString() {
-        return "AppCalculationOperationsEntity{" +
-                "id=" + id +
-                ", month='" + month + '\'' +
-                ", app=" + app +
-                ", category=" + category +
-                ", version='" + version + '\'' +
-                ", content=" + content +
-                ", channel=" + channel +
-                ", tariff=" + tariff +
-                ", service=" + service +
-                ", market=" + market +
-                ", experience=" + experience +
-                ", status=" + status +
-                ", atime=" + atime +
-                '}';
+    public AppCalculationOperationsEntity(Integer id, String month, Integer app, Integer category, String version, String content_cover, String content_update, String content_recommend, Double content, Double channel, Double tariff, Double service, Double market, Double experience, Integer status, Date atime) {
+        this.id = id;
+        this.month = month;
+        this.app = app;
+        this.category = category;
+        this.version = version;
+        this.content_cover = content_cover;
+        this.content_update = content_update;
+        this.content_recommend = content_recommend;
+        this.content = content;
+        this.channel = channel;
+        this.tariff = tariff;
+        this.service = service;
+        this.market = market;
+        this.experience = experience;
+        this.status = status;
+        this.atime = atime;
     }
 
     public Integer getId() {
@@ -81,6 +84,30 @@ public class AppCalculationOperationsEntity implements Serializable {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public String getContent_cover() {
+        return content_cover;
+    }
+
+    public void setContent_cover(String content_cover) {
+        this.content_cover = content_cover;
+    }
+
+    public String getContent_update() {
+        return content_update;
+    }
+
+    public void setContent_update(String content_update) {
+        this.content_update = content_update;
+    }
+
+    public String getContent_recommend() {
+        return content_recommend;
+    }
+
+    public void setContent_recommend(String content_recommend) {
+        this.content_recommend = content_recommend;
     }
 
     public Double getContent() {
@@ -151,20 +178,25 @@ public class AppCalculationOperationsEntity implements Serializable {
 
     }
 
-    public AppCalculationOperationsEntity(Integer id, String month, Integer app, Integer category, String version, Double content, Double channel, Double tariff, Double service, Double market, Double experience, Integer status, Date atime) {
-
-        this.id = id;
-        this.month = month;
-        this.app = app;
-        this.category = category;
-        this.version = version;
-        this.content = content;
-        this.channel = channel;
-        this.tariff = tariff;
-        this.service = service;
-        this.market = market;
-        this.experience = experience;
-        this.status = status;
-        this.atime = atime;
+    @Override
+    public String toString() {
+        return "AppCalculationOperationsEntity{" +
+                "id=" + id +
+                ", month='" + month + '\'' +
+                ", app=" + app +
+                ", category=" + category +
+                ", version='" + version + '\'' +
+                ", content_cover='" + content_cover + '\'' +
+                ", content_update='" + content_update + '\'' +
+                ", content_recommend='" + content_recommend + '\'' +
+                ", content=" + content +
+                ", channel=" + channel +
+                ", tariff=" + tariff +
+                ", service=" + service +
+                ", market=" + market +
+                ", experience=" + experience +
+                ", status=" + status +
+                ", atime=" + atime +
+                '}';
     }
 }
