@@ -30,8 +30,8 @@ public class AppCmtariffDao extends BaseDao {
         }
     }
 
-    public int queryAppCalculationOperationsEntityByMeasureValue() {
-        return appCmtariffMapper.queryAppCalculationOperationsEntityByMeasureValue();
+    public int queryAppCalculationOperationsEntityByMeasureValue(int dimensionsId) {
+        return appCmtariffMapper.queryAppCalculationOperationsEntityByMeasureValue(dimensionsId);
     }
 
     public int queryAppCalculationOperationsEntityByDimensionsId(int dimensionsId) {

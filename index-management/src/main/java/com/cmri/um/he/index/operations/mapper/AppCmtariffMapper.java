@@ -26,11 +26,12 @@ public interface AppCmtariffMapper {
     int saveAppOriginalContentEntity(AppOriginalOperationsEntity entity);
 
     /**
-     *  查询记1的数量
+     *  查询每个维度名称记1的数量
+     * @param dimensionsId
      * @return
      */
-    @Select(" SELECT count(*) FROM app_original_operations ao WHERE ao.measure_value=1 ")
-    int queryAppCalculationOperationsEntityByMeasureValue();
+    @Select(" SELECT count(*) FROM app_original_operations ao WHERE ao.measure_value=1 AND ao.dimensions_id=#{dim} ")
+    int queryAppCalculationOperationsEntityByMeasureValue(@Param("dim") int dimensionsId);
 
     /**
      *  查询所有的条数
