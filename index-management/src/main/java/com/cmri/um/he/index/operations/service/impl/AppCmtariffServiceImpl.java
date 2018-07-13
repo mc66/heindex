@@ -40,6 +40,12 @@ public class AppCmtariffServiceImpl implements AppCmtariffService {
             int bars = appCmtariffDao.queryAppCalculationOperationsEntityByMeasureValue(ao.getDimensionsId());
             int total= appCmtariffDao.queryAppCalculationOperationsEntityByDimensionsId(ao.getDimensionsId());
             AppCalculationOperationsEntity aco = new AppCalculationOperationsEntity();
+            aco.setMonth(ao.getMonth());
+            aco.setApp(ao.getApp());
+            aco.setAtime(new Date());
+            aco.setCategory(ao.getCategory());
+            aco.setStatus(0);
+            aco.setVersion(ao.getVersion());
            if (total ==0){
                double channel = 0.00;
                double tariff = 0.00;
