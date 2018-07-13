@@ -37,7 +37,7 @@ public class AppCmtariffServiceImpl implements AppCmtariffService {
     @Override
     public boolean updateAppOriginalContentEntity(List<AppOriginalOperationsEntity> list) {
         for (AppOriginalOperationsEntity ao: list) {
-            int bars = appCmtariffDao.queryAppCalculationOperationsEntityByMeasureValue();
+            int bars = appCmtariffDao.queryAppCalculationOperationsEntityByMeasureValue(ao.getDimensionsId());
             int total= appCmtariffDao.queryAppCalculationOperationsEntityByDimensionsId(ao.getDimensionsId());
             AppCalculationOperationsEntity aco = new AppCalculationOperationsEntity();
            if (total ==0){
