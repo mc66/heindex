@@ -36,11 +36,11 @@ public class AppMarketServiceImpl implements AppMarketService {
      * @return
      */
     @Override
-    public List<Map<String, Object>> getMarket(int category, String month) {
-        int month1 = Integer.parseInt(month);
-        month1=month1-6;
-        String month2=Integer.toString(month1);
-        List<Map<String, Object>>  list=appMarketDao.getMarket(category,month,month2);
+    public List<Map<String, Object>> getMarket(int category, String month1) {
+        int month1s= Integer.parseInt(month1);
+        month1s=month1s-6;
+        String month2=Integer.toString(month1s);
+        List<Map<String, Object>>  list=appMarketDao.getMarket(category,month1,month2);
         return list;
     }
 
