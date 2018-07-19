@@ -33,11 +33,11 @@ public class AppMarketDao extends BaseDao{
     /**
      * 查询市场指数的关键指标数据(默认月份时间)
      * @param category
-     * @param month
+     * @param month1
      * @return
      */
-    public List<Map<String, Object>> getMarket(int category, String month,String month2) {
-        List<Map<String, Object>> list= appMarketMapper.getMarket(category,month,month2);
+    public List<Map<String, Object>> getMarket(int category, String month1,String month2) {
+        List<Map<String, Object>> list= appMarketMapper.getMarket(category,month1,month2);
         return  list;
     }
     /**
