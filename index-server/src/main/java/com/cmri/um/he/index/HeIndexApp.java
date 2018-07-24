@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Created on 2018/6/4
  */
 @SpringBootApplication
-public class HeIndexApp {
+public class  HeIndexApp {
     static {
         ConfigManager.enableAutoReload(true);
         NetworkHelper.setDefaultProxy();
