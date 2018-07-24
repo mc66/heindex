@@ -34,8 +34,10 @@ public class AppMarketController extends ZRestController {
 
     @RequestMapping(value = "app-market-query",method = RequestMethod.GET)
     public ResponseMessage getMarket(@RequestParam Integer category ,@RequestParam String month1,@RequestParam String month2 ){
+
         List<Map<String ,Object>> list;
-       if(month1==null){
+
+       if(month2.equals("null")){
            list=appMarketService.getMarket(category,month1);
        }else {
            list=appMarketService.getMarketList(category,month1,month2);
@@ -51,11 +53,11 @@ public class AppMarketController extends ZRestController {
 
         for (Map<String, Object> objectMap : list) {
             String  appName=(String) objectMap.get("app_name");
-           if(map1.containsKey(appName)){
-               map1.put(appName,map1.get(appName)+","+objectMap.get("mau_number"));
-           }else {
-               map1.put(appName,objectMap.get("mau_number"));
-           }
+            if(map1.containsKey(appName)){
+                map1.put(appName,map1.get(appName)+","+objectMap.get("mau_number"));
+            }else {
+                map1.put(appName,objectMap.get("mau_number"));
+            }
             if(map2.containsKey(appName)){
                 map2.put(appName,map2.get(appName)+","+objectMap.get("keep_rate"));
             }else {
@@ -127,5 +129,12 @@ public class AppMarketController extends ZRestController {
 
     }
 
+    @RequestMapping(value = "app-test",method = RequestMethod.GET)
+    public  ResponseMessage test(){
+        List<Map<String, Object>> test = appMarketService.test();
+        ResponseMessage responseMessage=this.genResponseMessage();
+        responseMessage.set("tesr",test);
+        return responseMessage;
+    }
 
 }

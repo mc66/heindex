@@ -14,5 +14,6 @@ public interface AppMarketService {
     List<Map<String,Object>>  getAppMarketList(int category,@RequestParam String month);
     List<Map<String ,Object>> getMarket(int category,String month1);
     List<Map<String ,Object>> getMarketList(int category,String month1,String month2);
+    List<Map<String, Object>> test();
 
 }
