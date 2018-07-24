@@ -51,4 +51,9 @@ public class AppMarketDao extends BaseDao{
         List<Map<String, Object>> list= appMarketMapper.getMarketList(category,month1,month2);
         return  list;
     }
+
+    public List<Map<String, Object>> test(){
+        List<Map<String, Object>> test = appMarketMapper.test();
+        return test;
+    }
 }
