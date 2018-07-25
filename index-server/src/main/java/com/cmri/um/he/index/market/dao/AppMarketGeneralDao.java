@@ -10,6 +10,8 @@ import java.util.Map;
 @Repository
 public class AppMarketGeneralDao {
     @Autowired
+
+    @Autowired
     private AppMarketGeneralMapper mapper;
 
     /**
@@ -31,4 +33,19 @@ public class AppMarketGeneralDao {
         return mapper.getUserNumber(app,month1,month2);
     }
 
+    public List<Map<String,Object>> getMarketMonth(int category, int app, String month) {
+        return  mapper.getMarketMonth(category,app,month);
+    }
+
+    public List<Map<String,Object>> getMarketMonth1(int category, int app, String month2) {
+        return  mapper.getMarketMonth1(category,app,month2);
+    }
+
+    public List<Map<String,Object>> getCumulative(int app, String month1, String month2) {
+        return  mapper.getCumulative(app,month1,month2);
+    }
+
+    public List<Map<String,Object>> getCumulativeList(int app, String month1, String month2) {
+        return  mapper.getCumulative(app,month1,month2);
+    }
 }
