@@ -8,14 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @Service
 public class AppMarketGeneralServiceImpl implements AppMarketGeneralService {
-    @Autowired
-public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
 
     @Autowired
     private AppMarketGeneralDao appMarketGeneralDao;

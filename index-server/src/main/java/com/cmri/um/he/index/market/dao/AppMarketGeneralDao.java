@@ -9,7 +9,6 @@ import java.util.Map;
 
 @Repository
 public class AppMarketGeneralDao {
-    @Autowired
 
     @Autowired
     private AppMarketGeneralMapper mapper;
