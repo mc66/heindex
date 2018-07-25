@@ -13,6 +13,25 @@ public class AppMarketGeneralDao {
     @Autowired
     private AppMarketGeneralMapper mapper;
 
+    /**
+     * 查询次月存留率
+     * @return
+     */
+    public List<Map<String, Object>> test(){
+        return mapper.test();
+    }
+
+    /**
+     * 查询月活跃用户
+     * @param app
+     * @param month1
+     * @param month2
+     * @return
+     */
+    public List<Map<String, Object>> getUserNumber(Integer app, String month1, String month2) {
+        return mapper.getUserNumber(app,month1,month2);
+    }
+
     public List<Map<String,Object>> getMarketMonth(int category, int app, String month) {
         return  mapper.getMarketMonth(category,app,month);
     }

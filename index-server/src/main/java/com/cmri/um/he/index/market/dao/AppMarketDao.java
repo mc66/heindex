@@ -31,7 +31,7 @@ public class AppMarketDao extends BaseDao{
         return appMarketMapper.getAppMarketList(category,month);
     }
     /**
-     * 查询市场指数的关键指标数据(默认月份时间)
+     * 查询市场指数的关键指标数据(默认月份时间/根据月份区间)
      * @param category
      * @param month1
      * @return
@@ -40,20 +40,5 @@ public class AppMarketDao extends BaseDao{
         List<Map<String, Object>> list= appMarketMapper.getMarket(category,month1,month2);
         return  list;
     }
-    /**
-     * 查询市场指数的关键指标数据(根据月份区间)
-     * @param category
-     * @param month1
-     * @param month2
-     * @return
-     */
-    public List<Map<String, Object>> getMarketList(int category, String month1,String month2) {
-        List<Map<String, Object>> list= appMarketMapper.getMarketList(category,month1,month2);
-        return  list;
-    }
 
-    public List<Map<String, Object>> test(){
-        List<Map<String, Object>> test = appMarketMapper.test();
-        return test;
-    }
 }

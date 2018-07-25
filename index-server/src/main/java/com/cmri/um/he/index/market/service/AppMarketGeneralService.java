@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface AppMarketGeneralService {
+    List<Map<String, Object>> test();
+    List<Map<String, Object>> getUserNumber(Integer app,String month1,String month2);
     /**
      *  查询当月数据
      * @param category
