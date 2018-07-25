@@ -35,13 +35,8 @@ public class AppMarketController extends ZRestController {
     @RequestMapping(value = "app-market-query",method = RequestMethod.GET)
     public ResponseMessage getMarket(@RequestParam Integer category ,@RequestParam String month1,@RequestParam String month2 ){
 
-        List<Map<String ,Object>> list;
+        List<Map<String ,Object>> list=appMarketService.getMarket(category,month1,month2);;
 
-       if(month2.equals("null")){
-           list=appMarketService.getMarket(category,month1);
-       }else {
-           list=appMarketService.getMarketList(category,month1,month2);
-       }
         Map<String,Object> map1 = new HashMap();
         Map<String,Object> map2 = new HashMap();
         Map<String,Object> map3 = new HashMap();
@@ -129,12 +124,6 @@ public class AppMarketController extends ZRestController {
 
     }
 
-    @RequestMapping(value = "app-test",method = RequestMethod.GET)
-    public  ResponseMessage test(){
-        List<Map<String, Object>> test = appMarketService.test();
-        ResponseMessage responseMessage=this.genResponseMessage();
-        responseMessage.set("tesr",test);
-        return responseMessage;
-    }
+
 
 }
