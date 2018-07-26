@@ -23,4 +23,10 @@ public interface AppCategoryService {
      * @return 查询应用类别及对应的app数据
      */
     List<Map<String, Object>> finds();
+    /**
+     * 根据应用类别查询app
+     * @param category
+     * @return
+     */
+    List<Map<String, Object>> findAppByCategory(Integer category);
 }

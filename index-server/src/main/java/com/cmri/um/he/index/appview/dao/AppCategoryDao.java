@@ -31,4 +31,14 @@ public class AppCategoryDao extends BaseDao {
     public List<Map<String, Object>> finds() {
         return mapper.findCategorys();
     }
+
+    /**
+     * 根据应用类别查询app
+     * @param category
+     * @return
+     */
+    public List<Map<String, Object>> findAppByCategory(Integer category) {
+        return mapper.findAppByCategory(category);
+    }
+
 }
