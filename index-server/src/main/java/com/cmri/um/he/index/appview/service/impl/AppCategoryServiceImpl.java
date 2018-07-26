@@ -28,4 +28,8 @@ public class AppCategoryServiceImpl implements AppCategoryService {
     public List<Map<String, Object>> finds() {
         return appCategoryDao.finds();
     }
+    @Override
+    public List<Map<String, Object>> findAppByCategory(Integer category) {
+        return appCategoryDao.findAppByCategory(category);
+    }
 }
