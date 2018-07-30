@@ -33,9 +33,9 @@ public class AppMarketController extends ZRestController {
     }
 
     @RequestMapping(value = "app-market-query",method = RequestMethod.GET)
-    public ResponseMessage getMarket(@RequestParam Integer category ,@RequestParam String month1,@RequestParam String month2 ){
+    public ResponseMessage getMarket(@RequestParam Integer category ,@RequestParam String month1,@RequestParam String month2,@RequestParam String status ){
 
-        List<Map<String ,Object>> list=appMarketService.getMarket(category,month1,month2);;
+        List<Map<String ,Object>> list=appMarketService.getMarket(category,month1,month2,status);;
 
         Map<String,Object> map1 = new HashMap();
         Map<String,Object> map2 = new HashMap();
@@ -47,7 +47,7 @@ public class AppMarketController extends ZRestController {
         List list4=new ArrayList();
 
         for (Map<String, Object> objectMap : list) {
-            String  appName=(String) objectMap.get("app_name");
+            String  appName=(String) objectMap.get("name");
             if(map1.containsKey(appName)){
                 map1.put(appName,map1.get(appName)+","+objectMap.get("mau_number"));
             }else {

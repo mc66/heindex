@@ -1,7 +1,5 @@
 package com.cmri.um.he.index.common;
 
-import org.springframework.stereotype.Repository;
-
 /**
  * 数字常量通用类
  * @author machao
@@ -42,4 +40,6 @@ public class Constants {
     public static int STATUS_DECLINE = 0 ;
 
 
+
+    public static int DEFAULT_MONTHS = 5;
 }
