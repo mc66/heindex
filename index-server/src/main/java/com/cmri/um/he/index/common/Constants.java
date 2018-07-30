@@ -1,7 +1,5 @@
 package com.cmri.um.he.index.common;
 
-import org.springframework.stereotype.Repository;
-
 /**
  * 数字常量通用类
  * @author machao
@@ -9,5 +7,6 @@ import org.springframework.stereotype.Repository;
  */
 public class Constants {
 
-    public static int default_month = 12;
+    public static int DEFAULT_MONTH = 11;
+    public static int DEFAULT_MONTHS = 5;
 }
