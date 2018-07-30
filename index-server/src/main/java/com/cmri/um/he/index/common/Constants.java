@@ -9,9 +9,29 @@ import org.springframework.stereotype.Repository;
  */
 public class Constants {
     /**
-     * 默认当前月份时，自定义起始时间
+     * 默认展示半年，（月份减5）
      */
-    public static int DEFAULT_MONTH = 11;
+    public static int DEFAULT_MONTH = 5;
+    /**
+     * 默认展示一年（年份减1）
+     */
+    public static int DEFAULT_YEAR = 1 ;
+    /**
+     * 默认对比上月（月份减1）
+     */
+    public static int CONTRAST_MONTH = 1 ;
+    /**
+     * 按月截取时间
+     */
+    public static String MONTH = "month";
+    /**
+     * 按年截取时间
+     */
+    public static String YEAR = "year";
+    /**
+     * 按周截取时间
+     */
+    public static String WEEK = "week";
     /**
      * 对比上升标识
      */
@@ -20,9 +40,6 @@ public class Constants {
      * 对比下降标识
      */
     public static int STATUS_DECLINE = 0 ;
-    /**
-     * 对比月份（对比上月/减1）
-     */
-    public static int CONTRAST_MONTH = 1 ;
+
 
 }
