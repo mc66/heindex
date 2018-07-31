@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 默认展示时获取查询时间通用方法
+ * @author shihao
+ * Created on 2018/7/30
+ */
 @Repository
 public class AppMarketGeneralDao extends BaseDao{
 
