@@ -136,7 +136,7 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
                 return lists;
 
             }else{
-                //查询当前月
+                //查询最新月
                 String newMonth= appMarketGeneralDao.getNewMonth(app);
                 List list=new ArrayList();
                 int month3= Integer.parseInt(month1);
@@ -185,14 +185,14 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
             }
 
         }else if(status.equals("week")){
-            //查询当前周
-            String newMonth= appMarketGeneralDao.getNewWeek(app);
+            //查询最新周
+            String newWeek= appMarketGeneralDao.getNewWeek(app);
             List list=new ArrayList();
             int month3= Integer.parseInt(month1);
             int month4= Integer.parseInt(month2);
-            int newMonths=Integer.parseInt(newMonth);
-            if(month4>newMonths){
-                month4=newMonths;
+            int newWeeks=Integer.parseInt(newWeek);
+            if(month4>newWeeks){
+                month4=newWeeks;
             }
             if(month4>month3){
                 month2=month1;
@@ -217,30 +217,30 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
             //次周存活率
             map.put("rate",list);
             List<Map<String, Object>> maplist= appMarketGeneralDao.getRateByWeek(app,month1,month2);
-            List listmonth=new ArrayList();
+            List listweek=new ArrayList();
             List listmau=new ArrayList();
             for (Map<String, Object> ob : maplist) {
                 Object week = ob.get("week");
-                listmonth.add(week);
+                listweek.add(week);
                 Object weeky_active = ob.get("weekly_active");
                 listmau.add(weeky_active);
             }
             String[] st={"时间","活跃用户数(万)","第2周","第3周","第4周","第5周","第6周","第7周","第8周","第9周"};
-            map.put("week",listmonth);
+            map.put("week",listweek);
             map.put("weekly_active",listmau);
             map.put("title",st);
             lists.add(map);
 
-            return list;
+            return lists;
         }else {
             //查询当前日
-            String newMonth= appMarketGeneralDao.getNewDate(app);
+            String newDate= appMarketGeneralDao.getNewDate(app);
             List list=new ArrayList();
             int month3= Integer.parseInt(month1);
             int month4= Integer.parseInt(month2);
-            int newMonths=Integer.parseInt(newMonth);
-            if(month4>newMonths){
-                month4=newMonths;
+            int newDates=Integer.parseInt(newDate);
+            if(month4>newDates){
+                month4=newDates;
             }
             if(month4>month3){
                 month2=month1;
@@ -264,17 +264,17 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
             }
             //次日存活率
             map.put("rate",list);
-            List<Map<String, Object>> maplist= appMarketGeneralDao.getRateByWeek(app,month1,month2);
-            List listmonth=new ArrayList();
+            List<Map<String, Object>> maplist= appMarketGeneralDao.getRateByDate(app,month1,month2);
+            List listdate=new ArrayList();
             List listmau=new ArrayList();
             for (Map<String, Object> ob : maplist) {
                 Object date = ob.get("date");
-                listmonth.add(date);
+                listdate.add(date);
                 Object dately_active = ob.get("dately_active");
                 listmau.add(dately_active);
             }
             String[] st={"时间","活跃用户数(万)","第2日","第3日","第4日","第5日","第6日","第7日","第15日","第30日"};
-            map.put("date",listmonth);
+            map.put("date",listdate);
             map.put("dately_active",listmau);
             map.put("title",st);
             lists.add(map);
