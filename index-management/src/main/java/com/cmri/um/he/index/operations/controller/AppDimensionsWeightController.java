@@ -34,11 +34,17 @@ public class AppDimensionsWeightController extends ZRestController{
         }
     }
 
-
+    /**
+     * 修改某维度权重
+     * @param id
+     * @param weight
+     * @return
+     */
     @RequestMapping(value = "/update-weight",method = RequestMethod.GET)
     public ResponseMessage updateDimensions(@RequestParam Integer id,@RequestParam double weight){
         appDimensionsWeightService.updateWeight(id,weight);
         ResponseMessage responseMessage = this.genResponseMessage();
         return responseMessage;
     }
+
 }

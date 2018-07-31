@@ -43,11 +43,12 @@ public class StandardServiceImpl implements StandardService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void standard(List<AppCalculationQualityEntity> appCalculationQualityEntities) {
-        double[] featureArr= new double[7];
-        double[] viewsArr = new double[7];
-        double[] delayArr = new double[7];
-        double[] consumeArr = new double[7];
-        double[] experienceArr = new double[7];
+        int size = appCalculationQualityEntities.size();
+        double[] featureArr= new double[size];
+        double[] viewsArr = new double[size];
+        double[] delayArr = new double[size];
+        double[] consumeArr = new double[size];
+        double[] experienceArr = new double[size];
 
         int i = 0;
         for (AppCalculationQualityEntity appCalculationQualityEntity : appCalculationQualityEntities) {
@@ -83,17 +84,26 @@ public class StandardServiceImpl implements StandardService {
             Integer category = appCalculation.getCategory();
             //功能
             double features = appCalculation.getFeatures();
-            double newFeatures = 80+10*((features-StandardDeviationUtil.getAverage(featureArr))/StandardDeviationUtil.getStandardDeviation(featureArr));
+            double newFeatures = 80;
+            if (StandardDeviationUtil.getStandardDeviation(featureArr) != 0) {
+                newFeatures = 80 + 10 * ((features - StandardDeviationUtil.getAverage(featureArr)) / StandardDeviationUtil.getStandardDeviation(featureArr));
+            }
             String format = DF.format(newFeatures);
             Double newFea = Double.valueOf(format);
             //界面
             double views = appCalculation.getView();
-            double newVie = 80+10*((views-StandardDeviationUtil.getAverage(viewsArr))/StandardDeviationUtil.getStandardDeviation(viewsArr));
+            double newVie = 80;
+            if (StandardDeviationUtil.getStandardDeviation(viewsArr) != 0) {
+                newVie = 80 + 10 * ((views - StandardDeviationUtil.getAverage(viewsArr)) / StandardDeviationUtil.getStandardDeviation(viewsArr));
+            }
             String formatViews = DF.format(newVie);
             Double newView = Double.valueOf(formatViews);
             //延时
             double delay = appCalculation.getDelay();
-            double newDela = 80+10*((delay-StandardDeviationUtil.getAverage(delayArr))/StandardDeviationUtil.getStandardDeviation(delayArr));
+            double newDela = 80;
+            if (StandardDeviationUtil.getStandardDeviation(delayArr) != 0){
+                newDela = 80+10*((delay-StandardDeviationUtil.getAverage(delayArr))/StandardDeviationUtil.getStandardDeviation(delayArr));
+            }
             String formatDelay = DF.format(newDela);
             Double newDelay = Double.valueOf(formatDelay);
             //功耗
@@ -103,7 +113,10 @@ public class StandardServiceImpl implements StandardService {
             double newCon = Double.valueOf(formatCon);
             //使用体验
             double experience = appCalculation.getExperience();
-            double newExperience = 80+10*((experience-StandardDeviationUtil.getAverage(experienceArr))/StandardDeviationUtil.getStandardDeviation(experienceArr));
+            double newExperience = 80;
+            if (StandardDeviationUtil.getStandardDeviation(experienceArr) != 0) {
+                newExperience = 80 + 10 * ((experience - StandardDeviationUtil.getAverage(experienceArr)) / StandardDeviationUtil.getStandardDeviation(experienceArr));
+            }
             String formatExperience = DF.format(newExperience);
             double newExperiences = Double.valueOf(formatExperience);
             //版本号

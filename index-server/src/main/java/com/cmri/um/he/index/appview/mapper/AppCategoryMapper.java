@@ -29,4 +29,12 @@ public interface AppCategoryMapper {
             "LEFT JOIN app_info info ON category.id = info.category\n" +
             "WHERE info.flag = 1;")
     List<Map<String,Object>> findCategorys();
+
+    /**
+     * 查询应用类别
+     * @param category
+     * @return 应用类别集合
+     */
+    @Select("SELECT app.id,app.`name`,app.flag FROM app_info app WHERE app.category=#{category} ORDER BY app.id")
+    List<Map<String,Object>> findAppByCategory(Integer category);
 }

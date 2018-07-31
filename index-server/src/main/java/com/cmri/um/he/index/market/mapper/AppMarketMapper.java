@@ -27,25 +27,35 @@ public interface AppMarketMapper {
     public List<Map<String,Object>> getAppMarketList(@Param("category") int category, @Param("month") String month);
 
     /**
-     * 查询市场指数的关键指标数据(默认月份时间)
+     * 查询市场指数的关键指标数据(默认月份时间/根据月份区间)
      * @param category
      * @param month1
      * @return
      */
-    @Select("SELECT m.id , a.`name` app_name,m.mau_number mau_number, \n" +
-            "m.keep_rate keep_rate,m. length_time  length_time ,m.flow flow, m.month month\n" +
-            "from app_market m ,app_info a where m.app=a.id AND  m.category=#{category} AND m.month BETWEEN #{month2} AND #{month1} ORDER BY m.month")
-    List<Map<String, Object>> getMarket(@Param("category") int category, @Param("month1")String month1,@Param("month2")String month2);
+    @Select("SELECT m.id , a.`name` ,m.mau_number , \n" +
+            "m.keep_rate ,m. length_time ,m.flow , m.month \n" +
+            "from app_market m ,app_info a where m.app=a.id AND  m.category=#{category} AND m.month BETWEEN #{month1} AND #{month2} ORDER BY m.month")
+    List<Map<String, Object>> getMarketByMonth(@Param("category") int category, @Param("month1")String month1,@Param("month2")String month2);
 
     /**
-     * 查询市场指数的关键指标数据(根据月份区间)
+     * 查询市场指数的关键指标数据(根据周份区间)
      * @param category
      * @param month1
-     * @param month2
      * @return
      */
-    @Select("SELECT m.id , a.`name` app_name,m.mau_number mau_number, \n" +
-            "m.keep_rate keep_rate,m. length_time  length_time ,m.flow flow, m.month month\n" +
-            "from app_market m ,app_info a where m.app=a.id AND  m.category=#{category} AND m.month BETWEEN #{month1} AND #{month2} ORDER BY m.month" )
-    List<Map<String, Object>> getMarketList(@Param("category") int category, @Param("month1")String month1,@Param("month2")String month2);
+    @Select("SELECT m.id , a.`name`,m.weekly_active, \n" +
+            "m.active_next_week_retention_rate ,m.weekly_duration_per_person  ,m.weekly_dataflow_per_person , m.week \n" +
+            "from app_market_week m ,app_info a where m.app=a.id AND  m.category=#{category} AND m.week BETWEEN #{month1} AND #{month2} ORDER BY m.week")
+    List<Map<String, Object>> getMarketByWeek(@Param("category") int category, @Param("month1")String month1,@Param("month2")String month2);
+
+    /**
+     * 查询市场指数的关键指标数据(根据日份区间)
+     * @param category
+     * @param month1
+     * @return
+     */
+    @Select("SELECT m.id , a.`name`,m.dately_active, \n" +
+            "m.active_next_date_retention_rate ,m.dately_duration_per_person ,m.dately_dataflow_per_person , m.date \n" +
+            "from app_market_date m ,app_info a where m.app=a.id AND  m.category=#{category} AND m.date BETWEEN #{month1} AND #{month2} ORDER BY m.date")
+    List<Map<String, Object>> getMarketByDate(@Param("category") int category, @Param("month1")String month1,@Param("month2")String month2);
 }
