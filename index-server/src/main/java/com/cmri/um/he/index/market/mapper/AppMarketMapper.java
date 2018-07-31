@@ -43,8 +43,8 @@ public interface AppMarketMapper {
      * @param month1
      * @return
      */
-    @Select("SELECT m.id , a.`name`,m.weekly_active, \n" +
-            "m.active_next_week_retention_rate ,m.weekly_duration_per_person  ,m.weekly_dataflow_per_person , m.week \n" +
+    @Select("SELECT m.id , a.`name`,m.weekly_active AS mau_number, \n" +
+            "m.active_next_week_retention_rate AS keep_rate ,m.weekly_duration_per_person AS length_time  ,m.weekly_dataflow_per_person AS flow, m.week \n" +
             "from app_market_week m ,app_info a where m.app=a.id AND  m.category=#{category} AND m.week BETWEEN #{month1} AND #{month2} ORDER BY m.week")
     List<Map<String, Object>> getMarketByWeek(@Param("category") int category, @Param("month1")String month1,@Param("month2")String month2);
 
@@ -54,8 +54,8 @@ public interface AppMarketMapper {
      * @param month1
      * @return
      */
-    @Select("SELECT m.id , a.`name`,m.dately_active, \n" +
-            "m.active_next_date_retention_rate ,m.dately_duration_per_person ,m.dately_dataflow_per_person , m.date \n" +
+    @Select("SELECT m.id , a.`name`,m.dately_active AS mau_number, \n" +
+            "m.active_next_date_retention_rate AS keep_rate ,m.dately_duration_per_person AS length_time ,m.dately_dataflow_per_person AS flow , m.date \n" +
             "from app_market_date m ,app_info a where m.app=a.id AND  m.category=#{category} AND m.date BETWEEN #{month1} AND #{month2} ORDER BY m.date")
     List<Map<String, Object>> getMarketByDate(@Param("category") int category, @Param("month1")String month1,@Param("month2")String month2);
 }

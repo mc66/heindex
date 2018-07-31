@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * 默认展示时获取查询时间通用方法
+ * @author shihao
+ * Created on 2018/7/30
+ */
 @RestController
 @CrossOrigin
 public class AppMarketGeneralController extends ZRestController {
