@@ -72,7 +72,6 @@ public class UserTrendsController extends ZRestController{
     @RequestMapping(value = "/queryPenetration",method = RequestMethod.GET)
     public ResponseMessage queryPenetration(@RequestParam int app, @RequestParam String month1,@RequestParam String month2,@RequestParam String status) {
         List<Map<String, Object>> queryPenetration = userTrendsService.queryPenetrationList(app, month1, month2, status);
-        ;
         ResponseMessage responseMessage = this.genResponseMessage();
         if (queryPenetration != null && queryPenetration.size() > 0) {
             responseMessage.set("penetration", queryPenetration);
