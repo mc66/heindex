@@ -83,15 +83,15 @@ public class UserActiveServiceImpl implements UserActiveService {
     }
 
     @Override
-    public List<Map<String, Object>> queryActivityList(String month1, int app, String month2, String state) {
-        if(state.equals("month")){
+    public List<Map<String, Object>> queryActivityList(String month1, int app, String month2, String status) {
+        if(status.equals("month")){
             if(month1.equals("null")){
                 int month = Integer.parseInt(month2);
                 month=month-100;
                 month1=Integer.toString(month);
             }
             return   userActiveDao.queryActivityMonthList(app,month1,month2);
-        }else if(state.equals("week")){
+        }else if(status.equals("week")){
             return   userActiveDao.queryActivityWeekList(app,month1,month2);
         } else {
             return   userActiveDao.queryActivityDayList(app,month1,month2);
