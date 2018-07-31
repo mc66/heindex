@@ -1,7 +1,5 @@
 package com.cmri.um.he.index.common;
 
-import com.alibaba.druid.sql.visitor.functions.Char;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,6 +19,7 @@ public class DefaultTime {
      * @param i
      * @return
      */
+
     public static Map<String,String> getDefaultTime(String findTime,int i){
         HashMap<String, String> map = new HashMap<>(2);
         Calendar cal = Calendar.getInstance();
