@@ -21,7 +21,7 @@ public interface MarketUserRetentiveMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT amw.`week`AS month,amw.`next_month_retention_num`AS retentionNum FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT amw.`week`AS MONTH,amw.`next_week_retention_num`AS retentionNum FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
     List<Map<String, Object>> weekUserRetentiveNum(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime") String endTime);
 
     /**
@@ -41,7 +41,7 @@ public interface MarketUserRetentiveMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT amd.`date`AS month,amd.`next_month_retention_num`AS retentionNum FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT amd.`date`AS month,amd.`next_date_retention_num`AS retentionNum FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
     List<Map<String, Object>> dayUserRetentiveNum(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime") String endTime);
 
     /**
@@ -60,7 +60,7 @@ public interface MarketUserRetentiveMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT amw.`week`AS month,amw.`next_month_retention_num`AS retentionNum,amw.`active_next_month_retention_rate`AS retentionRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT amw.`week`AS month,amw.`next_week_retention_num`AS retentionNum,amw.`active_next_week_retention_rate`AS retentionRate  FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
     List<Map<String, Object>> weekUserRetentiveTable(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime") String endTime);
 
     /**
@@ -80,7 +80,7 @@ public interface MarketUserRetentiveMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT amd.`date`AS month,amd.`next_month_retention_num`AS retentionNum,amd.`active_next_month_retention_rate`AS retentionRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT amd.`date`AS month,amd.`next_date_retention_num`AS retentionNum,amd.`active_next_date_retention_rate`AS retentionRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
     List<Map<String, Object>> dayUserRetentiveTable(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime") String endTime);
 
 
@@ -119,7 +119,7 @@ public interface MarketUserRetentiveMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT amw.`weeky_active` FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime} ORDER BY amw.`week` DESC")
+    @Select("SELECT amw.`weekly_active` FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime} ORDER BY amw.`week` DESC")
     List<Double> weekUserActiveList(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime")String endTime);
     /**
      * 查询月的活跃用户数
