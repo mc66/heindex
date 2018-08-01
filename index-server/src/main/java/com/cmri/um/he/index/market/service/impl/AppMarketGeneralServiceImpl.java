@@ -112,7 +112,7 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
                 }
                 map.put("rate",list);
                 String[] st={"时间","活跃用户数(万)","第2月","第3月","第4月","第5月","第6月","第7月","第8月","第9月"};
-                map.put("month",listmonth);
+                map.put("time",listmonth);
                 map.put("num",listmau);
                 map.put("title",st);
                 lists.add(map);
