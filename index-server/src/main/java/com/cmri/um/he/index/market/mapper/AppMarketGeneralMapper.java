@@ -170,7 +170,7 @@ public interface AppMarketGeneralMapper {
      * @param month2
      * @return
      */
-    @Select(" SELECT am.total_user,am.`month` FROM app_market am WHERE am.app=#{app} and am.`week` BETWEEN #{month1} and #{month2} ")
+    @Select(" SELECT am.total_user,am.`month` FROM app_market am WHERE am.app=#{app} and am.`month` BETWEEN #{month1} and #{month2} ")
     List<Map<String,Object>> getCumulativeListByMonth(@Param("app") int app,@Param("month1") String month1,@Param("month2") String month2);
 
     /**
