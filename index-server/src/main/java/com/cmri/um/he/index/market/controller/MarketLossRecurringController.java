@@ -23,7 +23,7 @@ public class MarketLossRecurringController extends ZRestController{
     MarketLossRecurringService marketLossRecurringService;
 
     /**
-     * 查询月流失回流市场指数指数
+     * 查询月流失回流市场指数
      * @param app
      * @param month
      * @return
