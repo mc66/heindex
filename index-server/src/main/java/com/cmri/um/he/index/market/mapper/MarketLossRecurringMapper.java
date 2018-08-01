@@ -21,7 +21,7 @@ public interface MarketLossRecurringMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT amw.`week`,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT amw.`week`AS month,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
     List<Map<String, Object>> weekUserActive(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
 
     /**
@@ -41,7 +41,7 @@ public interface MarketLossRecurringMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT amd.`date`,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT amd.`date`AS month,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
     List<Map<String, Object>> dayUserActive(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
 
     /**
@@ -60,7 +60,7 @@ public interface MarketLossRecurringMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT amw.`week`,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT amw.`week`AS month,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
     List<Map<String, Object>> weekUserRecurring(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
 
     /**
@@ -80,7 +80,7 @@ public interface MarketLossRecurringMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT amd.`date`,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT amd.`date`AS month,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
     List<Map<String, Object>> dayUserRecurring(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
 
     /**
@@ -90,7 +90,7 @@ public interface MarketLossRecurringMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT amw.`week`,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT amw.`week`AS month,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
     List<Map<String, Object>> weekStatisticalTable(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
 
     /**
@@ -110,7 +110,7 @@ public interface MarketLossRecurringMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT amd.`date`,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT amd.`date`AS month,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
     List<Map<String, Object>> dayStatisticalTable(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
 
 }

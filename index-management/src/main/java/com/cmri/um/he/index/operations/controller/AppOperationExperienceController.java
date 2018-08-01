@@ -30,7 +30,6 @@ public class AppOperationExperienceController extends ZRestController {
     @RequestMapping(value = "/operations-experience",method = RequestMethod.POST)
     public ResponseMessage disposeOperationExperience(@RequestBody Map<String,List<AppCalculationOperationsEntity>> map){
         List<AppCalculationOperationsEntity> list = map.get("data");
-        ResponseMessage responseMessage = this.genResponseMessage();
         for (AppCalculationOperationsEntity appCalculationOperationsEntity : list) {
             AppCalculationOperationsEntity acoe=appOperationExperienceService.find(appCalculationOperationsEntity);
             if (acoe!=null){
@@ -39,6 +38,7 @@ public class AppOperationExperienceController extends ZRestController {
                 appOperationExperienceService.add(appCalculationOperationsEntity);
             }
         }
+        ResponseMessage responseMessage = this.genResponseMessage();
         return responseMessage;
     }
 
