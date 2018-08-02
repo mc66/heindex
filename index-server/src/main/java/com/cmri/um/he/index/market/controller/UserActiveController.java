@@ -41,14 +41,14 @@ public class UserActiveController extends ZRestController {
     /**
      *  查询用户活跃情况
      * @param app
-     * @param month1
-     * @param month2
+     * @param startTime
+     * @param endTime
      * @param status
      * @return
      */
     @RequestMapping(value = "/queryActivity",method = RequestMethod.GET)
-    public ResponseMessage queryActivity(@RequestParam int app, @RequestParam String month1, @RequestParam String month2,@RequestParam String status){
-        List<Map<String, Object>> queryActivity = userActiveService.queryActivityList(month1,app,month2,status);
+    public ResponseMessage queryActivity(@RequestParam int app, @RequestParam String startTime, @RequestParam String endTime,@RequestParam String status){
+        List<Map<String, Object>> queryActivity = userActiveService.queryActivityList(startTime,app,endTime,status);
         ResponseMessage responseMessage = this.genResponseMessage();
         if (queryActivity!=null&&queryActivity.size()>0){
             responseMessage.set("activity",queryActivity);
@@ -61,14 +61,14 @@ public class UserActiveController extends ZRestController {
     /**
      *   查询用户使用天数
      * @param app
-     * @param month1
-     * @param month2
+     * @param startTime
+     * @param endTime
      * @param status
      * @return
      */
     @RequestMapping(value = "/queryNumberDay",method = RequestMethod.GET)
-    public ResponseMessage queryNumberDay(@RequestParam int app, @RequestParam String month1, @RequestParam String month2,@RequestParam String status){
-        List<Map<String, Object>> queryNumberDay = userActiveService.queryNumberDayList(month1,app,month2,status);
+    public ResponseMessage queryNumberDay(@RequestParam int app, @RequestParam String startTime, @RequestParam String endTime,@RequestParam String status){
+        List<Map<String, Object>> queryNumberDay = userActiveService.queryNumberDayList(startTime,app,endTime,status);
         ResponseMessage responseMessage = this.genResponseMessage();
         if (queryNumberDay!=null&&queryNumberDay.size()>0){
             responseMessage.set("numberday",queryNumberDay);
@@ -81,14 +81,14 @@ public class UserActiveController extends ZRestController {
     /**
      *  查询使用行为
      * @param app
-     * @param month1
-     * @param month2
+     * @param startTime
+     * @param endTime
      * @param status
      * @return
      */
     @RequestMapping(value = "/queryBehavior",method = RequestMethod.GET)
-    public ResponseMessage queryBehavior(@RequestParam int app, @RequestParam String month1, @RequestParam String month2,@RequestParam String status){
-        List<Map<String, Object>> queryBehavior = userActiveService.queryBehaviorList(month1,app,month2,status);
+    public ResponseMessage queryBehavior(@RequestParam int app, @RequestParam String startTime, @RequestParam String endTime,@RequestParam String status){
+        List<Map<String, Object>> queryBehavior = userActiveService.queryBehaviorList(startTime,app,endTime,status);
         ResponseMessage responseMessage = this.genResponseMessage();
         if (queryBehavior!=null&&queryBehavior.size()>0){
             responseMessage.set("behavior",queryBehavior);
@@ -101,14 +101,14 @@ public class UserActiveController extends ZRestController {
     /**
      *  查询用户活跃统计表
      * @param app
-     * @param month1
-     * @param month2
+     * @param startTime
+     * @param endTime
      * @param status
      * @return
      */
     @RequestMapping(value = "/queryStatistical",method = RequestMethod.GET)
-    public ResponseMessage queryStatistical(@RequestParam int app, @RequestParam String month1, @RequestParam String month2,@RequestParam String status){
-        List<Map<String, Object>> queryStatistical = userActiveService.queryStatisticalList(month1,app,month2,status);
+    public ResponseMessage queryStatistical(@RequestParam int app, @RequestParam String startTime, @RequestParam String endTime,@RequestParam String status){
+        List<Map<String, Object>> queryStatistical = userActiveService.queryStatisticalList(startTime,app,endTime,status);
         ResponseMessage responseMessage = this.genResponseMessage();
         if (queryStatistical!=null&&queryStatistical.size()>0){
             responseMessage.set("behavior",queryStatistical);
