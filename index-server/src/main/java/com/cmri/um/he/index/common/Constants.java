@@ -39,5 +39,13 @@ public class Constants {
      */
     public static int STATUS_DECLINE = 0 ;
 
+    /**
+     * 月份字符串拼接-前
+     */
+    public static int MONTH_JOINT_FRONT = 0 ;
+    /**
+     * 月份字符串拼接-后
+     */
+    public static int MONTH_JOINT_REAR = 4 ;
 
 }

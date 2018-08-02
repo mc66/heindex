@@ -42,11 +42,9 @@ public class AppMarketServiceImpl implements AppMarketService {
     public List<Map<String, Object>> getMarket(int category, String month1, String month2,String status) {
         if (status.equals("month")) {
             if (month1.equals("null")) {
-                String st1 = month2.substring(0,4);
-                String st2 = month2.substring(4);
-                String months = st1 + "-" + st2;
+
                 try {
-                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, months);
+                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, month2);
                     return appMarketDao.getMarketByMonth(category, defaultTime, month2);
                 } catch (Exception e) {
                     e.printStackTrace();
