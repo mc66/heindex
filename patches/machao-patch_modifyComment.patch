@@ -1,1780 +1,1929 @@
-diff --git a/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppOperationExperienceController.java b/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppOperationExperienceController.java
-index 0fe6c94..3e474f4 100644
---- a/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppOperationExperienceController.java
-+++ b/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppOperationExperienceController.java
-@@ -30,7 +30,6 @@ public class AppOperationExperienceController extends ZRestController {
-     @RequestMapping(value = "/operations-experience",method = RequestMethod.POST)
-     public ResponseMessage disposeOperationExperience(@RequestBody Map<String,List<AppCalculationOperationsEntity>> map){
-         List<AppCalculationOperationsEntity> list = map.get("data");
--        ResponseMessage responseMessage = this.genResponseMessage();
-         for (AppCalculationOperationsEntity appCalculationOperationsEntity : list) {
-             AppCalculationOperationsEntity acoe=appOperationExperienceService.find(appCalculationOperationsEntity);
-             if (acoe!=null){
-@@ -39,6 +38,7 @@ public class AppOperationExperienceController extends ZRestController {
-                 appOperationExperienceService.add(appCalculationOperationsEntity);
-             }
-         }
-+        ResponseMessage responseMessage = this.genResponseMessage();
+diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/controller/MarketLossRecurringController.java b/index-server/src/main/java/com/cmri/um/he/index/market/controller/MarketLossRecurringController.java
+index 508190a..38c5eb6 100644
+--- a/index-server/src/main/java/com/cmri/um/he/index/market/controller/MarketLossRecurringController.java
++++ b/index-server/src/main/java/com/cmri/um/he/index/market/controller/MarketLossRecurringController.java
+@@ -32,7 +32,12 @@ public class MarketLossRecurringController extends ZRestController{
+     public ResponseMessage quaryLossRecurringExponent(@RequestParam Integer app , @RequestParam String month){
+         Map<String, Object> map=marketLossRecurringService.quaryLossRecurringExponent(app,month);
+         ResponseMessage responseMessage = this.genResponseMessage();
+-        responseMessage.set("map",map);
++        if (map!=null&&map.size()>0){
++            responseMessage.set("map",map);
++        }else {
++            responseMessage.setMsg("此月没有数据！！！");
++            responseMessage.set("map",map);
++        }
          return responseMessage;
      }
  
-diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/controller/MarketLossRecurringController.java b/index-server/src/main/java/com/cmri/um/he/index/market/controller/MarketLossRecurringController.java
-index d359e55..508190a 100644
---- a/index-server/src/main/java/com/cmri/um/he/index/market/controller/MarketLossRecurringController.java
-+++ b/index-server/src/main/java/com/cmri/um/he/index/market/controller/MarketLossRecurringController.java
-@@ -23,7 +23,7 @@ public class MarketLossRecurringController extends ZRestController{
-     MarketLossRecurringService marketLossRecurringService;
- 
-     /**
--     * 查询月流失回流市场指数指数
-+     * 查询月流失回流市场指数
-      * @param app
-      * @param month
-      * @return
-diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/mapper/MarketLossRecurringMapper.java b/index-server/src/main/java/com/cmri/um/he/index/market/mapper/MarketLossRecurringMapper.java
-index 9f07d3e..bc09d1f 100644
---- a/index-server/src/main/java/com/cmri/um/he/index/market/mapper/MarketLossRecurringMapper.java
-+++ b/index-server/src/main/java/com/cmri/um/he/index/market/mapper/MarketLossRecurringMapper.java
-@@ -21,7 +21,7 @@ public interface MarketLossRecurringMapper {
-      * @param endTime
-      * @return
-      */
--    @Select("SELECT amw.`week`,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
-+    @Select("SELECT amw.`week`AS month,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
-     List<Map<String, Object>> weekUserActive(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
- 
-     /**
-@@ -41,7 +41,7 @@ public interface MarketLossRecurringMapper {
-      * @param endTime
-      * @return
-      */
--    @Select("SELECT amd.`date`,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
-+    @Select("SELECT amd.`date`AS month,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
-     List<Map<String, Object>> dayUserActive(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
- 
-     /**
-@@ -60,7 +60,7 @@ public interface MarketLossRecurringMapper {
-      * @param endTime
-      * @return
-      */
--    @Select("SELECT amw.`week`,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
-+    @Select("SELECT amw.`week`AS month,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
-     List<Map<String, Object>> weekUserRecurring(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
- 
-     /**
-@@ -80,7 +80,7 @@ public interface MarketLossRecurringMapper {
-      * @param endTime
-      * @return
-      */
--    @Select("SELECT amd.`date`,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
-+    @Select("SELECT amd.`date`AS month,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
-     List<Map<String, Object>> dayUserRecurring(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
- 
-     /**
-@@ -90,7 +90,7 @@ public interface MarketLossRecurringMapper {
-      * @param endTime
-      * @return
-      */
--    @Select("SELECT amw.`week`,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
-+    @Select("SELECT amw.`week`AS month,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
-     List<Map<String, Object>> weekStatisticalTable(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
- 
-     /**
-@@ -110,7 +110,7 @@ public interface MarketLossRecurringMapper {
-      * @param endTime
-      * @return
-      */
--    @Select("SELECT amd.`date`,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
-+    @Select("SELECT amd.`date`AS month,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
-     List<Map<String, Object>> dayStatisticalTable(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
- 
+diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java b/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java
+index b6ac2fe..cf39e25 100644
+--- a/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java
++++ b/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java
+@@ -107,26 +107,36 @@ public class MarketLossRecurringServiceImpl implements MarketLossRecurringServic
+         String contrastMonth =Integer.toString(startTimes);
+         Map<String, Object> map = marketLossRecurringDao.quaryLossRecurringExponent(app,month);
+         Map<String, Object>  map1 = marketLossRecurringDao.quaryLossRecurringExponent(app,contrastMonth);
+-        if ((double)map.get("lossNum")>(double)map1.get("lossNum")){
++        if (map==null||map.size()==0){
++            return map;
++        }else if (map1==null&&map1.size()==0){
+             map.put("lossNumStatus",Constants.STATUS_RISE);
+-        }else {
+-            map.put("lossNumStatus",Constants.STATUS_DECLINE);
+-        }
+-        if ((double)map.get("lossRate")>(double)map1.get("lossRate")){
+             map.put("lossRateStatus",Constants.STATUS_RISE);
+-        }else {
+-            map.put("lossRateStatus",Constants.STATUS_DECLINE);
+-        }
+-        if ((double)map.get("recurringNum")>(double)map1.get("recurringNum")){
+             map.put("recurringNumStatus",Constants.STATUS_RISE);
+-        }else {
+-            map.put("recurringNumStatus",Constants.STATUS_DECLINE);
+-        }
+-        if ((double)map.get("recurringRate")>(double)map1.get("recurringRate")){
+             map.put("recurringRateStatus",Constants.STATUS_RISE);
+-        }else {
+-            map.put("recurringRateStatus",Constants.STATUS_DECLINE);
++            return map;
++        } else {
++            if ((double) map.get("lossNum") > (double) map1.get("lossNum")) {
++                map.put("lossNumStatus", Constants.STATUS_RISE);
++            } else {
++                map.put("lossNumStatus", Constants.STATUS_DECLINE);
++            }
++            if ((double) map.get("lossRate") > (double) map1.get("lossRate")) {
++                map.put("lossRateStatus", Constants.STATUS_RISE);
++            } else {
++                map.put("lossRateStatus", Constants.STATUS_DECLINE);
++            }
++            if ((double) map.get("recurringNum") > (double) map1.get("recurringNum")) {
++                map.put("recurringNumStatus", Constants.STATUS_RISE);
++            } else {
++                map.put("recurringNumStatus", Constants.STATUS_DECLINE);
++            }
++            if ((double) map.get("recurringRate") > (double) map1.get("recurringRate")) {
++                map.put("recurringRateStatus", Constants.STATUS_RISE);
++            } else {
++                map.put("recurringRateStatus", Constants.STATUS_DECLINE);
++            }
++            return map;
+         }
+-        return map;
+     }
  }
 diff --git a/patches/machao-patch_modifyComment.patch b/patches/machao-patch_modifyComment.patch
-index 129c61e..4cf0578 100644
+index 238b506..ac3efab 100644
 --- a/patches/machao-patch_modifyComment.patch
 +++ b/patches/machao-patch_modifyComment.patch
-@@ -1,1684 +0,0 @@
--diff --git a/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java b/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java
--index 367eeb1..76e6587 100644
----- a/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java
--+++ b/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java
--@@ -9,9 +9,29 @@ import org.springframework.stereotype.Repository;
--  */
-- public class Constants {
+@@ -1,1849 +0,0 @@
+-diff --git a/index-server/src/main/conf/application.properties b/index-server/src/main/conf/application.properties
+-index 250ea23..a6d500e 100644
+---- a/index-server/src/main/conf/application.properties
+-+++ b/index-server/src/main/conf/application.properties
+-@@ -36,8 +36,8 @@ spring.redis.lettuce.pool.max-idle=8
+- spring.redis.lettuce.pool.min-idle=1
+- #----------------------------------------
+- ## mysql 配置
+--spring.datasource.url=jdbc:mysql://223.105.1.80:1128/heindex_test?useUnicode=true&zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8&allowMasterDownConnections=true&allowSlaveDownConnections=true&readFromMasterWhenNoSlaves=true&loadBalanceBlacklistTimeout=300000&retriesAllDown=1
+--#spring.datasource.url=jdbc:mysql://10.1.0.5:1128/heindex_test?useUnicode=true&zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8&allowMasterDownConnections=true&allowSlaveDownConnections=true&readFromMasterWhenNoSlaves=true&loadBalanceBlacklistTimeout=300000&retriesAllDown=1
+-+#spring.datasource.url=jdbc:mysql://223.105.1.80:1128/heindex_test?useUnicode=true&zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8&allowMasterDownConnections=true&allowSlaveDownConnections=true&readFromMasterWhenNoSlaves=true&loadBalanceBlacklistTimeout=300000&retriesAllDown=1
+-+spring.datasource.url=jdbc:mysql://10.1.0.5:1128/heindex_test?useUnicode=true&zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8&allowMasterDownConnections=true&allowSlaveDownConnections=true&readFromMasterWhenNoSlaves=true&loadBalanceBlacklistTimeout=300000&retriesAllDown=1
+- spring.datasource.username=heindex
+- spring.datasource.password=CMCC@heindex2018
+- spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+-diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/mapper/MarketUserRetentiveMapper.java b/index-server/src/main/java/com/cmri/um/he/index/market/mapper/MarketUserRetentiveMapper.java
+-index e270dea..582cfc2 100644
+---- a/index-server/src/main/java/com/cmri/um/he/index/market/mapper/MarketUserRetentiveMapper.java
+-+++ b/index-server/src/main/java/com/cmri/um/he/index/market/mapper/MarketUserRetentiveMapper.java
+-@@ -21,7 +21,7 @@ public interface MarketUserRetentiveMapper {
+-      * @param endTime
+-      * @return
+-      */
+--    @Select("SELECT amw.`week`AS month,amw.`next_month_retention_num`AS retentionNum FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+-+    @Select("SELECT amw.`week`AS MONTH,amw.`next_week_retention_num`AS retentionNum FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+-     List<Map<String, Object>> weekUserRetentiveNum(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime") String endTime);
+- 
 -     /**
---     * 默认当前月份时，自定义起始时间
--+     * 默认展示半年，（月份减5）
+-@@ -41,7 +41,7 @@ public interface MarketUserRetentiveMapper {
+-      * @param endTime
+-      * @return
 -      */
---    public static int DEFAULT_MONTH = 11;
--+    public static int DEFAULT_MONTH = 5;
--+    /**
--+     * 默认展示一年（年份减1）
--+     */
--+    public static int DEFAULT_YEAR = 1 ;
--+    /**
--+     * 默认对比上月（月份减1）
--+     */
--+    public static int CONTRAST_MONTH = 1 ;
--+    /**
--+     * 按月截取时间
--+     */
--+    public static String MONTH = "month";
--+    /**
--+     * 按年截取时间
--+     */
--+    public static String YEAR = "year";
--+    /**
--+     * 按周截取时间
--+     */
--+    public static String WEEK = "week";
+--    @Select("SELECT amd.`date`AS month,amd.`next_month_retention_num`AS retentionNum FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+-+    @Select("SELECT amd.`date`AS month,amd.`next_date_retention_num`AS retentionNum FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+-     List<Map<String, Object>> dayUserRetentiveNum(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime") String endTime);
+- 
 -     /**
--      * 对比上升标识
+-@@ -60,7 +60,7 @@ public interface MarketUserRetentiveMapper {
+-      * @param endTime
+-      * @return
 -      */
--@@ -20,9 +40,6 @@ public class Constants {
--      * 对比下降标识
--      */
--     public static int STATUS_DECLINE = 0 ;
---    /**
---     * 对比月份（对比上月/减1）
---     */
---    public static int CONTRAST_MONTH = 1 ;
--+
+--    @Select("SELECT amw.`week`AS month,amw.`next_month_retention_num`AS retentionNum,amw.`active_next_month_retention_rate`AS retentionRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+-+    @Select("SELECT amw.`week`AS month,amw.`next_week_retention_num`AS retentionNum,amw.`active_next_week_retention_rate`AS retentionRate  FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+-     List<Map<String, Object>> weekUserRetentiveTable(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime") String endTime);
 - 
-- }
--diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java b/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java
--index 454debe..b6ac2fe 100644
----- a/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java
--+++ b/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java
--@@ -1,15 +1,21 @@
-- package com.cmri.um.he.index.market.service.impl;
-- 
-- import com.cmri.um.he.index.common.Constants;
--+import com.cmri.um.he.index.common.DefaultTime;
-- import com.cmri.um.he.index.market.dao.MarketLossRecurringDao;
---import com.cmri.um.he.index.market.mapper.MarketLossRecurringMapper;
-- import com.cmri.um.he.index.market.service.MarketLossRecurringService;
-- import org.springframework.beans.factory.annotation.Autowired;
-- import org.springframework.stereotype.Service;
-- 
--+
-- import java.util.List;
-- import java.util.Map;
-- 
--+/**
--+ * 市场指数的流失与回流页面
--+ * @author machao
--+ * Created on 2018/7/27
--+ */
-- @Service
-- public class MarketLossRecurringServiceImpl implements MarketLossRecurringService{
--     @Autowired
--@@ -25,13 +31,13 @@ public class MarketLossRecurringServiceImpl implements MarketLossRecurringServic
+-     /**
+-@@ -80,7 +80,7 @@ public interface MarketUserRetentiveMapper {
+-      * @param endTime
+-      * @return
 -      */
--     @Override
--     public List<Map<String, Object>> quaryStatisticalTable(String status, Integer app, String startTime, String endTime) {
---        if (status.equals("week")){
--+        if ("week".equals(status)){
--             return marketLossRecurringDao.weekStatisticalTable(app,startTime,endTime);
---        }else if (status.equals("month")){
---            if(startTime==null){
---                int startTimes= Integer.parseInt(endTime);
---                startTimes=startTimes-Constants.DEFAULT_MONTH;
---                startTime=Integer.toString(startTimes);
--+        }else if ("month".equals(status)){
--+            if("null".equals(startTime) || "null".equals(endTime)){
--+                Map<String, String> defaultTime = DefaultTime.getDefaultTime(Constants.YEAR, Constants.DEFAULT_YEAR);
--+                startTime= defaultTime.get("startTime");
--+                endTime=defaultTime.get("endTime");
--             }
--             return marketLossRecurringDao.monthStatisticalTable(app,startTime,endTime);
--         }else {
--@@ -50,13 +56,13 @@ public class MarketLossRecurringServiceImpl implements MarketLossRecurringServic
+--    @Select("SELECT amd.`date`AS month,amd.`next_month_retention_num`AS retentionNum,amd.`active_next_month_retention_rate`AS retentionRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+-+    @Select("SELECT amd.`date`AS month,amd.`next_date_retention_num`AS retentionNum,amd.`active_next_date_retention_rate`AS retentionRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+-     List<Map<String, Object>> dayUserRetentiveTable(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime") String endTime);
+- 
+- 
+-@@ -119,7 +119,7 @@ public interface MarketUserRetentiveMapper {
+-      * @param endTime
+-      * @return
 -      */
--     @Override
--     public List<Map<String, Object>> quaryUserRecurring(String status, Integer app, String startTime, String endTime) {
---        if (status.equals("week")){
--+        if ("week".equals(status)){
--             return marketLossRecurringDao.weekUserRecurring(app,startTime,endTime);
---        }else if (status.equals("month")){
---            if(startTime==null){
---                int startTimes= Integer.parseInt(endTime);
---                startTimes=startTimes-Constants.DEFAULT_MONTH;
---                startTime=Integer.toString(startTimes);
--+        }else if ("month".equals(status)){
--+            if("null".equals(startTime) || "null".equals(endTime)){
--+                Map<String, String> defaultTime = DefaultTime.getDefaultTime(Constants.YEAR, Constants.DEFAULT_YEAR);
--+                startTime= defaultTime.get("startTime");
--+                endTime=defaultTime.get("endTime");
--             }
--             return marketLossRecurringDao.monthUserRecurring(app,startTime,endTime);
--         }else {
--@@ -74,13 +80,13 @@ public class MarketLossRecurringServiceImpl implements MarketLossRecurringServic
--      */
--     @Override
--     public List<Map<String, Object>> quaryUserLoss(String status, Integer app, String startTime, String endTime) {
---        if (status.equals("week")){
--+        if ("week".equals(status)){
--             return marketLossRecurringDao.weekUserActive(app,startTime,endTime);
---        }else if (status.equals("month")){
---            if(startTime==null){
---                int startTimes= Integer.parseInt(endTime);
---                startTimes=startTimes-Constants.DEFAULT_MONTH;
---                startTime=Integer.toString(startTimes);
--+        }else if ("month".equals(status)){
--+            if("null".equals(startTime) || "null".equals(endTime)){
--+                Map<String, String> defaultTime = DefaultTime.getDefaultTime(Constants.YEAR, Constants.DEFAULT_YEAR);
--+                startTime= defaultTime.get("startTime");
--+                endTime=defaultTime.get("endTime");
--             }
--             return marketLossRecurringDao.monthUserActive(app,startTime,endTime);
--         }else {
--@@ -102,24 +108,24 @@ public class MarketLossRecurringServiceImpl implements MarketLossRecurringServic
--         Map<String, Object> map = marketLossRecurringDao.quaryLossRecurringExponent(app,month);
--         Map<String, Object>  map1 = marketLossRecurringDao.quaryLossRecurringExponent(app,contrastMonth);
--         if ((double)map.get("lossNum")>(double)map1.get("lossNum")){
---            map.put("lossNum-status",Constants.STATUS_RISE);
--+            map.put("lossNumStatus",Constants.STATUS_RISE);
--         }else {
---            map.put("lossNum-status",Constants.STATUS_DECLINE);
--+            map.put("lossNumStatus",Constants.STATUS_DECLINE);
--         }
--         if ((double)map.get("lossRate")>(double)map1.get("lossRate")){
---            map.put("lossRate-status",Constants.STATUS_RISE);
--+            map.put("lossRateStatus",Constants.STATUS_RISE);
--         }else {
---            map.put("lossRate-status",Constants.STATUS_DECLINE);
--+            map.put("lossRateStatus",Constants.STATUS_DECLINE);
--         }
--         if ((double)map.get("recurringNum")>(double)map1.get("recurringNum")){
---            map.put("recurringNum-status",Constants.STATUS_RISE);
--+            map.put("recurringNumStatus",Constants.STATUS_RISE);
--         }else {
---            map.put("recurringNum-status",Constants.STATUS_DECLINE);
--+            map.put("recurringNumStatus",Constants.STATUS_DECLINE);
--         }
--         if ((double)map.get("recurringRate")>(double)map1.get("recurringRate")){
---            map.put("recurringRate-status",Constants.STATUS_RISE);
--+            map.put("recurringRateStatus",Constants.STATUS_RISE);
--         }else {
---            map.put("recurringRate-status",Constants.STATUS_DECLINE);
--+            map.put("recurringRateStatus",Constants.STATUS_DECLINE);
--         }
--         return map;
--     }
+--    @Select("SELECT amw.`weeky_active` FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime} ORDER BY amw.`week` DESC")
+-+    @Select("SELECT amw.`weekly_active` FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime} ORDER BY amw.`week` DESC")
+-     List<Double> weekUserActiveList(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime")String endTime);
+-     /**
+-      * 查询月的活跃用户数
 -diff --git a/patches/machao-patch_modifyComment.patch b/patches/machao-patch_modifyComment.patch
--index a587c67..3660eaf 100644
+-index 35dcd30..290880a 100644
 ---- a/patches/machao-patch_modifyComment.patch
 -+++ b/patches/machao-patch_modifyComment.patch
--@@ -1,1512 +0,0 @@
---diff --git a/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java b/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java
---index 3228e29..367eeb1 100644
------ a/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java
---+++ b/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java
---@@ -8,6 +8,21 @@ import org.springframework.stereotype.Repository;
---  * Created on 2018/7/27
---  */
--- public class Constants {
---+    /**
---+     * 默认当前月份时，自定义起始时间
---+     */
---+    public static int DEFAULT_MONTH = 11;
---+    /**
---+     * 对比上升标识
---+     */
---+    public static int STATUS_RISE = 1 ;
---+    /**
---+     * 对比下降标识
---+     */
---+    public static int STATUS_DECLINE = 0 ;
---+    /**
---+     * 对比月份（对比上月/减1）
---+     */
---+    public static int CONTRAST_MONTH = 1 ;
+-@@ -1,1780 +0,0 @@
+--diff --git a/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppOperationExperienceController.java b/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppOperationExperienceController.java
+--index 0fe6c94..3e474f4 100644
+----- a/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppOperationExperienceController.java
+--+++ b/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppOperationExperienceController.java
+--@@ -30,7 +30,6 @@ public class AppOperationExperienceController extends ZRestController {
+--     @RequestMapping(value = "/operations-experience",method = RequestMethod.POST)
+--     public ResponseMessage disposeOperationExperience(@RequestBody Map<String,List<AppCalculationOperationsEntity>> map){
+--         List<AppCalculationOperationsEntity> list = map.get("data");
+---        ResponseMessage responseMessage = this.genResponseMessage();
+--         for (AppCalculationOperationsEntity appCalculationOperationsEntity : list) {
+--             AppCalculationOperationsEntity acoe=appOperationExperienceService.find(appCalculationOperationsEntity);
+--             if (acoe!=null){
+--@@ -39,6 +38,7 @@ public class AppOperationExperienceController extends ZRestController {
+--                 appOperationExperienceService.add(appCalculationOperationsEntity);
+--             }
+--         }
+--+        ResponseMessage responseMessage = this.genResponseMessage();
+--         return responseMessage;
+--     }
 -- 
----    public static int default_month = 12;
--- }
 --diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/controller/MarketLossRecurringController.java b/index-server/src/main/java/com/cmri/um/he/index/market/controller/MarketLossRecurringController.java
---new file mode 100644
---index 0000000..d359e55
------ /dev/null
+--index d359e55..508190a 100644
+----- a/index-server/src/main/java/com/cmri/um/he/index/market/controller/MarketLossRecurringController.java
 --+++ b/index-server/src/main/java/com/cmri/um/he/index/market/controller/MarketLossRecurringController.java
---@@ -0,0 +1,87 @@
---+package com.cmri.um.he.index.market.controller;
---+
---+import com.cmri.spring.common.controller.ZRestController;
---+import com.cmri.spring.common.data.ResponseMessage;
---+import com.cmri.um.he.index.market.service.MarketLossRecurringService;
---+import org.springframework.beans.factory.annotation.Autowired;
---+import org.springframework.web.bind.annotation.*;
---+
---+
---+import java.util.List;
---+import java.util.Map;
---+
---+/**
---+ * 市场指数的流失与回流页面
---+ * @author machao
---+ * Created on 2018/7/27
---+ */
---+@RestController
---+@CrossOrigin
---+public class MarketLossRecurringController extends ZRestController{
---+
---+    @Autowired
---+    MarketLossRecurringService marketLossRecurringService;
---+
---+    /**
---+     * 查询月流失回流市场指数指数
---+     * @param app
---+     * @param month
---+     * @return
---+     */
---+    @RequestMapping(value = "quary-loss-recurring-exponent",method = RequestMethod.GET)
---+    public ResponseMessage quaryLossRecurringExponent(@RequestParam Integer app , @RequestParam String month){
---+        Map<String, Object> map=marketLossRecurringService.quaryLossRecurringExponent(app,month);
---+        ResponseMessage responseMessage = this.genResponseMessage();
---+        responseMessage.set("map",map);
---+        return responseMessage;
---+    }
---+
---+    /**
---+     * 查询用户流失情况
---+     * @param status
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    @RequestMapping(value = "quary-loss-exponent",method = RequestMethod.GET)
---+    public ResponseMessage quaryUserLoss(@RequestParam String status, @RequestParam Integer app , @RequestParam String startTime, @RequestParam String endTime){
---+        List<Map<String , Object>> list=marketLossRecurringService.quaryUserLoss(status,app,startTime,endTime);
---+        ResponseMessage responseMessage = this.genResponseMessage();
---+        responseMessage.set("list",list);
---+        return responseMessage;
---+    }
---+
---+    /**
---+     * 查询用户回流情况
---+     * @param status
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    @RequestMapping(value = "quary-recurring-exponent",method = RequestMethod.GET)
---+    public ResponseMessage quaryUserRecurring(@RequestParam String status, @RequestParam Integer app , @RequestParam String startTime, @RequestParam String endTime){
---+        List<Map<String , Object>> list=marketLossRecurringService.quaryUserRecurring(status,app,startTime,endTime);
---+        ResponseMessage responseMessage = this.genResponseMessage();
---+        responseMessage.set("list",list);
---+        return responseMessage;
---+    }
---+
---+    /**
---+     * 查询用户情况统计表
---+     * @param status
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    @RequestMapping(value = "quary-statistical-table",method = RequestMethod.GET)
---+    public ResponseMessage quaryStatisticalTable(@RequestParam String status, @RequestParam Integer app , @RequestParam String startTime, @RequestParam String endTime){
---+        List<Map<String , Object>> list=marketLossRecurringService.quaryStatisticalTable(status,app,startTime,endTime);
---+        ResponseMessage responseMessage = this.genResponseMessage();
---+        responseMessage.set("list",list);
---+        return responseMessage;
---+    }
---+
---+}
---diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/dao/MarketLossRecurringDao.java b/index-server/src/main/java/com/cmri/um/he/index/market/dao/MarketLossRecurringDao.java
---new file mode 100644
---index 0000000..08844b9
------ /dev/null
---+++ b/index-server/src/main/java/com/cmri/um/he/index/market/dao/MarketLossRecurringDao.java
---@@ -0,0 +1,124 @@
---+package com.cmri.um.he.index.market.dao;
---+
---+import com.cmri.um.he.index.market.mapper.AppMarketMapper;
---+import com.cmri.um.he.index.market.mapper.MarketLossRecurringMapper;
---+import org.springframework.beans.factory.annotation.Autowired;
---+import org.springframework.stereotype.Repository;
---+
---+import java.util.List;
---+import java.util.Map;
---+
---+/**
---+ * 市场指数的流失与回流页面
---+ * @author machao
---+ * Created on 2018/7/27
---+ */
---+@Repository
---+public class MarketLossRecurringDao extends BaseDao{
---+
---+    @Autowired
---+    private MarketLossRecurringMapper marketLossRecurringMapper;
---+
---+    /**
---+     * 查询周的用户流失情况
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    public List<Map<String, Object>> weekUserActive(Integer app, String startTime, String endTime){
---+        return marketLossRecurringMapper.weekUserActive(app, startTime, endTime);
---+    }
---+    /**
---+     * 查询月的用户流失情况
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    public List<Map<String, Object>> monthUserActive(Integer app, String startTime, String endTime){
---+        return marketLossRecurringMapper.monthUserActive(app, startTime, endTime);
---+    }
---+    /**
---+     * 查询日的用户流失情况
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    public List<Map<String, Object>> dayUserActive(Integer app, String startTime, String endTime){
---+        return marketLossRecurringMapper.dayUserActive(app, startTime, endTime);
---+    }
---+
---+    /**
---+     * 查询月流失回流指数
---+     * @param app
---+     * @param month
---+     * @return
---+     */
---+    public Map<String, Object>  quaryLossRecurringExponent(Integer app, String month){
---+        return marketLossRecurringMapper.quaryLossRecurringExponent(app,month);
---+    }
---+
---+    /**
---+     * 查询周的用户回流情况
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    public List<Map<String, Object>> weekUserRecurring(Integer app, String startTime, String endTime){
---+        return marketLossRecurringMapper.weekUserRecurring(app, startTime, endTime);
---+    }
---+    /**
---+     * 查询月的用户回流情况
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    public List<Map<String, Object>> monthUserRecurring(Integer app, String startTime, String endTime){
---+        return marketLossRecurringMapper.monthUserRecurring(app, startTime, endTime);
---+    }
---+    /**
---+     * 查询日的用户回流情况
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    public List<Map<String, Object>> dayUserRecurring(Integer app, String startTime, String endTime){
---+        return marketLossRecurringMapper.dayUserRecurring(app, startTime, endTime);
---+    }
---+
---+    /**
---+     * 查询周的用户情况统计表
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    public List<Map<String, Object>> weekStatisticalTable(Integer app, String startTime, String endTime){
---+        return marketLossRecurringMapper.weekStatisticalTable(app, startTime, endTime);
---+    }
---+    /**
---+     * 查询月的用户情况统计表
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    public List<Map<String, Object>> monthStatisticalTable(Integer app, String startTime, String endTime){
---+        return marketLossRecurringMapper.monthStatisticalTable(app, startTime, endTime);
---+    }
---+    /**
---+     * 查询日的用户情况统计表
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    public List<Map<String, Object>> dayStatisticalTable(Integer app, String startTime, String endTime){
---+        return marketLossRecurringMapper.dayStatisticalTable(app, startTime, endTime);
---+    }
---+}
+--@@ -23,7 +23,7 @@ public class MarketLossRecurringController extends ZRestController{
+--     MarketLossRecurringService marketLossRecurringService;
+-- 
+--     /**
+---     * 查询月流失回流市场指数指数
+--+     * 查询月流失回流市场指数
+--      * @param app
+--      * @param month
+--      * @return
 --diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/mapper/MarketLossRecurringMapper.java b/index-server/src/main/java/com/cmri/um/he/index/market/mapper/MarketLossRecurringMapper.java
---new file mode 100644
---index 0000000..9f07d3e
------ /dev/null
+--index 9f07d3e..bc09d1f 100644
+----- a/index-server/src/main/java/com/cmri/um/he/index/market/mapper/MarketLossRecurringMapper.java
 --+++ b/index-server/src/main/java/com/cmri/um/he/index/market/mapper/MarketLossRecurringMapper.java
---@@ -0,0 +1,116 @@
---+package com.cmri.um.he.index.market.mapper;
---+
---+import org.apache.ibatis.annotations.Mapper;
---+import org.apache.ibatis.annotations.Param;
---+import org.apache.ibatis.annotations.Select;
---+
---+import java.util.List;
---+import java.util.Map;
---+
---+/**
---+ * 市场指数的流失与回流页面
---+ * @author machao
---+ * Created on 2018/7/27
---+ */
---+@Mapper
---+public interface MarketLossRecurringMapper {
---+    /**
---+     * 查询周的用户流失情况
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    @Select("SELECT amw.`week`,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
---+    List<Map<String, Object>> weekUserActive(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
---+
---+    /**
---+     * 查询月的用户流失情况
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    @Select("SELECT am.`month`,am.`next_month_loss_num`AS lossNum,am.`active_next_month_loss_rate`AS lossRate FROM app_market am WHERE am.`app`= #{app} AND am.`month` BETWEEN #{startTime} AND #{endTime}")
---+    List<Map<String, Object>> monthUserActive(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
---+
---+    /**
---+     * 查询日的用户流失情况
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    @Select("SELECT amd.`date`,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
---+    List<Map<String, Object>> dayUserActive(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
---+
---+    /**
---+     * 查询月流失回流指数
---+     * @param app
---+     * @param month
---+     * @return
---+     */
---+    @Select("SELECT am.`next_month_loss_num`AS lossNum,am.`active_next_month_loss_rate`AS lossRate,am.`next_month_recurring_num`AS recurringNum,am.`loss_next_month_recurring_rate`AS recurringRate FROM app_market am WHERE am.`app`=#{app} AND am.`month`=#{month}")
---+    Map<String, Object>  quaryLossRecurringExponent(@Param("app")Integer app, @Param("month")String month);
---+
---+    /**
---+     * 查询周的用户回流情况
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    @Select("SELECT amw.`week`,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
---+    List<Map<String, Object>> weekUserRecurring(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
---+
---+    /**
---+     * 查询月的用户回流情况
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    @Select("SELECT am.`month`,am.`next_month_recurring_num`AS recurringNum,am.`loss_next_month_recurring_rate`AS recurringRate FROM app_market am WHERE am.`app`= #{app} AND am.`month` BETWEEN #{startTime} AND #{endTime}")
---+    List<Map<String, Object>> monthUserRecurring(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
---+
---+    /**
---+     * 查询日的用户回流情况
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    @Select("SELECT amd.`date`,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
---+    List<Map<String, Object>> dayUserRecurring(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
---+
---+    /**
---+     * 查询周的用户情况统计表
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    @Select("SELECT amw.`week`,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
---+    List<Map<String, Object>> weekStatisticalTable(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
---+
---+    /**
---+     * 查询月的用户情况统计表
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    @Select("SELECT am.`month`,am.`next_month_recurring_num`AS recurringNum,am.`loss_next_month_recurring_rate`AS recurringRate,am.`next_month_loss_num`AS lossNum,am.`active_next_month_loss_rate`AS lossRate FROM app_market am WHERE am.`app`= #{app} AND am.`month` BETWEEN #{startTime} AND #{endTime}")
---+    List<Map<String, Object>> monthStatisticalTable(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
---+
---+    /**
---+     * 查询日的用户情况统计表
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    @Select("SELECT amd.`date`,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
---+    List<Map<String, Object>> dayStatisticalTable(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
---+
---+}
---diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/service/MarketLossRecurringService.java b/index-server/src/main/java/com/cmri/um/he/index/market/service/MarketLossRecurringService.java
---new file mode 100644
---index 0000000..8e30130
------ /dev/null
---+++ b/index-server/src/main/java/com/cmri/um/he/index/market/service/MarketLossRecurringService.java
---@@ -0,0 +1,52 @@
---+package com.cmri.um.he.index.market.service;
---+
---+import org.springframework.web.bind.annotation.RequestParam;
---+
---+import java.util.List;
---+import java.util.Map;
---+
---+/**
---+ * 市场指数的流失与回流页面
---+ * @author machao
---+ * Created on 2018/7/27
---+ */
---+public interface MarketLossRecurringService {
---+
---+    /**
---+     * 查询用户流失情况
---+     * @param status
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    List<Map<String , Object>> quaryUserLoss(String status,Integer app ,String startTime,String endTime);
---+
---+    /**
---+     * 查询月流失回流指数
---+     * @param app
---+     * @param month
---+     * @return
---+     */
---+    Map<String, Object> quaryLossRecurringExponent(Integer app ,String month);
---+
---+    /**
---+     * 查询用户回流情况
---+     * @param status
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    List<Map<String , Object>> quaryUserRecurring(String status,Integer app ,String startTime,String endTime);
---+
---+    /**
---+     * 查询用户情况统计表
---+     * @param status
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    List<Map<String , Object>> quaryStatisticalTable(String status,Integer app ,String startTime,String endTime);
---+}
---diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java b/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java
---new file mode 100644
---index 0000000..454debe
------ /dev/null
---+++ b/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java
---@@ -0,0 +1,126 @@
---+package com.cmri.um.he.index.market.service.impl;
---+
---+import com.cmri.um.he.index.common.Constants;
---+import com.cmri.um.he.index.market.dao.MarketLossRecurringDao;
---+import com.cmri.um.he.index.market.mapper.MarketLossRecurringMapper;
---+import com.cmri.um.he.index.market.service.MarketLossRecurringService;
---+import org.springframework.beans.factory.annotation.Autowired;
---+import org.springframework.stereotype.Service;
---+
---+import java.util.List;
---+import java.util.Map;
---+
---+@Service
---+public class MarketLossRecurringServiceImpl implements MarketLossRecurringService{
---+    @Autowired
---+    private MarketLossRecurringDao marketLossRecurringDao;
---+
---+    /**
---+     * 查询用户情况统计表
---+     * @param status
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    @Override
---+    public List<Map<String, Object>> quaryStatisticalTable(String status, Integer app, String startTime, String endTime) {
---+        if (status.equals("week")){
---+            return marketLossRecurringDao.weekStatisticalTable(app,startTime,endTime);
---+        }else if (status.equals("month")){
---+            if(startTime==null){
---+                int startTimes= Integer.parseInt(endTime);
---+                startTimes=startTimes-Constants.DEFAULT_MONTH;
---+                startTime=Integer.toString(startTimes);
---+            }
---+            return marketLossRecurringDao.monthStatisticalTable(app,startTime,endTime);
---+        }else {
---+            return marketLossRecurringDao.dayStatisticalTable(app,startTime,endTime);
---+        }
---+    }
---+
---+
---+    /**
---+     * 查询用户回流情况
---+     * @param status
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    @Override
---+    public List<Map<String, Object>> quaryUserRecurring(String status, Integer app, String startTime, String endTime) {
---+        if (status.equals("week")){
---+            return marketLossRecurringDao.weekUserRecurring(app,startTime,endTime);
---+        }else if (status.equals("month")){
---+            if(startTime==null){
---+                int startTimes= Integer.parseInt(endTime);
---+                startTimes=startTimes-Constants.DEFAULT_MONTH;
---+                startTime=Integer.toString(startTimes);
---+            }
---+            return marketLossRecurringDao.monthUserRecurring(app,startTime,endTime);
---+        }else {
---+            return marketLossRecurringDao.dayUserRecurring(app,startTime,endTime);
---+        }
---+    }
---+
---+    /**
---+     * 查询用户流失情况
---+     * @param status
---+     * @param app
---+     * @param startTime
---+     * @param endTime
---+     * @return
---+     */
---+    @Override
---+    public List<Map<String, Object>> quaryUserLoss(String status, Integer app, String startTime, String endTime) {
---+        if (status.equals("week")){
---+            return marketLossRecurringDao.weekUserActive(app,startTime,endTime);
---+        }else if (status.equals("month")){
---+            if(startTime==null){
---+                int startTimes= Integer.parseInt(endTime);
---+                startTimes=startTimes-Constants.DEFAULT_MONTH;
---+                startTime=Integer.toString(startTimes);
---+            }
---+            return marketLossRecurringDao.monthUserActive(app,startTime,endTime);
---+        }else {
---+            return marketLossRecurringDao.dayUserActive(app,startTime,endTime);
---+        }
---+    }
---+
---+    /**
---+     * 查询月流失回流指数
---+     * @param app
---+     * @param month
---+     * @return
---+     */
---+    @Override
---+    public Map<String, Object> quaryLossRecurringExponent(Integer app, String month) {
---+        int startTimes= Integer.parseInt(month);
---+        startTimes=startTimes-Constants.CONTRAST_MONTH;
---+        String contrastMonth =Integer.toString(startTimes);
---+        Map<String, Object> map = marketLossRecurringDao.quaryLossRecurringExponent(app,month);
---+        Map<String, Object>  map1 = marketLossRecurringDao.quaryLossRecurringExponent(app,contrastMonth);
---+        if ((double)map.get("lossNum")>(double)map1.get("lossNum")){
---+            map.put("lossNum-status",Constants.STATUS_RISE);
---+        }else {
---+            map.put("lossNum-status",Constants.STATUS_DECLINE);
---+        }
---+        if ((double)map.get("lossRate")>(double)map1.get("lossRate")){
---+            map.put("lossRate-status",Constants.STATUS_RISE);
---+        }else {
---+            map.put("lossRate-status",Constants.STATUS_DECLINE);
---+        }
---+        if ((double)map.get("recurringNum")>(double)map1.get("recurringNum")){
---+            map.put("recurringNum-status",Constants.STATUS_RISE);
---+        }else {
---+            map.put("recurringNum-status",Constants.STATUS_DECLINE);
---+        }
---+        if ((double)map.get("recurringRate")>(double)map1.get("recurringRate")){
---+            map.put("recurringRate-status",Constants.STATUS_RISE);
---+        }else {
---+            map.put("recurringRate-status",Constants.STATUS_DECLINE);
---+        }
---+        return map;
---+    }
---+}
+--@@ -21,7 +21,7 @@ public interface MarketLossRecurringMapper {
+--      * @param endTime
+--      * @return
+--      */
+---    @Select("SELECT amw.`week`,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+--+    @Select("SELECT amw.`week`AS month,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+--     List<Map<String, Object>> weekUserActive(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
+-- 
+--     /**
+--@@ -41,7 +41,7 @@ public interface MarketLossRecurringMapper {
+--      * @param endTime
+--      * @return
+--      */
+---    @Select("SELECT amd.`date`,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+--+    @Select("SELECT amd.`date`AS month,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+--     List<Map<String, Object>> dayUserActive(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
+-- 
+--     /**
+--@@ -60,7 +60,7 @@ public interface MarketLossRecurringMapper {
+--      * @param endTime
+--      * @return
+--      */
+---    @Select("SELECT amw.`week`,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+--+    @Select("SELECT amw.`week`AS month,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+--     List<Map<String, Object>> weekUserRecurring(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
+-- 
+--     /**
+--@@ -80,7 +80,7 @@ public interface MarketLossRecurringMapper {
+--      * @param endTime
+--      * @return
+--      */
+---    @Select("SELECT amd.`date`,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+--+    @Select("SELECT amd.`date`AS month,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+--     List<Map<String, Object>> dayUserRecurring(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
+-- 
+--     /**
+--@@ -90,7 +90,7 @@ public interface MarketLossRecurringMapper {
+--      * @param endTime
+--      * @return
+--      */
+---    @Select("SELECT amw.`week`,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+--+    @Select("SELECT amw.`week`AS month,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+--     List<Map<String, Object>> weekStatisticalTable(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
+-- 
+--     /**
+--@@ -110,7 +110,7 @@ public interface MarketLossRecurringMapper {
+--      * @param endTime
+--      * @return
+--      */
+---    @Select("SELECT amd.`date`,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+--+    @Select("SELECT amd.`date`AS month,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+--     List<Map<String, Object>> dayStatisticalTable(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
+-- 
+-- }
 --diff --git a/patches/machao-patch_modifyComment.patch b/patches/machao-patch_modifyComment.patch
---index cdcdd20..b4f6f25 100644
+--index 129c61e..4cf0578 100644
 ----- a/patches/machao-patch_modifyComment.patch
 --+++ b/patches/machao-patch_modifyComment.patch
---@@ -1,945 +0,0 @@
----diff --git a/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppDimensionsWeightController.java b/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppDimensionsWeightController.java
----index 9adb2d3..fe13ed3 100644
------- a/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppDimensionsWeightController.java
----+++ b/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppDimensionsWeightController.java
----@@ -34,11 +34,17 @@ public class AppDimensionsWeightController extends ZRestController{
----         }
----     }
---- 
-----
+--@@ -1,1684 +0,0 @@
+---diff --git a/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java b/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java
+---index 367eeb1..76e6587 100644
+------ a/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java
+---+++ b/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java
+---@@ -9,9 +9,29 @@ import org.springframework.stereotype.Repository;
+---  */
+--- public class Constants {
+---     /**
+----     * 默认当前月份时，自定义起始时间
+---+     * 默认展示半年，（月份减5）
+---      */
+----    public static int DEFAULT_MONTH = 11;
+---+    public static int DEFAULT_MONTH = 5;
 ---+    /**
----+     * 修改某维度权重
----+     * @param id
----+     * @param weight
----+     * @return
+---+     * 默认展示一年（年份减1）
 ---+     */
----     @RequestMapping(value = "/update-weight",method = RequestMethod.GET)
----     public ResponseMessage updateDimensions(@RequestParam Integer id,@RequestParam double weight){
----         appDimensionsWeightService.updateWeight(id,weight);
----         ResponseMessage responseMessage = this.genResponseMessage();
----         return responseMessage;
----     }
+---+    public static int DEFAULT_YEAR = 1 ;
+---+    /**
+---+     * 默认对比上月（月份减1）
+---+     */
+---+    public static int CONTRAST_MONTH = 1 ;
+---+    /**
+---+     * 按月截取时间
+---+     */
+---+    public static String MONTH = "month";
+---+    /**
+---+     * 按年截取时间
+---+     */
+---+    public static String YEAR = "year";
+---+    /**
+---+     * 按周截取时间
+---+     */
+---+    public static String WEEK = "week";
+---     /**
+---      * 对比上升标识
+---      */
+---@@ -20,9 +40,6 @@ public class Constants {
+---      * 对比下降标识
+---      */
+---     public static int STATUS_DECLINE = 0 ;
+----    /**
+----     * 对比月份（对比上月/减1）
+----     */
+----    public static int CONTRAST_MONTH = 1 ;
 ---+
+--- 
 --- }
----diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/controller/AppMarketGeneralController.java b/index-server/src/main/java/com/cmri/um/he/index/market/controller/AppMarketGeneralController.java
----index d0cf8ba..c30e369 100644
------- a/index-server/src/main/java/com/cmri/um/he/index/market/controller/AppMarketGeneralController.java
----+++ b/index-server/src/main/java/com/cmri/um/he/index/market/controller/AppMarketGeneralController.java
----@@ -1,13 +1,64 @@
---- package com.cmri.um.he.index.market.controller;
---- 
---- import com.cmri.spring.common.controller.ZRestController;
----+import com.cmri.spring.common.data.ResponseMessage;
---- import com.cmri.um.he.index.market.service.AppMarketGeneralService;
-----import org.springframework.web.bind.annotation.CrossOrigin;
-----import org.springframework.web.bind.annotation.RestController;
----+import org.springframework.beans.factory.annotation.Autowired;
----+import org.springframework.web.bind.annotation.*;
----+
----+import java.util.ArrayList;
----+import java.util.List;
----+import java.util.Map;
---- 
---- @RestController
---- @CrossOrigin
---- public class AppMarketGeneralController extends ZRestController {
---- 
----+    @Autowired
----     private AppMarketGeneralService appMarketGeneralService;
----+
----+    /**
----+     * 查询人均时长和人均流量
----+     * @param app
----+     * @param month1
----+     * @param month2
----+     * @return
----+     */
----+    @RequestMapping(value = "query-length-time",method = RequestMethod.GET)
----+    public ResponseMessage getLengthTime(@RequestParam Integer app , @RequestParam String month1, @RequestParam String month2){
----+
----+        List<Map<String , Object>> list = appMarketGeneralService.getLengthTime(app,month1,month2);
----+        List<String> list1=new ArrayList<>();
----+        List<Double> list2=new ArrayList<>();
----+        List<Double> list3=new ArrayList<>();
----+        for (Map<String, Object> stringObjectMap : list) {
----+            String month = (String)stringObjectMap.get("month");
----+            list1.add(month);
----+            Double lengthTime = (Double) stringObjectMap.get("lengthTime");
----+            list2.add(lengthTime);
----+            Double flow = (Double) stringObjectMap.get("flow");
----+            list3.add(flow);
----+        }
----+        ResponseMessage responseMessage = this.genResponseMessage();
----+        responseMessage.set("month",list1);
----+        responseMessage.set("lengthTime",list2);
----+        responseMessage.set("flow",list3);
----+        return responseMessage;
----+    }
----+
----+    /**
----+     * 查询应用概括统计
----+     * @param app
----+     * @param month1
----+     * @param month2
----+     * @return
----+     */
----+    @RequestMapping(value = "quary-general-statistic",method = RequestMethod.GET)
----+    public ResponseMessage quaryGeneralStatistic(@RequestParam Integer app , @RequestParam String month1, @RequestParam String month2){
----+        List<Map<String , Object>> list = appMarketGeneralService.quaryGeneralStatistic(app,month1,month2);
----+        ResponseMessage responseMessage = this.genResponseMessage();
----+        responseMessage.set("list",list);
----+        return responseMessage;
----+    }
----+
---- }
----diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/dao/AppMarketGeneralDao.java b/index-server/src/main/java/com/cmri/um/he/index/market/dao/AppMarketGeneralDao.java
----index 4dd5e01..fd5d72a 100644
------- a/index-server/src/main/java/com/cmri/um/he/index/market/dao/AppMarketGeneralDao.java
----+++ b/index-server/src/main/java/com/cmri/um/he/index/market/dao/AppMarketGeneralDao.java
----@@ -1,10 +1,38 @@
---- package com.cmri.um.he.index.market.dao;
---- 
---- import com.cmri.um.he.index.market.mapper.AppMarketGeneralMapper;
----+import org.springframework.beans.factory.annotation.Autowired;
---- import org.springframework.stereotype.Repository;
---- 
----+import java.util.List;
----+import java.util.Map;
----+
---- @Repository
-----public class AppMarketGeneralDao {
----+public class AppMarketGeneralDao extends BaseDao{
----+
----+    @Autowired
----     private AppMarketGeneralMapper mapper;
---- 
----+    /**
----+     * 查询人均时长和人均流量
----+     * @param app
----+     * @param month1
----+     * @param month2
----+     * @return
----+     */
----+    public List<Map<String, Object>> getLengthTime(Integer app, String month1, String month2){
----+        return mapper.getLengthTime(app,month1,month2);
----+    }
----+
----+    /**
----+     * 查询应用概括统计
----+     * @param app
----+     * @param month1
----+     * @param month2
----+     * @return
----+     */
----+    public List<Map<String,Object>> quaryGeneralStatistic(Integer app,String month1,String month2){
----+        return mapper.quaryGeneralStatistic(app,month1,month2);
----+    }
----+
---- }
----diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/mapper/AppMarketGeneralMapper.java b/index-server/src/main/java/com/cmri/um/he/index/market/mapper/AppMarketGeneralMapper.java
----index 726c147..f71f208 100644
------- a/index-server/src/main/java/com/cmri/um/he/index/market/mapper/AppMarketGeneralMapper.java
----+++ b/index-server/src/main/java/com/cmri/um/he/index/market/mapper/AppMarketGeneralMapper.java
----@@ -1,7 +1,32 @@
---- package com.cmri.um.he.index.market.mapper;
---- 
---- import org.apache.ibatis.annotations.Mapper;
----+import org.apache.ibatis.annotations.Param;
----+import org.apache.ibatis.annotations.Select;
----+
----+import java.util.List;
----+import java.util.Map;
---- 
---- @Mapper
---- public interface AppMarketGeneralMapper {
----+
----+    /**
----+     * 查询人均时长和人均流量
----+     * @param app
----+     * @param month1
----+     * @param month2
----+     * @return
----+     */
----+    @Select("SELECT am.`length_time` as lengthTime,am.`flow` as flow,am.`month` FROM app_market am WHERE app=#{app} AND am.`month` BETWEEN #{month1} AND #{month2} ORDER BY am.`month`")
----+    List<Map<String, Object>> getLengthTime(@Param("app") Integer app,@Param("month1") String month1,@Param("month2") String month2);
----+
----+    /**
----+     * 查询应用概括统计
----+     * @param app
----+     * @param month1
----+     * @param month2
----+     * @return
----+     */
----+    @Select("SELECT am.`total_user` AS totalUser,am.`new_user` AS newUser,am.`mau_number` AS mauNumber,am.`keep_rate` AS keepRate,am.`length_time` AS lengthTime,am.`flow` AS flow,am.`month` FROM app_market am WHERE app=#{app} AND am.`month` BETWEEN #{month1} AND #{month2} ORDER BY am.`month`\n")
----+    List<Map<String,Object>> quaryGeneralStatistic(@Param("app")Integer app,@Param("month1")String month1,@Param("month2")String month2);
---- }
----diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/service/AppMarketGeneralService.java b/index-server/src/main/java/com/cmri/um/he/index/market/service/AppMarketGeneralService.java
----index 5265c92..356a287 100644
------- a/index-server/src/main/java/com/cmri/um/he/index/market/service/AppMarketGeneralService.java
----+++ b/index-server/src/main/java/com/cmri/um/he/index/market/service/AppMarketGeneralService.java
----@@ -1,4 +1,27 @@
---- package com.cmri.um.he.index.market.service;
---- 
----+import java.util.List;
----+import java.util.Map;
----+
---- public interface AppMarketGeneralService {
----+
----+    /**
----+     * 查询人均时长和人均流量
----+     * @param app
----+     * @param month1
----+     * @param month2
----+     * @return
----+     */
----+    List<Map<String,Object>> getLengthTime(Integer app,String month1,String month2);
----+
----+    /**
----+     * 查询应用概括统计
----+     * @param app
----+     * @param month1
----+     * @param month2
----+     * @return
----+     */
----+    List<Map<String,Object>> quaryGeneralStatistic(Integer app,String month1,String month2);
----+
----+
---- }
----diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/AppMarketGeneralServiceImpl.java b/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/AppMarketGeneralServiceImpl.java
----index 97c2aac..c31d9c6 100644
------- a/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/AppMarketGeneralServiceImpl.java
----+++ b/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/AppMarketGeneralServiceImpl.java
----@@ -1,9 +1,37 @@
+---diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java b/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java
+---index 454debe..b6ac2fe 100644
+------ a/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java
+---+++ b/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java
+---@@ -1,15 +1,21 @@
 --- package com.cmri.um.he.index.market.service.impl;
 --- 
---- import com.cmri.um.he.index.market.dao.AppMarketGeneralDao;
----+import com.cmri.um.he.index.market.service.AppMarketGeneralService;
----+import org.springframework.beans.factory.annotation.Autowired;
+--- import com.cmri.um.he.index.common.Constants;
+---+import com.cmri.um.he.index.common.DefaultTime;
+--- import com.cmri.um.he.index.market.dao.MarketLossRecurringDao;
+----import com.cmri.um.he.index.market.mapper.MarketLossRecurringMapper;
+--- import com.cmri.um.he.index.market.service.MarketLossRecurringService;
+--- import org.springframework.beans.factory.annotation.Autowired;
 --- import org.springframework.stereotype.Service;
 --- 
----+import java.util.List;
----+import java.util.Map;
 ---+
+--- import java.util.List;
+--- import java.util.Map;
+--- 
+---+/**
+---+ * 市场指数的流失与回流页面
+---+ * @author machao
+---+ * Created on 2018/7/27
+---+ */
 --- @Service
-----public class AppMarketGeneralServiceImpl {
----+public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
----+
----+    @Autowired
----     private AppMarketGeneralDao appMarketGeneralDao;
----+
----+
----+    @Override
----+    public List<Map<String, Object>> getLengthTime(Integer app, String month1, String month2) {
----+        if (month1==null){
----+            int month1s= Integer.parseInt(month2);
----+            month1s=month1s-12;
----+            month1=Integer.toString(month1s);
----+        }
----+       return appMarketGeneralDao.getLengthTime(app,month1,month2);
----+    }
----+
----+    @Override
----+    public List<Map<String, Object>> quaryGeneralStatistic(Integer app, String month1, String month2) {
----+        if (month1==null){
----+            int month1s= Integer.parseInt(month2);
----+            month1s=month1s-12;
----+            month1=Integer.toString(month1s);
----+        }
----+        return appMarketGeneralDao.quaryGeneralStatistic(app,month1,month2);
----+    }
---- }
+--- public class MarketLossRecurringServiceImpl implements MarketLossRecurringService{
+---     @Autowired
+---@@ -25,13 +31,13 @@ public class MarketLossRecurringServiceImpl implements MarketLossRecurringServic
+---      */
+---     @Override
+---     public List<Map<String, Object>> quaryStatisticalTable(String status, Integer app, String startTime, String endTime) {
+----        if (status.equals("week")){
+---+        if ("week".equals(status)){
+---             return marketLossRecurringDao.weekStatisticalTable(app,startTime,endTime);
+----        }else if (status.equals("month")){
+----            if(startTime==null){
+----                int startTimes= Integer.parseInt(endTime);
+----                startTimes=startTimes-Constants.DEFAULT_MONTH;
+----                startTime=Integer.toString(startTimes);
+---+        }else if ("month".equals(status)){
+---+            if("null".equals(startTime) || "null".equals(endTime)){
+---+                Map<String, String> defaultTime = DefaultTime.getDefaultTime(Constants.YEAR, Constants.DEFAULT_YEAR);
+---+                startTime= defaultTime.get("startTime");
+---+                endTime=defaultTime.get("endTime");
+---             }
+---             return marketLossRecurringDao.monthStatisticalTable(app,startTime,endTime);
+---         }else {
+---@@ -50,13 +56,13 @@ public class MarketLossRecurringServiceImpl implements MarketLossRecurringServic
+---      */
+---     @Override
+---     public List<Map<String, Object>> quaryUserRecurring(String status, Integer app, String startTime, String endTime) {
+----        if (status.equals("week")){
+---+        if ("week".equals(status)){
+---             return marketLossRecurringDao.weekUserRecurring(app,startTime,endTime);
+----        }else if (status.equals("month")){
+----            if(startTime==null){
+----                int startTimes= Integer.parseInt(endTime);
+----                startTimes=startTimes-Constants.DEFAULT_MONTH;
+----                startTime=Integer.toString(startTimes);
+---+        }else if ("month".equals(status)){
+---+            if("null".equals(startTime) || "null".equals(endTime)){
+---+                Map<String, String> defaultTime = DefaultTime.getDefaultTime(Constants.YEAR, Constants.DEFAULT_YEAR);
+---+                startTime= defaultTime.get("startTime");
+---+                endTime=defaultTime.get("endTime");
+---             }
+---             return marketLossRecurringDao.monthUserRecurring(app,startTime,endTime);
+---         }else {
+---@@ -74,13 +80,13 @@ public class MarketLossRecurringServiceImpl implements MarketLossRecurringServic
+---      */
+---     @Override
+---     public List<Map<String, Object>> quaryUserLoss(String status, Integer app, String startTime, String endTime) {
+----        if (status.equals("week")){
+---+        if ("week".equals(status)){
+---             return marketLossRecurringDao.weekUserActive(app,startTime,endTime);
+----        }else if (status.equals("month")){
+----            if(startTime==null){
+----                int startTimes= Integer.parseInt(endTime);
+----                startTimes=startTimes-Constants.DEFAULT_MONTH;
+----                startTime=Integer.toString(startTimes);
+---+        }else if ("month".equals(status)){
+---+            if("null".equals(startTime) || "null".equals(endTime)){
+---+                Map<String, String> defaultTime = DefaultTime.getDefaultTime(Constants.YEAR, Constants.DEFAULT_YEAR);
+---+                startTime= defaultTime.get("startTime");
+---+                endTime=defaultTime.get("endTime");
+---             }
+---             return marketLossRecurringDao.monthUserActive(app,startTime,endTime);
+---         }else {
+---@@ -102,24 +108,24 @@ public class MarketLossRecurringServiceImpl implements MarketLossRecurringServic
+---         Map<String, Object> map = marketLossRecurringDao.quaryLossRecurringExponent(app,month);
+---         Map<String, Object>  map1 = marketLossRecurringDao.quaryLossRecurringExponent(app,contrastMonth);
+---         if ((double)map.get("lossNum")>(double)map1.get("lossNum")){
+----            map.put("lossNum-status",Constants.STATUS_RISE);
+---+            map.put("lossNumStatus",Constants.STATUS_RISE);
+---         }else {
+----            map.put("lossNum-status",Constants.STATUS_DECLINE);
+---+            map.put("lossNumStatus",Constants.STATUS_DECLINE);
+---         }
+---         if ((double)map.get("lossRate")>(double)map1.get("lossRate")){
+----            map.put("lossRate-status",Constants.STATUS_RISE);
+---+            map.put("lossRateStatus",Constants.STATUS_RISE);
+---         }else {
+----            map.put("lossRate-status",Constants.STATUS_DECLINE);
+---+            map.put("lossRateStatus",Constants.STATUS_DECLINE);
+---         }
+---         if ((double)map.get("recurringNum")>(double)map1.get("recurringNum")){
+----            map.put("recurringNum-status",Constants.STATUS_RISE);
+---+            map.put("recurringNumStatus",Constants.STATUS_RISE);
+---         }else {
+----            map.put("recurringNum-status",Constants.STATUS_DECLINE);
+---+            map.put("recurringNumStatus",Constants.STATUS_DECLINE);
+---         }
+---         if ((double)map.get("recurringRate")>(double)map1.get("recurringRate")){
+----            map.put("recurringRate-status",Constants.STATUS_RISE);
+---+            map.put("recurringRateStatus",Constants.STATUS_RISE);
+---         }else {
+----            map.put("recurringRate-status",Constants.STATUS_DECLINE);
+---+            map.put("recurringRateStatus",Constants.STATUS_DECLINE);
+---         }
+---         return map;
+---     }
 ---diff --git a/patches/machao-patch_modifyComment.patch b/patches/machao-patch_modifyComment.patch
----index 99a9b05..aed199b 100644
+---index a587c67..3660eaf 100644
 ------ a/patches/machao-patch_modifyComment.patch
 ---+++ b/patches/machao-patch_modifyComment.patch
----@@ -1,690 +0,0 @@
-----diff --git a/index-management/src/main/java/com/cmri/um/he/index/controller/AppOriginalDelayController.java b/index-management/src/main/java/com/cmri/um/he/index/controller/AppOriginalDelayController.java
-----index 46b3200..beefff9 100644
-------- a/index-management/src/main/java/com/cmri/um/he/index/controller/AppOriginalDelayController.java
-----+++ b/index-management/src/main/java/com/cmri/um/he/index/controller/AppOriginalDelayController.java
-----@@ -51,4 +51,5 @@ public class AppOriginalDelayController extends ZRestController{
-----         }
-----         return responseMessage;
-----     }
-----+
----- }
-----diff --git a/index-server/src/main/java/com/cmri/um/he/index/controller/AppQualityController.java b/index-server/src/main/java/com/cmri/um/he/index/controller/AppQualityController.java
-----index 22c51ec..d180e02 100644
-------- a/index-server/src/main/java/com/cmri/um/he/index/controller/AppQualityController.java
-----+++ b/index-server/src/main/java/com/cmri/um/he/index/controller/AppQualityController.java
-----@@ -110,4 +110,16 @@ public class AppQualityController extends ZRestController {
-----         return responseMessage;
-----     }
----- 
+---@@ -1,1512 +0,0 @@
+----diff --git a/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java b/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java
+----index 3228e29..367eeb1 100644
+------- a/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java
+----+++ b/index-server/src/main/java/com/cmri/um/he/index/common/Constants.java
+----@@ -8,6 +8,21 @@ import org.springframework.stereotype.Repository;
+----  * Created on 2018/7/27
+----  */
+---- public class Constants {
 ----+    /**
-----+     * 查询app的logo
-----+     * @param appId
+----+     * 默认当前月份时，自定义起始时间
+----+     */
+----+    public static int DEFAULT_MONTH = 11;
+----+    /**
+----+     * 对比上升标识
+----+     */
+----+    public static int STATUS_RISE = 1 ;
+----+    /**
+----+     * 对比下降标识
+----+     */
+----+    public static int STATUS_DECLINE = 0 ;
+----+    /**
+----+     * 对比月份（对比上月/减1）
+----+     */
+----+    public static int CONTRAST_MONTH = 1 ;
+---- 
+-----    public static int default_month = 12;
+---- }
+----diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/controller/MarketLossRecurringController.java b/index-server/src/main/java/com/cmri/um/he/index/market/controller/MarketLossRecurringController.java
+----new file mode 100644
+----index 0000000..d359e55
+------- /dev/null
+----+++ b/index-server/src/main/java/com/cmri/um/he/index/market/controller/MarketLossRecurringController.java
+----@@ -0,0 +1,87 @@
+----+package com.cmri.um.he.index.market.controller;
+----+
+----+import com.cmri.spring.common.controller.ZRestController;
+----+import com.cmri.spring.common.data.ResponseMessage;
+----+import com.cmri.um.he.index.market.service.MarketLossRecurringService;
+----+import org.springframework.beans.factory.annotation.Autowired;
+----+import org.springframework.web.bind.annotation.*;
+----+
+----+
+----+import java.util.List;
+----+import java.util.Map;
+----+
+----+/**
+----+ * 市场指数的流失与回流页面
+----+ * @author machao
+----+ * Created on 2018/7/27
+----+ */
+----+@RestController
+----+@CrossOrigin
+----+public class MarketLossRecurringController extends ZRestController{
+----+
+----+    @Autowired
+----+    MarketLossRecurringService marketLossRecurringService;
+----+
+----+    /**
+----+     * 查询月流失回流市场指数指数
+----+     * @param app
+----+     * @param month
 ----+     * @return
 ----+     */
-----+    @RequestMapping(value = "/logo",method = RequestMethod.GET)
-----+    public ResponseMessage getAppLogo(int appId){
-----+        String logo= appQualityService.getAppLogo(appId);
+----+    @RequestMapping(value = "quary-loss-recurring-exponent",method = RequestMethod.GET)
+----+    public ResponseMessage quaryLossRecurringExponent(@RequestParam Integer app , @RequestParam String month){
+----+        Map<String, Object> map=marketLossRecurringService.quaryLossRecurringExponent(app,month);
 ----+        ResponseMessage responseMessage = this.genResponseMessage();
-----+        responseMessage.set("logo",logo);
+----+        responseMessage.set("map",map);
 ----+        return responseMessage;
 ----+    }
----- }
-----diff --git a/index-server/src/main/java/com/cmri/um/he/index/dao/AppQualityDao.java b/index-server/src/main/java/com/cmri/um/he/index/dao/AppQualityDao.java
-----index 8e90a26..764ebda 100644
-------- a/index-server/src/main/java/com/cmri/um/he/index/dao/AppQualityDao.java
-----+++ b/index-server/src/main/java/com/cmri/um/he/index/dao/AppQualityDao.java
-----@@ -98,4 +98,13 @@ public class AppQualityDao extends BaseDao {
-----     public List<Map<String,Object>> queryQualityExperience(Integer id, String month) {
-----         return  qumapper.queryQualityExperience(id,month);
-----     }
 ----+
 ----+    /**
-----+     * 查询app的logo
-----+     * @param appId
+----+     * 查询用户流失情况
+----+     * @param status
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
 ----+     * @return
 ----+     */
-----+    public String getAppLogo(int appId){
-----+        return qumapper.getAppLogo(appId);
+----+    @RequestMapping(value = "quary-loss-exponent",method = RequestMethod.GET)
+----+    public ResponseMessage quaryUserLoss(@RequestParam String status, @RequestParam Integer app , @RequestParam String startTime, @RequestParam String endTime){
+----+        List<Map<String , Object>> list=marketLossRecurringService.quaryUserLoss(status,app,startTime,endTime);
+----+        ResponseMessage responseMessage = this.genResponseMessage();
+----+        responseMessage.set("list",list);
+----+        return responseMessage;
 ----+    }
----- }
-----diff --git a/index-server/src/main/java/com/cmri/um/he/index/mapper/AppQualityMapper.java b/index-server/src/main/java/com/cmri/um/he/index/mapper/AppQualityMapper.java
-----index eba3b75..a54ae22 100644
-------- a/index-server/src/main/java/com/cmri/um/he/index/mapper/AppQualityMapper.java
-----+++ b/index-server/src/main/java/com/cmri/um/he/index/mapper/AppQualityMapper.java
-----@@ -89,4 +89,13 @@ public interface AppQualityMapper {
-----      */
-----     @Select("  SELECT aq.id,ai.`name` as app,aq.experience,ai.flag FROM app_quality aq LEFT JOIN app_info ai ON aq.app = ai.id WHERE aq.category= (SELECT a.category FROM app_info a WHERE id = #{app} ) and aq.`month`= #{month} ORDER BY aq.experience DESC \n ")
-----     List<Map<String,Object>> queryQualityExperience(@Param("app")Integer app,@Param("month") String month);
 ----+
 ----+    /**
-----+     * 查询app的logo
-----+     * @param appId
+----+     * 查询用户回流情况
+----+     * @param status
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
 ----+     * @return
 ----+     */
-----+    @Select("SELECT logo FROM app_logo WHERE app=#{appId}")
-----+    String getAppLogo(@Param("appId")int appId);
-----+
----- }
-----diff --git a/index-server/src/main/java/com/cmri/um/he/index/service/AppQualityService.java b/index-server/src/main/java/com/cmri/um/he/index/service/AppQualityService.java
-----index 6a64c5f..7f1a253 100644
-------- a/index-server/src/main/java/com/cmri/um/he/index/service/AppQualityService.java
-----+++ b/index-server/src/main/java/com/cmri/um/he/index/service/AppQualityService.java
-----@@ -69,4 +69,11 @@ public interface AppQualityService {
-----      * @return
-----      */
-----     List queryQualityExperience(Integer app, String month);
+----+    @RequestMapping(value = "quary-recurring-exponent",method = RequestMethod.GET)
+----+    public ResponseMessage quaryUserRecurring(@RequestParam String status, @RequestParam Integer app , @RequestParam String startTime, @RequestParam String endTime){
+----+        List<Map<String , Object>> list=marketLossRecurringService.quaryUserRecurring(status,app,startTime,endTime);
+----+        ResponseMessage responseMessage = this.genResponseMessage();
+----+        responseMessage.set("list",list);
+----+        return responseMessage;
+----+    }
 ----+
 ----+    /**
-----+     * 查询app的logo
-----+     * @param appId
+----+     * 查询用户情况统计表
+----+     * @param status
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
 ----+     * @return
 ----+     */
-----+    String getAppLogo(int appId);
----- }
-----diff --git a/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppQualityServiceImpl.java b/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppQualityServiceImpl.java
-----index 8be4f32..d94b986 100644
-------- a/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppQualityServiceImpl.java
-----+++ b/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppQualityServiceImpl.java
-----@@ -62,4 +62,9 @@ public class AppQualityServiceImpl implements AppQualityService {
-----     public List<Map<String, Object>> queryQualityExperience(Integer app, String month) {
-----         return appQualityDao.queryQualityExperience(app,month);
-----     }
+----+    @RequestMapping(value = "quary-statistical-table",method = RequestMethod.GET)
+----+    public ResponseMessage quaryStatisticalTable(@RequestParam String status, @RequestParam Integer app , @RequestParam String startTime, @RequestParam String endTime){
+----+        List<Map<String , Object>> list=marketLossRecurringService.quaryStatisticalTable(status,app,startTime,endTime);
+----+        ResponseMessage responseMessage = this.genResponseMessage();
+----+        responseMessage.set("list",list);
+----+        return responseMessage;
+----+    }
 ----+
+----+}
+----diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/dao/MarketLossRecurringDao.java b/index-server/src/main/java/com/cmri/um/he/index/market/dao/MarketLossRecurringDao.java
+----new file mode 100644
+----index 0000000..08844b9
+------- /dev/null
+----+++ b/index-server/src/main/java/com/cmri/um/he/index/market/dao/MarketLossRecurringDao.java
+----@@ -0,0 +1,124 @@
+----+package com.cmri.um.he.index.market.dao;
+----+
+----+import com.cmri.um.he.index.market.mapper.AppMarketMapper;
+----+import com.cmri.um.he.index.market.mapper.MarketLossRecurringMapper;
+----+import org.springframework.beans.factory.annotation.Autowired;
+----+import org.springframework.stereotype.Repository;
+----+
+----+import java.util.List;
+----+import java.util.Map;
+----+
+----+/**
+----+ * 市场指数的流失与回流页面
+----+ * @author machao
+----+ * Created on 2018/7/27
+----+ */
+----+@Repository
+----+public class MarketLossRecurringDao extends BaseDao{
+----+
+----+    @Autowired
+----+    private MarketLossRecurringMapper marketLossRecurringMapper;
+----+
+----+    /**
+----+     * 查询周的用户流失情况
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    public List<Map<String, Object>> weekUserActive(Integer app, String startTime, String endTime){
+----+        return marketLossRecurringMapper.weekUserActive(app, startTime, endTime);
+----+    }
+----+    /**
+----+     * 查询月的用户流失情况
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    public List<Map<String, Object>> monthUserActive(Integer app, String startTime, String endTime){
+----+        return marketLossRecurringMapper.monthUserActive(app, startTime, endTime);
+----+    }
+----+    /**
+----+     * 查询日的用户流失情况
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    public List<Map<String, Object>> dayUserActive(Integer app, String startTime, String endTime){
+----+        return marketLossRecurringMapper.dayUserActive(app, startTime, endTime);
+----+    }
+----+
+----+    /**
+----+     * 查询月流失回流指数
+----+     * @param app
+----+     * @param month
+----+     * @return
+----+     */
+----+    public Map<String, Object>  quaryLossRecurringExponent(Integer app, String month){
+----+        return marketLossRecurringMapper.quaryLossRecurringExponent(app,month);
+----+    }
+----+
+----+    /**
+----+     * 查询周的用户回流情况
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    public List<Map<String, Object>> weekUserRecurring(Integer app, String startTime, String endTime){
+----+        return marketLossRecurringMapper.weekUserRecurring(app, startTime, endTime);
+----+    }
+----+    /**
+----+     * 查询月的用户回流情况
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    public List<Map<String, Object>> monthUserRecurring(Integer app, String startTime, String endTime){
+----+        return marketLossRecurringMapper.monthUserRecurring(app, startTime, endTime);
+----+    }
+----+    /**
+----+     * 查询日的用户回流情况
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    public List<Map<String, Object>> dayUserRecurring(Integer app, String startTime, String endTime){
+----+        return marketLossRecurringMapper.dayUserRecurring(app, startTime, endTime);
+----+    }
+----+
+----+    /**
+----+     * 查询周的用户情况统计表
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    public List<Map<String, Object>> weekStatisticalTable(Integer app, String startTime, String endTime){
+----+        return marketLossRecurringMapper.weekStatisticalTable(app, startTime, endTime);
+----+    }
+----+    /**
+----+     * 查询月的用户情况统计表
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    public List<Map<String, Object>> monthStatisticalTable(Integer app, String startTime, String endTime){
+----+        return marketLossRecurringMapper.monthStatisticalTable(app, startTime, endTime);
+----+    }
+----+    /**
+----+     * 查询日的用户情况统计表
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    public List<Map<String, Object>> dayStatisticalTable(Integer app, String startTime, String endTime){
+----+        return marketLossRecurringMapper.dayStatisticalTable(app, startTime, endTime);
+----+    }
+----+}
+----diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/mapper/MarketLossRecurringMapper.java b/index-server/src/main/java/com/cmri/um/he/index/market/mapper/MarketLossRecurringMapper.java
+----new file mode 100644
+----index 0000000..9f07d3e
+------- /dev/null
+----+++ b/index-server/src/main/java/com/cmri/um/he/index/market/mapper/MarketLossRecurringMapper.java
+----@@ -0,0 +1,116 @@
+----+package com.cmri.um.he.index.market.mapper;
+----+
+----+import org.apache.ibatis.annotations.Mapper;
+----+import org.apache.ibatis.annotations.Param;
+----+import org.apache.ibatis.annotations.Select;
+----+
+----+import java.util.List;
+----+import java.util.Map;
+----+
+----+/**
+----+ * 市场指数的流失与回流页面
+----+ * @author machao
+----+ * Created on 2018/7/27
+----+ */
+----+@Mapper
+----+public interface MarketLossRecurringMapper {
+----+    /**
+----+     * 查询周的用户流失情况
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    @Select("SELECT amw.`week`,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+----+    List<Map<String, Object>> weekUserActive(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
+----+
+----+    /**
+----+     * 查询月的用户流失情况
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    @Select("SELECT am.`month`,am.`next_month_loss_num`AS lossNum,am.`active_next_month_loss_rate`AS lossRate FROM app_market am WHERE am.`app`= #{app} AND am.`month` BETWEEN #{startTime} AND #{endTime}")
+----+    List<Map<String, Object>> monthUserActive(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
+----+
+----+    /**
+----+     * 查询日的用户流失情况
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    @Select("SELECT amd.`date`,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+----+    List<Map<String, Object>> dayUserActive(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
+----+
+----+    /**
+----+     * 查询月流失回流指数
+----+     * @param app
+----+     * @param month
+----+     * @return
+----+     */
+----+    @Select("SELECT am.`next_month_loss_num`AS lossNum,am.`active_next_month_loss_rate`AS lossRate,am.`next_month_recurring_num`AS recurringNum,am.`loss_next_month_recurring_rate`AS recurringRate FROM app_market am WHERE am.`app`=#{app} AND am.`month`=#{month}")
+----+    Map<String, Object>  quaryLossRecurringExponent(@Param("app")Integer app, @Param("month")String month);
+----+
+----+    /**
+----+     * 查询周的用户回流情况
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    @Select("SELECT amw.`week`,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+----+    List<Map<String, Object>> weekUserRecurring(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
+----+
+----+    /**
+----+     * 查询月的用户回流情况
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    @Select("SELECT am.`month`,am.`next_month_recurring_num`AS recurringNum,am.`loss_next_month_recurring_rate`AS recurringRate FROM app_market am WHERE am.`app`= #{app} AND am.`month` BETWEEN #{startTime} AND #{endTime}")
+----+    List<Map<String, Object>> monthUserRecurring(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
+----+
+----+    /**
+----+     * 查询日的用户回流情况
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    @Select("SELECT amd.`date`,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+----+    List<Map<String, Object>> dayUserRecurring(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
+----+
+----+    /**
+----+     * 查询周的用户情况统计表
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    @Select("SELECT amw.`week`,amw.`next_week_recurring_num`AS recurringNum,amw.`loss_next_week_recurring_rate`AS recurringRate,amw.`next_week_loss_num`AS lossNum,amw.`active_next_week_loss_rate`AS lossRate FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+----+    List<Map<String, Object>> weekStatisticalTable(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
+----+
+----+    /**
+----+     * 查询月的用户情况统计表
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    @Select("SELECT am.`month`,am.`next_month_recurring_num`AS recurringNum,am.`loss_next_month_recurring_rate`AS recurringRate,am.`next_month_loss_num`AS lossNum,am.`active_next_month_loss_rate`AS lossRate FROM app_market am WHERE am.`app`= #{app} AND am.`month` BETWEEN #{startTime} AND #{endTime}")
+----+    List<Map<String, Object>> monthStatisticalTable(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
+----+
+----+    /**
+----+     * 查询日的用户情况统计表
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    @Select("SELECT amd.`date`,amd.`next_date_recurring_num`AS recurringNum,amd.`loss_next_date_recurring_rate`AS recurringRate,amd.`next_date_loss_num`AS lossNum,amd.`active_next_date_loss_rate`AS lossRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+----+    List<Map<String, Object>> dayStatisticalTable(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
+----+
+----+}
+----diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/service/MarketLossRecurringService.java b/index-server/src/main/java/com/cmri/um/he/index/market/service/MarketLossRecurringService.java
+----new file mode 100644
+----index 0000000..8e30130
+------- /dev/null
+----+++ b/index-server/src/main/java/com/cmri/um/he/index/market/service/MarketLossRecurringService.java
+----@@ -0,0 +1,52 @@
+----+package com.cmri.um.he.index.market.service;
+----+
+----+import org.springframework.web.bind.annotation.RequestParam;
+----+
+----+import java.util.List;
+----+import java.util.Map;
+----+
+----+/**
+----+ * 市场指数的流失与回流页面
+----+ * @author machao
+----+ * Created on 2018/7/27
+----+ */
+----+public interface MarketLossRecurringService {
+----+
+----+    /**
+----+     * 查询用户流失情况
+----+     * @param status
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    List<Map<String , Object>> quaryUserLoss(String status,Integer app ,String startTime,String endTime);
+----+
+----+    /**
+----+     * 查询月流失回流指数
+----+     * @param app
+----+     * @param month
+----+     * @return
+----+     */
+----+    Map<String, Object> quaryLossRecurringExponent(Integer app ,String month);
+----+
+----+    /**
+----+     * 查询用户回流情况
+----+     * @param status
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    List<Map<String , Object>> quaryUserRecurring(String status,Integer app ,String startTime,String endTime);
+----+
+----+    /**
+----+     * 查询用户情况统计表
+----+     * @param status
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    List<Map<String , Object>> quaryStatisticalTable(String status,Integer app ,String startTime,String endTime);
+----+}
+----diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java b/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java
+----new file mode 100644
+----index 0000000..454debe
+------- /dev/null
+----+++ b/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/MarketLossRecurringServiceImpl.java
+----@@ -0,0 +1,126 @@
+----+package com.cmri.um.he.index.market.service.impl;
+----+
+----+import com.cmri.um.he.index.common.Constants;
+----+import com.cmri.um.he.index.market.dao.MarketLossRecurringDao;
+----+import com.cmri.um.he.index.market.mapper.MarketLossRecurringMapper;
+----+import com.cmri.um.he.index.market.service.MarketLossRecurringService;
+----+import org.springframework.beans.factory.annotation.Autowired;
+----+import org.springframework.stereotype.Service;
+----+
+----+import java.util.List;
+----+import java.util.Map;
+----+
+----+@Service
+----+public class MarketLossRecurringServiceImpl implements MarketLossRecurringService{
+----+    @Autowired
+----+    private MarketLossRecurringDao marketLossRecurringDao;
+----+
+----+    /**
+----+     * 查询用户情况统计表
+----+     * @param status
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
 ----+    @Override
-----+    public String getAppLogo(int appId) {
-----+        return appQualityDao.getAppLogo(appId);
+----+    public List<Map<String, Object>> quaryStatisticalTable(String status, Integer app, String startTime, String endTime) {
+----+        if (status.equals("week")){
+----+            return marketLossRecurringDao.weekStatisticalTable(app,startTime,endTime);
+----+        }else if (status.equals("month")){
+----+            if(startTime==null){
+----+                int startTimes= Integer.parseInt(endTime);
+----+                startTimes=startTimes-Constants.DEFAULT_MONTH;
+----+                startTime=Integer.toString(startTimes);
+----+            }
+----+            return marketLossRecurringDao.monthStatisticalTable(app,startTime,endTime);
+----+        }else {
+----+            return marketLossRecurringDao.dayStatisticalTable(app,startTime,endTime);
+----+        }
 ----+    }
----- }
+----+
+----+
+----+    /**
+----+     * 查询用户回流情况
+----+     * @param status
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    @Override
+----+    public List<Map<String, Object>> quaryUserRecurring(String status, Integer app, String startTime, String endTime) {
+----+        if (status.equals("week")){
+----+            return marketLossRecurringDao.weekUserRecurring(app,startTime,endTime);
+----+        }else if (status.equals("month")){
+----+            if(startTime==null){
+----+                int startTimes= Integer.parseInt(endTime);
+----+                startTimes=startTimes-Constants.DEFAULT_MONTH;
+----+                startTime=Integer.toString(startTimes);
+----+            }
+----+            return marketLossRecurringDao.monthUserRecurring(app,startTime,endTime);
+----+        }else {
+----+            return marketLossRecurringDao.dayUserRecurring(app,startTime,endTime);
+----+        }
+----+    }
+----+
+----+    /**
+----+     * 查询用户流失情况
+----+     * @param status
+----+     * @param app
+----+     * @param startTime
+----+     * @param endTime
+----+     * @return
+----+     */
+----+    @Override
+----+    public List<Map<String, Object>> quaryUserLoss(String status, Integer app, String startTime, String endTime) {
+----+        if (status.equals("week")){
+----+            return marketLossRecurringDao.weekUserActive(app,startTime,endTime);
+----+        }else if (status.equals("month")){
+----+            if(startTime==null){
+----+                int startTimes= Integer.parseInt(endTime);
+----+                startTimes=startTimes-Constants.DEFAULT_MONTH;
+----+                startTime=Integer.toString(startTimes);
+----+            }
+----+            return marketLossRecurringDao.monthUserActive(app,startTime,endTime);
+----+        }else {
+----+            return marketLossRecurringDao.dayUserActive(app,startTime,endTime);
+----+        }
+----+    }
+----+
+----+    /**
+----+     * 查询月流失回流指数
+----+     * @param app
+----+     * @param month
+----+     * @return
+----+     */
+----+    @Override
+----+    public Map<String, Object> quaryLossRecurringExponent(Integer app, String month) {
+----+        int startTimes= Integer.parseInt(month);
+----+        startTimes=startTimes-Constants.CONTRAST_MONTH;
+----+        String contrastMonth =Integer.toString(startTimes);
+----+        Map<String, Object> map = marketLossRecurringDao.quaryLossRecurringExponent(app,month);
+----+        Map<String, Object>  map1 = marketLossRecurringDao.quaryLossRecurringExponent(app,contrastMonth);
+----+        if ((double)map.get("lossNum")>(double)map1.get("lossNum")){
+----+            map.put("lossNum-status",Constants.STATUS_RISE);
+----+        }else {
+----+            map.put("lossNum-status",Constants.STATUS_DECLINE);
+----+        }
+----+        if ((double)map.get("lossRate")>(double)map1.get("lossRate")){
+----+            map.put("lossRate-status",Constants.STATUS_RISE);
+----+        }else {
+----+            map.put("lossRate-status",Constants.STATUS_DECLINE);
+----+        }
+----+        if ((double)map.get("recurringNum")>(double)map1.get("recurringNum")){
+----+            map.put("recurringNum-status",Constants.STATUS_RISE);
+----+        }else {
+----+            map.put("recurringNum-status",Constants.STATUS_DECLINE);
+----+        }
+----+        if ((double)map.get("recurringRate")>(double)map1.get("recurringRate")){
+----+            map.put("recurringRate-status",Constants.STATUS_RISE);
+----+        }else {
+----+            map.put("recurringRate-status",Constants.STATUS_DECLINE);
+----+        }
+----+        return map;
+----+    }
+----+}
 ----diff --git a/patches/machao-patch_modifyComment.patch b/patches/machao-patch_modifyComment.patch
-----index 719be0e..a8093f7 100644
+----index cdcdd20..b4f6f25 100644
 ------- a/patches/machao-patch_modifyComment.patch
 ----+++ b/patches/machao-patch_modifyComment.patch
-----@@ -1,588 +0,0 @@
------diff --git a/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java b/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java
------index b8368f9..56b51af 100644
--------- a/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java
------+++ b/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java
------@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
------ import org.springframework.web.bind.annotation.RequestMethod;
------ import org.springframework.web.bind.annotation.RestController;
+----@@ -1,945 +0,0 @@
+-----diff --git a/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppDimensionsWeightController.java b/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppDimensionsWeightController.java
+-----index 9adb2d3..fe13ed3 100644
+-------- a/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppDimensionsWeightController.java
+-----+++ b/index-management/src/main/java/com/cmri/um/he/index/operations/controller/AppDimensionsWeightController.java
+-----@@ -34,11 +34,17 @@ public class AppDimensionsWeightController extends ZRestController{
+-----         }
+-----     }
 ----- 
------+import javax.servlet.http.HttpServletRequest;
------+import java.io.IOException;
------ import java.util.List;
------ import java.util.Map;
+------
+-----+    /**
+-----+     * 修改某维度权重
+-----+     * @param id
+-----+     * @param weight
+-----+     * @return
+-----+     */
+-----     @RequestMapping(value = "/update-weight",method = RequestMethod.GET)
+-----     public ResponseMessage updateDimensions(@RequestParam Integer id,@RequestParam double weight){
+-----         appDimensionsWeightService.updateWeight(id,weight);
+-----         ResponseMessage responseMessage = this.genResponseMessage();
+-----         return responseMessage;
+-----     }
+-----+
+----- }
+-----diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/controller/AppMarketGeneralController.java b/index-server/src/main/java/com/cmri/um/he/index/market/controller/AppMarketGeneralController.java
+-----index d0cf8ba..c30e369 100644
+-------- a/index-server/src/main/java/com/cmri/um/he/index/market/controller/AppMarketGeneralController.java
+-----+++ b/index-server/src/main/java/com/cmri/um/he/index/market/controller/AppMarketGeneralController.java
+-----@@ -1,13 +1,64 @@
+----- package com.cmri.um.he.index.market.controller;
 ----- 
------@@ -32,7 +34,9 @@ public class AppProblemController extends ZRestController{
------      * @return
------      */
------     @RequestMapping(value = "/app-quality-problem",method = RequestMethod.GET)
-------    public ResponseMessage getAppQualityProblem(int id,String dimensions,String month){
------+    public ResponseMessage getAppQualityProblem(HttpServletRequest request,int id, String dimensions, String month)throws IOException{
------+        String dimensions1 = request.getParameter("dimensions");
------+        dimensions = new String(dimensions1.getBytes("iso-8859-1"), "utf-8");
------         List<Map<String, Object>> appQualityProblemList = appProblemService.getAppQualityProblem(id, dimensions,month);
------         ResponseMessage responseMessage=this.genResponseMessage();
------         if (appQualityProblemList!=null && appQualityProblemList.size()!=0){
------@@ -52,7 +56,9 @@ public class AppProblemController extends ZRestController{
------      * @return
------      */
------     @RequestMapping(value = "/app-operation-problem",method = RequestMethod.GET)
-------    public ResponseMessage getAppOperationProblem(int id,String dimensions,String month){
------+    public ResponseMessage getAppOperationProblem(HttpServletRequest request,int id,String dimensions,String month)throws IOException{
------+        String dimensions1 = request.getParameter("dimensions");
------+        dimensions = new String(dimensions1.getBytes("iso-8859-1"), "utf-8");
------         List<Map<String, Object>> appOperationProblemList = appProblemService.getAppOperationProblem(id, dimensions,month);
------         ResponseMessage responseMessage=this.genResponseMessage();
------         if (appOperationProblemList!=null && appOperationProblemList.size()!=0){
+----- import com.cmri.spring.common.controller.ZRestController;
+-----+import com.cmri.spring.common.data.ResponseMessage;
+----- import com.cmri.um.he.index.market.service.AppMarketGeneralService;
+------import org.springframework.web.bind.annotation.CrossOrigin;
+------import org.springframework.web.bind.annotation.RestController;
+-----+import org.springframework.beans.factory.annotation.Autowired;
+-----+import org.springframework.web.bind.annotation.*;
+-----+
+-----+import java.util.ArrayList;
+-----+import java.util.List;
+-----+import java.util.Map;
+----- 
+----- @RestController
+----- @CrossOrigin
+----- public class AppMarketGeneralController extends ZRestController {
+----- 
+-----+    @Autowired
+-----     private AppMarketGeneralService appMarketGeneralService;
+-----+
+-----+    /**
+-----+     * 查询人均时长和人均流量
+-----+     * @param app
+-----+     * @param month1
+-----+     * @param month2
+-----+     * @return
+-----+     */
+-----+    @RequestMapping(value = "query-length-time",method = RequestMethod.GET)
+-----+    public ResponseMessage getLengthTime(@RequestParam Integer app , @RequestParam String month1, @RequestParam String month2){
+-----+
+-----+        List<Map<String , Object>> list = appMarketGeneralService.getLengthTime(app,month1,month2);
+-----+        List<String> list1=new ArrayList<>();
+-----+        List<Double> list2=new ArrayList<>();
+-----+        List<Double> list3=new ArrayList<>();
+-----+        for (Map<String, Object> stringObjectMap : list) {
+-----+            String month = (String)stringObjectMap.get("month");
+-----+            list1.add(month);
+-----+            Double lengthTime = (Double) stringObjectMap.get("lengthTime");
+-----+            list2.add(lengthTime);
+-----+            Double flow = (Double) stringObjectMap.get("flow");
+-----+            list3.add(flow);
+-----+        }
+-----+        ResponseMessage responseMessage = this.genResponseMessage();
+-----+        responseMessage.set("month",list1);
+-----+        responseMessage.set("lengthTime",list2);
+-----+        responseMessage.set("flow",list3);
+-----+        return responseMessage;
+-----+    }
+-----+
+-----+    /**
+-----+     * 查询应用概括统计
+-----+     * @param app
+-----+     * @param month1
+-----+     * @param month2
+-----+     * @return
+-----+     */
+-----+    @RequestMapping(value = "quary-general-statistic",method = RequestMethod.GET)
+-----+    public ResponseMessage quaryGeneralStatistic(@RequestParam Integer app , @RequestParam String month1, @RequestParam String month2){
+-----+        List<Map<String , Object>> list = appMarketGeneralService.quaryGeneralStatistic(app,month1,month2);
+-----+        ResponseMessage responseMessage = this.genResponseMessage();
+-----+        responseMessage.set("list",list);
+-----+        return responseMessage;
+-----+    }
+-----+
+----- }
+-----diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/dao/AppMarketGeneralDao.java b/index-server/src/main/java/com/cmri/um/he/index/market/dao/AppMarketGeneralDao.java
+-----index 4dd5e01..fd5d72a 100644
+-------- a/index-server/src/main/java/com/cmri/um/he/index/market/dao/AppMarketGeneralDao.java
+-----+++ b/index-server/src/main/java/com/cmri/um/he/index/market/dao/AppMarketGeneralDao.java
+-----@@ -1,10 +1,38 @@
+----- package com.cmri.um.he.index.market.dao;
+----- 
+----- import com.cmri.um.he.index.market.mapper.AppMarketGeneralMapper;
+-----+import org.springframework.beans.factory.annotation.Autowired;
+----- import org.springframework.stereotype.Repository;
+----- 
+-----+import java.util.List;
+-----+import java.util.Map;
+-----+
+----- @Repository
+------public class AppMarketGeneralDao {
+-----+public class AppMarketGeneralDao extends BaseDao{
+-----+
+-----+    @Autowired
+-----     private AppMarketGeneralMapper mapper;
+----- 
+-----+    /**
+-----+     * 查询人均时长和人均流量
+-----+     * @param app
+-----+     * @param month1
+-----+     * @param month2
+-----+     * @return
+-----+     */
+-----+    public List<Map<String, Object>> getLengthTime(Integer app, String month1, String month2){
+-----+        return mapper.getLengthTime(app,month1,month2);
+-----+    }
+-----+
+-----+    /**
+-----+     * 查询应用概括统计
+-----+     * @param app
+-----+     * @param month1
+-----+     * @param month2
+-----+     * @return
+-----+     */
+-----+    public List<Map<String,Object>> quaryGeneralStatistic(Integer app,String month1,String month2){
+-----+        return mapper.quaryGeneralStatistic(app,month1,month2);
+-----+    }
+-----+
+----- }
+-----diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/mapper/AppMarketGeneralMapper.java b/index-server/src/main/java/com/cmri/um/he/index/market/mapper/AppMarketGeneralMapper.java
+-----index 726c147..f71f208 100644
+-------- a/index-server/src/main/java/com/cmri/um/he/index/market/mapper/AppMarketGeneralMapper.java
+-----+++ b/index-server/src/main/java/com/cmri/um/he/index/market/mapper/AppMarketGeneralMapper.java
+-----@@ -1,7 +1,32 @@
+----- package com.cmri.um.he.index.market.mapper;
+----- 
+----- import org.apache.ibatis.annotations.Mapper;
+-----+import org.apache.ibatis.annotations.Param;
+-----+import org.apache.ibatis.annotations.Select;
+-----+
+-----+import java.util.List;
+-----+import java.util.Map;
+----- 
+----- @Mapper
+----- public interface AppMarketGeneralMapper {
+-----+
+-----+    /**
+-----+     * 查询人均时长和人均流量
+-----+     * @param app
+-----+     * @param month1
+-----+     * @param month2
+-----+     * @return
+-----+     */
+-----+    @Select("SELECT am.`length_time` as lengthTime,am.`flow` as flow,am.`month` FROM app_market am WHERE app=#{app} AND am.`month` BETWEEN #{month1} AND #{month2} ORDER BY am.`month`")
+-----+    List<Map<String, Object>> getLengthTime(@Param("app") Integer app,@Param("month1") String month1,@Param("month2") String month2);
+-----+
+-----+    /**
+-----+     * 查询应用概括统计
+-----+     * @param app
+-----+     * @param month1
+-----+     * @param month2
+-----+     * @return
+-----+     */
+-----+    @Select("SELECT am.`total_user` AS totalUser,am.`new_user` AS newUser,am.`mau_number` AS mauNumber,am.`keep_rate` AS keepRate,am.`length_time` AS lengthTime,am.`flow` AS flow,am.`month` FROM app_market am WHERE app=#{app} AND am.`month` BETWEEN #{month1} AND #{month2} ORDER BY am.`month`\n")
+-----+    List<Map<String,Object>> quaryGeneralStatistic(@Param("app")Integer app,@Param("month1")String month1,@Param("month2")String month2);
+----- }
+-----diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/service/AppMarketGeneralService.java b/index-server/src/main/java/com/cmri/um/he/index/market/service/AppMarketGeneralService.java
+-----index 5265c92..356a287 100644
+-------- a/index-server/src/main/java/com/cmri/um/he/index/market/service/AppMarketGeneralService.java
+-----+++ b/index-server/src/main/java/com/cmri/um/he/index/market/service/AppMarketGeneralService.java
+-----@@ -1,4 +1,27 @@
+----- package com.cmri.um.he.index.market.service;
+----- 
+-----+import java.util.List;
+-----+import java.util.Map;
+-----+
+----- public interface AppMarketGeneralService {
+-----+
+-----+    /**
+-----+     * 查询人均时长和人均流量
+-----+     * @param app
+-----+     * @param month1
+-----+     * @param month2
+-----+     * @return
+-----+     */
+-----+    List<Map<String,Object>> getLengthTime(Integer app,String month1,String month2);
+-----+
+-----+    /**
+-----+     * 查询应用概括统计
+-----+     * @param app
+-----+     * @param month1
+-----+     * @param month2
+-----+     * @return
+-----+     */
+-----+    List<Map<String,Object>> quaryGeneralStatistic(Integer app,String month1,String month2);
+-----+
+-----+
+----- }
+-----diff --git a/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/AppMarketGeneralServiceImpl.java b/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/AppMarketGeneralServiceImpl.java
+-----index 97c2aac..c31d9c6 100644
+-------- a/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/AppMarketGeneralServiceImpl.java
+-----+++ b/index-server/src/main/java/com/cmri/um/he/index/market/service/impl/AppMarketGeneralServiceImpl.java
+-----@@ -1,9 +1,37 @@
+----- package com.cmri.um.he.index.market.service.impl;
+----- 
+----- import com.cmri.um.he.index.market.dao.AppMarketGeneralDao;
+-----+import com.cmri.um.he.index.market.service.AppMarketGeneralService;
+-----+import org.springframework.beans.factory.annotation.Autowired;
+----- import org.springframework.stereotype.Service;
+----- 
+-----+import java.util.List;
+-----+import java.util.Map;
+-----+
+----- @Service
+------public class AppMarketGeneralServiceImpl {
+-----+public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
+-----+
+-----+    @Autowired
+-----     private AppMarketGeneralDao appMarketGeneralDao;
+-----+
+-----+
+-----+    @Override
+-----+    public List<Map<String, Object>> getLengthTime(Integer app, String month1, String month2) {
+-----+        if (month1==null){
+-----+            int month1s= Integer.parseInt(month2);
+-----+            month1s=month1s-12;
+-----+            month1=Integer.toString(month1s);
+-----+        }
+-----+       return appMarketGeneralDao.getLengthTime(app,month1,month2);
+-----+    }
+-----+
+-----+    @Override
+-----+    public List<Map<String, Object>> quaryGeneralStatistic(Integer app, String month1, String month2) {
+-----+        if (month1==null){
+-----+            int month1s= Integer.parseInt(month2);
+-----+            month1s=month1s-12;
+-----+            month1=Integer.toString(month1s);
+-----+        }
+-----+        return appMarketGeneralDao.quaryGeneralStatistic(app,month1,month2);
+-----+    }
+----- }
 -----diff --git a/patches/machao-patch_modifyComment.patch b/patches/machao-patch_modifyComment.patch
------index dd9f7fd..e69de29 100644
+-----index 99a9b05..aed199b 100644
 -------- a/patches/machao-patch_modifyComment.patch
 -----+++ b/patches/machao-patch_modifyComment.patch
------@@ -1,548 +0,0 @@
-------diff --git a/index-server/src/main/java/com/cmri/um/he/index/controller/AppOperationsController.java b/index-server/src/main/java/com/cmri/um/he/index/controller/AppOperationsController.java
-------index cb116b5..2d35ac3 100644
---------- a/index-server/src/main/java/com/cmri/um/he/index/controller/AppOperationsController.java
-------+++ b/index-server/src/main/java/com/cmri/um/he/index/controller/AppOperationsController.java
-------@@ -1,4 +1,5 @@
------- package com.cmri.um.he.index.controller;
------- 
+-----@@ -1,690 +0,0 @@
+------diff --git a/index-management/src/main/java/com/cmri/um/he/index/controller/AppOriginalDelayController.java b/index-management/src/main/java/com/cmri/um/he/index/controller/AppOriginalDelayController.java
+------index 46b3200..beefff9 100644
+--------- a/index-management/src/main/java/com/cmri/um/he/index/controller/AppOriginalDelayController.java
+------+++ b/index-management/src/main/java/com/cmri/um/he/index/controller/AppOriginalDelayController.java
+------@@ -51,4 +51,5 @@ public class AppOriginalDelayController extends ZRestController{
+------         }
+------         return responseMessage;
+------     }
 ------+
------- public class AppOperationsController {
 ------ }
-------diff --git a/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java b/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java
-------index 95dc64a..b8368f9 100644
---------- a/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java
-------+++ b/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java
-------@@ -13,11 +13,11 @@ import java.util.List;
------- import java.util.Map;
+------diff --git a/index-server/src/main/java/com/cmri/um/he/index/controller/AppQualityController.java b/index-server/src/main/java/com/cmri/um/he/index/controller/AppQualityController.java
+------index 22c51ec..d180e02 100644
+--------- a/index-server/src/main/java/com/cmri/um/he/index/controller/AppQualityController.java
+------+++ b/index-server/src/main/java/com/cmri/um/he/index/controller/AppQualityController.java
+------@@ -110,4 +110,16 @@ public class AppQualityController extends ZRestController {
+------         return responseMessage;
+------     }
 ------ 
------- /**
-------- * 提供App维度问题列表
-------- * Created by machao on 2018/7/3.
-------+ * 查询app某维度的问题
-------+ * @author machao
-------+ * Created on 2018/7/4
-------  */
------- @RestController
--------@RequestMapping("/app-problem")
------- @CrossOrigin
------- public class AppProblemController extends ZRestController{
------- 
-------@@ -25,17 +25,38 @@ public class AppProblemController extends ZRestController{
-------     AppProblemService appProblemService;
------- 
-------     /**
--------     * 查询app某一个维度问题点方法
--------     * @param app
-------+     * 查询app某一个维度产品品质问题的方法
-------+     * @param id
-------      * @param dimensions
-------+     * @param month
-------      * @return
-------      */
--------    @RequestMapping(method = RequestMethod.GET)
--------    public ResponseMessage getAppProblem(int app,String dimensions,String month){
--------        List<Map<String, Object>> appProblemList = appProblemService.getAppProblem(app, dimensions,month);
-------+    @RequestMapping(value = "/app-quality-problem",method = RequestMethod.GET)
-------+    public ResponseMessage getAppQualityProblem(int id,String dimensions,String month){
-------+        List<Map<String, Object>> appQualityProblemList = appProblemService.getAppQualityProblem(id, dimensions,month);
-------         ResponseMessage responseMessage=this.genResponseMessage();
--------        if (appProblemList!=null && appProblemList.size()!=0){
--------            responseMessage.set("appProblemList",appProblemList);
-------+        if (appQualityProblemList!=null && appQualityProblemList.size()!=0){
-------+            responseMessage.set("appQualityProblemList",appQualityProblemList);
-------+        }else {
-------+            responseMessage.set("message","当前维度还没有记录问题！！！");
-------+        }
+------+    /**
+------+     * 查询app的logo
+------+     * @param appId
+------+     * @return
+------+     */
+------+    @RequestMapping(value = "/logo",method = RequestMethod.GET)
+------+    public ResponseMessage getAppLogo(int appId){
+------+        String logo= appQualityService.getAppLogo(appId);
+------+        ResponseMessage responseMessage = this.genResponseMessage();
+------+        responseMessage.set("logo",logo);
 ------+        return responseMessage;
 ------+    }
-------+
-------+
-------+    /**
-------+     * 查询app某一个维度产品运营问题的方法
-------+     * @param id
-------+     * @param dimensions
-------+     * @param month
-------+     * @return
-------+     */
-------+    @RequestMapping(value = "/app-operation-problem",method = RequestMethod.GET)
-------+    public ResponseMessage getAppOperationProblem(int id,String dimensions,String month){
-------+        List<Map<String, Object>> appOperationProblemList = appProblemService.getAppOperationProblem(id, dimensions,month);
-------+        ResponseMessage responseMessage=this.genResponseMessage();
-------+        if (appOperationProblemList!=null && appOperationProblemList.size()!=0){
-------+            responseMessage.set("appOperationProblemList",appOperationProblemList);
-------         }else {
-------             responseMessage.set("message","当前维度还没有记录问题！！！");
-------         }
-------diff --git a/index-server/src/main/java/com/cmri/um/he/index/dao/AppProblemDao.java b/index-server/src/main/java/com/cmri/um/he/index/dao/AppProblemDao.java
-------index 7887ba2..a3d89b3 100644
---------- a/index-server/src/main/java/com/cmri/um/he/index/dao/AppProblemDao.java
-------+++ b/index-server/src/main/java/com/cmri/um/he/index/dao/AppProblemDao.java
-------@@ -8,8 +8,9 @@ import java.util.List;
------- import java.util.Map;
------- 
------- /**
-------- * 查询app某一具体维度的问题列表
-------- * Created by machao on 2018/7/3.
-------+ * 查询app某维度的问题
-------+ * @author machao
-------+ * Created on 2018/7/4
-------  */
------- @Repository
------- public class AppProblemDao extends BaseDao{
-------@@ -18,12 +19,27 @@ public class AppProblemDao extends BaseDao{
-------     AppProblemMapper appProblemMapper;
------- 
-------     /**
--------     * 根据应用以及维度查询问题列表
--------     * @param app
-------+     * 查询app某一个维度产品品质问题的方法
-------+     * @param id
-------      * @param dimensions
-------+     * @param month
-------      * @return
-------      */
--------    public List<Map<String, Object>> getAppProblem(int app,String dimensions,String month) {
--------        return appProblemMapper.getAppProblem(app,dimensions,month);
-------+    public List<Map<String, Object>> getAppQualityProblem(int id,String dimensions,String month) {
-------+        return appProblemMapper.getAppQualityProblem(id,dimensions,month);
-------+
+------ }
+------diff --git a/index-server/src/main/java/com/cmri/um/he/index/dao/AppQualityDao.java b/index-server/src/main/java/com/cmri/um/he/index/dao/AppQualityDao.java
+------index 8e90a26..764ebda 100644
+--------- a/index-server/src/main/java/com/cmri/um/he/index/dao/AppQualityDao.java
+------+++ b/index-server/src/main/java/com/cmri/um/he/index/dao/AppQualityDao.java
+------@@ -98,4 +98,13 @@ public class AppQualityDao extends BaseDao {
+------     public List<Map<String,Object>> queryQualityExperience(Integer id, String month) {
+------         return  qumapper.queryQualityExperience(id,month);
 ------     }
 ------+
 ------+    /**
-------+     * 查询app某一个维度产品运营问题的方法
-------+     * @param id
-------+     * @param dimensions
-------+     * @param month
+------+     * 查询app的logo
+------+     * @param appId
 ------+     * @return
 ------+     */
-------+    public List<Map<String, Object>> getAppOperationProblem(int id,String dimensions,String month) {
-------+        return appProblemMapper.getAppOperationProblem(id,dimensions,month);
+------+    public String getAppLogo(int appId){
+------+        return qumapper.getAppLogo(appId);
 ------+    }
-------+
-------+
 ------ }
-------diff --git a/index-server/src/main/java/com/cmri/um/he/index/mapper/AppProblemMapper.java b/index-server/src/main/java/com/cmri/um/he/index/mapper/AppProblemMapper.java
-------index 0bac326..680cd5f 100644
---------- a/index-server/src/main/java/com/cmri/um/he/index/mapper/AppProblemMapper.java
-------+++ b/index-server/src/main/java/com/cmri/um/he/index/mapper/AppProblemMapper.java
-------@@ -11,20 +11,34 @@ import java.util.Map;
------- /**
-------  * App维度问题
-------  * @author machao
-------- * Created on 2018/7/3
-------+ * Created on 2018/7/4
-------  */
------- @Mapper
------- public interface AppProblemMapper {
------- 
-------     /**
--------     * 查询app某一具体维度的问题列表
--------     * @param app
-------+     * 查询app某一个维度产品品质问题的方法
-------+     * @param id
-------      * @param dimensions
-------+     * @param month
-------      * @return
+------diff --git a/index-server/src/main/java/com/cmri/um/he/index/mapper/AppQualityMapper.java b/index-server/src/main/java/com/cmri/um/he/index/mapper/AppQualityMapper.java
+------index eba3b75..a54ae22 100644
+--------- a/index-server/src/main/java/com/cmri/um/he/index/mapper/AppQualityMapper.java
+------+++ b/index-server/src/main/java/com/cmri/um/he/index/mapper/AppQualityMapper.java
+------@@ -89,4 +89,13 @@ public interface AppQualityMapper {
 ------      */
-------     @Select("SELECT aof.`month`,ac.`name`as category,ai.`name` as app,aof.`version`,aof.`dimensions`,aof.`des`,aof.`experience`,aof.`frequency`,aof.`score`,aof.`degree` " +
-------             "FROM app_info ai JOIN app_original_features aof ON ai.`id`=aof.`app` LEFT JOIN app_category ac ON ai.`category`= ac.id\n" +
--------            "WHERE ai.`id`=#{app} AND aof.`dimensions`=#{dimensions} AND aof.`month`=#{month}")
--------    List<Map<String, Object>> getAppProblem(@Param("app")int app,@Param("dimensions")String dimensions,@Param("month")String month);
-------+            "WHERE ai.`id`=#{id} AND aof.`dimensions`=#{dimensions} AND aof.`month`=#{month}")
-------+    List<Map<String, Object>> getAppQualityProblem(@Param("id")int id,@Param("dimensions")String dimensions,@Param("month")String month);
-------+
+------     @Select("  SELECT aq.id,ai.`name` as app,aq.experience,ai.flag FROM app_quality aq LEFT JOIN app_info ai ON aq.app = ai.id WHERE aq.category= (SELECT a.category FROM app_info a WHERE id = #{app} ) and aq.`month`= #{month} ORDER BY aq.experience DESC \n ")
+------     List<Map<String,Object>> queryQualityExperience(@Param("app")Integer app,@Param("month") String month);
 ------+
 ------+    /**
-------+     * 查询app某一个维度产品运营问题的方法
-------+     * @param id
-------+     * @param dimensions
-------+     * @param month
+------+     * 查询app的logo
+------+     * @param appId
 ------+     * @return
 ------+     */
-------+    @Select("SELECT aof.`month`,ac.name,ai.`name`,aof.`version`,aof.`dimensions`,aof.`three_level_index`,aof.`specific_channel`,aof.`detailed_description`,aof.`test_value` " +
-------+            "FROM app_info ai JOIN app_original_features aof ON ai.`id`=aof.`app` LEFT JOIN app_category ac ON ai.`category`= ac.id\n" +
-------+            "WHERE ai.`id`=#{id} AND aof.`dimensions`=#{dimensions} AND aof.`month`=#{month}")
-------+    List<Map<String, Object>> getAppOperationProblem(@Param("id")int id,@Param("dimensions")String dimensions,@Param("month")String month);
------- 
+------+    @Select("SELECT logo FROM app_logo WHERE app=#{appId}")
+------+    String getAppLogo(@Param("appId")int appId);
+------+
 ------ }
-------diff --git a/index-server/src/main/java/com/cmri/um/he/index/service/AppProblemService.java b/index-server/src/main/java/com/cmri/um/he/index/service/AppProblemService.java
-------index c06f84d..3b4f56d 100644
---------- a/index-server/src/main/java/com/cmri/um/he/index/service/AppProblemService.java
-------+++ b/index-server/src/main/java/com/cmri/um/he/index/service/AppProblemService.java
-------@@ -6,15 +6,28 @@ import java.util.List;
------- import java.util.Map;
------- 
------- /**
-------- * 查询app某一具体维度的问题列表
-------- * Created by machao on 2018/7/3.
-------+ * 查询app某维度的问题
-------+ * @author machao
-------+ * Created on 2018/7/4
-------  */
------- public interface AppProblemService {
-------     /**
--------     * 查询app某一个维度问题点方法
--------     * @param app
-------+     * 查询app某一个维度产品品质问题的方法
-------+     * @param id
-------      * @param dimensions
-------+     * @param month
+------diff --git a/index-server/src/main/java/com/cmri/um/he/index/service/AppQualityService.java b/index-server/src/main/java/com/cmri/um/he/index/service/AppQualityService.java
+------index 6a64c5f..7f1a253 100644
+--------- a/index-server/src/main/java/com/cmri/um/he/index/service/AppQualityService.java
+------+++ b/index-server/src/main/java/com/cmri/um/he/index/service/AppQualityService.java
+------@@ -69,4 +69,11 @@ public interface AppQualityService {
 ------      * @return
 ------      */
--------    public List<Map<String, Object>> getAppProblem(int app,String dimensions,String month);
-------+    public List<Map<String, Object>> getAppQualityProblem(int id,String dimensions,String month);
+------     List queryQualityExperience(Integer app, String month);
 ------+
 ------+    /**
-------+     * 查询app某一个维度产品运营问题的方法
-------+     * @param id
-------+     * @param dimensions
-------+     * @param month
+------+     * 查询app的logo
+------+     * @param appId
 ------+     * @return
 ------+     */
-------+    public List<Map<String, Object>> getAppOperationProblem(int id,String dimensions,String month);
-------+
-------+
+------+    String getAppLogo(int appId);
 ------ }
-------diff --git a/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppProblemServiceImpl.java b/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppProblemServiceImpl.java
-------index 0655ecf..03cf5e8 100644
---------- a/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppProblemServiceImpl.java
-------+++ b/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppProblemServiceImpl.java
-------@@ -9,8 +9,9 @@ import java.util.List;
------- import java.util.Map;
------- 
------- /**
-------- * 查询app某一具体维度的问题列表
-------- * Created by machao on 2018/7/3.
-------+ * 查询app某维度的问题
-------+ * @author machao
-------+ * Created on 2018/7/4
-------  */
------- @Service
------- public class AppProblemServiceImpl implements AppProblemService {
-------@@ -19,7 +20,12 @@ public class AppProblemServiceImpl implements AppProblemService {
-------     AppProblemDao appProblemDao;
------- 
-------     @Override
--------    public List<Map<String, Object>> getAppProblem(int app, String dimensions,String month) {
--------        return appProblemDao.getAppProblem(app,dimensions,month);
-------+    public List<Map<String, Object>> getAppOperationProblem(int id, String dimensions, String month) {
-------+        return appProblemDao.getAppOperationProblem(id, dimensions, month);
-------+    }
+------diff --git a/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppQualityServiceImpl.java b/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppQualityServiceImpl.java
+------index 8be4f32..d94b986 100644
+--------- a/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppQualityServiceImpl.java
+------+++ b/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppQualityServiceImpl.java
+------@@ -62,4 +62,9 @@ public class AppQualityServiceImpl implements AppQualityService {
+------     public List<Map<String, Object>> queryQualityExperience(Integer app, String month) {
+------         return appQualityDao.queryQualityExperience(app,month);
+------     }
 ------+
 ------+    @Override
-------+    public List<Map<String, Object>> getAppQualityProblem(int id, String dimensions,String month) {
-------+        return appProblemDao.getAppQualityProblem(id,dimensions,month);
-------     }
+------+    public String getAppLogo(int appId) {
+------+        return appQualityDao.getAppLogo(appId);
+------+    }
 ------ }
 ------diff --git a/patches/machao-patch_modifyComment.patch b/patches/machao-patch_modifyComment.patch
-------index 41201b0..b1c5107 100644
+------index 719be0e..a8093f7 100644
 --------- a/patches/machao-patch_modifyComment.patch
 ------+++ b/patches/machao-patch_modifyComment.patch
-------@@ -1,307 +0,0 @@
--------diff --git a/index-management/src/main/java/com/cmri/um/he/index/controller/AppQualityController.java b/index-management/src/main/java/com/cmri/um/he/index/controller/AppQualityController.java
--------new file mode 100644
--------index 0000000..bc51ed7
----------- /dev/null
--------+++ b/index-management/src/main/java/com/cmri/um/he/index/controller/AppQualityController.java
--------@@ -0,0 +1,63 @@
--------+package com.cmri.um.he.index.controller;
--------+
--------+import com.cmri.spring.common.controller.ZRestController;
--------+import com.cmri.spring.common.data.ResponseMessage;
--------+import com.cmri.um.he.index.service.AppQualityService;
--------+import org.springframework.beans.factory.annotation.Autowired;
--------+import org.springframework.web.bind.annotation.CrossOrigin;
--------+import org.springframework.web.bind.annotation.RequestMapping;
--------+import org.springframework.web.bind.annotation.RequestMethod;
--------+import org.springframework.web.bind.annotation.RestController;
--------+
--------+import java.util.List;
--------+
--------+/**
--------+ * 查询未计算体验指数的所有应用，计算应用的品质总分
--------+ * @author machao
--------+ * Created on 2018/6/28
--------+ */
--------+@RestController
--------+@CrossOrigin
--------+public class AppQualityController extends ZRestController {
--------+
--------+    @Autowired
--------+    AppQualityService appQualityService;
--------+
--------+    /**
--------+     * 查询所有未计算品质得分的应用
--------+     * @return
--------+     */
--------+    @RequestMapping(value = "/app-quality-qindex-list",method = RequestMethod.GET)
--------+    public ResponseMessage getQualityList() {
--------+
--------+        List resultList = appQualityService.quary();
--------+        ResponseMessage responseMessage = this.genResponseMessage();
--------+        if(resultList!=null && resultList.size()!=0){
--------+            responseMessage.set("qualityList",resultList);
--------+        }else {
--------+            responseMessage.setMsg("没有需要处理数据！！！");
--------+        }
--------+        return responseMessage;
--------+    }
--------+
--------+    /**
--------+     * 计算应用的品质得分并存入数据库
--------+     * @return
--------+     */
--------+    @RequestMapping(value = "/app-quality-qindex",method = RequestMethod.GET)
--------+    public ResponseMessage setQindex(){
--------+        List quaryList = appQualityService.quary();
--------+        ResponseMessage responseMessage = this.genResponseMessage();
--------+        if(quaryList!=null && quaryList.size()!=0){
--------+            boolean b = appQualityService.setQindex(quaryList);
--------+            if (b){
--------+                responseMessage.setMsg("处理成功！");
--------+            }else {
--------+                responseMessage.setMsg("处理失败！");
--------+            }
--------+        }else {
--------+            return responseMessage.setMsg("没有需要处理数据！！！");
--------+        }
--------+        return responseMessage;
--------+    }
--------+}
--------diff --git a/index-management/src/main/java/com/cmri/um/he/index/dao/AppQualityDao.java b/index-management/src/main/java/com/cmri/um/he/index/dao/AppQualityDao.java
--------new file mode 100644
--------index 0000000..8889a19
----------- /dev/null
--------+++ b/index-management/src/main/java/com/cmri/um/he/index/dao/AppQualityDao.java
--------@@ -0,0 +1,41 @@
--------+package com.cmri.um.he.index.dao;
--------+
--------+import com.cmri.um.he.index.entity.AppQualityEntity;
--------+import com.cmri.um.he.index.mapper.AppQualityMapper;
--------+import org.springframework.beans.factory.annotation.Autowired;
--------+import org.springframework.stereotype.Repository;
--------+
--------+import java.util.List;
--------+import java.util.Map;
--------+
--------+/**
--------+ * 查询未计算体验指数的所有应用，计算应用的品质总分
--------+ * @author machao
--------+ * Created on 2018/6/28
--------+ */
--------+@Repository
--------+public class AppQualityDao extends BaseDao {
--------+    @Autowired
--------+    private AppQualityMapper appQualityMapper;
--------+
--------+    /**
--------+     * 根据qindex是否为null查询所有未计算的应用
--------+     */
--------+    public List<Map<String, Object>> quaryQualityList(){
--------+        return appQualityMapper.quaryQualityList();
--------+    }
--------+
--------+
--------+    /**
--------+     * 将计算好的应用品质得分存入数据库
--------+     * @param app
--------+     * @param version
--------+     * @param month
--------+     * @param qindex
--------+     * @return
--------+     */
--------+    public int setQindex(int app,String version,String month,double qindex){
--------+        return appQualityMapper.setQindex(app,version,month,qindex);
--------+    }
--------+
--------+}
--------diff --git a/index-management/src/main/java/com/cmri/um/he/index/dao/AppWeightQualityDao.java b/index-management/src/main/java/com/cmri/um/he/index/dao/AppWeightQualityDao.java
--------index bd4a8d5..25b75b7 100644
----------- a/index-management/src/main/java/com/cmri/um/he/index/dao/AppWeightQualityDao.java
--------+++ b/index-management/src/main/java/com/cmri/um/he/index/dao/AppWeightQualityDao.java
--------@@ -18,4 +18,8 @@ public class AppWeightQualityDao {
--------     public AppWeightQualityEntity findQualityConfig(int category){
--------         return mapper.findQualityConfig(category);
--------     }
--------+
--------+    public AppWeightQualityEntity getWeight(int category){
--------+        return mapper.getWeight(category);
--------+    }
-------- }
--------diff --git a/index-management/src/main/java/com/cmri/um/he/index/mapper/AppQualityMapper.java b/index-management/src/main/java/com/cmri/um/he/index/mapper/AppQualityMapper.java
--------new file mode 100644
--------index 0000000..91010c4
----------- /dev/null
--------+++ b/index-management/src/main/java/com/cmri/um/he/index/mapper/AppQualityMapper.java
--------@@ -0,0 +1,40 @@
--------+package com.cmri.um.he.index.mapper;
--------+
--------+import com.cmri.um.he.index.entity.AppQualityEntity;
--------+import org.apache.ibatis.annotations.Mapper;
--------+import org.apache.ibatis.annotations.Param;
--------+import org.apache.ibatis.annotations.Select;
--------+import org.apache.ibatis.annotations.Update;
--------+
--------+import java.util.List;
--------+import java.util.Map;
--------+
--------+/**
--------+ * 查询未计算体验指数的所有应用，计算应用的品质总分
--------+ * @author machao
--------+ * Created on 2018/6/28
--------+ */
--------+@Mapper
--------+public interface AppQualityMapper {
--------+
--------+    /**
--------+     * 根据qindex是否为null查询所有计算的应用计算值数据的方法
--------+     * @return
--------+     */
--------+    @Select("SELECT ai.`name` as name,aq.`app` as app,aq.`category` as category,aq.`features` as features,aq.`views` as views,aq.`delay` as delay,aq.`consume` as consume,aq.`experience` as experience,aq.`version` as version,aq.`month`AS month,aq.`qindex`AS qindex\n" +
--------+            "FROM app_info AS ai JOIN app_quality AS aq ON ai.`id`=aq.`app` \n" +
--------+            "WHERE aq.`qindex` IS NULL")
--------+    List<Map<String, Object>> quaryQualityList();
--------+
--------+
--------+    /**
--------+     * 将计算好的应用品质得分存入数据库
--------+     * @param app
--------+     * @param version
--------+     * @param month
--------+     * @param qindex
--------+     * @return
--------+     */
--------+    @Update("UPDATE app_quality SET qindex = #{qindex} WHERE app=#{app} AND VERSION = #{version} AND month=#{month}")
--------+    int setQindex(@Param("app") int app,@Param("version")String version,@Param("month")String month,@Param("qindex")double qindex);
--------+}
--------diff --git a/index-management/src/main/java/com/cmri/um/he/index/mapper/AppWeightQualityMapper.java b/index-management/src/main/java/com/cmri/um/he/index/mapper/AppWeightQualityMapper.java
--------index f0022ab..d8c5ea0 100644
----------- a/index-management/src/main/java/com/cmri/um/he/index/mapper/AppWeightQualityMapper.java
--------+++ b/index-management/src/main/java/com/cmri/um/he/index/mapper/AppWeightQualityMapper.java
--------@@ -19,4 +19,12 @@ public interface AppWeightQualityMapper {
+------@@ -1,588 +0,0 @@
+-------diff --git a/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java b/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java
+-------index b8368f9..56b51af 100644
+---------- a/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java
+-------+++ b/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java
+-------@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
+------- import org.springframework.web.bind.annotation.RequestMethod;
+------- import org.springframework.web.bind.annotation.RestController;
+------- 
+-------+import javax.servlet.http.HttpServletRequest;
+-------+import java.io.IOException;
+------- import java.util.List;
+------- import java.util.Map;
+------- 
+-------@@ -32,7 +34,9 @@ public class AppProblemController extends ZRestController{
+-------      * @return
 -------      */
--------     @Select("SELECT * FROM app_weight_quality where category=#{category}")
--------     AppWeightQualityEntity findQualityConfig(int category);
--------+
--------+    /**
--------+     * 根据应用类型查询维度权重
--------+     * @param category
--------+     * @return
--------+     */
--------+    @Select("SELECT wfeatures,wview,wdelay,wconsume,wexperience FROM app_weight_quality WHERE category=#{category}")
--------+    AppWeightQualityEntity getWeight(int category);
-------- }
--------diff --git a/index-management/src/main/java/com/cmri/um/he/index/service/AppQualityService.java b/index-management/src/main/java/com/cmri/um/he/index/service/AppQualityService.java
--------new file mode 100644
--------index 0000000..346b58f
----------- /dev/null
--------+++ b/index-management/src/main/java/com/cmri/um/he/index/service/AppQualityService.java
--------@@ -0,0 +1,29 @@
--------+package com.cmri.um.he.index.service;
--------+
--------+import com.cmri.spring.common.data.PagingData;
--------+import com.cmri.um.he.index.entity.AppQualityEntity;
--------+
--------+import java.util.List;
--------+import java.util.Map;
--------+
--------+
--------+/**
--------+ * 查询未计算体验指数的所有应用，计算应用的品质总分
--------+ *
--------+ * @author machao
--------+ * Created on 2018/6/28
--------+ */
--------+public interface AppQualityService {
--------+    /**
--------+     * 查询所有未计算的应用
--------+     * @return
--------+     */
--------+    public List<Map<String, Object>> quary();
--------+
--------+    /**
--------+     * 计算应用的品质得分并粗如数据库
--------+     * @param qualityEntityList
--------+     * @return
--------+     */
--------+    public boolean setQindex(List<Map<String, Object>> qualityEntityList);
--------+}
--------diff --git a/index-management/src/main/java/com/cmri/um/he/index/service/impl/AppQualityServiceImpl.java b/index-management/src/main/java/com/cmri/um/he/index/service/impl/AppQualityServiceImpl.java
--------new file mode 100644
--------index 0000000..204c62e
----------- /dev/null
--------+++ b/index-management/src/main/java/com/cmri/um/he/index/service/impl/AppQualityServiceImpl.java
--------@@ -0,0 +1,74 @@
--------+package com.cmri.um.he.index.service.impl;
--------+
--------+import com.cmri.um.he.index.dao.AppQualityDao;
--------+import com.cmri.um.he.index.dao.AppWeightQualityDao;
--------+import com.cmri.um.he.index.entity.AppQualityEntity;
--------+import com.cmri.um.he.index.entity.AppWeightQualityEntity;
--------+import com.cmri.um.he.index.service.AppQualityService;
--------+import org.springframework.beans.factory.annotation.Autowired;
--------+import org.springframework.stereotype.Service;
--------+
--------+
--------+import java.text.DecimalFormat;
--------+import java.util.List;
--------+import java.util.Map;
--------+
--------+/**
--------+ * 查询未计算体验指数的所有应用，计算应用的品质总分
--------+ * @author machao
--------+ * Created on 2018/6/28
--------+ */
--------+@Service
--------+public class AppQualityServiceImpl implements AppQualityService {
--------+
--------+    @Autowired
--------+    AppQualityDao appQualityDao;
--------+
--------+    @Autowired
--------+    AppWeightQualityDao appWeightQualityDao;
--------+
--------+    private final static DecimalFormat DF=new DecimalFormat("#,##0.00");
--------+
--------+    /**
--------+     * 查询未计算的应用
--------+     * @return
--------+     */
--------+    @Override
--------+    public List<Map<String, Object>> quary() {
--------+
--------+        return appQualityDao.quaryQualityList();
--------+    }
--------+
--------+    /**
--------+     * 计算应用的品质得分并存入数据库
--------+     * @param qualityEntityList
--------+     * @return
--------+     */
--------+    @Override
--------+    public boolean setQindex(List<Map<String, Object>> qualityEntityList) {
--------+        double qindex=0;
--------+        try {
--------+            for (Map<String, Object> appQualityEntity : qualityEntityList) {
--------+
--------+                AppWeightQualityEntity appWeightQualityEntity = appWeightQualityDao.getWeight((int)appQualityEntity.get("category"));
--------+                double feature = appWeightQualityEntity.getWfeatures();
--------+                double view = appWeightQualityEntity.getWview();
--------+                double delay = appWeightQualityEntity.getWdelay();
--------+                double consume = appWeightQualityEntity.getWconsume();
--------+                double experience = appWeightQualityEntity.getWexperience();
--------+
--------+                //APP品质总得分=Σ（各维度品质标准值*该维度权重）
--------+                qindex = (double)appQualityEntity.get("features")*feature+(double)appQualityEntity.get("views")*view+(double)appQualityEntity.get("delay")*delay+(double)appQualityEntity.get("consume")*consume+(double)appQualityEntity.get("experience")*experience;;
--------+                String qindex1 = DF.format(qindex);
--------+                qindex = Double.valueOf(qindex1);
--------+                int i = appQualityDao.setQindex((int)appQualityEntity.get("app"), (String) appQualityEntity.get("version"), (String) appQualityEntity.get("month"), qindex);
--------+
--------+            }
--------+            return true;
--------+        }catch (Exception e){
--------+            return false;
--------+        }
--------+
--------+    }
--------+
--------+}
+-------     @RequestMapping(value = "/app-quality-problem",method = RequestMethod.GET)
+--------    public ResponseMessage getAppQualityProblem(int id,String dimensions,String month){
+-------+    public ResponseMessage getAppQualityProblem(HttpServletRequest request,int id, String dimensions, String month)throws IOException{
+-------+        String dimensions1 = request.getParameter("dimensions");
+-------+        dimensions = new String(dimensions1.getBytes("iso-8859-1"), "utf-8");
+-------         List<Map<String, Object>> appQualityProblemList = appProblemService.getAppQualityProblem(id, dimensions,month);
+-------         ResponseMessage responseMessage=this.genResponseMessage();
+-------         if (appQualityProblemList!=null && appQualityProblemList.size()!=0){
+-------@@ -52,7 +56,9 @@ public class AppProblemController extends ZRestController{
+-------      * @return
+-------      */
+-------     @RequestMapping(value = "/app-operation-problem",method = RequestMethod.GET)
+--------    public ResponseMessage getAppOperationProblem(int id,String dimensions,String month){
+-------+    public ResponseMessage getAppOperationProblem(HttpServletRequest request,int id,String dimensions,String month)throws IOException{
+-------+        String dimensions1 = request.getParameter("dimensions");
+-------+        dimensions = new String(dimensions1.getBytes("iso-8859-1"), "utf-8");
+-------         List<Map<String, Object>> appOperationProblemList = appProblemService.getAppOperationProblem(id, dimensions,month);
+-------         ResponseMessage responseMessage=this.genResponseMessage();
+-------         if (appOperationProblemList!=null && appOperationProblemList.size()!=0){
+-------diff --git a/patches/machao-patch_modifyComment.patch b/patches/machao-patch_modifyComment.patch
+-------index dd9f7fd..e69de29 100644
+---------- a/patches/machao-patch_modifyComment.patch
+-------+++ b/patches/machao-patch_modifyComment.patch
+-------@@ -1,548 +0,0 @@
+--------diff --git a/index-server/src/main/java/com/cmri/um/he/index/controller/AppOperationsController.java b/index-server/src/main/java/com/cmri/um/he/index/controller/AppOperationsController.java
+--------index cb116b5..2d35ac3 100644
+----------- a/index-server/src/main/java/com/cmri/um/he/index/controller/AppOperationsController.java
+--------+++ b/index-server/src/main/java/com/cmri/um/he/index/controller/AppOperationsController.java
+--------@@ -1,4 +1,5 @@
+-------- package com.cmri.um.he.index.controller;
+-------- 
+--------+
+-------- public class AppOperationsController {
+-------- }
+--------diff --git a/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java b/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java
+--------index 95dc64a..b8368f9 100644
+----------- a/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java
+--------+++ b/index-server/src/main/java/com/cmri/um/he/index/controller/AppProblemController.java
+--------@@ -13,11 +13,11 @@ import java.util.List;
+-------- import java.util.Map;
+-------- 
+-------- /**
+--------- * 提供App维度问题列表
+--------- * Created by machao on 2018/7/3.
+--------+ * 查询app某维度的问题
+--------+ * @author machao
+--------+ * Created on 2018/7/4
+--------  */
+-------- @RestController
+---------@RequestMapping("/app-problem")
+-------- @CrossOrigin
+-------- public class AppProblemController extends ZRestController{
+-------- 
+--------@@ -25,17 +25,38 @@ public class AppProblemController extends ZRestController{
+--------     AppProblemService appProblemService;
+-------- 
+--------     /**
+---------     * 查询app某一个维度问题点方法
+---------     * @param app
+--------+     * 查询app某一个维度产品品质问题的方法
+--------+     * @param id
+--------      * @param dimensions
+--------+     * @param month
+--------      * @return
+--------      */
+---------    @RequestMapping(method = RequestMethod.GET)
+---------    public ResponseMessage getAppProblem(int app,String dimensions,String month){
+---------        List<Map<String, Object>> appProblemList = appProblemService.getAppProblem(app, dimensions,month);
+--------+    @RequestMapping(value = "/app-quality-problem",method = RequestMethod.GET)
+--------+    public ResponseMessage getAppQualityProblem(int id,String dimensions,String month){
+--------+        List<Map<String, Object>> appQualityProblemList = appProblemService.getAppQualityProblem(id, dimensions,month);
+--------         ResponseMessage responseMessage=this.genResponseMessage();
+---------        if (appProblemList!=null && appProblemList.size()!=0){
+---------            responseMessage.set("appProblemList",appProblemList);
+--------+        if (appQualityProblemList!=null && appQualityProblemList.size()!=0){
+--------+            responseMessage.set("appQualityProblemList",appQualityProblemList);
+--------+        }else {
+--------+            responseMessage.set("message","当前维度还没有记录问题！！！");
+--------+        }
+--------+        return responseMessage;
+--------+    }
+--------+
+--------+
+--------+    /**
+--------+     * 查询app某一个维度产品运营问题的方法
+--------+     * @param id
+--------+     * @param dimensions
+--------+     * @param month
+--------+     * @return
+--------+     */
+--------+    @RequestMapping(value = "/app-operation-problem",method = RequestMethod.GET)
+--------+    public ResponseMessage getAppOperationProblem(int id,String dimensions,String month){
+--------+        List<Map<String, Object>> appOperationProblemList = appProblemService.getAppOperationProblem(id, dimensions,month);
+--------+        ResponseMessage responseMessage=this.genResponseMessage();
+--------+        if (appOperationProblemList!=null && appOperationProblemList.size()!=0){
+--------+            responseMessage.set("appOperationProblemList",appOperationProblemList);
+--------         }else {
+--------             responseMessage.set("message","当前维度还没有记录问题！！！");
+--------         }
+--------diff --git a/index-server/src/main/java/com/cmri/um/he/index/dao/AppProblemDao.java b/index-server/src/main/java/com/cmri/um/he/index/dao/AppProblemDao.java
+--------index 7887ba2..a3d89b3 100644
+----------- a/index-server/src/main/java/com/cmri/um/he/index/dao/AppProblemDao.java
+--------+++ b/index-server/src/main/java/com/cmri/um/he/index/dao/AppProblemDao.java
+--------@@ -8,8 +8,9 @@ import java.util.List;
+-------- import java.util.Map;
+-------- 
+-------- /**
+--------- * 查询app某一具体维度的问题列表
+--------- * Created by machao on 2018/7/3.
+--------+ * 查询app某维度的问题
+--------+ * @author machao
+--------+ * Created on 2018/7/4
+--------  */
+-------- @Repository
+-------- public class AppProblemDao extends BaseDao{
+--------@@ -18,12 +19,27 @@ public class AppProblemDao extends BaseDao{
+--------     AppProblemMapper appProblemMapper;
+-------- 
+--------     /**
+---------     * 根据应用以及维度查询问题列表
+---------     * @param app
+--------+     * 查询app某一个维度产品品质问题的方法
+--------+     * @param id
+--------      * @param dimensions
+--------+     * @param month
+--------      * @return
+--------      */
+---------    public List<Map<String, Object>> getAppProblem(int app,String dimensions,String month) {
+---------        return appProblemMapper.getAppProblem(app,dimensions,month);
+--------+    public List<Map<String, Object>> getAppQualityProblem(int id,String dimensions,String month) {
+--------+        return appProblemMapper.getAppQualityProblem(id,dimensions,month);
+--------+
+--------     }
+--------+
+--------+    /**
+--------+     * 查询app某一个维度产品运营问题的方法
+--------+     * @param id
+--------+     * @param dimensions
+--------+     * @param month
+--------+     * @return
+--------+     */
+--------+    public List<Map<String, Object>> getAppOperationProblem(int id,String dimensions,String month) {
+--------+        return appProblemMapper.getAppOperationProblem(id,dimensions,month);
+--------+    }
+--------+
+--------+
+-------- }
+--------diff --git a/index-server/src/main/java/com/cmri/um/he/index/mapper/AppProblemMapper.java b/index-server/src/main/java/com/cmri/um/he/index/mapper/AppProblemMapper.java
+--------index 0bac326..680cd5f 100644
+----------- a/index-server/src/main/java/com/cmri/um/he/index/mapper/AppProblemMapper.java
+--------+++ b/index-server/src/main/java/com/cmri/um/he/index/mapper/AppProblemMapper.java
+--------@@ -11,20 +11,34 @@ import java.util.Map;
+-------- /**
+--------  * App维度问题
+--------  * @author machao
+--------- * Created on 2018/7/3
+--------+ * Created on 2018/7/4
+--------  */
+-------- @Mapper
+-------- public interface AppProblemMapper {
+-------- 
+--------     /**
+---------     * 查询app某一具体维度的问题列表
+---------     * @param app
+--------+     * 查询app某一个维度产品品质问题的方法
+--------+     * @param id
+--------      * @param dimensions
+--------+     * @param month
+--------      * @return
+--------      */
+--------     @Select("SELECT aof.`month`,ac.`name`as category,ai.`name` as app,aof.`version`,aof.`dimensions`,aof.`des`,aof.`experience`,aof.`frequency`,aof.`score`,aof.`degree` " +
+--------             "FROM app_info ai JOIN app_original_features aof ON ai.`id`=aof.`app` LEFT JOIN app_category ac ON ai.`category`= ac.id\n" +
+---------            "WHERE ai.`id`=#{app} AND aof.`dimensions`=#{dimensions} AND aof.`month`=#{month}")
+---------    List<Map<String, Object>> getAppProblem(@Param("app")int app,@Param("dimensions")String dimensions,@Param("month")String month);
+--------+            "WHERE ai.`id`=#{id} AND aof.`dimensions`=#{dimensions} AND aof.`month`=#{month}")
+--------+    List<Map<String, Object>> getAppQualityProblem(@Param("id")int id,@Param("dimensions")String dimensions,@Param("month")String month);
+--------+
+--------+
+--------+    /**
+--------+     * 查询app某一个维度产品运营问题的方法
+--------+     * @param id
+--------+     * @param dimensions
+--------+     * @param month
+--------+     * @return
+--------+     */
+--------+    @Select("SELECT aof.`month`,ac.name,ai.`name`,aof.`version`,aof.`dimensions`,aof.`three_level_index`,aof.`specific_channel`,aof.`detailed_description`,aof.`test_value` " +
+--------+            "FROM app_info ai JOIN app_original_features aof ON ai.`id`=aof.`app` LEFT JOIN app_category ac ON ai.`category`= ac.id\n" +
+--------+            "WHERE ai.`id`=#{id} AND aof.`dimensions`=#{dimensions} AND aof.`month`=#{month}")
+--------+    List<Map<String, Object>> getAppOperationProblem(@Param("id")int id,@Param("dimensions")String dimensions,@Param("month")String month);
+-------- 
+-------- }
+--------diff --git a/index-server/src/main/java/com/cmri/um/he/index/service/AppProblemService.java b/index-server/src/main/java/com/cmri/um/he/index/service/AppProblemService.java
+--------index c06f84d..3b4f56d 100644
+----------- a/index-server/src/main/java/com/cmri/um/he/index/service/AppProblemService.java
+--------+++ b/index-server/src/main/java/com/cmri/um/he/index/service/AppProblemService.java
+--------@@ -6,15 +6,28 @@ import java.util.List;
+-------- import java.util.Map;
+-------- 
+-------- /**
+--------- * 查询app某一具体维度的问题列表
+--------- * Created by machao on 2018/7/3.
+--------+ * 查询app某维度的问题
+--------+ * @author machao
+--------+ * Created on 2018/7/4
+--------  */
+-------- public interface AppProblemService {
+--------     /**
+---------     * 查询app某一个维度问题点方法
+---------     * @param app
+--------+     * 查询app某一个维度产品品质问题的方法
+--------+     * @param id
+--------      * @param dimensions
+--------+     * @param month
+--------      * @return
+--------      */
+---------    public List<Map<String, Object>> getAppProblem(int app,String dimensions,String month);
+--------+    public List<Map<String, Object>> getAppQualityProblem(int id,String dimensions,String month);
+--------+
+--------+    /**
+--------+     * 查询app某一个维度产品运营问题的方法
+--------+     * @param id
+--------+     * @param dimensions
+--------+     * @param month
+--------+     * @return
+--------+     */
+--------+    public List<Map<String, Object>> getAppOperationProblem(int id,String dimensions,String month);
+--------+
+--------+
+-------- }
+--------diff --git a/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppProblemServiceImpl.java b/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppProblemServiceImpl.java
+--------index 0655ecf..03cf5e8 100644
+----------- a/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppProblemServiceImpl.java
+--------+++ b/index-server/src/main/java/com/cmri/um/he/index/service/impl/AppProblemServiceImpl.java
+--------@@ -9,8 +9,9 @@ import java.util.List;
+-------- import java.util.Map;
+-------- 
+-------- /**
+--------- * 查询app某一具体维度的问题列表
+--------- * Created by machao on 2018/7/3.
+--------+ * 查询app某维度的问题
+--------+ * @author machao
+--------+ * Created on 2018/7/4
+--------  */
+-------- @Service
+-------- public class AppProblemServiceImpl implements AppProblemService {
+--------@@ -19,7 +20,12 @@ public class AppProblemServiceImpl implements AppProblemService {
+--------     AppProblemDao appProblemDao;
+-------- 
+--------     @Override
+---------    public List<Map<String, Object>> getAppProblem(int app, String dimensions,String month) {
+---------        return appProblemDao.getAppProblem(app,dimensions,month);
+--------+    public List<Map<String, Object>> getAppOperationProblem(int id, String dimensions, String month) {
+--------+        return appProblemDao.getAppOperationProblem(id, dimensions, month);
+--------+    }
+--------+
+--------+    @Override
+--------+    public List<Map<String, Object>> getAppQualityProblem(int id, String dimensions,String month) {
+--------+        return appProblemDao.getAppQualityProblem(id,dimensions,month);
+--------     }
+-------- }
+--------diff --git a/patches/machao-patch_modifyComment.patch b/patches/machao-patch_modifyComment.patch
+--------index 41201b0..b1c5107 100644
+----------- a/patches/machao-patch_modifyComment.patch
+--------+++ b/patches/machao-patch_modifyComment.patch
+--------@@ -1,307 +0,0 @@
+---------diff --git a/index-management/src/main/java/com/cmri/um/he/index/controller/AppQualityController.java b/index-management/src/main/java/com/cmri/um/he/index/controller/AppQualityController.java
+---------new file mode 100644
+---------index 0000000..bc51ed7
+------------ /dev/null
+---------+++ b/index-management/src/main/java/com/cmri/um/he/index/controller/AppQualityController.java
+---------@@ -0,0 +1,63 @@
+---------+package com.cmri.um.he.index.controller;
+---------+
+---------+import com.cmri.spring.common.controller.ZRestController;
+---------+import com.cmri.spring.common.data.ResponseMessage;
+---------+import com.cmri.um.he.index.service.AppQualityService;
+---------+import org.springframework.beans.factory.annotation.Autowired;
+---------+import org.springframework.web.bind.annotation.CrossOrigin;
+---------+import org.springframework.web.bind.annotation.RequestMapping;
+---------+import org.springframework.web.bind.annotation.RequestMethod;
+---------+import org.springframework.web.bind.annotation.RestController;
+---------+
+---------+import java.util.List;
+---------+
+---------+/**
+---------+ * 查询未计算体验指数的所有应用，计算应用的品质总分
+---------+ * @author machao
+---------+ * Created on 2018/6/28
+---------+ */
+---------+@RestController
+---------+@CrossOrigin
+---------+public class AppQualityController extends ZRestController {
+---------+
+---------+    @Autowired
+---------+    AppQualityService appQualityService;
+---------+
+---------+    /**
+---------+     * 查询所有未计算品质得分的应用
+---------+     * @return
+---------+     */
+---------+    @RequestMapping(value = "/app-quality-qindex-list",method = RequestMethod.GET)
+---------+    public ResponseMessage getQualityList() {
+---------+
+---------+        List resultList = appQualityService.quary();
+---------+        ResponseMessage responseMessage = this.genResponseMessage();
+---------+        if(resultList!=null && resultList.size()!=0){
+---------+            responseMessage.set("qualityList",resultList);
+---------+        }else {
+---------+            responseMessage.setMsg("没有需要处理数据！！！");
+---------+        }
+---------+        return responseMessage;
+---------+    }
+---------+
+---------+    /**
+---------+     * 计算应用的品质得分并存入数据库
+---------+     * @return
+---------+     */
+---------+    @RequestMapping(value = "/app-quality-qindex",method = RequestMethod.GET)
+---------+    public ResponseMessage setQindex(){
+---------+        List quaryList = appQualityService.quary();
+---------+        ResponseMessage responseMessage = this.genResponseMessage();
+---------+        if(quaryList!=null && quaryList.size()!=0){
+---------+            boolean b = appQualityService.setQindex(quaryList);
+---------+            if (b){
+---------+                responseMessage.setMsg("处理成功！");
+---------+            }else {
+---------+                responseMessage.setMsg("处理失败！");
+---------+            }
+---------+        }else {
+---------+            return responseMessage.setMsg("没有需要处理数据！！！");
+---------+        }
+---------+        return responseMessage;
+---------+    }
+---------+}
+---------diff --git a/index-management/src/main/java/com/cmri/um/he/index/dao/AppQualityDao.java b/index-management/src/main/java/com/cmri/um/he/index/dao/AppQualityDao.java
+---------new file mode 100644
+---------index 0000000..8889a19
+------------ /dev/null
+---------+++ b/index-management/src/main/java/com/cmri/um/he/index/dao/AppQualityDao.java
+---------@@ -0,0 +1,41 @@
+---------+package com.cmri.um.he.index.dao;
+---------+
+---------+import com.cmri.um.he.index.entity.AppQualityEntity;
+---------+import com.cmri.um.he.index.mapper.AppQualityMapper;
+---------+import org.springframework.beans.factory.annotation.Autowired;
+---------+import org.springframework.stereotype.Repository;
+---------+
+---------+import java.util.List;
+---------+import java.util.Map;
+---------+
+---------+/**
+---------+ * 查询未计算体验指数的所有应用，计算应用的品质总分
+---------+ * @author machao
+---------+ * Created on 2018/6/28
+---------+ */
+---------+@Repository
+---------+public class AppQualityDao extends BaseDao {
+---------+    @Autowired
+---------+    private AppQualityMapper appQualityMapper;
+---------+
+---------+    /**
+---------+     * 根据qindex是否为null查询所有未计算的应用
+---------+     */
+---------+    public List<Map<String, Object>> quaryQualityList(){
+---------+        return appQualityMapper.quaryQualityList();
+---------+    }
+---------+
+---------+
+---------+    /**
+---------+     * 将计算好的应用品质得分存入数据库
+---------+     * @param app
+---------+     * @param version
+---------+     * @param month
+---------+     * @param qindex
+---------+     * @return
+---------+     */
+---------+    public int setQindex(int app,String version,String month,double qindex){
+---------+        return appQualityMapper.setQindex(app,version,month,qindex);
+---------+    }
+---------+
+---------+}
+---------diff --git a/index-management/src/main/java/com/cmri/um/he/index/dao/AppWeightQualityDao.java b/index-management/src/main/java/com/cmri/um/he/index/dao/AppWeightQualityDao.java
+---------index bd4a8d5..25b75b7 100644
+------------ a/index-management/src/main/java/com/cmri/um/he/index/dao/AppWeightQualityDao.java
+---------+++ b/index-management/src/main/java/com/cmri/um/he/index/dao/AppWeightQualityDao.java
+---------@@ -18,4 +18,8 @@ public class AppWeightQualityDao {
+---------     public AppWeightQualityEntity findQualityConfig(int category){
+---------         return mapper.findQualityConfig(category);
+---------     }
+---------+
+---------+    public AppWeightQualityEntity getWeight(int category){
+---------+        return mapper.getWeight(category);
+---------+    }
+--------- }
+---------diff --git a/index-management/src/main/java/com/cmri/um/he/index/mapper/AppQualityMapper.java b/index-management/src/main/java/com/cmri/um/he/index/mapper/AppQualityMapper.java
+---------new file mode 100644
+---------index 0000000..91010c4
+------------ /dev/null
+---------+++ b/index-management/src/main/java/com/cmri/um/he/index/mapper/AppQualityMapper.java
+---------@@ -0,0 +1,40 @@
+---------+package com.cmri.um.he.index.mapper;
+---------+
+---------+import com.cmri.um.he.index.entity.AppQualityEntity;
+---------+import org.apache.ibatis.annotations.Mapper;
+---------+import org.apache.ibatis.annotations.Param;
+---------+import org.apache.ibatis.annotations.Select;
+---------+import org.apache.ibatis.annotations.Update;
+---------+
+---------+import java.util.List;
+---------+import java.util.Map;
+---------+
+---------+/**
+---------+ * 查询未计算体验指数的所有应用，计算应用的品质总分
+---------+ * @author machao
+---------+ * Created on 2018/6/28
+---------+ */
+---------+@Mapper
+---------+public interface AppQualityMapper {
+---------+
+---------+    /**
+---------+     * 根据qindex是否为null查询所有计算的应用计算值数据的方法
+---------+     * @return
+---------+     */
+---------+    @Select("SELECT ai.`name` as name,aq.`app` as app,aq.`category` as category,aq.`features` as features,aq.`views` as views,aq.`delay` as delay,aq.`consume` as consume,aq.`experience` as experience,aq.`version` as version,aq.`month`AS month,aq.`qindex`AS qindex\n" +
+---------+            "FROM app_info AS ai JOIN app_quality AS aq ON ai.`id`=aq.`app` \n" +
+---------+            "WHERE aq.`qindex` IS NULL")
+---------+    List<Map<String, Object>> quaryQualityList();
+---------+
+---------+
+---------+    /**
+---------+     * 将计算好的应用品质得分存入数据库
+---------+     * @param app
+---------+     * @param version
+---------+     * @param month
+---------+     * @param qindex
+---------+     * @return
+---------+     */
+---------+    @Update("UPDATE app_quality SET qindex = #{qindex} WHERE app=#{app} AND VERSION = #{version} AND month=#{month}")
+---------+    int setQindex(@Param("app") int app,@Param("version")String version,@Param("month")String month,@Param("qindex")double qindex);
+---------+}
+---------diff --git a/index-management/src/main/java/com/cmri/um/he/index/mapper/AppWeightQualityMapper.java b/index-management/src/main/java/com/cmri/um/he/index/mapper/AppWeightQualityMapper.java
+---------index f0022ab..d8c5ea0 100644
+------------ a/index-management/src/main/java/com/cmri/um/he/index/mapper/AppWeightQualityMapper.java
+---------+++ b/index-management/src/main/java/com/cmri/um/he/index/mapper/AppWeightQualityMapper.java
+---------@@ -19,4 +19,12 @@ public interface AppWeightQualityMapper {
+---------      */
+---------     @Select("SELECT * FROM app_weight_quality where category=#{category}")
+---------     AppWeightQualityEntity findQualityConfig(int category);
+---------+
+---------+    /**
+---------+     * 根据应用类型查询维度权重
+---------+     * @param category
+---------+     * @return
+---------+     */
+---------+    @Select("SELECT wfeatures,wview,wdelay,wconsume,wexperience FROM app_weight_quality WHERE category=#{category}")
+---------+    AppWeightQualityEntity getWeight(int category);
+--------- }
+---------diff --git a/index-management/src/main/java/com/cmri/um/he/index/service/AppQualityService.java b/index-management/src/main/java/com/cmri/um/he/index/service/AppQualityService.java
+---------new file mode 100644
+---------index 0000000..346b58f
+------------ /dev/null
+---------+++ b/index-management/src/main/java/com/cmri/um/he/index/service/AppQualityService.java
+---------@@ -0,0 +1,29 @@
+---------+package com.cmri.um.he.index.service;
+---------+
+---------+import com.cmri.spring.common.data.PagingData;
+---------+import com.cmri.um.he.index.entity.AppQualityEntity;
+---------+
+---------+import java.util.List;
+---------+import java.util.Map;
+---------+
+---------+
+---------+/**
+---------+ * 查询未计算体验指数的所有应用，计算应用的品质总分
+---------+ *
+---------+ * @author machao
+---------+ * Created on 2018/6/28
+---------+ */
+---------+public interface AppQualityService {
+---------+    /**
+---------+     * 查询所有未计算的应用
+---------+     * @return
+---------+     */
+---------+    public List<Map<String, Object>> quary();
+---------+
+---------+    /**
+---------+     * 计算应用的品质得分并粗如数据库
+---------+     * @param qualityEntityList
+---------+     * @return
+---------+     */
+---------+    public boolean setQindex(List<Map<String, Object>> qualityEntityList);
+---------+}
+---------diff --git a/index-management/src/main/java/com/cmri/um/he/index/service/impl/AppQualityServiceImpl.java b/index-management/src/main/java/com/cmri/um/he/index/service/impl/AppQualityServiceImpl.java
+---------new file mode 100644
+---------index 0000000..204c62e
+------------ /dev/null
+---------+++ b/index-management/src/main/java/com/cmri/um/he/index/service/impl/AppQualityServiceImpl.java
+---------@@ -0,0 +1,74 @@
+---------+package com.cmri.um.he.index.service.impl;
+---------+
+---------+import com.cmri.um.he.index.dao.AppQualityDao;
+---------+import com.cmri.um.he.index.dao.AppWeightQualityDao;
+---------+import com.cmri.um.he.index.entity.AppQualityEntity;
+---------+import com.cmri.um.he.index.entity.AppWeightQualityEntity;
+---------+import com.cmri.um.he.index.service.AppQualityService;
+---------+import org.springframework.beans.factory.annotation.Autowired;
+---------+import org.springframework.stereotype.Service;
+---------+
+---------+
+---------+import java.text.DecimalFormat;
+---------+import java.util.List;
+---------+import java.util.Map;
+---------+
+---------+/**
+---------+ * 查询未计算体验指数的所有应用，计算应用的品质总分
+---------+ * @author machao
+---------+ * Created on 2018/6/28
+---------+ */
+---------+@Service
+---------+public class AppQualityServiceImpl implements AppQualityService {
+---------+
+---------+    @Autowired
+---------+    AppQualityDao appQualityDao;
+---------+
+---------+    @Autowired
+---------+    AppWeightQualityDao appWeightQualityDao;
+---------+
+---------+    private final static DecimalFormat DF=new DecimalFormat("#,##0.00");
+---------+
+---------+    /**
+---------+     * 查询未计算的应用
+---------+     * @return
+---------+     */
+---------+    @Override
+---------+    public List<Map<String, Object>> quary() {
+---------+
+---------+        return appQualityDao.quaryQualityList();
+---------+    }
+---------+
+---------+    /**
+---------+     * 计算应用的品质得分并存入数据库
+---------+     * @param qualityEntityList
+---------+     * @return
+---------+     */
+---------+    @Override
+---------+    public boolean setQindex(List<Map<String, Object>> qualityEntityList) {
+---------+        double qindex=0;
+---------+        try {
+---------+            for (Map<String, Object> appQualityEntity : qualityEntityList) {
+---------+
+---------+                AppWeightQualityEntity appWeightQualityEntity = appWeightQualityDao.getWeight((int)appQualityEntity.get("category"));
+---------+                double feature = appWeightQualityEntity.getWfeatures();
+---------+                double view = appWeightQualityEntity.getWview();
+---------+                double delay = appWeightQualityEntity.getWdelay();
+---------+                double consume = appWeightQualityEntity.getWconsume();
+---------+                double experience = appWeightQualityEntity.getWexperience();
+---------+
+---------+                //APP品质总得分=Σ（各维度品质标准值*该维度权重）
+---------+                qindex = (double)appQualityEntity.get("features")*feature+(double)appQualityEntity.get("views")*view+(double)appQualityEntity.get("delay")*delay+(double)appQualityEntity.get("consume")*consume+(double)appQualityEntity.get("experience")*experience;;
+---------+                String qindex1 = DF.format(qindex);
+---------+                qindex = Double.valueOf(qindex1);
+---------+                int i = appQualityDao.setQindex((int)appQualityEntity.get("app"), (String) appQualityEntity.get("version"), (String) appQualityEntity.get("month"), qindex);
+---------+
+---------+            }
+---------+            return true;
+---------+        }catch (Exception e){
+---------+            return false;
+---------+        }
+---------+
+---------+    }
+---------+
+---------+}

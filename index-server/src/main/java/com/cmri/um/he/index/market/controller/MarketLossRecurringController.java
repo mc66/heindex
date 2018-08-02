@@ -32,7 +32,12 @@ public class MarketLossRecurringController extends ZRestController{
     public ResponseMessage quaryLossRecurringExponent(@RequestParam Integer app , @RequestParam String month){
         Map<String, Object> map=marketLossRecurringService.quaryLossRecurringExponent(app,month);
         ResponseMessage responseMessage = this.genResponseMessage();
-        responseMessage.set("map",map);
+        if (map!=null&&map.size()>0){
+            responseMessage.set("map",map);
+        }else {
+            responseMessage.setMsg("此月没有数据！！！");
+            responseMessage.set("map",map);
+        }
         return responseMessage;
     }
 
