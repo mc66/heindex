@@ -37,9 +37,11 @@ public class MarketUserRetentiveServiceImpl implements MarketUserRetentiveServic
             return marketUserRetentiveDao.weekUserRetentiveTable(app,startTime,endTime);
         }else if ("month".equals(status)){
             if("null".equals(startTime) || "null".equals(endTime)){
-                Map<String, String> defaultTime = DefaultTime.getDefaultTime(Constants.YEAR, Constants.DEFAULT_YEAR);
-                startTime= defaultTime.get("startTime");
-                endTime=defaultTime.get("endTime");
+                try {
+                    startTime = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,endTime);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return marketUserRetentiveDao.monthUserRetentiveTable(app,startTime,endTime);
         }else {
@@ -57,7 +59,8 @@ public class MarketUserRetentiveServiceImpl implements MarketUserRetentiveServic
      * @return
      */
     @Override
-    public Map<String, Object> quaryUserRetentiveRate(String status, Integer app, String startTime, String endTime) {
+    public List<Map<String, Object>> quaryUserRetentiveRate(String status, Integer app, String startTime, String endTime) {
+        List<Map<String, Object>> lists=new ArrayList<>(1);
         Map<String, Object> map =new HashMap<>(4);
         if ("week".equals(status)){
 
@@ -71,15 +74,18 @@ public class MarketUserRetentiveServiceImpl implements MarketUserRetentiveServic
                 retentiveRate.add(i,list);
             }
             map.put("title",title);
-            map.put("month",month);
-            map.put("userActive",userActive);
-            map.put("retentiveRate",retentiveRate);
-            return map;
+            map.put("time",month);
+            map.put("user_number",userActive);
+            map.put("rate",retentiveRate);
+            lists.add(map);
+            return lists;
         }else if ("month".equals(status)){
             if("null".equals(startTime) || "null".equals(endTime)){
-                Map<String, String> defaultTime = DefaultTime.getDefaultTime(Constants.YEAR, Constants.DEFAULT_YEAR);
-                startTime= defaultTime.get("startTime");
-                endTime=defaultTime.get("endTime");
+                try {
+                    startTime = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,endTime);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             String[] title={"时间","活跃用户数(万)","第2月","第3月","第4月","第5月","第6月","第7月","第8月","第9月"};
@@ -92,10 +98,11 @@ public class MarketUserRetentiveServiceImpl implements MarketUserRetentiveServic
                 retentiveRate.add(i,list);
             }
             map.put("title",title);
-            map.put("month",month);
-            map.put("userActive",userActive);
-            map.put("retentiveRate",retentiveRate);
-            return map;
+            map.put("time",month);
+            map.put("user_number",userActive);
+            map.put("rate",retentiveRate);
+            lists.add(map);
+            return lists;
         }else {
             String[] title={"时间","活跃用户数(万)","第2日","第3日","第4日","第5日","第6日","第7日","第15日","第30日"};
             List<String> month = marketUserRetentiveDao.dayMonthList(app,startTime,endTime);
@@ -107,10 +114,11 @@ public class MarketUserRetentiveServiceImpl implements MarketUserRetentiveServic
                 retentiveRate.add(i,list);
             }
             map.put("title",title);
-            map.put("month",month);
-            map.put("userActive",userActive);
-            map.put("retentiveRate",retentiveRate);
-            return map;
+            map.put("time",month);
+            map.put("user_number",userActive);
+            map.put("rate",retentiveRate);
+            lists.add(map);
+            return lists;
         }
     }
 
@@ -128,9 +136,11 @@ public class MarketUserRetentiveServiceImpl implements MarketUserRetentiveServic
             return marketUserRetentiveDao.weekUserRetentiveNum(app,startTime,endTime);
         }else if ("month".equals(status)){
             if("null".equals(startTime) || "null".equals(endTime)){
-                Map<String, String> defaultTime = DefaultTime.getDefaultTime(Constants.YEAR, Constants.DEFAULT_YEAR);
-                startTime= defaultTime.get("startTime");
-                endTime=defaultTime.get("endTime");
+                try {
+                    startTime = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,endTime);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return marketUserRetentiveDao.monthUserRetentiveNum(app,startTime,endTime);
         }else {
@@ -145,22 +155,34 @@ public class MarketUserRetentiveServiceImpl implements MarketUserRetentiveServic
      * @return
      */
     @Override
-    public Map<String, Object> quaryUserRetentiveExponent(Integer app, String month) {
-        int startTimes= Integer.parseInt(month);
-        startTimes=startTimes-Constants.CONTRAST_MONTH;
-        String contrastMonth =Integer.toString(startTimes);
-        Map<String, Object> map = marketUserRetentiveDao.quaryUserRetentiveExponent(app,month);
-        Map<String, Object>  map1 = marketUserRetentiveDao.quaryUserRetentiveExponent(app,contrastMonth);
-        if ((double)map.get("retentionNum")>(double)map1.get("retentionNum")){
-            map.put("retentionNumStatus",Constants.STATUS_RISE);
-        }else {
-            map.put("retentionNumStatus",Constants.STATUS_DECLINE);
+    public List<Map<String, Object>> quaryUserRetentiveExponent(Integer app, String month) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        try {
+            String contrastMonth = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,month);
+            Map<String, Object> map = marketUserRetentiveDao.quaryUserRetentiveExponent(app,month);
+            Map<String, Object>  map1 = marketUserRetentiveDao.quaryUserRetentiveExponent(app,contrastMonth);
+            if (map==null||map.size()==0){
+                list.add(map);
+            }else if (map1==null||map1.size()==0){
+                map.put("retentionNumStatus",Constants.STATUS_RISE);
+                map.put("retentionRateStatus",Constants.STATUS_RISE);
+                list.add(map);
+            }else {
+                if ((double)map.get("retentionNum")>(double)map1.get("retentionNum")){
+                    map.put("retentionNumStatus",Constants.STATUS_RISE);
+                }else {
+                    map.put("retentionNumStatus",Constants.STATUS_DECLINE);
+                }
+                if ((double)map.get("retentionRate")>(double)map1.get("retentionRate")){
+                    map.put("retentionRateStatus",Constants.STATUS_RISE);
+                }else {
+                    map.put("retentionRateStatus",Constants.STATUS_DECLINE);
+                }
+                list.add(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if ((double)map.get("retentionRate")>(double)map1.get("retentionRate")){
-            map.put("retentionRateStatus",Constants.STATUS_RISE);
-        }else {
-            map.put("retentionRateStatus",Constants.STATUS_DECLINE);
-        }
-        return map;
+        return list;
     }
 }

@@ -28,7 +28,7 @@ public interface MarketLossRecurringService {
      * @param month
      * @return
      */
-    Map<String, Object> quaryLossRecurringExponent(Integer app ,String month);
+    List<Map<String, Object>> quaryLossRecurringExponent(Integer app ,String month);
 
     /**
      * 查询用户回流情况
