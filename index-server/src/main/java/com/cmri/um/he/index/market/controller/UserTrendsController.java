@@ -45,13 +45,13 @@ public class UserTrendsController extends ZRestController{
     /**
      * 查询累计用户数 month2
      * @param app
-     * @param month1
-     * @param month2
+     * @param startTime
+     * @param endTime
      * @return
      */
     @RequestMapping(value = "/queryTrendsCumulative",method = RequestMethod.GET)
-    public ResponseMessage queryTrendsCumulative(@RequestParam int app, @RequestParam String month1,@RequestParam String month2,@RequestParam String status) {
-        List<Map<String, Object>> list=appMarketGeneralService.getCumulativeList(app, month1, month2,status);;
+    public ResponseMessage queryTrendsCumulative(@RequestParam int app, @RequestParam String startTime, @RequestParam String endTime,@RequestParam String status) {
+        List<Map<String, Object>> list=appMarketGeneralService.getCumulativeList(app, startTime, endTime,status);;
         ResponseMessage responseMessage = this.genResponseMessage();
         if (list!=null&&list.size()>0){
             responseMessage.set("trendsCumulative",list);
@@ -64,14 +64,14 @@ public class UserTrendsController extends ZRestController{
     /**
      *   查询用户参透率
      * @param app
-     * @param month1
-     * @param month2
+     * @param startTime
+     * @param endTime
      * @param status
      * @return
      */
     @RequestMapping(value = "/queryPenetration",method = RequestMethod.GET)
-    public ResponseMessage queryPenetration(@RequestParam int app, @RequestParam String month1,@RequestParam String month2,@RequestParam String status) {
-        List<Map<String, Object>> queryPenetration = userTrendsService.queryPenetrationList(app, month1, month2, status);
+    public ResponseMessage queryPenetration(@RequestParam int app, @RequestParam String startTime, @RequestParam String endTime,@RequestParam String status) {
+        List<Map<String, Object>> queryPenetration = userTrendsService.queryPenetrationList(app, startTime, endTime, status);
         ResponseMessage responseMessage = this.genResponseMessage();
         if (queryPenetration != null && queryPenetration.size() > 0) {
             responseMessage.set("penetration", queryPenetration);
@@ -84,14 +84,14 @@ public class UserTrendsController extends ZRestController{
     /**
      *  查询用户参透率统计表
      * @param app
-     * @param month1
-     * @param month2
+     * @param startTime
+     * @param endTime
      * @param status
      * @return
      */
     @RequestMapping(value = "/queryUserStatistics",method = RequestMethod.GET)
-    public ResponseMessage queryUserStatistics(@RequestParam int app, @RequestParam String month1,@RequestParam String month2,@RequestParam String status) {
-        List<Map<String, Object>> queryUserStatistics=userTrendsService.queryUserStatisticsList(app, month1, month2,status);;
+    public ResponseMessage queryUserStatistics(@RequestParam int app, @RequestParam String startTime, @RequestParam String endTime,@RequestParam String status) {
+        List<Map<String, Object>> queryUserStatistics=userTrendsService.queryUserStatisticsList(app, startTime, endTime,status);;
         ResponseMessage responseMessage = this.genResponseMessage();
         if (queryUserStatistics!=null&&queryUserStatistics.size()>0){
             responseMessage.set("userStatistics",queryUserStatistics);
