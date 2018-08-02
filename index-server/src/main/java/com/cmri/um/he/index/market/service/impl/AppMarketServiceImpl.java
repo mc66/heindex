@@ -1,6 +1,7 @@
 package com.cmri.um.he.index.market.service.impl;
 
 import com.cmri.um.he.index.common.Constants;
+import com.cmri.um.he.index.common.DefaultTime;
 import com.cmri.um.he.index.market.dao.AppMarketDao;
 import com.cmri.um.he.index.market.service.AppMarketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,11 +42,20 @@ public class AppMarketServiceImpl implements AppMarketService {
     public List<Map<String, Object>> getMarket(int category, String month1, String month2,String status) {
         if (status.equals("month")) {
             if (month1.equals("null")) {
-                int month2s = Integer.parseInt(month2);
-                month2s = month2s - Constants.DEFAULT_MONTHS;
-                month1 = Integer.toString(month2s);
+                String st1 = month2.substring(0,4);
+                String st2 = month2.substring(4);
+                String months = st1 + "-" + st2;
+                try {
+                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, months);
+                    return appMarketDao.getMarketByMonth(category, defaultTime, month2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }else {
+                return appMarketDao.getMarketByMonth(category, month1, month2);
             }
-            return appMarketDao.getMarketByMonth(category, month1, month2);
+
         } else if (status.equals("week")) {
             return appMarketDao.getMarketByWeek(category, month1, month2);
         } else{

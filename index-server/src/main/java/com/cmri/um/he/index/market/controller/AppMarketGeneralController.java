@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 /**
  * 默认展示时获取查询时间通用方法
- * @author macha
+ * @author shihao
  * Created on 2018/7/30
  */
 @RestController
@@ -29,9 +29,9 @@ public class AppMarketGeneralController extends ZRestController {
      * @return
      */
     @RequestMapping(value = "query-length-time",method = RequestMethod.GET)
-    public ResponseMessage getLengthTime(@RequestParam Integer app , @RequestParam String month1, @RequestParam String month2,@RequestParam String status){
+    public ResponseMessage getLengthTime(@RequestParam Integer app , @RequestParam String startTime, @RequestParam String endTime,@RequestParam String status){
 
-        List<Map<String , Object>> list = appMarketGeneralService.getLengthTime(app,month1,month2,status);
+        List<Map<String , Object>> list = appMarketGeneralService.getLengthTime(app,startTime,endTime,status);
         List<String> list1=new ArrayList<>();
         List<Double> list2=new ArrayList<>();
         List<Double> list3=new ArrayList<>();
@@ -58,8 +58,8 @@ public class AppMarketGeneralController extends ZRestController {
      * @return
      */
     @RequestMapping(value = "quary-general-statistic",method = RequestMethod.GET)
-    public ResponseMessage quaryGeneralStatistic(@RequestParam Integer app , @RequestParam String month1, @RequestParam String month2,@RequestParam String status){
-        List<Map<String , Object>> list = appMarketGeneralService.quaryGeneralStatistic(app,month1,month2,status);
+    public ResponseMessage quaryGeneralStatistic(@RequestParam Integer app , @RequestParam String startTime, @RequestParam String endTime,@RequestParam String status){
+        List<Map<String , Object>> list = appMarketGeneralService.quaryGeneralStatistic(app,startTime,endTime,status);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("list",list);
         return responseMessage;
@@ -71,8 +71,8 @@ public class AppMarketGeneralController extends ZRestController {
      * @return
      */
     @RequestMapping(value = "app-market-rate",method = RequestMethod.GET)
-    public ResponseMessage getRate(@RequestParam Integer app , @RequestParam String month1, @RequestParam String month2,@RequestParam String status){
-        List list = appMarketGeneralService.getRate(app,month1,month2,status);
+    public ResponseMessage getRate(@RequestParam Integer app , @RequestParam String startTime, @RequestParam String endTime,@RequestParam String status){
+        List list = appMarketGeneralService.getRate(app,startTime,endTime,status);
         ResponseMessage responseMessage=this.genResponseMessage();
         responseMessage.set("list",list);
 
@@ -87,8 +87,8 @@ public class AppMarketGeneralController extends ZRestController {
      * @return
      */
     @RequestMapping(value = "app-market-num",method = RequestMethod.GET)
-    public ResponseMessage getUserNumber(Integer app,String month1,String month2,@RequestParam String status){
-        List<Map<String, Object>> list=appMarketGeneralService.getUserNumber(app,month1,month2,status);
+    public ResponseMessage getUserNumber(Integer app,String startTime,String endTime,@RequestParam String status){
+        List<Map<String, Object>> list=appMarketGeneralService.getUserNumber(app,startTime,endTime,status);
         List<Integer> list1=new ArrayList();
         List<Double> list2=new ArrayList();
         List<String> list3=new ArrayList();
@@ -135,8 +135,8 @@ public class AppMarketGeneralController extends ZRestController {
      * @return
      */
     @RequestMapping(value = "/queryCumulative",method = RequestMethod.GET)
-    public ResponseMessage queryCumulative(@RequestParam int app, @RequestParam String month1,@RequestParam String month2,@RequestParam String status) {
-        List<Map<String, Object>> list=appMarketGeneralService.getCumulativeList(app, month1, month2,status);;
+    public ResponseMessage queryCumulative(@RequestParam int app, @RequestParam String startTime,@RequestParam String endTime,@RequestParam String status) {
+        List<Map<String, Object>> list=appMarketGeneralService.getCumulativeList(app, startTime, endTime,status);
         List<Integer> list1 = new ArrayList();
         List<String> list2 = new ArrayList();
         for ( Map<String, Object> map :list) {
