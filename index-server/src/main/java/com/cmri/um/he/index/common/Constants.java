@@ -40,5 +40,4 @@ public class Constants {
     public static int STATUS_DECLINE = 0 ;
 
 
-    public static int DEFAULT_MONTHS = 5;
 }

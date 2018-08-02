@@ -30,12 +30,21 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
     @Override
     public List<Map<String, Object>> getLengthTime(Integer app, String month1, String month2,String status) {
         if(status.equals("month")){
-            if (month1.equals("null")){
-                int month1s= Integer.parseInt(month2);
-                month1s=month1s-Constants.DEFAULT_MONTH;
-                month1=Integer.toString(month1s);
+            if (month1.equals("null")) {
+                String st1 = month2.substring(0,4);
+                String st2 = month2.substring(4);
+                String months = st1 + "-" + st2;
+                try {
+                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, months);
+                    return appMarketGeneralDao.getLengthTimeBymonth(app,defaultTime,month2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }else {
+                return appMarketGeneralDao.getLengthTimeBymonth(app,month1,month2);
             }
-            return appMarketGeneralDao.getLengthTimeBymonth(app,month1,month2);
+
         }else if(status.equals("week")){
             return appMarketGeneralDao.getLengthTimeByWeek(app,month1,month2);
         }else {
@@ -55,12 +64,21 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
     public List<Map<String, Object>> quaryGeneralStatistic(Integer app, String month1, String month2 ,String status) {
 
         if(status.equals("month")){
-            if (month1.equals("null")){
-                int month1s= Integer.parseInt(month2);
-                month1s=month1s-Constants.DEFAULT_MONTH;
-                month1=Integer.toString(month1s);
+            if (month1.equals("null")) {
+                String st1 = month2.substring(0,4);
+                String st2 = month2.substring(4);
+                String months = st1 + "-" + st2;
+                try {
+                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, months);
+                    return appMarketGeneralDao.quaryGeneralStatisticByMonth(app,defaultTime,month2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }else {
+                return appMarketGeneralDao.quaryGeneralStatisticByMonth(app,month1,month2);
             }
-            return appMarketGeneralDao.quaryGeneralStatisticByMonth(app,month1,month2);
+
         }else if(status.equals("week")){
             return appMarketGeneralDao.quaryGeneralStatisticByWeek(app,month1,month2);
         }else {
@@ -82,41 +100,45 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
         Map<String, Object> map =new HashMap<>();
         if(status.equals("month")){
             if (month1.equals("null")){
-                Map<String, String> defaultTime = DefaultTime.getDefaultTime(Constants.YEAR, 1);
-                String startTime = defaultTime.get("startTime");
-                String endTime = defaultTime.get("endTime");
-
-                List list=new ArrayList();
-                List<Map<String, Object>> maplist= appMarketGeneralDao.getRateByMonth(app,month1,month2);
-                List listmonth=new ArrayList();
-                List listmau=new ArrayList();
-                for (Map<String, Object> ob : maplist) {
-                    Object month = ob.get("month");
-                    listmonth.add(month);
-                    Object mau_number = ob.get("mau_number");
-                    listmau.add(mau_number);
-                }
-                //次月存活率
-                Collections.sort(listmonth);
-                for(int i=0;i<listmonth.size();i++){
-                    month1=(String)listmonth.get(0);
-                    month2=(String)listmonth.get(i);
-                    List<Map<String, Object>> list2= appMarketGeneralDao.getRateByMonth(app,month1,month2);
-                    Collections.reverse(list2);
-                    List list4=new ArrayList();
-                    for (Map<String, Object> obmap : list2) {
-                        Object keep_rate = obmap.get("keep_rate");
-                        list4.add(keep_rate);
+                String st1 = month2.substring(0,4);
+                String st2 = month2.substring(4);
+                String months = st1 + "-" + st2;
+                try {
+                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, months);
+                    List list=new ArrayList();
+                    List<Map<String, Object>> maplist= appMarketGeneralDao.getRateByMonth(app,defaultTime,month2);
+                    List listmonth=new ArrayList();
+                    List listmau=new ArrayList();
+                    for (Map<String, Object> ob : maplist) {
+                        Object month = ob.get("month");
+                        listmonth.add(month);
+                        Object mau_number = ob.get("mau_number");
+                        listmau.add(mau_number);
                     }
-                    list.add(list4);
+                    //次月存活率
+                    for(int i=0;i<listmonth.size();i++){
+                        month1=(String)listmonth.get(i);
+                        month2=(String)listmonth.get(0);
+                        List<Map<String, Object>> list2= appMarketGeneralDao.getRateByMonth(app,month1,month2);
+                        Collections.reverse(list2);
+                        List list4=new ArrayList();
+                        for (Map<String, Object> obmap : list2) {
+                            Object keep_rate = obmap.get("keep_rate");
+                            list4.add(keep_rate);
+                        }
+                        list.add(list4);
+                    }
+                    map.put("rate",list);
+                    String[] st={"时间","活跃用户数(万)","第2月","第3月","第4月","第5月","第6月","第7月","第8月","第9月"};
+                    map.put("time",listmonth);
+                    map.put("num",listmau);
+                    map.put("title",st);
+                    lists.add(map);
+                    return lists;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
                 }
-                map.put("rate",list);
-                String[] st={"时间","活跃用户数(万)","第2月","第3月","第4月","第5月","第6月","第7月","第8月","第9月"};
-                map.put("time",listmonth);
-                map.put("num",listmau);
-                map.put("title",st);
-                lists.add(map);
-                return lists;
 
             }else{
                 List list=new ArrayList();
@@ -130,7 +152,6 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
                     listmau.add(mau_number);
                 }
                 //次月存活率
-
                 for(int i=0;i<listmonth.size();i++){
                     month1=(String)listmonth.get(i);
                     month2=(String)listmonth.get(0);
@@ -228,12 +249,21 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
     @Override
     public List<Map<String, Object>> getUserNumber(Integer app,String month1,String month2,String status) {
         if(status.equals("month")){
-            if (month1.equals("null")){
-                int month1s= Integer.parseInt(month2);
-                month1s=month1s-Constants.DEFAULT_MONTH;
-                month1=Integer.toString(month1s);
+            if (month1.equals("null")) {
+                String st1 = month2.substring(0,4);
+                String st2 = month2.substring(4);
+                String months = st1 + "-" + st2;
+                try {
+                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, months);
+                    return   appMarketGeneralDao.getUserNumberByMonth(app,defaultTime,month2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }else {
+                return   appMarketGeneralDao.getUserNumberByMonth(app,month1,month2);
             }
-            return   appMarketGeneralDao.getUserNumberByMonth(app,month1,month2);
+
         }else if(status.equals("week")){
             return   appMarketGeneralDao.getUserNumberByWeek(app,month1,month2);
         }else {
@@ -253,10 +283,12 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
         if (list.size() ==0){
             return list;
         }else {
-                int month1 = Integer.parseInt(month);
-                month1 = month1 - 1;
-                String month2 = Integer.toString(month1);
-                List<Map<String, Object>> list1 = appMarketGeneralDao.getMarketMonth(category, app, month2);
+            try {
+                String st1 = month.substring(0,4);
+                String st2 = month.substring(4);
+                String months = st1 + "-" + st2;
+                String defaultTime = DefaultTime.getDefaultTimes(Constants.MONTH, 1, months);
+                List<Map<String, Object>> list1 = appMarketGeneralDao.getMarketMonth(category, app, defaultTime);
                 Map<String, Object> map = list.get(0);
                 if (list.size() != 0 && list1.size() != 0) {
                     Map<String, Object> map1 = list1.get(0);
@@ -310,8 +342,10 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
                     map.put("flowState", 1);
                     map.put("keep_rateState", 1);
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
         return list;
     }
     /**
@@ -325,12 +359,21 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
     public List<Map<String, Object>> getCumulativeList(int app, String month1, String month2,String status) {
 
         if(status.equals("month")){
-            if (month1.equals("null")){
-                int month1s= Integer.parseInt(month2);
-                month1s=month1s-Constants.DEFAULT_MONTH;
-                month1=Integer.toString(month1s);
+            if (month1.equals("null")) {
+                String st1 = month2.substring(0,4);
+                String st2 = month2.substring(4);
+                String months = st1 + "-" + st2;
+                try {
+                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, months);
+                    return appMarketGeneralDao.getCumulativeListByMonth(app,defaultTime,month2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }else {
+                return appMarketGeneralDao.getCumulativeListByMonth(app,month1,month2);
             }
-            return appMarketGeneralDao.getCumulativeListByMonth(app,month1,month2);
+
         }else if(status.equals("week")){
             return appMarketGeneralDao.getCumulativeListByWeek(app,month1,month2);
         }else {
