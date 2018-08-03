@@ -1,5 +1,7 @@
 package com.cmri.um.he.index.market.service.impl;
 
+import com.cmri.um.he.index.common.Constants;
+import com.cmri.um.he.index.common.DefaultTime;
 import com.cmri.um.he.index.market.dao.UserActiveDao;
 import com.cmri.um.he.index.market.service.UserActiveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,18 +85,20 @@ public class UserActiveServiceImpl implements UserActiveService {
     }
 
     @Override
-    public List<Map<String, Object>> queryActivityList(String month1, int app, String month2, String state) {
-        if(state.equals("month")){
-            if(month1.equals("null")){
-                int month = Integer.parseInt(month2);
-                month=month-100;
-                month1=Integer.toString(month);
+    public List<Map<String, Object>> queryActivityList(String startTime, int app, String endTime, String status) {
+        if(status.equals("month")){
+            if("null".equals(startTime) || "null".equals(endTime)){
+                try {
+                    startTime = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,endTime);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            return   userActiveDao.queryActivityMonthList(app,month1,month2);
-        }else if(state.equals("week")){
-            return   userActiveDao.queryActivityWeekList(app,month1,month2);
+            return   userActiveDao.queryActivityMonthList(app,startTime,endTime);
+        }else if(status.equals("week")){
+            return   userActiveDao.queryActivityWeekList(app,startTime,endTime);
         } else {
-            return   userActiveDao.queryActivityDayList(app,month1,month2);
+            return   userActiveDao.queryActivityDayList(app,startTime,endTime);
         }
 
     }
@@ -103,10 +107,12 @@ public class UserActiveServiceImpl implements UserActiveService {
     @Override
     public List<Map<String, Object>> queryNumberDayList(String month1, int app, String month2, String state) {
         if(state.equals("month")){
-            if(month1.equals("null")){
-                int month = Integer.parseInt(month2);
-                month=month-100;
-                month1=Integer.toString(month);
+            if("null".equals(month1) || "null".equals(month2)){
+                try {
+                    month1 = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,month2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return   userActiveDao.queryNumberDayMonthList(app,month1,month2);
         }else if(state.equals("week")){
@@ -119,10 +125,12 @@ public class UserActiveServiceImpl implements UserActiveService {
     @Override
     public List<Map<String, Object>> queryBehaviorList(String month1, int app, String month2, String state) {
         if(state.equals("month")){
-            if(month1.equals("null")){
-                int month = Integer.parseInt(month2);
-                month=month-100;
-                month1=Integer.toString(month);
+            if("null".equals(month1) || "null".equals(month2)){
+                try {
+                    month1 = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,month2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return   userActiveDao.queryBehaviorMonthList(app,month1,month2);
         }else if(state.equals("week")){
@@ -135,10 +143,12 @@ public class UserActiveServiceImpl implements UserActiveService {
     @Override
     public List<Map<String, Object>> queryStatisticalList(String month1, int app, String month2, String state) {
         if(state.equals("month")){
-            if(month1.equals("null")){
-                int month = Integer.parseInt(month2);
-                month=month-100;
-                month1=Integer.toString(month);
+            if("null".equals(month1) || "null".equals(month2)){
+                try {
+                    month1 = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,month2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return   userActiveDao.queryStatisticalMonthList(app,month1,month2);
         }else if(state.equals("week")){

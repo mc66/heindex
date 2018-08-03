@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 默认展示时获取查询时间通用方法
+ * @author shihao
+ * Created on 2018/7/30
+ */
 @Repository
 public class AppMarketGeneralDao extends BaseDao{
 
@@ -84,15 +89,6 @@ public class AppMarketGeneralDao extends BaseDao{
     }
 
     /**
-     * 查询该app的最新月份数据
-     * @param app
-     * @return
-     */
-    public String getNewMonth(Integer app){
-            String  month=  mapper.getNewMonth(app);
-            return  month;
-    }
-    /**
      * 查询次月存留率(根据周区间)
      * @return
      */
@@ -101,29 +97,11 @@ public class AppMarketGeneralDao extends BaseDao{
     }
 
     /**
-     * 查询该app的最新周份数据
-     * @param app
-     * @return
-     */
-    public String getNewWeek(Integer app){
-        String  month=  mapper.getNewWeek(app);
-        return  month;
-    }
-    /**
      * 查询次月存留率(根据日区间)
      * @return
      */
     public List<Map<String, Object>> getRateByDate(Integer app, String month1, String month2){
         return mapper.getRateByDate(app,month1,month2);
-    }
-    /**
-     * 查询该app的最新周份数据
-     * @param app
-     * @return
-     */
-    public String getNewDate(Integer app){
-        String  month=  mapper.getNewDate(app);
-        return  month;
     }
     /**
      * 查询月活跃用户(根据月份区间)

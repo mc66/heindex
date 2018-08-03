@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,9 +36,11 @@ public class MarketLossRecurringServiceImpl implements MarketLossRecurringServic
             return marketLossRecurringDao.weekStatisticalTable(app,startTime,endTime);
         }else if ("month".equals(status)){
             if("null".equals(startTime) || "null".equals(endTime)){
-                Map<String, String> defaultTime = DefaultTime.getDefaultTime(Constants.YEAR, Constants.DEFAULT_YEAR);
-                startTime= defaultTime.get("startTime");
-                endTime=defaultTime.get("endTime");
+                try {
+                    startTime = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,endTime);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return marketLossRecurringDao.monthStatisticalTable(app,startTime,endTime);
         }else {
@@ -60,9 +63,11 @@ public class MarketLossRecurringServiceImpl implements MarketLossRecurringServic
             return marketLossRecurringDao.weekUserRecurring(app,startTime,endTime);
         }else if ("month".equals(status)){
             if("null".equals(startTime) || "null".equals(endTime)){
-                Map<String, String> defaultTime = DefaultTime.getDefaultTime(Constants.YEAR, Constants.DEFAULT_YEAR);
-                startTime= defaultTime.get("startTime");
-                endTime=defaultTime.get("endTime");
+                try {
+                    startTime = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,endTime);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return marketLossRecurringDao.monthUserRecurring(app,startTime,endTime);
         }else {
@@ -84,9 +89,11 @@ public class MarketLossRecurringServiceImpl implements MarketLossRecurringServic
             return marketLossRecurringDao.weekUserActive(app,startTime,endTime);
         }else if ("month".equals(status)){
             if("null".equals(startTime) || "null".equals(endTime)){
-                Map<String, String> defaultTime = DefaultTime.getDefaultTime(Constants.YEAR, Constants.DEFAULT_YEAR);
-                startTime= defaultTime.get("startTime");
-                endTime=defaultTime.get("endTime");
+                try {
+                    startTime = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,endTime);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return marketLossRecurringDao.monthUserActive(app,startTime,endTime);
         }else {
@@ -101,32 +108,46 @@ public class MarketLossRecurringServiceImpl implements MarketLossRecurringServic
      * @return
      */
     @Override
-    public Map<String, Object> quaryLossRecurringExponent(Integer app, String month) {
-        int startTimes= Integer.parseInt(month);
-        startTimes=startTimes-Constants.CONTRAST_MONTH;
-        String contrastMonth =Integer.toString(startTimes);
-        Map<String, Object> map = marketLossRecurringDao.quaryLossRecurringExponent(app,month);
-        Map<String, Object>  map1 = marketLossRecurringDao.quaryLossRecurringExponent(app,contrastMonth);
-        if ((double)map.get("lossNum")>(double)map1.get("lossNum")){
-            map.put("lossNumStatus",Constants.STATUS_RISE);
-        }else {
-            map.put("lossNumStatus",Constants.STATUS_DECLINE);
+    public List<Map<String, Object>> quaryLossRecurringExponent(Integer app, String month) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        try {
+            String contrastMonth = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,month);
+            Map<String, Object> map = marketLossRecurringDao.quaryLossRecurringExponent(app,month);
+            Map<String, Object>  map1 = marketLossRecurringDao.quaryLossRecurringExponent(app,contrastMonth);
+            if (map==null||map.size()==0){
+                list.add(map);
+            }else if (map1==null||map1.size()==0){
+                map.put("lossNumStatus",Constants.STATUS_RISE);
+                map.put("lossRateStatus",Constants.STATUS_RISE);
+                map.put("recurringNumStatus",Constants.STATUS_RISE);
+                map.put("recurringRateStatus",Constants.STATUS_RISE);
+                list.add(map);
+            } else {
+                if ((double) map.get("lossNum") > (double) map1.get("lossNum")) {
+                    map.put("lossNumStatus", Constants.STATUS_RISE);
+                } else {
+                    map.put("lossNumStatus", Constants.STATUS_DECLINE);
+                }
+                if ((double) map.get("lossRate") > (double) map1.get("lossRate")) {
+                    map.put("lossRateStatus", Constants.STATUS_RISE);
+                } else {
+                    map.put("lossRateStatus", Constants.STATUS_DECLINE);
+                }
+                if ((double) map.get("recurringNum") > (double) map1.get("recurringNum")) {
+                    map.put("recurringNumStatus", Constants.STATUS_RISE);
+                } else {
+                    map.put("recurringNumStatus", Constants.STATUS_DECLINE);
+                }
+                if ((double) map.get("recurringRate") > (double) map1.get("recurringRate")) {
+                    map.put("recurringRateStatus", Constants.STATUS_RISE);
+                } else {
+                    map.put("recurringRateStatus", Constants.STATUS_DECLINE);
+                }
+                list.add(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if ((double)map.get("lossRate")>(double)map1.get("lossRate")){
-            map.put("lossRateStatus",Constants.STATUS_RISE);
-        }else {
-            map.put("lossRateStatus",Constants.STATUS_DECLINE);
-        }
-        if ((double)map.get("recurringNum")>(double)map1.get("recurringNum")){
-            map.put("recurringNumStatus",Constants.STATUS_RISE);
-        }else {
-            map.put("recurringNumStatus",Constants.STATUS_DECLINE);
-        }
-        if ((double)map.get("recurringRate")>(double)map1.get("recurringRate")){
-            map.put("recurringRateStatus",Constants.STATUS_RISE);
-        }else {
-            map.put("recurringRateStatus",Constants.STATUS_DECLINE);
-        }
-        return map;
+        return list;
     }
 }

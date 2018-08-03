@@ -1,7 +1,5 @@
 package com.cmri.um.he.index.common;
 
-import com.alibaba.druid.sql.visitor.functions.Char;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,17 +13,16 @@ import java.util.Map;
  */
 public class DefaultTime {
 
-    /**
-     * 默认展示时获取查询时间通用方法
-     * @param findTime
-     * @param i
-     * @return
-     */
-    public static Map<String,String> getDefaultTime(String findTime,int i){
-        HashMap<String, String> map = new HashMap<>(2);
+    public static String getDefaultTimes(String findTime,int i,String month)throws Exception{
+
+        String st1 = month.substring(Constants.MONTH_JOINT_FRONT,Constants.MONTH_JOINT_REAR);
+        String st2 = month.substring(Constants.MONTH_JOINT_REAR);
+        String endTime = st1 + "-" + st2;
+
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
-        String endTime=format.format(new Date());
+        Date parse = format.parse(endTime);
+        cal.setTime(parse);
         if (Constants.WEEK.equalsIgnoreCase(findTime)) {
             cal.add(Calendar.WEEK_OF_MONTH, -i);
         }
@@ -36,15 +33,10 @@ public class DefaultTime {
             cal.add(Calendar.YEAR, -i);
         }
         String startTime=format.format(cal.getTime());
-
         String[] split = startTime.split("-");
         startTime=split[0]+split[1];
-        String[] split1 = endTime.split("-");
-        endTime=split1[0]+split1[1];
-        map.put("startTime",startTime);
-        map.put("endTime",endTime);
-        return map;
+
+        return startTime;
 
     }
-
 }

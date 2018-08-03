@@ -23,16 +23,16 @@ public class MarketLossRecurringController extends ZRestController{
     MarketLossRecurringService marketLossRecurringService;
 
     /**
-     * 查询月流失回流市场指数指数
+     * 查询月流失回流市场指数
      * @param app
      * @param month
      * @return
      */
     @RequestMapping(value = "quary-loss-recurring-exponent",method = RequestMethod.GET)
     public ResponseMessage quaryLossRecurringExponent(@RequestParam Integer app , @RequestParam String month){
-        Map<String, Object> map=marketLossRecurringService.quaryLossRecurringExponent(app,month);
+        List<Map<String, Object>> list=marketLossRecurringService.quaryLossRecurringExponent(app,month);
         ResponseMessage responseMessage = this.genResponseMessage();
-        responseMessage.set("map",map);
+        responseMessage.set("list",list);
         return responseMessage;
     }
 
