@@ -272,7 +272,6 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
             return list;
         }else {
             try {
-
                 String defaultTime = DefaultTime.getDefaultTimes(Constants.MONTH, 1, month);
                 List<Map<String, Object>> list1 = appMarketGeneralDao.getMarketMonth(category, app, defaultTime);
                 Map<String, Object> map = list.get(0);
@@ -290,32 +289,32 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
                     double length_time1 = (double) map1.get("length_time");
                     double flow1 = (double) map1.get("flow");
                     double keep_rate1 = (double) map1.get("keep_rate");
-                    if (total_us > total_us1) {
+                    if (total_us >= total_us1) {
                         map.put("total_usState", 1);
                     } else {
                         map.put("total_usState", 0);
                     }
-                    if (new_us > new_us1) {
+                    if (new_us >= new_us1) {
                         map.put("new_usState", 1);
                     } else {
                         map.put("new_usState", 0);
                     }
-                    if (mau_number > mau_number1) {
+                    if (mau_number >= mau_number1) {
                         map.put("mau_numberState", 1);
                     } else {
                         map.put("mau_numberState", 0);
                     }
-                    if (length_time > length_time1) {
+                    if (length_time >= length_time1) {
                         map.put("length_timeState", 1);
                     } else {
                         map.put("length_timeState", 0);
                     }
-                    if (flow > flow1) {
+                    if (flow >= flow1) {
                         map.put("flowState", 1);
                     } else {
                         map.put("flowState", 0);
                     }
-                    if (keep_rate > keep_rate1) {
+                    if (keep_rate >= keep_rate1) {
                         map.put("keep_rateState", 1);
                     } else {
                         map.put("keep_rateState", 0);
