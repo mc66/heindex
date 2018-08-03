@@ -75,7 +75,7 @@ public class MarketUserRetentiveController extends ZRestController{
      * @param endTime
      * @return
      */
-    @RequestMapping(value = "quary-User-retentive-table",method = RequestMethod.GET)
+    @RequestMapping(value = "quary-user-retentive-table",method = RequestMethod.GET)
     public ResponseMessage quaryUserRetentiveTable(@RequestParam String status, @RequestParam Integer app , @RequestParam String startTime, @RequestParam String endTime){
         List<Map<String , Object>> list=marketUserRetentiveService.quaryUserRetentiveTable(status,app,startTime,endTime);
         ResponseMessage responseMessage = this.genResponseMessage();
