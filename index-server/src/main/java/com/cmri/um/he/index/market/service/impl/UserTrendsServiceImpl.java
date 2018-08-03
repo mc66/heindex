@@ -1,5 +1,7 @@
 package com.cmri.um.he.index.market.service.impl;
 
+import com.cmri.um.he.index.common.Constants;
+import com.cmri.um.he.index.common.DefaultTime;
 import com.cmri.um.he.index.market.dao.UserTrendsDao;
 import com.cmri.um.he.index.market.service.UserTrendsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +55,12 @@ public class UserTrendsServiceImpl implements UserTrendsService {
     @Override
     public List<Map<String, Object>> queryPenetrationList(int app, String month1, String month2, String status) {
         if(status.equals("month")){
-            if(month1.equals("null")){
-                int month = Integer.parseInt(month2);
-                month=month-100;
-                month1=Integer.toString(month);
+            if("null".equals(month1) || "null".equals(month2)){
+                try {
+                    month1 = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,month2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return   userTrendsDao.queryPenetrationMonthList(app,month1,month2);
         }else if(status.equals("week")){
@@ -69,10 +73,12 @@ public class UserTrendsServiceImpl implements UserTrendsService {
     @Override
     public List<Map<String, Object>> queryUserStatisticsList(int app, String month1, String month2, String status) {
         if(status.equals("month")){
-            if(month1.equals("null")){
-                int month = Integer.parseInt(month2);
-                month=month-100;
-                month1=Integer.toString(month);
+            if("null".equals(month1) || "null".equals(month2)){
+                try {
+                    month1 = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,month2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return   userTrendsDao.queryUserStatisticsMonthList(app,month1,month2);
         }else if(status.equals("week")){
