@@ -18,35 +18,37 @@ public class UserTrendsServiceImpl implements UserTrendsService {
 
     @Override
     public List<Map<String, Object>> queryMonthsDataList(int category, int app, String month) {
-        List<Map<String, Object>>  list=userTrendsDao.queryMonthsDataList(category,app,month);
-        if (list.size() ==0){
-            return list;
-        }else {
-            int month1 = Integer.parseInt(month);
-            month1 = month1 - 1;
-            String month2 = Integer.toString(month1);
-            List<Map<String, Object>> list1 = userTrendsDao.queryMonthsDataList(category, app, month2);
-            Map<String, Object> map = list.get(0);
-            if (list.size() != 0 && list1.size() != 0) {
-                Map<String, Object> map1 = list1.get(0);
-                int totaLus = (int) map.get("total_user");
-                double penetrationRate = (double) map.get("penetration_rate");
-                int totaLus1 = (int) map1.get("total_user");
-                double penetrationRate1 = (double) map1.get("penetration_rate");
-                if (totaLus > totaLus1) {
+        List<Map<String, Object>>  list=null;
+        try {
+            list=userTrendsDao.queryMonthsDataList(category,app,month);
+            if (list.size() ==0){
+                return list;
+            }else {
+                String defaultTime = DefaultTime.getDefaultTimes(Constants.MONTH, 1, month);
+                List<Map<String, Object>> list1 = userTrendsDao.queryMonthsDataList(category, app, defaultTime);
+                Map<String, Object> map = list.get(0);
+                if (list.size() != 0 && list1.size() != 0) {
+                    Map<String, Object> map1 = list1.get(0);
+                    int totaLus = (int) map.get("total_user");
+                    double penetrationRate = (double) map.get("penetration_rate");
+                    int totaLus1 = (int) map1.get("total_user");
+                    double penetrationRate1 = (double) map1.get("penetration_rate");
+                    if (totaLus > totaLus1) {
+                        map.put("totaLusState", 1);
+                    } else {
+                        map.put("totaLusState", 0);
+                    }
+                    if (penetrationRate > penetrationRate1) {
+                        map.put("penetrationRateState", 1);
+                    } else {
+                        map.put("penetrationRateState", 0);
+                    }
+                }
                     map.put("totaLusState", 1);
-                } else {
-                    map.put("totaLusState", 0);
-                }
-                if (penetrationRate > penetrationRate1) {
                     map.put("penetrationRateState", 1);
-                } else {
-                    map.put("penetrationRateState", 0);
-                }
-            } else {
-                map.put("totaLusState", 1);
-                map.put("penetrationRateState", 1);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return list;
