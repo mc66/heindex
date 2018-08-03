@@ -29,9 +29,9 @@ public class MarketUserRetentiveController extends ZRestController{
      */
     @RequestMapping(value = "quary-user-retentive-exponent",method = RequestMethod.GET)
     public ResponseMessage quaryUserRetentiveExponent(@RequestParam Integer app , @RequestParam String month){
-        Map<String, Object> map=marketUserRetentiveService.quaryUserRetentiveExponent(app,month);
+        List<Map<String , Object>> list=marketUserRetentiveService.quaryUserRetentiveExponent(app,month);
         ResponseMessage responseMessage = this.genResponseMessage();
-        responseMessage.set("map",map);
+        responseMessage.set("list",list);
         return responseMessage;
     }
 
@@ -43,7 +43,7 @@ public class MarketUserRetentiveController extends ZRestController{
      * @param endTime
      * @return
      */
-    @RequestMapping(value = "quary-rser-retentive-num",method = RequestMethod.GET)
+    @RequestMapping(value = "quary-user-retentive-num",method = RequestMethod.GET)
     public ResponseMessage quaryUserRetentiveNum(@RequestParam String status, @RequestParam Integer app , @RequestParam String startTime, @RequestParam String endTime){
         List<Map<String , Object>> list=marketUserRetentiveService.quaryUserRetentiveNum(status,app,startTime,endTime);
         ResponseMessage responseMessage = this.genResponseMessage();
@@ -61,9 +61,9 @@ public class MarketUserRetentiveController extends ZRestController{
      */
     @RequestMapping(value = "quary-user-retentive-rate",method = RequestMethod.GET)
     public ResponseMessage quaryUserRetentiveRate(@RequestParam String status, @RequestParam Integer app , @RequestParam String startTime, @RequestParam String endTime){
-        Map<String , Object> map=marketUserRetentiveService.quaryUserRetentiveRate(status,app,startTime,endTime);
+        List<Map<String , Object>> list=marketUserRetentiveService.quaryUserRetentiveRate(status,app,startTime,endTime);
         ResponseMessage responseMessage = this.genResponseMessage();
-        responseMessage.set("map",map);
+        responseMessage.set("list",list);
         return responseMessage;
     }
 

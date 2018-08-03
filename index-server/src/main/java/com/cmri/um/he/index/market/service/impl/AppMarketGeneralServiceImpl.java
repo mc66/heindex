@@ -31,11 +31,8 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
     public List<Map<String, Object>> getLengthTime(Integer app, String month1, String month2,String status) {
         if(status.equals("month")){
             if (month1.equals("null")) {
-                String st1 = month2.substring(0,4);
-                String st2 = month2.substring(4);
-                String months = st1 + "-" + st2;
                 try {
-                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, months);
+                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, month2);
                     return appMarketGeneralDao.getLengthTimeBymonth(app,defaultTime,month2);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -65,11 +62,8 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
 
         if(status.equals("month")){
             if (month1.equals("null")) {
-                String st1 = month2.substring(0,4);
-                String st2 = month2.substring(4);
-                String months = st1 + "-" + st2;
                 try {
-                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, months);
+                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, month2);
                     return appMarketGeneralDao.quaryGeneralStatisticByMonth(app,defaultTime,month2);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -100,11 +94,8 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
         Map<String, Object> map =new HashMap<>();
         if(status.equals("month")){
             if (month1.equals("null")){
-                String st1 = month2.substring(0,4);
-                String st2 = month2.substring(4);
-                String months = st1 + "-" + st2;
                 try {
-                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, months);
+                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, month2);
                     List list=new ArrayList();
                     List<Map<String, Object>> maplist= appMarketGeneralDao.getRateByMonth(app,defaultTime,month2);
                     List listmonth=new ArrayList();
@@ -250,11 +241,8 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
     public List<Map<String, Object>> getUserNumber(Integer app,String month1,String month2,String status) {
         if(status.equals("month")){
             if (month1.equals("null")) {
-                String st1 = month2.substring(0,4);
-                String st2 = month2.substring(4);
-                String months = st1 + "-" + st2;
                 try {
-                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, months);
+                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, month2);
                     return   appMarketGeneralDao.getUserNumberByMonth(app,defaultTime,month2);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -284,10 +272,8 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
             return list;
         }else {
             try {
-                String st1 = month.substring(0,4);
-                String st2 = month.substring(4);
-                String months = st1 + "-" + st2;
-                String defaultTime = DefaultTime.getDefaultTimes(Constants.MONTH, 1, months);
+
+                String defaultTime = DefaultTime.getDefaultTimes(Constants.MONTH, 1, month);
                 List<Map<String, Object>> list1 = appMarketGeneralDao.getMarketMonth(category, app, defaultTime);
                 Map<String, Object> map = list.get(0);
                 if (list.size() != 0 && list1.size() != 0) {
@@ -360,11 +346,9 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
 
         if(status.equals("month")){
             if (month1.equals("null")) {
-                String st1 = month2.substring(0,4);
-                String st2 = month2.substring(4);
-                String months = st1 + "-" + st2;
+
                 try {
-                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, months);
+                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, month2);
                     return appMarketGeneralDao.getCumulativeListByMonth(app,defaultTime,month2);
                 } catch (Exception e) {
                     e.printStackTrace();

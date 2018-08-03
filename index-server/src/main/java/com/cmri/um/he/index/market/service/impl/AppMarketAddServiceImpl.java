@@ -29,11 +29,9 @@ public class AppMarketAddServiceImpl implements AppMarketAddService {
      */
     @Override
     public List<Map<String, Object>> getAppNumber(Integer category, Integer app, String month) {
-        String st1 = month.substring(0,4);
-        String st2 = month.substring(4);
-        String months = st1 + "-" + st2;
+
         try {
-            String defaultTime = DefaultTime.getDefaultTimes(Constants.MONTH, 1, months);
+            String defaultTime = DefaultTime.getDefaultTimes(Constants.MONTH, 1, month);
             List<Map<String, Object>> list1 = appMarketAddDao.getAppNumber(category, app, month);
             List<Map<String, Object>> list2 = appMarketAddDao.getAppNumber(category, app, defaultTime);
 
@@ -70,11 +68,9 @@ public class AppMarketAddServiceImpl implements AppMarketAddService {
     public List<Map<String, Object>> getAppUser(Integer app, String startTime, String endTime, String status) {
         if (status.equals("month")) {
             if (startTime.equals("null")) {
-                String st1 = endTime.substring(0,4);
-                String st2 = endTime.substring(4);
-                String months = st1 + "-" + st2;
+
                 try {
-                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, months);
+                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, endTime);
                     return  appMarketAddDao.getAppUserByMonth(app, defaultTime, endTime);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -105,11 +101,9 @@ public class AppMarketAddServiceImpl implements AppMarketAddService {
         Map<String, Object> map = new HashMap<>();
         if (status.equals("month")) {
             if (startTime.equals("null")) {
-                String st1 = endTime.substring(0,4);
-                String st2 = endTime.substring(4);
-                String months = st1 + "-" + st2;
+
                 try {
-                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, months);
+                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, endTime);
                     List<Map<String, Object>> maplist = appMarketAddDao.getAddRateByMonth(app, defaultTime, endTime);
                     List list = new ArrayList();
                     List listmonth = new ArrayList();
@@ -255,11 +249,9 @@ public class AppMarketAddServiceImpl implements AppMarketAddService {
     public List<Map<String, Object>> getCountNumber(Integer app, String startTime, String endTime, String status) {
         if (status.equals("month")) {
             if (startTime.equals("null")) {
-                String st1 = endTime.substring(0,4);
-                String st2 = endTime.substring(4);
-                String months = st1 + "-" + st2;
+
                 try {
-                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, months);
+                    String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 1, endTime);
                     return  appMarketAddDao.getCountNumberByMonth(app, defaultTime, endTime);
                 } catch (Exception e) {
                     e.printStackTrace();

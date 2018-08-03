@@ -18,7 +18,7 @@ public interface MarketUserRetentiveService {
      * @param endTime
      * @return
      */
-    Map<String , Object> quaryUserRetentiveRate(String status, Integer app, String startTime, String endTime);
+    List<Map<String, Object>> quaryUserRetentiveRate(String status, Integer app, String startTime, String endTime);
 
     /**
      * 查询月用户留存市场指数
@@ -26,7 +26,7 @@ public interface MarketUserRetentiveService {
      * @param month
      * @return
      */
-    Map<String, Object> quaryUserRetentiveExponent(Integer app, String month);
+    List<Map<String, Object>> quaryUserRetentiveExponent(Integer app, String month);
 
     /**
      * 查询用户留存数
