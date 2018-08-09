@@ -1,5 +1,7 @@
 package com.cmri.um.he.index.quality.service;
 
+import com.cmri.um.he.index.quality.entity.AppExperienceEntity;
+
 import java.util.List;
 import java.util.Map;
 /**
@@ -29,4 +31,6 @@ public interface AppOriginalExperienceService {
      * @return
      */
     int updateExperience(Integer id, Double experience);
+
+    String updateExperienceAll(List<AppExperienceEntity> list);
 }

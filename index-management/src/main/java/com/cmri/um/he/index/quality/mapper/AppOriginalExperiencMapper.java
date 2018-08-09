@@ -1,5 +1,6 @@
 package com.cmri.um.he.index.quality.mapper;
 
+import com.cmri.um.he.index.quality.entity.AppExperienceEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -39,4 +40,11 @@ public interface AppOriginalExperiencMapper {
      */
     @Update(" update app_calculation_quality acq set acq.experience = #{experience} where acq.id=#{id} ")
     int updateExperience(@Param("id")Integer id, @Param("experience")Double experience);
+    /**
+     *修改体验数据
+     * @param experie
+     * @return
+     */
+    @Update(" UPDATE app_calculation_quality acq set acq.experience=#{experience} where acq.app=#{app} and acq.`month`=#{month} and acq.version=#{version} ")
+    int updateExperienceAll(AppExperienceEntity experie);
 }
