@@ -1,5 +1,6 @@
 package com.cmri.um.he.index.quality.dao;
 
+import com.cmri.um.he.index.quality.entity.AppExperienceEntity;
 import com.cmri.um.he.index.quality.mapper.AppOriginalExperiencMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -29,5 +30,9 @@ public class AppOriginalExperiencDao extends BaseDao {
 
     public int updateExperience(Integer id, Double experience) {
         return appOriginalExperiencMapper.updateExperience(id,experience);
+    }
+
+    public int updateExperienceAll(AppExperienceEntity experie) {
+        return appOriginalExperiencMapper.updateExperienceAll(experie);
     }
 }

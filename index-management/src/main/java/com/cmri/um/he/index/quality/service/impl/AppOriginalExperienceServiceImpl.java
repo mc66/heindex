@@ -1,6 +1,7 @@
 package com.cmri.um.he.index.quality.service.impl;
 
 import com.cmri.um.he.index.quality.dao.AppOriginalExperiencDao;
+import com.cmri.um.he.index.quality.entity.AppExperienceEntity;
 import com.cmri.um.he.index.quality.service.AppOriginalExperienceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,16 @@ public class AppOriginalExperienceServiceImpl implements AppOriginalExperienceSe
     @Override
     public int updateExperience(Integer id, Double experience) {
         return appOriginalExperiencDao.updateExperience(id,experience);
+    }
+
+    @Override
+    public String updateExperienceAll(List<AppExperienceEntity> list) {
+        for (AppExperienceEntity experie :list) {
+            int n= appOriginalExperiencDao.updateExperienceAll(experie);
+            if (n > 1){
+                return "成功";
+            }
+        }
+        return "失败";
     }
 }

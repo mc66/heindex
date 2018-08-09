@@ -158,7 +158,7 @@ public class MarketUserRetentiveServiceImpl implements MarketUserRetentiveServic
     public List<Map<String, Object>> quaryUserRetentiveExponent(Integer app, String month) {
         List<Map<String, Object>> list = new ArrayList<>();
         try {
-            String contrastMonth = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,month);
+            String contrastMonth = DefaultTime.getDefaultTimes(Constants.MONTH, Constants.CONTRAST_MONTH,month);
             Map<String, Object> map = marketUserRetentiveDao.quaryUserRetentiveExponent(app,month);
             Map<String, Object>  map1 = marketUserRetentiveDao.quaryUserRetentiveExponent(app,contrastMonth);
             if (map==null||map.size()==0){
@@ -168,12 +168,12 @@ public class MarketUserRetentiveServiceImpl implements MarketUserRetentiveServic
                 map.put("retentionRateStatus",Constants.STATUS_RISE);
                 list.add(map);
             }else {
-                if ((double)map.get("retentionNum")>(double)map1.get("retentionNum")){
+                if ((double)map.get("retentionNum")>=(double)map1.get("retentionNum")){
                     map.put("retentionNumStatus",Constants.STATUS_RISE);
                 }else {
                     map.put("retentionNumStatus",Constants.STATUS_DECLINE);
                 }
-                if ((double)map.get("retentionRate")>(double)map1.get("retentionRate")){
+                if ((double)map.get("retentionRate")>=(double)map1.get("retentionRate")){
                     map.put("retentionRateStatus",Constants.STATUS_RISE);
                 }else {
                     map.put("retentionRateStatus",Constants.STATUS_DECLINE);

@@ -35,12 +35,12 @@ public class AppMarketAddServiceImpl implements AppMarketAddService {
             List<Map<String, Object>> list1 = appMarketAddDao.getAppNumber(category, app, month);
             List<Map<String, Object>> list2 = appMarketAddDao.getAppNumber(category, app, defaultTime);
 
-            if ((int) list1.get(0).get("new_user") > (int) list2.get(0).get("new_user")) {
+            if ((int) list1.get(0).get("new_user") >= (int) list2.get(0).get("new_user")) {
                 list1.get(0).put("new_userSatte", 1);
             } else {
                 list1.get(0).put("new_userSatte", 0);
             }
-            if ((double) list1.get(0).get("rate") > (double) list2.get(0).get("rate")) {
+            if ((double) list1.get(0).get("rate") >=(double) list2.get(0).get("rate")) {
                 list1.get(0).put("rateSatte", 1);
             } else {
                 list1.get(0).put("rateSatte", 0);
@@ -130,7 +130,7 @@ public class AppMarketAddServiceImpl implements AppMarketAddService {
                     map.put("rate", list);
                     String[] st = {"时间", "活跃用户数(万)", "第2月", "第3月", "第4月", "第5月", "第6月", "第7月", "第8月", "第9月"};
                     map.put("time", listmonth);
-                    map.put("num", listmau);
+                    map.put("user_number", listmau);
                     map.put("title", st);
                     lists.add(map);
                     return lists;

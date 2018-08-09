@@ -111,7 +111,7 @@ public class MarketLossRecurringServiceImpl implements MarketLossRecurringServic
     public List<Map<String, Object>> quaryLossRecurringExponent(Integer app, String month) {
         List<Map<String, Object>> list = new ArrayList<>();
         try {
-            String contrastMonth = DefaultTime.getDefaultTimes(Constants.YEAR, Constants.DEFAULT_YEAR,month);
+            String contrastMonth = DefaultTime.getDefaultTimes(Constants.MONTH, Constants.CONTRAST_MONTH,month);
             Map<String, Object> map = marketLossRecurringDao.quaryLossRecurringExponent(app,month);
             Map<String, Object>  map1 = marketLossRecurringDao.quaryLossRecurringExponent(app,contrastMonth);
             if (map==null||map.size()==0){
@@ -123,22 +123,22 @@ public class MarketLossRecurringServiceImpl implements MarketLossRecurringServic
                 map.put("recurringRateStatus",Constants.STATUS_RISE);
                 list.add(map);
             } else {
-                if ((double) map.get("lossNum") > (double) map1.get("lossNum")) {
+                if ((double) map.get("lossNum") >= (double) map1.get("lossNum")) {
                     map.put("lossNumStatus", Constants.STATUS_RISE);
                 } else {
                     map.put("lossNumStatus", Constants.STATUS_DECLINE);
                 }
-                if ((double) map.get("lossRate") > (double) map1.get("lossRate")) {
+                if ((double) map.get("lossRate") >= (double) map1.get("lossRate")) {
                     map.put("lossRateStatus", Constants.STATUS_RISE);
                 } else {
                     map.put("lossRateStatus", Constants.STATUS_DECLINE);
                 }
-                if ((double) map.get("recurringNum") > (double) map1.get("recurringNum")) {
+                if ((double) map.get("recurringNum") >= (double) map1.get("recurringNum")) {
                     map.put("recurringNumStatus", Constants.STATUS_RISE);
                 } else {
                     map.put("recurringNumStatus", Constants.STATUS_DECLINE);
                 }
-                if ((double) map.get("recurringRate") > (double) map1.get("recurringRate")) {
+                if ((double) map.get("recurringRate") >= (double) map1.get("recurringRate")) {
                     map.put("recurringRateStatus", Constants.STATUS_RISE);
                 } else {
                     map.put("recurringRateStatus", Constants.STATUS_DECLINE);
