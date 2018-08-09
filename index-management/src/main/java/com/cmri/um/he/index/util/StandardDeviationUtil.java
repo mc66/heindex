@@ -1,6 +1,9 @@
 package com.cmri.um.he.index.util;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 求取每一个维度的平均值和方差
  * @author yjj
@@ -17,7 +20,7 @@ public class StandardDeviationUtil {
      * @param x 维度数组
      * @return 这个维度的平均值
      */
-    public static double getAverage(double[] x){
+    public static double getAverage(Double[] x){
         int m = x.length;
         int sum = 0;
         for(int i = 0;i < m;i++){
@@ -31,7 +34,7 @@ public class StandardDeviationUtil {
      * @param x 维度数组
      * @return 这个维度的标准差
      */
-    public static Double getStandardDeviation(double[] x) {
+    public static Double getStandardDeviation(Double[] x) {
         int m=x.length;
         double sum=0;
         for(int i=0;i<m;i++){
@@ -61,4 +64,5 @@ public class StandardDeviationUtil {
         }
         return sum;
     }
+
 }
