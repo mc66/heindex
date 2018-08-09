@@ -1,16 +1,24 @@
 package com.cmri.um.he.index.quality.service.impl;
 
 import com.cmri.um.he.index.quality.dao.AppOriginalDelayDao;
+import com.cmri.um.he.index.quality.dao.AppQualityDao;
 import com.cmri.um.he.index.quality.dao.AppWeightQualityDao;
 import com.cmri.um.he.index.quality.entity.AppCalculationQualityEntity;
 import com.cmri.um.he.index.quality.entity.AppOriginalDelayEntity;
 import com.cmri.um.he.index.quality.entity.AppWeightQualityEntity;
 import com.cmri.um.he.index.quality.service.AppOriginalDelayService;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +33,11 @@ public class AppOriginalDelayServiceImpl implements AppOriginalDelayService {
     @Autowired
     private AppOriginalDelayDao delayDao;
     @Autowired
-    private AppWeightQualityDao qualityDao;
+    private AppWeightQualityDao weightQualityDao;
+    @Autowired
+    private AppQualityDao qualityDao;
 
-    private final static DecimalFormat DF=new DecimalFormat("#,##0.00");
+    private final static DecimalFormat DF=new DecimalFormat("####0.00");
 
     @Override
     public List<Map<String, Object>> findAppByCategory(Integer category) {
@@ -43,9 +53,9 @@ public class AppOriginalDelayServiceImpl implements AppOriginalDelayService {
             String measure = DF.format(entity.getMeasure());
             entity.setMeasure(Double.valueOf(measure));
             String standard = DF.format(entity.getStandard());
-            entity.setMeasure(Double.valueOf(standard));
+            entity.setStandard(Double.valueOf(standard));
             String challenge = DF.format(entity.getChallenge());
-            entity.setMeasure(Double.valueOf(challenge));
+            entity.setChallenge(Double.valueOf(challenge));
             entity.setAtime(date);
             //1--正常 0--已删除
             entity.setStatus(1);
@@ -59,7 +69,7 @@ public class AppOriginalDelayServiceImpl implements AppOriginalDelayService {
     public boolean dealAppOriginalDelayList(List<AppOriginalDelayEntity> list) {
         //查询权重配置
         int category=list.get(0).getCategory();
-        AppWeightQualityEntity qualityConfig = qualityDao.findQualityConfig(category);
+        AppWeightQualityEntity qualityConfig = weightQualityDao.findQualityConfig(category);
 
         //启动时延
         AppOriginalDelayEntity entity1=list.get(0);
@@ -130,5 +140,77 @@ public class AppOriginalDelayServiceImpl implements AppOriginalDelayService {
         double b=entity.getStandard();
         double sx=(b-x)/(b-a)*40+60;
         return sx;
+    }
+
+    @Transactional
+    @Override
+    public String readExcelFile(MultipartFile file) {
+        try {
+            HSSFWorkbook sheets = new HSSFWorkbook(file.getInputStream());
+            // 得到第一个shell
+            Sheet sheet = sheets.getSheetAt(0);
+            // 得到Excel的行数和列数
+            int totalRows = sheet.getPhysicalNumberOfRows();
+            int totalCells = sheet.getRow(0).getPhysicalNumberOfCells();
+            List<AppOriginalDelayEntity> list = new ArrayList<>();
+            // 循环Excel行数
+            for (int r = 1; r < totalRows; r++) {
+                Row row = sheet.getRow(r);
+                if (row == null) {
+                    continue;
+                }
+                // 循环Excel的列
+                AppOriginalDelayEntity entity = new AppOriginalDelayEntity();
+                for (int c = 0; c < totalCells; c++) {
+                    Cell cell = row.getCell(c);
+                    if (null != cell) {
+                        if (c == 0) {
+                            entity.setMonth(cell.getStringCellValue());
+                        } else if (c == 1) {
+                            String categoryName = cell.getStringCellValue();
+                            entity.setCategory(qualityDao.findIdByCategoryName(categoryName));
+                        } else if (c == 2) {
+                            String appName = cell.getStringCellValue();
+                            entity.setApp(qualityDao.findIdByAppName(appName));
+                        } else if (c == 3) {
+                            entity.setVersion(cell.getStringCellValue());
+                        } else if (c == 4) {
+                            continue;
+                        } else if (c == 5) {
+                            entity.setMeasuring(cell.getStringCellValue());
+                        } else if (c == 6) {
+                            entity.setNetwork(cell.getStringCellValue());
+                        } else if (c == 7) {
+                            entity.setMeasure(cell.getNumericCellValue());
+                        } else if (c == 8) {
+                            entity.setStandard(cell.getNumericCellValue());
+                        } else if (c == 9) {
+                            entity.setChallenge(cell.getNumericCellValue());
+                        }
+                    }
+                }
+                // 添加到list
+                list.add(entity);
+            }
+            int size = list.size()/21;
+            int flag=0;
+            for(int i=0;i<size;i++){
+                List<AppOriginalDelayEntity> newList = list.subList(i * 21, (i + 1) * 21);
+                boolean b1 = saveAppOriginalDelayList(newList);
+                boolean b2 = dealAppOriginalDelayList(newList);
+                if (b1&&b2){
+                    continue;
+                }
+                flag=1;
+            }
+            if (flag==0){
+                return "成功";
+            }else {
+                return "失败";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

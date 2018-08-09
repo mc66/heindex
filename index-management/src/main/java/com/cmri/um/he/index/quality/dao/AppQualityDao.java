@@ -37,4 +37,11 @@ public class AppQualityDao extends BaseDao {
         return appQualityMapper.setQindex(app,version,month,qindex);
     }
 
+    public int findIdByCategoryName(String categoryName){
+        return appQualityMapper.findIdByCategoryName(categoryName);
+    }
+
+    public int findIdByAppName(String appName){
+        return appQualityMapper.findIdByAppName(appName);
+    }
 }
