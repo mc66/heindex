@@ -44,11 +44,11 @@ public class StandardServiceImpl implements StandardService {
     @Transactional(rollbackFor = Exception.class)
     public void standard(List<AppCalculationQualityEntity> appCalculationQualityEntities) {
         int size = appCalculationQualityEntities.size();
-        double[] featureArr= new double[size];
-        double[] viewsArr = new double[size];
-        double[] delayArr = new double[size];
-        double[] consumeArr = new double[size];
-        double[] experienceArr = new double[size];
+        Double[] featureArr= new Double[size];
+        Double[] viewsArr = new Double[size];
+        Double[] delayArr = new Double[size];
+        Double[] consumeArr = new Double[size];
+        Double[] experienceArr = new Double[size];
 
         int i = 0;
         for (AppCalculationQualityEntity appCalculationQualityEntity : appCalculationQualityEntities) {
