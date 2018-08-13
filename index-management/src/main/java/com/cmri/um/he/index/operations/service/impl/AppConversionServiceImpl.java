@@ -44,12 +44,12 @@ public class AppConversionServiceImpl implements AppConversionService {
     @Transactional(rollbackFor = Exception.class)
     public void saveAll(List<AppCalculationOperationsEntity> appCalculationOperationsEntities) {
         int size = appCalculationOperationsEntities.size();
-        double[] contentArr= new double[size];
-        double[] channelArr = new double[size];
-        double[] tariffArr = new double[size];
-        double[] serviceArr = new double[size];
-        double[] marketArr = new double[size];
-        double[] experienceArr = new double[size];
+        Double[] contentArr= new Double[size];
+        Double[] channelArr = new Double[size];
+        Double[] tariffArr = new Double[size];
+        Double[] serviceArr = new Double[size];
+        Double[] marketArr = new Double[size];
+        Double[] experienceArr = new Double[size];
         double oindex=0;
 
         int i = 0;
