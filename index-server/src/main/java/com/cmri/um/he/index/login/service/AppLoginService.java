@@ -1,5 +1,6 @@
 package com.cmri.um.he.index.login.service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse; /**
  * 登陆页面
  * @author limin
@@ -7,5 +8,5 @@ import javax.servlet.http.HttpServletResponse; /**
  */
 public interface AppLoginService {
 
-    boolean getlogin(String username, String userpass, HttpServletResponse response);
+    boolean getlogin(String username, String userpass, HttpServletRequest response);
 }
