@@ -25,7 +25,7 @@ public class AppMonumentProductDao extends BaseDao {
      * @param date
      * @return
      */
-    public Map<String,Integer> quaryDayCommentAmount(Integer app, String date){
+    public Map<String,Object> quaryDayCommentAmount(Integer app, String date){
         return appMonumentProductMapper.quaryDayCommentAmount(app,date);
     }
     /**
