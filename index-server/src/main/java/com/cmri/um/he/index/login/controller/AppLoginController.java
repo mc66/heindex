@@ -6,6 +6,7 @@ import com.cmri.um.he.index.login.service.AppLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -22,8 +23,8 @@ public class AppLoginController extends ZRestController {
     private AppLoginService appLoginService;
 
     @RequestMapping(value = "login",method = RequestMethod.POST)
-    public ResponseMessage getlogin(@RequestParam String username,@RequestParam String userpass){
-        boolean n = appLoginService.getlogin(username,userpass);
+    public ResponseMessage getlogin(@RequestParam String username,@RequestParam String userpass,HttpServletResponse response){
+        boolean n = appLoginService.getlogin(username,userpass,response);
         ResponseMessage responseMessage =this.genResponseMessage();
        if (n == true){
            responseMessage.setMsg("登陆成功");

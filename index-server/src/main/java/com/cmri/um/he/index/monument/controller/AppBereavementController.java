@@ -37,4 +37,12 @@ public class AppBereavementController extends ZRestController{
         return responseMessage;
     }
 
+    /*@RequestMapping(value = "/get-number_comments",method = RequestMethod.GET)
+    public ResponseMessage getNumberComments(@RequestParam Integer category,@RequestParam String startTime,String endTime){
+        List<Map<String, Object>> number_comments = service.findNumberComments(category, startTime,endTime);
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("items",number_comments);
+        return responseMessage;
+    }*/
+
 }
