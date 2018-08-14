@@ -19,7 +19,7 @@ public interface AppMonumentProductMapper {
      * @return
      */
     @Select("SELECT COUNT(IF(aea.`status`=1,TRUE,NULL))AS freqPositive,COUNT(IF(aea.`status`=-1,TRUE,NULL))AS freqNegativity,COUNT(IF(aea.`status`=NULL,TRUE,NULL))AS freqNeutral FROM app_emotion_analyze aea WHERE app=#{app} AND aea.`month`=#{date} ")
-    public Map<String,Integer> quaryDayCommentAmount(@Param("app") Integer app,@Param("date") String date);
+    public Map<String,Object> quaryDayCommentAmount(@Param("app") Integer app,@Param("date") String date);
 
     /**
      * 查询日正性评论数
