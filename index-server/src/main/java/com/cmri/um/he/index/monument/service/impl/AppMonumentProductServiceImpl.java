@@ -64,7 +64,7 @@ public class AppMonumentProductServiceImpl implements AppMonumentProductService 
                 for (int j=0;j<count;j++){
                     Map<String,Object> map = new HashMap<>(8);
                     AppEmotionAnalyzeEntity appEmotionAnalyzeEntity = new AppEmotionAnalyzeEntity();
-                    startTime = CalculateDaysByDate.getDate(Constants.DAY, j*15, startTime);
+                    startTime = CalculateDaysByDate.getDate(Constants.DAY, j*15, firstTime);
                     endTime = CalculateDaysByDate.getDate(Constants.DAY, 14, startTime);
                     Map<String, Object> commentAmount = appMonumentProductDao.quaryCommentAmount(app, startTime,endTime);
                     double freqPositive = (long)commentAmount.get("freqPositive");
@@ -94,7 +94,7 @@ public class AppMonumentProductServiceImpl implements AppMonumentProductService 
                     map.put("petNegativity",new BigDecimal(freqNegativity/(freqPositive+freqNegativity+freqNeutral)*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
                     map.put("petNeutral",new BigDecimal(freqNeutral/(freqPositive+freqNegativity+freqNeutral)*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
                     map.put("startTime",startTime);
-                    map.put("endTime",endTime);
+                    map.put("endTime",lastTime);
                     list.add(map);
                 }
             }
