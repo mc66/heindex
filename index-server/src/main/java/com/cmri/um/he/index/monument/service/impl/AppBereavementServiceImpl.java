@@ -1,5 +1,7 @@
 package com.cmri.um.he.index.monument.service.impl;
 
+import com.cmri.um.he.index.common.Constants;
+import com.cmri.um.he.index.common.DefaultTime;
 import com.cmri.um.he.index.monument.dao.AppBereavementDao;
 import com.cmri.um.he.index.monument.service.AppBereavementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,4 +39,20 @@ public class AppBereavementServiceImpl implements AppBereavementService {
         return bereavment;
 
     }
+
+
+    /*@Override
+    public List<Map<String, Object>> findNumberComments(Integer category, String startTime, String endTime) {
+        if (startTime.equals("null")) {
+            try {
+                String defaultTime = DefaultTime.getDefaultTimes(Constants.YEAR, 30, endTime);
+                return  dao.getAppUserByMonth(app, defaultTime, endTime);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }else {
+            return dao.getAppUserByMonth(app, startTime, endTime);
+        }
+    }*/
 }

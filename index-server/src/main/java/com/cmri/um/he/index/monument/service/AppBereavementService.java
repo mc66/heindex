@@ -29,4 +29,6 @@ public interface AppBereavementService {
      * @return 查询结果
      */
     List<Map<String,Object>> findMoonEmotion(Integer category,String startTime);
+
+    /*List<Map<String,Object>> findNumberComments(Integer category, String startTime, String endTime);*/
 }

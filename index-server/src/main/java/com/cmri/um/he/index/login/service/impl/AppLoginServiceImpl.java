@@ -6,6 +6,8 @@ import com.cmri.um.he.index.login.service.AppLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Max;
 import java.util.List;
 
@@ -21,11 +23,14 @@ public class AppLoginServiceImpl implements AppLoginService {
     private AppLoginDao appLoginDao;
 
     @Override
-    public boolean getlogin(String username, String userpass) {
+    public boolean getlogin(String username, String userpass, HttpServletResponse response) {
 
        List<AppUserEntity> list = appLoginDao.getlogin(username,userpass);
 
         if (list.size()==1){
+            Cookie cookie = new Cookie("loginmsg","");
+            cookie.setValue(list.get(0).getUsername());
+            response.addCookie(cookie);
             return true;
         }
         return false;
