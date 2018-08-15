@@ -24,8 +24,8 @@ public class AppMarketGeneralController extends ZRestController {
     /**
      * 查询人均时长和人均流量
      * @param app
-     * @param month1
-     * @param month2
+     * @param startTime
+     * @param endTime
      * @return
      */
     @RequestMapping(value = "query-length-time",method = RequestMethod.GET)
@@ -53,8 +53,8 @@ public class AppMarketGeneralController extends ZRestController {
     /**
      * 查询应用概括统计
      * @param app
-     * @param month1
-     * @param month2
+     * @param startTime
+     * @param endTime
      * @return
      */
     @RequestMapping(value = "quary-general-statistic",method = RequestMethod.GET)
@@ -82,8 +82,8 @@ public class AppMarketGeneralController extends ZRestController {
     /**
      * 查询月活跃用户
      * @param app
-     * @param month1
-     * @param month2
+     * @param startTime
+     * @param endTime
      * @return
      */
     @RequestMapping(value = "app-market-num",method = RequestMethod.GET)
@@ -130,8 +130,8 @@ public class AppMarketGeneralController extends ZRestController {
     /**
      * 查询累计用户数 month2
      * @param app
-     * @param month1
-     * @param month2
+     * @param startTime
+     * @param endTime
      * @return
      */
     @RequestMapping(value = "/queryCumulative",method = RequestMethod.GET)
