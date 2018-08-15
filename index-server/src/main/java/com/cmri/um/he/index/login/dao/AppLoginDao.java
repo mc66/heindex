@@ -23,5 +23,7 @@ public class AppLoginDao extends BaseDao{
     }
 
 
-
+    public List<AppUserEntity> queryByName(String username) {
+        return mapper.queryByName(username);
+    }
 }

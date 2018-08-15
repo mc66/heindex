@@ -24,14 +24,18 @@ public class AppLoginServiceImpl implements AppLoginService {
     private AppLoginDao appLoginDao;
 
     @Override
-    public boolean getlogin(String username, String userpass, HttpServletRequest response) {
+    public String getlogin(String username, String userpass, HttpServletRequest response) {
 
-       List<AppUserEntity> list = appLoginDao.getlogin(username,userpass);
+       List<AppUserEntity> list = appLoginDao.queryByName(username);
 
         if (list.size()==1){
-            response.getSession().setAttribute("loginuser",list.get(0).getUsername());
-            return true;
+            List<AppUserEntity> list1 = appLoginDao.getlogin(username,userpass);
+            if(list1.size()==1){
+                response.getSession().setAttribute("loginuser",list1.get(0));
+                return "loginYes";
+            }
+            return "loginNo";
         }
-        return false;
+        return "nameNo";
     }
 }

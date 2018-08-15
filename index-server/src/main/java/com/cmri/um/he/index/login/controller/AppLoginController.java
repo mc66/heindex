@@ -26,16 +26,18 @@ public class AppLoginController extends ZRestController {
 
     @RequestMapping(value = "login",method = RequestMethod.POST)
     public Object getlogin(@RequestParam String username, @RequestParam String userpass, HttpServletRequest request){
-        boolean n = appLoginService.getlogin(username,userpass,request);
+        String  login = appLoginService.getlogin(username,userpass,request);
         Map map = new HashMap(16);
-       if (n == true){
+       if (login.equals("loginYes")){
            map.put("code",200);
            map.put("msg","登陆成功");
            map.put("succeed",true );
-       }else {
+       }else if(login.equals("loginNo")){
            map.put("code",500);
            map.put("msg","登陆失败");
            map.put("succeed",false );
+       }else {
+           map.put("msg","用户名不存在");
        }
         return  map;
     }

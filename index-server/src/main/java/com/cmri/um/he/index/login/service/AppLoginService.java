@@ -8,5 +8,5 @@ import javax.servlet.http.HttpServletResponse; /**
  */
 public interface AppLoginService {
 
-    boolean getlogin(String username, String userpass, HttpServletRequest response);
+    String getlogin(String username, String userpass, HttpServletRequest response);
 }

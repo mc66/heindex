@@ -12,4 +12,6 @@ public interface AppLoginMapper {
 
     @Select(" SELECT * FROM app_user au where au.username=#{username} and au.`password`=#{userpass} ")
     List<AppUserEntity> getlogin(@Param("username") String username, @Param("userpass") String userpass);
+    @Select(" SELECT * FROM app_user au where au.username=#{username} ")
+    List<AppUserEntity> queryByName(@Param("username")String username);
 }
