@@ -1,8 +1,6 @@
 package com.cmri.um.he.index.util;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 求取每一个维度的平均值和方差
@@ -14,7 +12,7 @@ public class StandardDeviationUtil {
     /**
      * 格式化Duble  取小数点后四位
      */
-    private final static DecimalFormat DF=new DecimalFormat("#,##0.00");
+    private final static DecimalFormat DF=new DecimalFormat("######.00");
     /**
      * 求取平均值
      * @param x 维度数组

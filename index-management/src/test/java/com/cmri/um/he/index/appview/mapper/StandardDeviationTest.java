@@ -17,7 +17,7 @@ public class StandardDeviationTest {
 
     @Test
     public void standDeviationTest(){
-        double[] d = {80.0,80.8,80.8,84.2,69.5,58.5,78.5};
+        Double[] d = {80.0,80.8,80.8,84.2,69.5,58.5,78.5};
         Double standardDeviation = StandardDeviationUtil.getStandardDeviation(d);
         double average = StandardDeviationUtil.getAverage(d);
         System.out.println("平均值="+average);
