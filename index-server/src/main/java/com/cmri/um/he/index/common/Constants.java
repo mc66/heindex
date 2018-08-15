@@ -31,6 +31,10 @@ public class Constants {
      */
     public static String WEEK = "week";
     /**
+     * 按周截取时间
+     */
+    public static String DAY = "day";
+    /**
      * 对比上升标识
      */
     public static int STATUS_RISE = 1 ;
