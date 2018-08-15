@@ -26,18 +26,22 @@ public class AppBereavementDao extends BaseDao{
         return mapper.findBereavement(category, startTime, endTime);
     }
 
+    public List<Map<String,Object>> findBereavements(Integer id,String startTime,String endTime){
+        return mapper.findBereavements(id, startTime, endTime);
+    }
+
     /**
      * 查询指定月份的情感指数
      * */
-    public List<Map<String,Object>> findMoonEmotion(Integer category,String startTime){
-        return mapper.findMoonEmotion(category, startTime);
+    public List<Map<String,Object>> findMoonEmotion(Integer category,String endTime){
+        return mapper.findMoonEmotion(category, endTime);
     }
 
 
     /**
      * 查询指定类下的所有app
      * */
-    public List<String> findCategory(Integer category){
+    public List<Map<String,Object>> findCategory(Integer category){
         return mapper.findCategory(category);
     }
 
