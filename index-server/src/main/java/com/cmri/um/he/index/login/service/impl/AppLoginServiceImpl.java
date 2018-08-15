@@ -6,6 +6,9 @@ import com.cmri.um.he.index.login.service.AppLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Max;
 import java.util.List;
 
@@ -21,13 +24,18 @@ public class AppLoginServiceImpl implements AppLoginService {
     private AppLoginDao appLoginDao;
 
     @Override
-    public boolean getlogin(String username, String userpass) {
+    public String getlogin(String username, String userpass, HttpServletRequest response) {
 
-       List<AppUserEntity> list = appLoginDao.getlogin(username,userpass);
+       List<AppUserEntity> list = appLoginDao.queryByName(username);
 
         if (list.size()==1){
-            return true;
+            List<AppUserEntity> list1 = appLoginDao.getlogin(username,userpass);
+            if(list1.size()==1){
+                response.getSession().setAttribute("loginuser",list1.get(0));
+                return "loginYes";
+            }
+            return "loginNo";
         }
-        return false;
+        return "nameNo";
     }
 }

@@ -44,4 +44,20 @@ public class AppBereavementDao extends BaseDao{
     public List<Map<String,Object>> findCategory(Integer category){
         return mapper.findCategory(category);
     }
+
+    public List<Map<String,Object>> getNumberCommentsJust(Integer category, String startTime, String endTime) {
+        return mapper.getNumberCommentsJust(category,startTime,endTime);
+    }
+
+    public List<Map<String,Object>> findAppName(Integer category, String startTime, String endTime) {
+        return mapper.findAppName(category,startTime,endTime);
+    }
+
+    public List<Map<String,Object>> findNumberCommentsCentre(Integer category, String startTime, String endTime) {
+        return mapper.findNumberCommentsCentre(category,startTime,endTime);
+    }
+
+    public List<Map<String,Object>> findNumberCommentsLoad(Integer category, String startTime, String endTime) {
+        return mapper.findNumberCommentsLoad(category,startTime,endTime);
+    }
 }

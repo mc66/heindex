@@ -1,5 +1,8 @@
 package com.cmri.um.he.index.monument.service.impl;
 
+import com.cmri.um.he.index.common.CalculateDaysByDate;
+import com.cmri.um.he.index.common.Constants;
+import com.cmri.um.he.index.common.DefaultTime;
 import com.cmri.um.he.index.monument.dao.AppBereavementDao;
 import com.cmri.um.he.index.monument.service.AppBereavementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,5 +94,66 @@ public class AppBereavementServiceImpl implements AppBereavementService {
         List<Map<String, Object>> bereavment = dao.findMoonEmotion(category, endTime);
         return bereavment;
 
+    }
+
+
+   @Override
+    public List<Map<String, Object>> findNumberCommentsJust(Integer category, String startTime, String endTime) {
+        if (startTime.equals("null")) {
+            try {
+                String defaultTime = CalculateDaysByDate.getDate(Constants.DAY,-30,endTime);
+                return  dao.getNumberCommentsJust(category, defaultTime, endTime);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }else {
+            return dao.getNumberCommentsJust(category, startTime, endTime);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> findAppName(Integer category, String startTime, String endTime) {
+        if (startTime.equals("null")) {
+            try {
+                String defaultTime = CalculateDaysByDate.getDate(Constants.DAY,-30,endTime);
+                return  dao.findAppName(category, defaultTime, endTime);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }else {
+            return dao.findAppName(category, startTime, endTime);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> findNumberCommentsCentre(Integer category, String startTime, String endTime) {
+        if (startTime.equals("null")) {
+            try {
+                String defaultTime = CalculateDaysByDate.getDate(Constants.DAY,-30,endTime);
+                return  dao.findNumberCommentsCentre(category, defaultTime, endTime);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }else {
+            return dao.findNumberCommentsCentre(category, startTime, endTime);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> findNumberCommentsLoad(Integer category, String startTime, String endTime) {
+        if (startTime.equals("null")) {
+            try {
+                String defaultTime = CalculateDaysByDate.getDate(Constants.DAY,-30,endTime);
+                return  dao.findNumberCommentsLoad(category, defaultTime, endTime);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }else {
+            return dao.findNumberCommentsLoad(category, startTime, endTime);
+        }
     }
 }

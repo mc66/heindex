@@ -62,4 +62,12 @@ public interface AppBereavementMapper {
     @Select("SELECT info.`name` name,info.id id FROM app_category cate LEFT JOIN app_info info \n" +
             "ON cate.id = info.category WHERE cate.id = #{category}")
     List<Map<String,Object>> findCategory(Integer category);
+    @Select(" SELECT count(aea.`status`) as status FROM app_emotion_analyze aea WHERE aea.category=#{category} and aea.`month` BETWEEN #{startTime} AND #{endTime} and aea.`status`=1 GROUP BY aea.app_name ")
+    List<Map<String,Object>> getNumberCommentsJust(@Param("category") Integer category,@Param("startTime") String startTime,@Param("endTime") String endTime);
+    @Select(" SELECT aea.app_name FROM app_emotion_analyze aea WHERE aea.category=#{category} and aea.`month` BETWEEN #{startTime} AND #{endTime} GROUP BY aea.app_name ")
+    List<Map<String,Object>> findAppName(@Param("category") Integer category,@Param("startTime") String startTime,@Param("endTime") String endTime);
+    @Select(" SELECT count(aea.`status`) as status FROM app_emotion_analyze aea WHERE aea.category=#{category} and aea.`month` BETWEEN #{startTime} AND #{endTime} and aea.`status`=0 GROUP BY aea.app_name ")
+    List<Map<String,Object>> findNumberCommentsCentre(@Param("category") Integer category,@Param("startTime") String startTime,@Param("endTime") String endTime);
+    @Select(" SELECT count(aea.`status`) as status FROM app_emotion_analyze aea WHERE aea.category=#{category} and aea.`month` BETWEEN #{startTime} AND #{endTime} and aea.`status`=-1 GROUP BY aea.app_name ")
+    List<Map<String,Object>> findNumberCommentsLoad(@Param("category") Integer category,@Param("startTime") String startTime,@Param("endTime") String endTime);
 }
