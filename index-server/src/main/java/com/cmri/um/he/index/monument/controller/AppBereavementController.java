@@ -37,12 +37,18 @@ public class AppBereavementController extends ZRestController{
         return responseMessage;
     }
 
-    /*@RequestMapping(value = "/get-number_comments",method = RequestMethod.GET)
-    public ResponseMessage getNumberComments(@RequestParam Integer category,@RequestParam String startTime,String endTime){
-        List<Map<String, Object>> number_comments = service.findNumberComments(category, startTime,endTime);
+    @RequestMapping(value = "/get-number_comments",method = RequestMethod.GET)
+    public ResponseMessage getNumberComments(@RequestParam Integer category,@RequestParam String startTime,@RequestParam String endTime){
+        List<Map<String, Object>> appname = service.findAppName(category, startTime,endTime);
+        List<Map<String, Object>> number_commentsJust = service.findNumberCommentsJust(category, startTime,endTime);
+        List<Map<String, Object>> number_commentsCentre = service.findNumberCommentsCentre(category, startTime,endTime);
+        List<Map<String, Object>> number_commentsLoad = service.findNumberCommentsLoad(category, startTime,endTime);
         ResponseMessage responseMessage = this.genResponseMessage();
-        responseMessage.set("items",number_comments);
+        responseMessage.set("name",appname);
+        responseMessage.set("positive ",number_commentsJust);
+        responseMessage.set("neutral ",number_commentsCentre);
+        responseMessage.set("negativity ",number_commentsLoad);
         return responseMessage;
-    }*/
+    }
 
 }

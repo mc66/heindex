@@ -30,5 +30,11 @@ public interface AppBereavementService {
      */
     List<Map<String,Object>> findMoonEmotion(Integer category,String startTime);
 
-    /*List<Map<String,Object>> findNumberComments(Integer category, String startTime, String endTime);*/
+    List<Map<String,Object>> findNumberCommentsJust(Integer category, String startTime, String endTime);
+
+    List<Map<String,Object>> findAppName(Integer category, String startTime, String endTime);
+
+    List<Map<String,Object>> findNumberCommentsCentre(Integer category, String startTime, String endTime);
+
+    List<Map<String,Object>> findNumberCommentsLoad(Integer category, String startTime, String endTime);
 }
