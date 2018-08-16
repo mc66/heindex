@@ -52,5 +52,35 @@ public class AppBereavementController extends ZRestController{
         return responseMessage;
     }
 
+    @RequestMapping(value = "/get-frequency",method = RequestMethod.GET)
+    public ResponseMessage findFrequency(@RequestParam Integer app,String startTime,@RequestParam String endTime) throws Exception {
+        List<Map<String, Object>> mapList = null;
+        if (startTime.equals("null")){
+            String time = DefaultTime.getDefaultTimes(Constants.MONTH,5,endTime);
+            mapList = service.frequencyCount(app, time, endTime);
+        } else {
+            mapList = service.frequencyCount(app, startTime, endTime);
+        }
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("items", mapList);
+        return responseMessage;
+    }
+
+    @RequestMapping(value = "/get-category",method = RequestMethod.GET)
+    public ResponseMessage findCategory(@RequestParam Integer category) {
+        List<Map<String, Object>> category1 = service.findCategory(category);
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("items", category1);
+        return responseMessage;
+    }
+
+    @RequestMapping(value = "/get-parameter",method = RequestMethod.GET)
+    public ResponseMessage findParameter(@RequestParam Integer category, String startTime,@RequestParam String endTime) {
+        List<Map<String, Object>> parameter = service.findParameter(category,startTime,endTime);
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("items", parameter);
+        return responseMessage;
+    }
+
 
 }
