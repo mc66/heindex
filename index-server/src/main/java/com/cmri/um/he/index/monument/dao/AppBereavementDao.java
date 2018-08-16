@@ -1,6 +1,8 @@
 package com.cmri.um.he.index.monument.dao;
 
 import com.cmri.um.he.index.monument.mapper.AppBereavementMapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -26,10 +28,6 @@ public class AppBereavementDao extends BaseDao{
         return mapper.findBereavement(category, startTime, endTime);
     }
 
-    public List<Map<String,Object>> findBereavements(Integer id,String startTime,String endTime){
-        return mapper.findBereavements(id, startTime, endTime);
-    }
-
     /**
      * 查询指定月份的情感指数
      * */
@@ -44,6 +42,35 @@ public class AppBereavementDao extends BaseDao{
     public List<Map<String,Object>> findCategory(Integer category){
         return mapper.findCategory(category);
     }
+
+    /**
+     * 查询评论热词  词频统计
+     * */
+    public List<Map<String,Object>> frequencyCount(Integer app,String startTime, String endTime){
+        return mapper.frequencyCount(app, startTime, endTime);
+    }
+
+    /**
+     * 查询正性评论总条数
+     * */
+    public List<Map<String,Object>> findPositive( Integer app, String startTime, String endTime){
+        return mapper.findPositive(app, startTime, endTime);
+    }
+
+   /* *//**
+     * 查询负性评论总条数
+     * *//*
+    public List<Map<String,Object>> findNegativity( Integer category, String startTime,String endTime){
+        return mapper.findNegativity(category, startTime, endTime);
+    }
+
+    *//**
+     * 查询中性评论总条数
+     * *//*
+    public List<Map<String,Object>> findNeutral(Integer category,String startTime,String endTime){
+        return mapper.findNeutral(category, startTime, endTime);
+    }*/
+
 
 
 }

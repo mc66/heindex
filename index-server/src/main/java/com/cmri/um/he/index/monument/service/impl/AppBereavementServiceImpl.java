@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -51,7 +53,7 @@ public class AppBereavementServiceImpl implements AppBereavementService {
             map1s.put("value",value);
             list1.add(map1s);
         }
-        objectMap.put("qq",list1);
+        objectMap.put("emotion",list1);
 
         List<Map<String, Object>> category1 = dao.findCategory(category);
         List<Object> nameList = new ArrayList<>();
@@ -65,7 +67,6 @@ public class AppBereavementServiceImpl implements AppBereavementService {
 
         Map<String, Object> namemap = new HashMap<>(16);
         Map<String, Object> monthmap = new HashMap<>(16);
-        namemap.put("app",nameList);
         List<String> month = new ArrayList<>();
         Calendar min = Calendar.getInstance();
         Calendar max = Calendar.getInstance();
@@ -99,6 +100,64 @@ public class AppBereavementServiceImpl implements AppBereavementService {
         List<Map<String, Object>> bereavment = dao.findMoonEmotion(category, endTime);
         return bereavment;
 
+    }
+
+    @Override
+    public List<Map<String, Object>> frequencyCount(Integer app, String startTime, String endTime) {
+       /* SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
+        Date parse = sdf.parse(startTime);*/
+        List<Map<String, Object>> mapList = dao.frequencyCount(app, startTime, endTime);
+        return mapList;
+    }
+
+    @Override
+    public List<Map<String, Object>> findCategory(Integer category) {
+
+        return dao.findCategory(category);
+    }
+
+    @Override
+    public List<Map<String, Object>> findParameter(Integer category, String startTime, String endTime) {
+        List<Map<String, Object>> appName = dao.findCategory(category);
+        List<Map<String, Object>> appss= new ArrayList<>();
+        Map<String, Object> maps = new HashMap<>();
+        for (Map<String, Object> map : appName) {
+            Map<String, Object> list =  new HashMap<>();
+            int id =(int) map.get("id");
+            String name =(String) map.get("name");
+            List<Map<String, Object>> positive = dao.findPositive(id, startTime, endTime);
+            for (Map<String, Object> objectMap : positive) {
+
+                int o =(int) objectMap.get("freq_positive");
+                int o1 = (int)objectMap.get("freq_negativity");
+                int o2 =(int) objectMap.get("freq_neutral");
+                int o3 = (int)objectMap.get("freq_sum");
+                String rate1 = null;
+                String rate2 = null;
+                String rate3 = null;
+                if (o3 == 0){
+                    rate1 = "0%";
+                    rate2 = "0%";
+                    rate3 = "0%";
+                }else {
+                    rate1 = (o/(double)o3)*100+"%";
+                    rate2 = (o1/(double)o3)*100+"%";
+                    rate3 = (o2/(double)o3)*100+"%";
+                }
+                list.put("value1",o);
+                list.put("value-1",o1);
+                list.put("value0",o2);
+                list.put("sum",o3);
+                list.put("rate1",rate1);
+                list.put("rate-1",rate2);
+                list.put("rate0",rate3);
+
+            }
+
+            maps.put(name,list);
+        }
+        appss.add(maps);
+        return appss;
     }
 
 }
