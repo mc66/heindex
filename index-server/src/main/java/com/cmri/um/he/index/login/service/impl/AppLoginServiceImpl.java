@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.Max;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 登陆页面
@@ -23,15 +24,40 @@ public class AppLoginServiceImpl implements AppLoginService {
     @Autowired
     private AppLoginDao appLoginDao;
 
+    /**
+     *  登陆页面
+     * @param username
+     * @param userpass
+     * @param request
+     * @param response
+     * @return
+     */
     @Override
-    public String getlogin(String username, String userpass, HttpServletRequest response) {
+    public String getlogin(String username, String userpass, HttpServletRequest request,HttpServletResponse response) {
 
        List<AppUserEntity> list = appLoginDao.queryByName(username);
 
         if (list.size()==1){
             List<AppUserEntity> list1 = appLoginDao.getlogin(username,userpass);
             if(list1.size()==1){
-                response.getSession().setAttribute("loginuser",list1.get(0));
+                request.getSession().setAttribute("id",list1.get(0).getId());
+                try {
+                    response.setHeader("Access-Control-Allow-Credentials","true");
+                    response.setHeader("Access-Control-Allow-Origin","http://localhost:9280");
+                    response.setHeader("Set-Cookie","token=cowshield");
+                    //将验证信息保存到Cookie
+                    Cookie cid=new Cookie("userid", UUID.randomUUID().toString().replaceAll("-", ""));
+                    Cookie cpass=new Cookie("password",userpass);
+                    cid.setPath("/");
+                    cpass.setPath("/");
+                    cid.setHttpOnly(true);
+                    cpass.setHttpOnly(true);
+                    response.addCookie(cid);
+                    response.addCookie(cpass);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 return "loginYes";
             }
             return "loginNo";
