@@ -24,7 +24,7 @@ public interface AppBereavementMapper {
      * @param endTime 结束月份
      * @return 结果集
      * */
-    @Select("SELECT emotion.`month`,info.`name`,cate.`name`,emotion.emotion_score FROM app_emotion_parameter emotion\n" +
+    @Select("SELECT emotion.`month`,info.`name` name,cate.`name`,emotion.emotion_score value FROM app_emotion_parameter emotion\n" +
             "LEFT JOIN app_info info ON emotion.app = info.id\n" +
             "LEFT JOIN app_category cate ON emotion.category = cate.id\n" +
             "WHERE emotion.category = #{category} AND emotion.`month` BETWEEN #{startTime} AND #{endTime}")

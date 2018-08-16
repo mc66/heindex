@@ -28,7 +28,7 @@ public class AppBereavementController extends ZRestController{
 
     @RequestMapping(value = "/get-bereavement",method = RequestMethod.GET)
     public ResponseMessage get(@RequestParam Integer category, String startTime,@RequestParam String endTime){
-        List<Map<String, List>> bereavement = null;
+        List<Map<String, Object>> bereavement = null;
         if (startTime.equals("null")){
             try {
                 String time = DefaultTime.getDefaultTimes(Constants.MONTH,5,endTime);

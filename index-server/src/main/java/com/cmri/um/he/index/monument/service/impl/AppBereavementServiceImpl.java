@@ -5,6 +5,7 @@ import com.cmri.um.he.index.common.Constants;
 import com.cmri.um.he.index.common.DefaultTime;
 import com.cmri.um.he.index.monument.dao.AppBereavementDao;
 import com.cmri.um.he.index.monument.service.AppBereavementService;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,27 +27,32 @@ public class AppBereavementServiceImpl implements AppBereavementService {
     private AppBereavementDao dao;
 
     @Override
-    public List<Map<String, List>> findBereavement(Integer category, String startTime, String endTime) {
+    public List<Map<String, Object>> findBereavement(Integer category, String startTime, String endTime) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
         List<Map<String, Object>> bereavment = dao.findBereavement(category, startTime, endTime);
-        Set<String> set=new HashSet();
+        List list1=new ArrayList();
+        List<Map<String, Object>> mapList = new ArrayList<>(16);
+        Map<String,Object> objectMap = new HashMap<>(16);
         for (Map<String, Object> map : bereavment) {
-            String name= (String) map.get("name");
-            String key=name;
-            set.add(key);
+            String o = (String)map.get("name");
+            if (objectMap.containsKey(o)){
+                objectMap.put(o,objectMap.get(o)+","+map.get("value"));
+            }else {
+                objectMap.put(o,map.get("value"));
+            }
         }
-        List<Map<String, List>> mapList = new ArrayList<>();
-        Map<String,List> map=new HashMap();
-        for (String s : set) {
-            map.put(s,new ArrayList<>());
+        Iterator it = objectMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map<String,Object> map1s = new HashMap<>(16);
+            Map.Entry entry = (Map.Entry) it.next();
+            Object key = entry.getKey();
+            Object value = entry.getValue();
+            map1s.put("name",key);
+            map1s.put("value",value);
+            list1.add(map1s);
         }
-        for (Map<String, Object> map1 : bereavment) {
-            String name= (String) map1.get("name");
-            String key=name;
-            List list = map.get(key);
-            list.add(map1.get("emotion_score"));
-            map.put(key,list);
-        }
+        objectMap.put("qq",list1);
+
         List<Map<String, Object>> category1 = dao.findCategory(category);
         List<Object> nameList = new ArrayList<>();
         List<Integer> idList = new ArrayList<>();
@@ -57,9 +63,8 @@ public class AppBereavementServiceImpl implements AppBereavementService {
             idList.add(id);
         }
 
-
-        Map<String, List> namemap = new HashMap<>(16);
-        Map<String, List> monthmap = new HashMap<>(16);
+        Map<String, Object> namemap = new HashMap<>(16);
+        Map<String, Object> monthmap = new HashMap<>(16);
         namemap.put("app",nameList);
         List<String> month = new ArrayList<>();
         Calendar min = Calendar.getInstance();
@@ -82,7 +87,7 @@ public class AppBereavementServiceImpl implements AppBereavementService {
             curr.add(Calendar.MONTH, 1);
         }
         monthmap.put("month",month);
-        mapList.add(map);
+        mapList.add(objectMap);
         mapList.add(namemap);
         mapList.add(monthmap);
 
