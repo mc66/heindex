@@ -19,7 +19,7 @@ public interface AppBereavementService {
      * @param endTime 结束月份
      * @return 查询结果
      */
-    List<Map<String,List>> findBereavement(Integer category,String startTime,String endTime);
+    List<Map<String,Object>> findBereavement(Integer category,String startTime,String endTime);
 
     /**
      * 查询指定月份、指定类别的应用的情感指数
