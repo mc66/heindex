@@ -2,6 +2,7 @@ package com.cmri.um.he.index.quality.service;
 
 import com.cmri.um.he.index.quality.entity.AppOriginalDelayEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -34,4 +35,9 @@ public interface AppOriginalDelayService {
      * @return
      */
     boolean dealAppOriginalDelayList(List<AppOriginalDelayEntity> list);
+
+    /**
+     * 读取excel中的数据,生成list
+     */
+    String readExcelFile(MultipartFile file);
 }

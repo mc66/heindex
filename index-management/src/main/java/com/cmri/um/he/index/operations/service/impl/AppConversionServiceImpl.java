@@ -32,7 +32,7 @@ public class AppConversionServiceImpl implements AppConversionService {
      * 查询未处理的数据
      * */
     @Override
-    public List<Map<String, Object>> queryUnConversion(Integer category, String month) {
+    public List<AppCalculationOperationsEntity> queryUnConversion(Integer category, String month) {
         return dao.queryUnConversion(category, month);
     }
 

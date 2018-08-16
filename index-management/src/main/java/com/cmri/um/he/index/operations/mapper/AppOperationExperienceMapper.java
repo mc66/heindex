@@ -36,4 +36,11 @@ public interface AppOperationExperienceMapper {
      */
     @Insert("INSERT INTO app_calculation_operations VALUES(NULL,#{month},#{app},#{category},#{version},#{content},#{channel},#{tariff},#{service},#{market},#{experience},#{status},#{atime})")
     void add(AppCalculationOperationsEntity appCalculationOperationsEntity);
+
+    /**
+     * 将已有数据的运营体验得分存入表中
+     * @param appCalculationOperationsEntity
+     */
+    @Update("UPDATE app_calculation_operations SET experience=#{experience} WHERE app=#{app} AND `month`=#{month}")
+    int updateExperience(AppCalculationOperationsEntity appCalculationOperationsEntity);
 }

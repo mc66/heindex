@@ -22,34 +22,33 @@ public interface AppCmtariffMapper {
      * @param entity
      * @return
      */
-    @Insert(" insert into app_original_operations values (#{id},#{month},#{category},#{app},#{version},#{measureIndex},#{specificChannel},#{serverFrom},#{measureValue},#{dimensionsId},#{explain},#{atime}) ")
+    @Insert(" insert into app_original_operations values (#{id},#{month},#{category},#{app},#{version},#{measureIndex},#{specificChannel},#{serverFrom},#{measureValue},#{dimensions},#{explain},#{atime}) ")
     int saveAppOriginalContentEntity(AppOriginalOperationsEntity entity);
 
     /**
      *  查询每个维度名称记1的数量
-     * @param dimensionsId
+     * @param dimensions
      * @return
      */
-    @Select(" SELECT count(*) FROM app_original_operations ao WHERE ao.measure_value=1 AND ao.dimensions_id=#{dim} ")
-    int queryAppCalculationOperationsEntityByMeasureValue(@Param("dim") int dimensionsId);
+    @Select(" SELECT count(*) FROM app_original_operations ao WHERE ao.measure_value=1 AND ao.dimensions=#{dim} ")
+    int queryAppCalculationOperationsEntityByMeasureValue(@Param("dim") String dimensions);
 
     /**
      *  查询所有的条数
-     * @param dimensionsId
+     * @param dimensions
      * @return
      */
-    @Select(" SELECT count(*) FROM app_original_operations  WHERE dimensions_id=#{dim} ")
-    int queryAppCalculationOperationsEntityByDimensionsId( @Param("dim") int dimensionsId);
+    @Select(" SELECT count(*) FROM app_original_operations  WHERE dimensions=#{dim} ")
+    int queryAppCalculationOperationsEntityByDimensionsId( @Param("dim") String dimensions);
 
     /**
      *  查询 app_calculation_operations是否有数据
-     * @param version
      * @param app
      * @param month
      * @return
      */
-    @Select(" SELECT * FROM app_calculation_operations ap WHERE ap.app=#{app} and ap.`month`=#{month} AND ap.version=#{version} ")
-    List<Map<String,Object>> queryAppCalculationOperations(@Param("version")String version,@Param("app") int app,@Param("month") String month);
+    @Select(" SELECT * FROM app_calculation_operations ap WHERE ap.app=#{app} and ap.`month`=#{month}")
+    List<Map<String,Object>> queryAppCalculationOperations(@Param("app") int app,@Param("month") String month);
 
     /**
      *  新增 这个app_calculation_operations表
@@ -66,11 +65,10 @@ public interface AppCmtariffMapper {
      * @param month
      * @param service
      * @param tariff
-     * @param version
      * @param app
      * @return
      */
-    @Update(" UPDATE app_calculation_operations aca SET aca.channel=#{channel} AND aca.market=#{market} AND aca.service=#{service} AND aca.tariff=#{tariff} WHERE aca.app=#{app} AND aca.`month`=#{month} AND aca.version=#{version} ")
-    int updateAppCalculationOperations(@Param("channel") Double channel,@Param("market") Double market,@Param("month") String month,@Param("service") Double service,@Param("tariff") Double tariff,@Param("version") String version,@Param("app") int app);
+    @Update(" UPDATE app_calculation_operations aca SET aca.channel=#{channel},aca.market=#{market},aca.service=#{service},aca.tariff=#{tariff} WHERE aca.app=#{app} AND aca.`month`=#{month}")
+    int updateAppCalculationOperations(@Param("channel") Double channel,@Param("market") Double market,@Param("month") String month,@Param("service") Double service,@Param("tariff") Double tariff,@Param("app") int app);
 
 }

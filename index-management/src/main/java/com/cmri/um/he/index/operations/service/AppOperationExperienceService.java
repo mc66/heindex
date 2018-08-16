@@ -1,6 +1,7 @@
 package com.cmri.um.he.index.operations.service;
 
 import com.cmri.um.he.index.operations.entity.AppCalculationOperationsEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 处理app运营体验得分
@@ -28,5 +29,10 @@ public interface AppOperationExperienceService {
      * @param appCalculationOperationsEntity
      */
     void add(AppCalculationOperationsEntity appCalculationOperationsEntity);
+
+    /**
+     * 读取excel中的数据,生成list
+     */
+    String readExcelFile(MultipartFile file);
 
 }

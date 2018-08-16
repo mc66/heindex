@@ -1,5 +1,7 @@
 package com.cmri.um.he.index.operations.service;
+
 import com.cmri.um.he.index.operations.entity.AppOriginalOperationsEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 /**
@@ -22,4 +24,11 @@ public interface AppCmtariffService {
      * @return
      */
     boolean updateAppOriginalContentEntity(List<AppOriginalOperationsEntity> list);
+
+    /**
+     * 读取Excel表
+     * @param files
+     * @return
+     */
+    String readExcelFile(List<MultipartFile> files);
 }

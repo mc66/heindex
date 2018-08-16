@@ -1,7 +1,6 @@
 package com.cmri.um.he.index.operations.service;
 
 import com.cmri.um.he.index.operations.entity.AppCalculationOperationsEntity;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,7 @@ public interface AppConversionService {
      * @param category 指定查询的类别
      * @return 未转换数据集合
      * */
-    List<Map<String,Object>> queryUnConversion(Integer category,String month);
+    List<AppCalculationOperationsEntity>  queryUnConversion(Integer category,String month);
 
     /**
      * 计算值转标准值
