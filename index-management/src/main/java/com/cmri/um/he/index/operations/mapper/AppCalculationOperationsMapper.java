@@ -15,8 +15,8 @@ public interface AppCalculationOperationsMapper {
      * @param app
      * @return
      */
-    @Select("SELECT content from app_calculation_operations where app=#{app} AND month=#{month} AND version=#{version}")
-    String getDataByApp(@Param("app") int app,@Param("month") String month,@Param("version") String version);
+    @Select("SELECT content from app_calculation_operations where app=#{app} AND month=#{month}")
+    String getDataByApp(@Param("app") int app,@Param("month") String month);
 
 
     /**
@@ -33,9 +33,8 @@ public interface AppCalculationOperationsMapper {
      * @param content
      * @param app
      * @param month
-     * @param version
      * @return
      */
-    @Update("UPDATE app_calculation_operations set content=#{content} WHERE app=#{app} AND month=#{month} AND version=#{version} ")
-    int updateContentValue(@Param("content") double content,@Param("app") int app,@Param("month") String month,@Param("version") String version);
+    @Update("UPDATE app_calculation_operations set content=#{content} WHERE app=#{app} AND month=#{month}")
+    int updateContentValue(@Param("content") double content,@Param("app") int app,@Param("month") String month);
 }

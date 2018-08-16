@@ -28,7 +28,7 @@ public class AppOriginalOperationsEntity {
     //详细说明
     private String explain;
     //产品维度ID
-    private int dimensionsId;
+    private String dimensions;
     //记录添加时间
     private Date atime;
 
@@ -112,12 +112,12 @@ public class AppOriginalOperationsEntity {
         this.explain = explain;
     }
 
-    public int getDimensionsId() {
-        return dimensionsId;
+    public String getDimensions() {
+        return dimensions;
     }
 
-    public void setDimensionsId(int dimensionsId) {
-        this.dimensionsId = dimensionsId;
+    public void setDimensions(String dimensions) {
+        this.dimensions = dimensions;
     }
 
     public Date getAtime() {

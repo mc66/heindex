@@ -33,7 +33,7 @@ public class StandardServiceImpl implements StandardService {
      * 查询未处理的数据
      * */
     @Override
-    public List<Map<String, Object>> unprocessedStandard(Integer category,String month) {
+    public List<AppCalculationQualityEntity> unprocessedStandard(Integer category,String month) {
         return dao.unprocessedStandard(category,month);
     }
 
@@ -52,7 +52,7 @@ public class StandardServiceImpl implements StandardService {
 
         int i = 0;
         for (AppCalculationQualityEntity appCalculationQualityEntity : appCalculationQualityEntities) {
-            if (appCalculationQualityEntity.getSpecial() ==1 && appCalculationQualityEntities.size()>6){
+            if (appCalculationQualityEntities.size()>6){
                 //功能
                 double features = appCalculationQualityEntity.getFeatures();
                 featureArr[i] = features;

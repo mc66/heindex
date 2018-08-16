@@ -20,8 +20,8 @@ public class AppCalculationOperationsDao {
      * @param app
      * @return
      */
-    public String getDataByApp(int app,String month,String version){
-       String contentValue= mapper.getDataByApp(app,month,version);
+    public String getDataByApp(int app,String month){
+       String contentValue= mapper.getDataByApp(app,month);
        return contentValue;
     }
 
@@ -41,8 +41,8 @@ public class AppCalculationOperationsDao {
      * @param content app
      * @return
      */
-    public int updateContentValue(double content,int app,String month,String version){
-        int num= mapper.updateContentValue(content,app,month,version);
+    public int updateContentValue(double content,int app,String month){
+        int num= mapper.updateContentValue(content,app,month);
         return num;
     }
 }

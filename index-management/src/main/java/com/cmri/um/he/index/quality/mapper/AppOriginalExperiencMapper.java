@@ -1,6 +1,6 @@
 package com.cmri.um.he.index.quality.mapper;
 
-import com.cmri.um.he.index.quality.entity.AppExperienceEntity;
+import com.cmri.um.he.index.quality.entity.AppOriginalExperienceEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -45,6 +45,6 @@ public interface AppOriginalExperiencMapper {
      * @param experie
      * @return
      */
-    @Update(" UPDATE app_calculation_quality acq set acq.experience=#{experience} where acq.app=#{app} and acq.`month`=#{month} and acq.version=#{version} ")
-    int updateExperienceAll(AppExperienceEntity experie);
+    @Update(" UPDATE app_calculation_quality acq set acq.experience=#{experience} where acq.app=#{app} and acq.`month`=#{month}")
+    int updateExperienceAll(AppOriginalExperienceEntity experie);
 }

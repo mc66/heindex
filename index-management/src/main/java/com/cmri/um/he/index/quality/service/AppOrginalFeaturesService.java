@@ -16,5 +16,5 @@ public interface AppOrginalFeaturesService {
     /**
      * 读取excel中的数据,生成list
      */
-    List readExcelFile(MultipartFile file);
+    String readExcelFile(MultipartFile file);
 }

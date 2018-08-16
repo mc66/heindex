@@ -36,20 +36,4 @@ public interface AppQualityMapper {
      */
     @Update("UPDATE app_quality SET qindex = #{qindex} WHERE app=#{app} AND VERSION = #{version} AND month=#{month}")
     int setQindex(@Param("app") int app,@Param("version")String version,@Param("month")String month,@Param("qindex")double qindex);
-
-    /**
-     * 查询应用类别
-     * @param category
-     * @return 应用类别id
-     */
-    @Select("SELECT id from app_category WHERE `name`=#{category}")
-    int findIdByCategoryName(String category);
-
-    /**
-     * 查询应用类别
-     * @param app
-     * @return 应用类别id
-     */
-    @Select("SELECT id from app_info WHERE `name`=#{app}")
-    int findIdByAppName(String app);
 }

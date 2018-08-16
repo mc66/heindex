@@ -1,16 +1,19 @@
 package com.cmri.um.he.index.quality.service.impl;
 
+import com.cmri.um.he.index.quality.dao.AppExcelDao;
 import com.cmri.um.he.index.quality.dao.AppOrginalFeaturesDao;
-import com.cmri.um.he.index.quality.dao.AppQualityDao;
 import com.cmri.um.he.index.quality.dao.AppWeightQualityDao;
 import com.cmri.um.he.index.quality.entity.AppCalculationQualityEntity;
 import com.cmri.um.he.index.quality.entity.AppOriginalFeaturesEntity;
 import com.cmri.um.he.index.quality.entity.AppWeightQualityEntity;
+import com.cmri.um.he.index.quality.service.AppCalculationQualityService;
 import com.cmri.um.he.index.quality.service.AppOrginalFeaturesService;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +36,9 @@ public class AppOrginalFeaturesServiceImpl implements AppOrginalFeaturesService 
     private AppWeightQualityDao appWeightQualityDao;
 
     @Autowired
-    private AppQualityDao qualityDao;
+    private AppExcelDao excelDao;
+    @Autowired
+    private AppCalculationQualityService appCalculationQualityService;
 
     /**
      * 新增功能界面的原始数据
@@ -49,7 +54,6 @@ public class AppOrginalFeaturesServiceImpl implements AppOrginalFeaturesService 
             appOriginalFeaturesEntity.setAtime(new Date());
             appOrginalFeaturesDao.saveList(appOriginalFeaturesEntity);
         }
-
         return true;
     }
 
@@ -105,8 +109,8 @@ public class AppOrginalFeaturesServiceImpl implements AppOrginalFeaturesService 
         int app = list.get(0).getApp();
         AppWeightQualityEntity appWeightQualityEntity = appWeightQualityDao.findWegihtByApp(app);
 
-        int feaScore = 100 - (appWeightQualityEntity.getWhigh() * count1 + appWeightQualityEntity.getWmiddle() * count2 + appWeightQualityEntity.getWlow() * count3);
-        int viewScore = 100 - (appWeightQualityEntity.getWhigh() * count4 + appWeightQualityEntity.getWmiddle() * count5 + appWeightQualityEntity.getWlow() * count6);
+        int feaScore = 100 - (appWeightQualityEntity.getWhigh() * count3 + appWeightQualityEntity.getWmiddle() * count2 + appWeightQualityEntity.getWlow() * count1);
+        int viewScore = 100 - (appWeightQualityEntity.getWhigh() * count6 + appWeightQualityEntity.getWmiddle() * count5 + appWeightQualityEntity.getWlow() * count4);
 
         AppCalculationQualityEntity appCalculationQualityEntity = new AppCalculationQualityEntity();
         appCalculationQualityEntity.setFeatures((double) feaScore);
@@ -116,11 +120,17 @@ public class AppOrginalFeaturesServiceImpl implements AppOrginalFeaturesService 
         return appCalculationQualityEntity;
     }
 
-    @Transactional
     @Override
-    public List readExcelFile(MultipartFile file) {
+    @Transactional
+    public String readExcelFile(MultipartFile file) {
         try {
-            HSSFWorkbook sheets = new HSSFWorkbook(file.getInputStream());
+            String name = file.getOriginalFilename();
+            Workbook sheets;
+            if (name.contains("xlsx")) {
+                sheets = new XSSFWorkbook(file.getInputStream());
+            } else {
+                sheets = new HSSFWorkbook(file.getInputStream());
+            }
             // 得到第一个shell
             Sheet sheet = sheets.getSheetAt(0);
             // 得到Excel的行数和列数
@@ -142,12 +152,12 @@ public class AppOrginalFeaturesServiceImpl implements AppOrginalFeaturesService 
                             entity.setMonth(String.valueOf(cell.getStringCellValue()));
                         } else if (c == 1) {
                             String categoryName = cell.getStringCellValue();
-                            entity.setCategory(qualityDao.findIdByCategoryName(categoryName));
+                            entity.setCategory(excelDao.findIdByCategoryName(categoryName));
                         } else if (c == 2) {
                             continue;
                         } else if (c == 3) {
                             String appName = cell.getStringCellValue();
-                            entity.setApp(qualityDao.findIdByAppName(appName));
+                            entity.setApp(excelDao.findIdByAppName(appName));
                         } else if (c == 4) {
                             entity.setVersion(cell.getStringCellValue());
                         }else if (c == 5) {
@@ -174,6 +184,7 @@ public class AppOrginalFeaturesServiceImpl implements AppOrginalFeaturesService 
                 String key=entity.getApp()+""+entity.getVersion();
                 set.add(key);
             }
+            //遍历set，放到map中
             Map<String,List> map=new HashMap();
             for (String s:set){
                 map.put(s,new ArrayList<AppOriginalFeaturesEntity>());
@@ -182,11 +193,19 @@ public class AppOrginalFeaturesServiceImpl implements AppOrginalFeaturesService 
                 String key=entity.getApp()+""+entity.getVersion();
                 map.get(key).add(entity);
             }
-            System.out.println("----");
+            for (List<AppOriginalFeaturesEntity> list1:map.values()){
+                boolean b = saveList(list1);
+                AppCalculationQualityEntity entity = getScore(list1);
+                int i = appCalculationQualityService.update(entity);
+                if (b&&i>0){
+                    continue;
+                }
+            }
+            return "成功!";
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return "失败!";
     }
 
 }

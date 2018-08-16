@@ -1,6 +1,7 @@
 package com.cmri.um.he.index.quality.service;
 
-import com.cmri.um.he.index.quality.entity.AppExperienceEntity;
+import com.cmri.um.he.index.quality.entity.AppOriginalExperienceEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -32,5 +33,10 @@ public interface AppOriginalExperienceService {
      */
     int updateExperience(Integer id, Double experience);
 
-    String updateExperienceAll(List<AppExperienceEntity> list);
+    String updateExperienceAll(List<AppOriginalExperienceEntity> list);
+
+    /**
+     * 读取excel中的数据,生成list
+     */
+    String readExcelFile(MultipartFile file);
 }

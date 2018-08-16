@@ -3,7 +3,6 @@ package com.cmri.um.he.index.quality.service;
 import com.cmri.um.he.index.quality.entity.AppCalculationQualityEntity;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 为处理为标准值查询的服务类
@@ -19,7 +18,7 @@ public interface StandardService {
      * @param category 指定类别
      * @return 查询结果
      */
-    List<Map<String,Object>> unprocessedStandard(Integer category,String month);
+    List<AppCalculationQualityEntity> unprocessedStandard(Integer category,String month);
 
     /**
      *
