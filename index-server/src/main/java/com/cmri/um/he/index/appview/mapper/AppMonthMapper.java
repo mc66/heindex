@@ -22,4 +22,11 @@ public interface AppMonthMapper {
     @Select("SELECT `month` from app_mau GROUP BY `month` DESC limit 0,6")
     List<Map<String,Object>> findMonths();
 
+    /**
+     * 查询体验指数所有报告期数
+     * @return 报告期数集合
+     */
+    @Select("SELECT `month` from app_quality GROUP BY `month`")
+    List<Map<String,Object>> findExperienceMonths();
+
 }

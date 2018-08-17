@@ -15,4 +15,10 @@ public interface AppMonthService {
      * @return 查询结果
      */
     List<Map<String,Object>> findMonths();
+
+    /**
+     * 查询体验指数的报告期数
+     * @return
+     */
+    List<Map<String,Object>> findExperienceMonths();
 }
