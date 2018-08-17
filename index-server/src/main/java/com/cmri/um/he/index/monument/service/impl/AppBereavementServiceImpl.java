@@ -30,69 +30,10 @@ public class AppBereavementServiceImpl implements AppBereavementService {
 
     @Override
     public List<Map<String, Object>> findBereavement(Integer category, String startTime, String endTime) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
+
         List<Map<String, Object>> bereavment = dao.findBereavement(category, startTime, endTime);
-        List list1=new ArrayList();
-        List<Map<String, Object>> mapList = new ArrayList<>(16);
-        Map<String,Object> objectMap = new HashMap<>(16);
-        for (Map<String, Object> map : bereavment) {
-            String o = (String)map.get("name");
-            if (objectMap.containsKey(o)){
-                objectMap.put(o,objectMap.get(o)+","+map.get("value"));
-            }else {
-                objectMap.put(o,map.get("value"));
-            }
-        }
-        Iterator it = objectMap.entrySet().iterator();
-        while (it.hasNext()) {
-            Map<String,Object> map1s = new HashMap<>(16);
-            Map.Entry entry = (Map.Entry) it.next();
-            Object key = entry.getKey();
-            Object value = entry.getValue();
-            map1s.put("name",key);
-            map1s.put("value",value);
-            list1.add(map1s);
-        }
-        objectMap.put("emotion",list1);
 
-        List<Map<String, Object>> category1 = dao.findCategory(category);
-        List<Object> nameList = new ArrayList<>();
-        List<Integer> idList = new ArrayList<>();
-        for (Map<String, Object> mapp : category1) {
-            Object name = mapp.get("name");
-            Integer id = (Integer) mapp.get("id");
-            nameList.add(name);
-            idList.add(id);
-        }
-
-        Map<String, Object> namemap = new HashMap<>(16);
-        Map<String, Object> monthmap = new HashMap<>(16);
-        List<String> month = new ArrayList<>();
-        Calendar min = Calendar.getInstance();
-        Calendar max = Calendar.getInstance();
-        try {
-            min.setTime(sdf.parse(startTime));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        min.set(min.get(Calendar.YEAR), min.get(Calendar.MONTH), 1);
-        try {
-            max.setTime(sdf.parse(endTime));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        max.set(max.get(Calendar.YEAR),max.get(Calendar.MONTH), 2);
-        Calendar curr = min;
-        while (curr.before(max)) {
-            month.add(sdf.format(curr.getTime()));
-            curr.add(Calendar.MONTH, 1);
-        }
-        monthmap.put("month",month);
-        mapList.add(objectMap);
-        mapList.add(namemap);
-        mapList.add(monthmap);
-
-        return mapList;
+        return bereavment;
     }
 
     @Override
