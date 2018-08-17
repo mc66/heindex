@@ -2,14 +2,18 @@ package com.cmri.um.he.index.login.controller;
 
 import com.cmri.spring.common.controller.ZRestController;
 import com.cmri.spring.common.data.ResponseMessage;
+import com.cmri.um.he.index.common.VerifyCodeUtils;
 import com.cmri.um.he.index.login.service.AppLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,7 +22,7 @@ import java.util.Map;
  * Created on 2018/8/13
  */
 @RestController
-public class AppLoginController extends Cors {
+public class AppLoginController extends ZRestController {
 
     @Autowired
     private AppLoginService appLoginService;
@@ -71,16 +75,16 @@ public class AppLoginController extends Cors {
         }*/
 
     }
-    @RequestMapping(value = "code",method = RequestMethod.GET)
-     public void getCode(HttpServletRequest request, HttpServletResponse response){
-
-        ValidateCode.getVerifyCode(request,response);
-    };
+//    @RequestMapping(value = "code",method = RequestMethod.GET)
+//     public void getCode(HttpServletRequest request, HttpServletResponse response){
+//
+//        ValidateCode.getVerifyCode(request,response);
+//    };
 
     @RequestMapping(value = "app-test",method = RequestMethod.POST)
     public ResponseMessage getTest(@RequestParam String username, @RequestParam String password,HttpServletRequest request, HttpServletResponse response)throws Exception{
 
-        username=URLDecoder.decode(username,"UTF-8");
+        username= URLDecoder.decode(username,"UTF-8");
         password=URLDecoder.decode(password,"UTF-8");
         Cookie cookie1 =new Cookie("username",username);
         Cookie cookie2 =new Cookie("password",password);
