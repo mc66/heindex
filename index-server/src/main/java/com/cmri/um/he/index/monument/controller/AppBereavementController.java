@@ -75,8 +75,14 @@ public class AppBereavementController extends ZRestController{
     }
 
     @RequestMapping(value = "/get-parameter",method = RequestMethod.GET)
-    public ResponseMessage findParameter(@RequestParam Integer category, String startTime,@RequestParam String endTime) {
-        List<Map<String, Object>> parameter = service.findParameter(category,startTime,endTime);
+    public ResponseMessage findParameter(@RequestParam Integer category, String startTime,@RequestParam String endTime) throws Exception {
+        List<Map<String, Object>> parameter = null;
+        if (startTime.equals("null")){
+            String time = DefaultTime.getDefaultTimes(Constants.MONTH,5,endTime);
+            parameter = service.findParameter(category,time,endTime);
+        } else {
+            parameter = service.findParameter(category, startTime, endTime);
+        }
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("items", parameter);
         return responseMessage;
