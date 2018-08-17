@@ -59,7 +59,7 @@ public interface AppBereavementService {
      * @return
      *
      * */
-    List<Map<String,Object>> findParameter(Integer category,String startTime, String endTime);
+    List<Map<String, Object>> findParameter(Integer category,String startTime, String endTime);
 
 
 }
