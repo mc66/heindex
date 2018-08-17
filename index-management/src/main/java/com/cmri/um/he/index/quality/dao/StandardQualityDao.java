@@ -1,11 +1,11 @@
 package com.cmri.um.he.index.quality.dao;
 
+import com.cmri.um.he.index.quality.entity.AppCalculationQualityEntity;
 import com.cmri.um.he.index.quality.mapper.StandardQualityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 未处理为标准值的数据库访问
@@ -23,7 +23,7 @@ public class StandardQualityDao extends BaseDao {
      * 查询未处理为标准值的数据
      *
      * */
-    public List<Map<String, Object>> unprocessedStandard(Integer category,String month) {
+    public List<AppCalculationQualityEntity> unprocessedStandard(Integer category, String month) {
         return mapper.unprocessedStandard(category,month);
     }
 

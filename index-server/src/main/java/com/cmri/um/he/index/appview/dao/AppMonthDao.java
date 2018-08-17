@@ -24,4 +24,11 @@ public class AppMonthDao extends BaseDao{
     public List<Map<String,Object>> findMonths(){
         return mapper.findMonths();
     }
+
+    /**
+     * 查询体验指数所有报告期数
+     * */
+    public List<Map<String,Object>> findExperienceMonths(){
+        return mapper.findExperienceMonths();
+    }
 }

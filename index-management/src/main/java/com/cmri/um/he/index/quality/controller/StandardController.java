@@ -28,7 +28,7 @@ public class StandardController extends ZRestController {
      * */
     @RequestMapping(value = "/app-quality-calculation-list",method = RequestMethod.GET)
     public ResponseMessage get(@RequestParam Integer category,@RequestParam String month){
-        List<Map<String, Object>> maps = standardService.unprocessedStandard(category,month);
+        List<AppCalculationQualityEntity> maps = standardService.unprocessedStandard(category,month);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("data",maps);
         return responseMessage;

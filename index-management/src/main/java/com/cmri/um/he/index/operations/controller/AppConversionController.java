@@ -33,7 +33,7 @@ public class AppConversionController extends ZRestController {
      * */
     @RequestMapping(value = "/query-operations",method = RequestMethod.GET)
     public ResponseMessage getOperations(@RequestParam Integer category, @RequestParam String month){
-        List<Map<String, Object>> maps = service.queryUnConversion(category, month);
+        List<AppCalculationOperationsEntity> maps = service.queryUnConversion(category, month);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("data",maps);
         return responseMessage;

@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author limin
  * Created on 2018/6/25
  */
-public class AppExperienceEntity implements Serializable {
+public class AppOriginalExperienceEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

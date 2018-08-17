@@ -36,5 +36,4 @@ public class AppQualityDao extends BaseDao {
     public int setQindex(int app,String version,String month,double qindex){
         return appQualityMapper.setQindex(app,version,month,qindex);
     }
-
 }

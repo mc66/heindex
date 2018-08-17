@@ -1,5 +1,6 @@
 package com.cmri.um.he.index.operations.mapper;
 
+import com.cmri.um.he.index.operations.entity.AppCalculationOperationsEntity;
 import com.cmri.um.he.index.operations.entity.AppOperationsEntity;
 import com.cmri.um.he.index.operations.provider.AppOperationdDaoProvider;
 import com.cmri.um.he.index.quality.entity.AppWeightQualityEntity;
@@ -22,11 +23,8 @@ public interface AppConversionMapper {
      * @param category 指定类型
      * @return 未处理数据集合
      * */
-    @Select("SELECT acq.id,acq.content,acq.channel,acq.tariff,acq.service,acq.market,acq.experience,acq.version,acq.`month`,acq.atime,info.id app,info.`name`,info.special,cate.id category,cate.`name` categoryName \n" +
-            "    FROM app_calculation_operations acq LEFT JOIN app_info info on acq.app = info.id\n" +
-            "  LEFT JOIN app_category cate ON acq.category = cate.id\n" +
-            "WHERE acq.`status` = 0 AND acq.category=#{category} AND acq.`month` = #{month}")
-    List<Map<String,Object>> queryUnConversion(@Param("category") Integer category,@Param("month") String month);
+    @Select("SELECT * FROM app_calculation_operations acq WHERE acq.`status` = 0 AND acq.category=#{category} AND acq.month = #{month}")
+    List<AppCalculationOperationsEntity> queryUnConversion(@Param("category") Integer category, @Param("month") String month);
 
     /**
      * 将转化之后的数据批量加入qpp_operatios表

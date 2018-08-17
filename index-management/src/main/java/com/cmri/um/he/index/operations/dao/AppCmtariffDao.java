@@ -30,16 +30,16 @@ public class AppCmtariffDao extends BaseDao {
         }
     }
 
-    public int queryAppCalculationOperationsEntityByMeasureValue(int dimensionsId) {
-        return appCmtariffMapper.queryAppCalculationOperationsEntityByMeasureValue(dimensionsId);
+    public int queryAppCalculationOperationsEntityByMeasureValue(String dimensions) {
+        return appCmtariffMapper.queryAppCalculationOperationsEntityByMeasureValue(dimensions);
     }
 
-    public int queryAppCalculationOperationsEntityByDimensionsId(int dimensionsId) {
-        return appCmtariffMapper.queryAppCalculationOperationsEntityByDimensionsId(dimensionsId);
+    public int queryAppCalculationOperationsEntityByDimensionsId(String dimensions) {
+        return appCmtariffMapper.queryAppCalculationOperationsEntityByDimensionsId(dimensions);
     }
 
-    public List<Map<String,Object>> queryAppCalculationOperations(String version, int app, String month) {
-        return  appCmtariffMapper.queryAppCalculationOperations(version,app,month);
+    public List<Map<String,Object>> queryAppCalculationOperations( int app, String month) {
+        return  appCmtariffMapper.queryAppCalculationOperations(app,month);
     }
 
     public boolean saveAppCalculationOperations(AppCalculationOperationsEntity aco) {
@@ -51,8 +51,8 @@ public class AppCmtariffDao extends BaseDao {
         }
     }
 
-    public boolean updateAppCalculationOperations(Double channel, Double market, Double service, Double tariff, String version, int app, String month) {
-        int i = appCmtariffMapper.updateAppCalculationOperations(channel,market,month,service,tariff,version,app);
+    public boolean updateAppCalculationOperations(Double channel, Double market, Double service, Double tariff, int app, String month) {
+        int i = appCmtariffMapper.updateAppCalculationOperations(channel,market,month,service,tariff,app);
         if (i>0){
             return true;
         }else {

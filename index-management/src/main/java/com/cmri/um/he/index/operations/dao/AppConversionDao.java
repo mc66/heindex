@@ -1,5 +1,6 @@
 package com.cmri.um.he.index.operations.dao;
 
+import com.cmri.um.he.index.operations.entity.AppCalculationOperationsEntity;
 import com.cmri.um.he.index.operations.entity.AppOperationsEntity;
 import com.cmri.um.he.index.operations.mapper.AppConversionMapper;
 import com.cmri.um.he.index.quality.entity.AppWeightQualityEntity;
@@ -24,7 +25,7 @@ public class AppConversionDao{
     /**
      * 根据月份和类别查询还没有处理的数据
      * */
-    public List<Map<String,Object>> queryUnConversion(Integer category,String monrh){
+    public List<AppCalculationOperationsEntity> queryUnConversion(Integer category, String monrh){
         return mapper.queryUnConversion(category, monrh);
     }
 

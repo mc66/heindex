@@ -11,6 +11,6 @@ import org.apache.ibatis.annotations.Update;
 @Mapper
 public interface AppOriginalCalculationMapper {
 
-    @Update("update app_calculation_quality set features=#{features}, view=#{view} where app=#{app} ")
+    @Update("update app_calculation_quality set features=#{features}, view=#{view} where app=#{app} and month=#{month}")
     int upadte(AppCalculationQualityEntity appCalculationQualityEntity);
 }

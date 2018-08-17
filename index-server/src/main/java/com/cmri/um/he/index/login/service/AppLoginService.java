@@ -8,5 +8,13 @@ import javax.servlet.http.HttpServletResponse; /**
  */
 public interface AppLoginService {
 
-    String getlogin(String username, String userpass, HttpServletRequest response);
+    /**
+     *  登陆页面
+     * @param username
+     * @param userpass
+     * @param request
+     * @param response
+     * @return
+     */
+    String getlogin(String username, String userpass, HttpServletRequest request,HttpServletResponse response);
 }
