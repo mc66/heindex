@@ -22,6 +22,7 @@ import java.util.Map;
  * Created on 2018/8/13
  */
 @RestController
+@CrossOrigin
 public class AppLoginController extends Cors {
 
     @Autowired
