@@ -2,7 +2,11 @@ package com.cmri.um.he.index.mouth.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
+/**
+ * 	口碑指数原始数据录入
+ * @author shihao
+ * Created on 2018/8/6
+ */
 public class AppEmotionParameterEntity implements Serializable {
 
 

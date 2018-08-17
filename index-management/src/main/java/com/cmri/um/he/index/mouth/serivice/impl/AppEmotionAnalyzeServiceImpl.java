@@ -15,7 +15,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * 	口碑指数原始数据录入
+ * @author shihao
+ * Created on 2018/8/14
+ */
 @Service
 public class AppEmotionAnalyzeServiceImpl implements AppEmotionAnalyzeService {
 

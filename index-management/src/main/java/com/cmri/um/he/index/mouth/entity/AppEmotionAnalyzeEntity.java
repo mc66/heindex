@@ -5,7 +5,6 @@ import java.util.Date;
 
 /**
  * 	口碑指数原始数据(评论)
- *
  * @author shihao
  * Created on 2018/8/6
  */

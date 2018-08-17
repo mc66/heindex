@@ -59,8 +59,7 @@ public interface AppBereavementMapper {
      * @param category 指定类别
      * @return 结果集
      * */
-    @Select("SELECT info.`name` name,info.id id FROM app_category cate LEFT JOIN app_info info \n" +
-            "ON cate.id = info.category WHERE cate.id = #{category}")
+    @Select("SELECT  DISTINCT a.id,  a.name FROM app_emotion_analyze e LEFT JOIN app_info a ON e.category  =a.category  where e.category  =#{category}")
     List<Map<String,Object>> findCategory(Integer category);
 
     /**
@@ -70,48 +69,28 @@ public interface AppBereavementMapper {
      * @param endTime 结束时间
      * @return 结果集
      * */
-    @Select("SELECT freq_positive,freq_negativity,freq_neutral,freq_sum\n" +
-            "FROM app_emotion_parameter WHERE app =#{app} AND `month` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT word_name name,SUM(word_frequency) value\n" +
+            "FROM hot_word WHERE app =#{app}\n" +
+            " AND date BETWEEN #{startTime} AND #{endTime}\n" +
+            "GROUP BY word_name")
     List<Map<String,Object>> frequencyCount(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
 
 
     /**
-     * 查询正性评论总条数
-     * @param app 指定app
-     * @param startTime 开始时间
-     * @param endTime 结束时间
-     * @return 结果集
-     * */
-    @Select("SELECT app, SUM(freq_positive) freq_positive,SUM(freq_negativity) freq_negativity,SUM(freq_neutral) freq_neutral,SUM(freq_sum) freq_sum\n" +
-            "FROM app_emotion_parameter WHERE app = #{app} AND `month` BETWEEN #{startTime} AND #{endTime}")
-    List<Map<String,Object>> findPositive(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
+     * 查询app在某月的正中负的评论数量
+     * @param category
+     * @param app
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Select("SELECT COUNT(*) FROM app_emotion_analyze where category =#{category} and  app=#{app} and  month BETWEEN #{startTime} and #{endTime}")
+    int  getFavorableRate(@Param("category") int category,@Param("app") int app,@Param("startTime") String startTime,@Param("endTime") String endTime);
+    @Select("SELECT COUNT(*) FROM app_emotion_analyze where status=1 AND category =#{category} AND  app=#{app} AND  month BETWEEN #{startTime} AND #{endTime}")
+    int  getFavorableRate1(@Param("category") int category,@Param("app") int app,@Param("startTime") String startTime,@Param("endTime") String endTime);
+    @Select("SELECT COUNT(*) FROM app_emotion_analyze where status=0 AND category =#{category} AND  app=#{app} AND  month BETWEEN #{startTime} AND #{endTime}")
+    int  getFavorableRate2(@Param("category") int category,@Param("app") int app,@Param("startTime") String startTime,@Param("endTime") String endTime);
+    @Select("SELECT COUNT(*) FROM app_emotion_analyze where status=-1 AND category =#{category} AND  app=#{app} AND  month BETWEEN #{startTime} AND #{endTime}")
+    int  getFavorableRate3(@Param("category") int category,@Param("app") int app,@Param("startTime") String startTime,@Param("endTime") String endTime);
 
-   /* *//**
-     * 查询负性评论总条数
-     * @param category 指定类别
-     * @param startTime 开始时间
-     * @param endTime 结束时间
-     * @return 结果集
-     * *//*
-    @Select("SELECT ai.`name` appName,SUM(ap.freq_negativity) value,SUM(ap.freq_sum) rate\n" +
-            "FROM app_emotion_parameter ap LEFT JOIN app_category ca ON ap.category = ca.id\n" +
-            "LEFT JOIN app_info ai ON ap.app = ai.id \n" +
-            "WHERE ap.category = #{category} AND ap.`month` BETWEEN #{startTime} AND #{endTime}\n" +
-            "GROUP BY  ai.`name` ")
-    List<Map<String,Object>> findNegativity(@Param("category") Integer category,@Param("startTime") String startTime,@Param("endTime") String endTime);
-
-    *//**
-     * 查询中性评论总条数
-     * @param category 指定类别
-     * @param startTime 开始时间
-     * @param endTime 结束时间
-     * @return 结果集
-     * *//*
-    @Select("SELECT ai.`name` appName,SUM(ap.freq_neutral) value,SUM(ap.freq_sum) rate\n" +
-            "FROM app_emotion_parameter ap LEFT JOIN app_category ca ON ap.category = ca.id\n" +
-            "LEFT JOIN app_info ai ON ap.app = ai.id \n" +
-            "WHERE ap.category = #{category} AND ap.`month` BETWEEN #{startTime} AND #{endTime}\n" +
-            "GROUP BY  ai.`name` ")
-    List<Map<String,Object>> findNeutral(@Param("category") Integer category,@Param("startTime") String startTime,@Param("endTime") String endTime);
-*/
 }

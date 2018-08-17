@@ -8,7 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
-
+/**
+ * 	口碑指数原始数据录入
+ * @author shihao
+ * Created on 2018/8/14
+ */
 @Repository
 public class AppEmotionAnalyzeDao {
     @Autowired

@@ -32,11 +32,23 @@ public class AppOperationsServiceImpl implements AppOperationsService {
 
     @Override
     public  List<Map<String, Object>> getOperationsData(int id, String month) {
-        int months = Integer.parseInt(month);
-        months=months-2;
-        String month2 = Integer.toString(months);
-        List resultList= appOperationsDao.getOperationsData(id,month2,month);
-        return resultList;
+        String  st = month.substring(0, 4);
+        String sub = month.substring(4, 5);
+        if(sub.equals("上")){
+            int months = Integer.parseInt(st);
+            months=months-1;
+            String month2 = Integer.toString(months)+"上";
+            List resultList= appOperationsDao.getOperationsData(id,month2,month);
+            return resultList;
+        }else if(sub.equals("下")) {
+            int months = Integer.parseInt(st);
+            months=months-1;
+            String month2 = Integer.toString(months)+"下";
+            List resultList= appOperationsDao.getOperationsData(id,month2,month);
+            return resultList;
+        }
+       return  null;
+
     }
 
     @Override

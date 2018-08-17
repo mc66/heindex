@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-
+/**
+ * 	口碑指数原始数据录入
+ * @author shihao
+ * Created on 2018/8/14
+ */
 @RestController
 @CrossOrigin
 public class AppEmotionAnalyzeController extends ZRestController {
