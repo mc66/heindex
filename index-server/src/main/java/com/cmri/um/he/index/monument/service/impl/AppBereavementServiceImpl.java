@@ -1,20 +1,15 @@
 package com.cmri.um.he.index.monument.service.impl;
 
-import com.cmri.um.he.index.common.CalculateDaysByDate;
-import com.cmri.um.he.index.common.Constants;
-import com.cmri.um.he.index.common.DefaultTime;
 import com.cmri.um.he.index.monument.dao.AppBereavementDao;
 import com.cmri.um.he.index.monument.service.AppBereavementService;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 情感指数变化趋势的服务类的服务类实现
@@ -60,43 +55,50 @@ public class AppBereavementServiceImpl implements AppBereavementService {
         List<Map<String, Object>> appName = dao.findCategory(category);
         List<Map<String, Object>> appNames = new ArrayList<>();
         for (Map<String, Object> map : appName) {
-            Map<String, Object> list = new HashMap<>();
-            int id =(int) map.get("id");
+            Map<String, Object> maps=new HashMap<>();
+            int app =(int) map.get("id");
             String name =(String) map.get("name");
-            List<Map<String, Object>> positive = dao.findPositive(id, startTime, endTime);
-            for (Map<String, Object> objectMap : positive) {
+            int freq_sum = dao.getFavorableRate(category, app, startTime, endTime);
+            if(freq_sum==0){
+                maps.put("name",name);
+                maps.put("freq_sum",0);
+                maps.put("freq_positive",0);
+                maps.put("freq_neutral",0);
+                maps.put("freq_negativity",0);
+                maps.put("pet_positives","0.0%");
+                maps.put("pet_negativitys","0.0%");
+                maps.put("pet_neutrals","0.0%");
+            }else {
+                int freq_positive = dao.getFavorableRate1(category, app, startTime, endTime);
+                int freq_neutral = dao.getFavorableRate2(category, app, startTime, endTime);
+                int freq_negativity = dao.getFavorableRate3(category, app, startTime, endTime);
+                double freq_sums = (double) freq_sum;
+                double pet_positive = new BigDecimal((float) freq_positive / freq_sums * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                String pet_positives = Double.toString(pet_positive);
+                pet_positives = pet_positives + "%";
+                double pet_negativity = new BigDecimal((float) freq_negativity / freq_sums * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                String pet_negativitys = Double.toString(pet_negativity);
+                pet_negativitys = pet_negativitys + "%";
+                double pet_neutral = new BigDecimal((float) freq_neutral / freq_sums * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                String pet_neutrals = Double.toString(pet_neutral);
+                pet_neutrals = pet_neutrals + "%";
 
-                BigDecimal o =(BigDecimal) objectMap.get("freq_positive");
-                BigDecimal o1 = (BigDecimal)objectMap.get("freq_negativity");
-                BigDecimal o2 =(BigDecimal) objectMap.get("freq_neutral");
-                BigDecimal o3 = (BigDecimal)objectMap.get("freq_sum");
-                String rate1 = null;
-                String rate2 = null;
-                String rate3 = null;
-                if (o3.compareTo(BigDecimal.ZERO)==0){
-                    rate1 = "0%";
-                    rate2 = "0%";
-                    rate3 = "0%";
-                }else {
-                    rate1 = (o.divide(o3,2, RoundingMode.HALF_UP)).multiply(new BigDecimal(100))+"%";
-                    rate2 = (o1.divide(o3,2, RoundingMode.HALF_UP)).multiply(new BigDecimal(100))+"%";
-                    rate3 = (o2.divide(o3,2, RoundingMode.HALF_UP)).multiply(new BigDecimal(100))+"%";
-                }
-                list.put("freq_positive",o);
-                list.put("freq_negativity",o1);
-                list.put("freq_neutral",o2);
-                list.put("freq_sum",o3);
-                list.put("rate_positive",rate1);
-                list.put("rate_negativity",rate2);
-                list.put("rate_neutral",rate3);
+                maps.put("name",name);
+                maps.put("freq_sum",freq_sum);
+                maps.put("freq_positive",freq_positive);
+                maps.put("freq_neutral",freq_neutral);
+                maps.put("freq_negativity",freq_negativity);
+                maps.put("pet_positives",pet_positives);
+                maps.put("pet_negativitys",pet_negativitys);
+                maps.put("pet_neutrals",pet_neutrals);
 
             }
+            appNames.add(maps);
+            }
+         return appNames;
 
-            list.put("name", name);
-            appNames.add(list);
-        }
 
-        return appNames;
+
     }
 
 }

@@ -3,6 +3,7 @@ package com.cmri.um.he.index.monument.controller;
 
 import com.cmri.spring.common.controller.ZRestController;
 import com.cmri.spring.common.data.ResponseMessage;
+import com.cmri.um.he.index.common.CalculateDaysByDate;
 import com.cmri.um.he.index.common.Constants;
 import com.cmri.um.he.index.common.DefaultTime;
 import com.cmri.um.he.index.monument.service.AppBereavementService;
@@ -131,7 +132,7 @@ public class AppBereavementController extends ZRestController{
     public ResponseMessage findParameter(@RequestParam Integer category, String startTime,@RequestParam String endTime) throws Exception {
         List<Map<String, Object>> parameter = null;
         if (startTime.equals("null")){
-            String time = DefaultTime.getDefaultTimes(Constants.MONTH,5,endTime);
+            String time = CalculateDaysByDate.getDate(Constants.DAY,-30,endTime);
             parameter = service.findParameter(category,time,endTime);
         } else {
             parameter = service.findParameter(category, startTime, endTime);
