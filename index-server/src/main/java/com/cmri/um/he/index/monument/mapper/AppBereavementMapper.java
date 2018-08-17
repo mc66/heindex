@@ -69,8 +69,10 @@ public interface AppBereavementMapper {
      * @param endTime 结束时间
      * @return 结果集
      * */
-    @Select("SELECT freq_positive,freq_negativity,freq_neutral,freq_sum\n" +
-            "FROM app_emotion_parameter WHERE app =#{app} AND `month` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT word_name name,SUM(word_frequency) value\n" +
+            "FROM hot_word WHERE app =#{app}\n" +
+            " AND date BETWEEN #{startTime} AND #{endTime}\n" +
+            "GROUP BY word_name")
     List<Map<String,Object>> frequencyCount(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
 
 
