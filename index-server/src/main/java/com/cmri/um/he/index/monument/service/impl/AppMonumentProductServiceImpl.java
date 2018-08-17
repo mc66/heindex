@@ -1,10 +1,12 @@
 package com.cmri.um.he.index.monument.service.impl;
 
+import com.cmri.spring.common.data.PagingData;
 import com.cmri.um.he.index.common.CalculateDaysByDate;
 import com.cmri.um.he.index.common.Constants;
 import com.cmri.um.he.index.monument.dao.AppMonumentProductDao;
 import com.cmri.um.he.index.monument.entity.AppEmotionAnalyzeEntity;
 import com.cmri.um.he.index.monument.service.AppMonumentProductService;
+import com.cmri.um.he.index.receivable.CommentParticularsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,14 +52,27 @@ public class AppMonumentProductServiceImpl implements AppMonumentProductService 
                     double freqPositive = (long)dayCommentAmount.get("freqPositive");
                     double freqNegativity = (long)dayCommentAmount.get("freqNegativity");
                     double freqNeutral = (long)dayCommentAmount.get("freqNeutral");
-                    map.put("freqPositive",freqPositive);
-                    map.put("freqNegativity",freqNegativity);
-                    map.put("freqNeutral",freqNeutral);
-                    map.put("petPositive",new BigDecimal(freqPositive/(freqPositive+freqNegativity+freqNeutral)*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
-                    map.put("petNegativity",new BigDecimal(freqNegativity/(freqPositive+freqNegativity+freqNeutral)*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
-                    map.put("petNeutral",new BigDecimal(freqNeutral/(freqPositive+freqNegativity+freqNeutral)*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
-                    map.put("month",date);
-                    list.add(map);
+                    double sum = freqPositive + freqNegativity + freqNeutral;
+                    if (sum==0){
+                        map.put("freqPositive",0);
+                        map.put("freqNegativity",0);
+                        map.put("freqNeutral",0);
+                        map.put("total",sum);
+                        map.put("petPositive","0.00%");
+                        map.put("petNegativity","0.00%");
+                        map.put("petNeutral","0.00%");
+                        map.put("month",date);
+                    }else {
+                        map.put("freqPositive",freqPositive);
+                        map.put("freqNegativity",freqNegativity);
+                        map.put("freqNeutral",freqNeutral);
+                        map.put("total",sum);
+                        map.put("petPositive",new BigDecimal(freqPositive/sum*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
+                        map.put("petNegativity",new BigDecimal(freqNegativity/sum*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
+                        map.put("petNeutral",new BigDecimal(freqNeutral/sum*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
+                        map.put("month",date);
+                        list.add(map);
+                    }
                 }
             }else {
                 int count = CalculateDaysByDate.calculateCountByDate(startTime, endTime);
@@ -73,6 +88,7 @@ public class AppMonumentProductServiceImpl implements AppMonumentProductService 
                     map.put("freqPositive",freqPositive);
                     map.put("freqNegativity",freqNegativity);
                     map.put("freqNeutral",freqNeutral);
+                    map.put("total",freqPositive+freqNegativity+freqNeutral);
                     map.put("petPositive",new BigDecimal(freqPositive/(freqPositive+freqNegativity+freqNeutral)*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
                     map.put("petNegativity",new BigDecimal(freqNegativity/(freqPositive+freqNegativity+freqNeutral)*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
                     map.put("petNeutral",new BigDecimal(freqNeutral/(freqPositive+freqNegativity+freqNeutral)*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
@@ -90,6 +106,7 @@ public class AppMonumentProductServiceImpl implements AppMonumentProductService 
                     map.put("freqPositive",freqPositive);
                     map.put("freqNegativity",freqNegativity);
                     map.put("freqNeutral",freqNeutral);
+                    map.put("total",freqPositive+freqNegativity+freqNeutral);
                     map.put("petPositive",new BigDecimal(freqPositive/(freqPositive+freqNegativity+freqNeutral)*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
                     map.put("petNegativity",new BigDecimal(freqNegativity/(freqPositive+freqNegativity+freqNeutral)*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
                     map.put("petNeutral",new BigDecimal(freqNeutral/(freqPositive+freqNegativity+freqNeutral)*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
@@ -104,6 +121,44 @@ public class AppMonumentProductServiceImpl implements AppMonumentProductService 
             e.printStackTrace();
         }
         return list;
+    }
+
+    /**
+     * 查询评论详情
+     * @param commentParticularsVO
+     * @return
+     */
+    @Override
+    public PagingData<Map<String, Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO) {
+        return new PagingData<>(appMonumentProductDao.count(commentParticularsVO),
+                commentParticularsVO.getPage(),
+                commentParticularsVO.getStep(),
+                appMonumentProductDao.quaryCommentParticulars(commentParticularsVO)
+        );
+    }
+
+    /**
+     * 查询热词
+     * @param app
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Override
+    public List<String> quaryHotWord(Integer app, String startTime, String endTime) {
+        return appMonumentProductDao.quaryHotWord(app,startTime,endTime);
+    }
+
+    /**
+     * 查询评论来源
+     * @param app
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Override
+    public List<String> quaryCommentSource(Integer app, String startTime, String endTime) {
+        return appMonumentProductDao.quaryCommentSource(app,startTime,endTime);
     }
 }
 
