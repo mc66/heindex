@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -20,24 +19,24 @@ import java.util.Map;
  * Created on 2018/6/13
  */
 @RestController
-@RequestMapping("/app-month")
 @CrossOrigin
 public class AppMonthController extends ZRestController {
     @Autowired
     private AppMonthService appMonthService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseMessage get(HttpServletResponse response){
+    @RequestMapping(value = "/app-month",method = RequestMethod.GET)
+    public ResponseMessage getMonth(){
         List<Map<String, Object>> maps = appMonthService.findMonths();
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("items",maps);
-//        Map<String, Object> map = maps.get(0);
-//        String month = (String)map.get("month");
-//        Cookie cookie=new Cookie("newmonth",month);
-//        cookie.setMaxAge(1000*60*60);
-//        response.addCookie(cookie);
-//        response.setHeader("Set-Cookie","token=cowshield");
-//        response.setHeader("Access-Control-Allow-Credentials","true");
+        return responseMessage;
+    }
+
+    @RequestMapping(value = "/app-experience-month",method = RequestMethod.GET)
+    public ResponseMessage getExperienceMonth(){
+        List<Map<String, Object>> maps = appMonthService.findExperienceMonths();
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("items",maps);
         return responseMessage;
     }
 }
