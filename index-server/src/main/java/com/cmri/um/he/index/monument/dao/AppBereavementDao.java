@@ -51,26 +51,24 @@ public class AppBereavementDao extends BaseDao{
     }
 
     /**
-     * 查询正性评论总条数
-     * */
-    public List<Map<String,Object>> findPositive( Integer app, String startTime, String endTime){
-        return mapper.findPositive(app, startTime, endTime);
-    }
-
-   /* *//**
-     * 查询负性评论总条数
-     * *//*
-    public List<Map<String,Object>> findNegativity( Integer category, String startTime,String endTime){
-        return mapper.findNegativity(category, startTime, endTime);
-    }
-
-    *//**
-     * 查询中性评论总条数
-     * *//*
-    public List<Map<String,Object>> findNeutral(Integer category,String startTime,String endTime){
-        return mapper.findNeutral(category, startTime, endTime);
-    }*/
-
-
+     * 查询app在某月的正中负的评论数量
+     * @param category
+     * @param app
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    public int getFavorableRate(int category,int app, String startTime,String endTime){
+        return  mapper.getFavorableRate(category, app, startTime, endTime);
+    };
+    public int getFavorableRate1(int category,int app, String startTime,String endTime){
+        return  mapper.getFavorableRate1(category, app, startTime, endTime);
+    };
+    public int getFavorableRate2(int category,int app, String startTime,String endTime){
+        return  mapper.getFavorableRate2(category, app, startTime, endTime);
+    };
+    public int getFavorableRate3(int category,int app, String startTime,String endTime){
+        return  mapper.getFavorableRate3(category, app, startTime, endTime);
+    };
 
 }

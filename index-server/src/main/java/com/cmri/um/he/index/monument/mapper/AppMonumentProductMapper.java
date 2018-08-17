@@ -41,7 +41,7 @@ public interface AppMonumentProductMapper {
      */
     @Select("<script>"
             +"SELECT aea.`month`,aea.`comment`,aea.`user_name` AS author,aea.`comment_source` AS source,aea.`status` "
-            +"FROM app_emotion_analyze aea WHERE aea.`app`=5 AND aea.`month` BETWEEN '20180109' AND '20180130' "
+            +"FROM app_emotion_analyze aea WHERE aea.`app`=#{app} AND aea.`month` BETWEEN #{startTime} AND #{endTime} "
             +"<if test='word !=null '> AND aea.`comment` LIKE CONCAT('%',#{word},'%') </if> "
             +"<if test='status !=null '> AND aea.`status`=#{status} </if> "
             +"<if test='commentSource !=null '> AND aea.`comment_source`= #{commentSource} </if>"
@@ -53,7 +53,7 @@ public interface AppMonumentProductMapper {
      * @param commentParticularsVO
      * @return
      */
-    @Select("<script>SELECT COUNT(0) FROM app_emotion_analyze aea WHERE aea.`app`=5 AND aea.`month` BETWEEN '20180109' AND '20180130' <if test='word !=null '> AND aea.`comment` LIKE CONCAT('%',#{word},'%') </if><if test='status !=null '> AND aea.`status`=#{status} </if><if test='commentSource !=null '>AND aea.`comment_source`= #{commentSource} </if></script>")
+    @Select("<script>SELECT COUNT(0) FROM app_emotion_analyze aea WHERE aea.`app`=#{app} AND aea.`month` BETWEEN #{startTime} AND #{endTime} <if test='word !=null '> AND aea.`comment` LIKE CONCAT('%',#{word},'%') </if><if test='status !=null '> AND aea.`status`=#{status} </if><if test='commentSource !=null '>AND aea.`comment_source`= #{commentSource} </if></script>")
     public int count(CommentParticularsVO commentParticularsVO);
 
     /**
