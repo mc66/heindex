@@ -54,4 +54,22 @@ public interface AppDetailsWordsMapper {
      */
     @Select(" <script> SELECT aea.`month`,aea.`comment`,aea.`user_name` AS author,aea.`comment_source` AS source,aea.`status` FROM app_emotion_analyze aea WHERE aea.`comment` LIKE CONCAT('%',#{word},'%') AND aea.`month` BETWEEN #{startTime} AND #{endTime} <if test='status !=null '> AND aea.`status`=#{status} </if><if test='commentSource !=null '>AND aea.`comment_source`= #{commentSource} </if> limit #{offset}, #{rows}  </script> ")
     List<Map<String,Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO);
+
+    /**
+     *   查询热词
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Select(" SELECT aea.word_name FROM hot_word aea WHERE aea.date BETWEEN #{startTime} AND #{endTime} ")
+    List<String> quaryHotWords(@Param("startTime") String startTime,@Param("endTime") String endTime);
+
+    /**
+     *  查询评论来源
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Select(" SELECT aea.source FROM hot_word aea WHERE aea.date BETWEEN #{startTime} AND #{endTime} ")
+    List<String> quarySourceComment(@Param("startTime") String startTime,@Param("endTime") String endTime);
 }
