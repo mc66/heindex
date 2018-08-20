@@ -53,7 +53,22 @@ public class AppDetailsWordsDao extends BaseDao{
      * @param commentParticularsVO
      * @return
      */
-    public List<Map<String,Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO) {
-        return mapper.quaryCommentParticulars(commentParticularsVO);
+    public List<Map<String,Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO, Integer page, Integer step) {
+        commentParticularsVO.setOffset(offset(page,step));
+        commentParticularsVO.setRows(step);
+        return addNo(mapper.quaryCommentParticulars(commentParticularsVO));
+    }
+
+
+
+    /**
+     * 为记录添加序号
+     */
+    private List<Map<String, Object>> addNo(List<Map<String, Object>> items) {
+        for (int i = 0; i < items.size(); i++) {
+            items.get(i).put("no", i);
+        }
+
+        return items;
     }
 }
