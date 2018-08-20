@@ -17,7 +17,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("app-desc")
-@CrossOrigin
 public class AppOwnDescController extends ZRestController {
 
     @Autowired
