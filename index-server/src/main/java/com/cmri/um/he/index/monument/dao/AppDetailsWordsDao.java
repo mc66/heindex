@@ -59,6 +59,26 @@ public class AppDetailsWordsDao extends BaseDao{
         return addNo(mapper.quaryCommentParticulars(commentParticularsVO));
     }
 
+    /**
+     *   查询热词
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    public List<String> quaryHotWords(String startTime, String endTime) {
+        return mapper.quaryHotWords(startTime,endTime);
+    }
+
+    /**
+     *   查询评论来源
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    public List<String> quarySourceComment(String startTime, String endTime) {
+        return mapper.quarySourceComment(startTime,endTime);
+    }
+
 
 
     /**
@@ -71,4 +91,7 @@ public class AppDetailsWordsDao extends BaseDao{
 
         return items;
     }
+
+
+
 }

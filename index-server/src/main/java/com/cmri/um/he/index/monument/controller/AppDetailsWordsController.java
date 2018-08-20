@@ -54,6 +54,35 @@ public class AppDetailsWordsController extends ZRestController {
         return responseMessage;
     }
 
+    /**
+     *   查询热词
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @RequestMapping(value = "quaryHotWords",method = RequestMethod.GET)
+    public ResponseMessage quaryHotWords( @RequestParam String startTime,@RequestParam String endTime){
+        List<String> list = appDetailsWordsService.quaryHotWords(startTime,endTime);
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("list",list);
+        return responseMessage;
+    }
+
+    /**
+     *   查询评论来源
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @RequestMapping(value = "quarySourceComment",method = RequestMethod.GET)
+    public ResponseMessage quarySourceComment( @RequestParam String startTime,@RequestParam String endTime){
+        List<String> list = appDetailsWordsService.quarySourceComment(startTime,endTime);
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("list",list);
+        return responseMessage;
+    }
+
+
 
 
 
