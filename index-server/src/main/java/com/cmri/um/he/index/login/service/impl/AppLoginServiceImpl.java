@@ -44,14 +44,18 @@ public class AppLoginServiceImpl implements AppLoginService {
                 try {
                     response.setHeader("Access-Control-Allow-Credentials","true");
                     response.setHeader("Access-Control-Allow-Origin","http://localhost:9280");
-                    response.setHeader("Set-Cookie","token=cowshield");
+                    response.setHeader("Cookie","token=cowshield");
                     //将验证信息保存到Cookie
                     Cookie cid=new Cookie("userid", UUID.randomUUID().toString().replaceAll("-", ""));
                     Cookie cpass=new Cookie("password",userpass);
                     cid.setPath("/");
                     cpass.setPath("/");
-                    cid.setHttpOnly(true);
-                    cpass.setHttpOnly(true);
+                    cid.setMaxAge(600);
+                    cpass.setMaxAge(600);
+                    cid.setValue("1");
+                    cpass.setValue("1");
+                    cid.setHttpOnly(false);
+                    cpass.setHttpOnly(false);
                     response.addCookie(cid);
                     response.addCookie(cpass);
 
