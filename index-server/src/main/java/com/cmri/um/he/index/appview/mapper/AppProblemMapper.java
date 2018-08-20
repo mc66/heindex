@@ -35,7 +35,7 @@ public interface AppProblemMapper {
      * @param month
      * @return
      */
-    @Select("SELECT aoo.`month`,ac.`name`,ai.`name`,aoo.`version`,aoo.`dimensions`,aoo.`measure_index`,aoo.`specific_channel`,aoo.`explain`,aoo.`measure_value`,aoo.`specific_channel`,aoo.`server_from` " +
+    @Select("SELECT aoo.`month`,ac.`name`AS category,ai.`name` AS app,aoo.`version`,aoo.`dimensions`,aoo.`measure_index` AS measureIndex,aoo.`specific_channel`AS specificChannel,aoo.`explain`,aoo.`measure_value`AS measureValue,aoo.`specific_channel` AS specificChannel,aoo.`server_from` AS serverFrom " +
             "FROM app_info ai JOIN app_original_operations aoo ON ai.`id`=aoo.`app` LEFT JOIN app_category ac ON ai.`category`= ac.id " +
             "WHERE ai.`id`=#{id} AND aoo.`dimensions`=#{dimensions} AND aoo.`month`=#{month}")
     List<Map<String, Object>> getAppOperationProblem(@Param("id")int id,@Param("dimensions")String dimensions,@Param("month")String month);

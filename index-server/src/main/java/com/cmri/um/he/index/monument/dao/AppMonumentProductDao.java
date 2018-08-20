@@ -45,8 +45,10 @@ public class AppMonumentProductDao extends BaseDao {
      * @param commentParticularsVO
      * @return
      */
-    public List<Map<String, Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO){
-        return appMonumentProductMapper.quaryCommentParticulars(commentParticularsVO);
+    public List<Map<String, Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO) {
+        commentParticularsVO.setOffset(offset(commentParticularsVO.getPage().intValue(),commentParticularsVO.getStep().intValue()));
+        commentParticularsVO.setRows(commentParticularsVO.getStep());
+        return addNo(appMonumentProductMapper.quaryCommentParticulars(commentParticularsVO));
     }
 
     /**
@@ -78,5 +80,15 @@ public class AppMonumentProductDao extends BaseDao {
      */
     public List<String> quaryCommentSource(Integer app, String startTime, String endTime) {
         return appMonumentProductMapper.quaryCommentSource(app,startTime,endTime);
+    }
+
+    /**
+     * 为记录添加序号
+     */
+    private List<Map<String, Object>> addNo(List<Map<String, Object>> items) {
+        for (int i = 0; i < items.size(); i++) {
+            items.get(i).put("no", i);
+        }
+        return items;
     }
 }
