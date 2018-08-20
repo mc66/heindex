@@ -17,7 +17,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/app-summary")
-@CrossOrigin
 public class AppSummaryController extends ZRestController{
 
     @Autowired
