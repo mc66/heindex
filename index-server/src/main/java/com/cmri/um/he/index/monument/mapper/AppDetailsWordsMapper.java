@@ -38,6 +38,7 @@ public interface AppDetailsWordsMapper {
      * @param commentParticularsVO
      * @return
      */
+
     @Select(" <script>SELECT COUNT(0) FROM app_emotion_analyze aea WHERE aea.`comment` LIKE CONCAT('%',#{word},'%') AND aea.`month` BETWEEN #{startTime} AND #{endTime} <if test='status !=null '> AND aea.`status`=#{status} </if><if test='commentSource !=null '>AND aea.`comment_source`= #{commentSource} </if></script> ")
     int count(CommentParticularsVO commentParticularsVO);
 
@@ -46,11 +47,11 @@ public interface AppDetailsWordsMapper {
      * @param commentParticularsVO
      * @return
      */
-    @Select(" <script>"
-                      +"SELECT aea.`month`,aea.`comment`,aea.`user_name` AS author,aea.`comment_source` AS source,aea.`status`"
-                      +"FROM app_emotion_analyze aea WHERE aea.`comment` LIKE CONCAT('%',#{word},'%') AND aea.`month` BETWEEN #{startTime} AND #{endTime}"
-                      +"<if test='status !=null '> AND aea.`status`=#{status} </if>"
-                      +"<if test='commentSource !=null '> AND aea.`comment_source`= #{commentSource} </if>"
-                      +"</script> ")
+    /**
+     *   分页查询详情
+     * @param commentParticularsVO
+     * @return
+     */
+    @Select(" <script> SELECT aea.`month`,aea.`comment`,aea.`user_name` AS author,aea.`comment_source` AS source,aea.`status` FROM app_emotion_analyze aea WHERE aea.`comment` LIKE CONCAT('%',#{word},'%') AND aea.`month` BETWEEN #{startTime} AND #{endTime} <if test='status !=null '> AND aea.`status`=#{status} </if><if test='commentSource !=null '>AND aea.`comment_source`= #{commentSource} </if> limit #{offset}, #{rows}  </script> ")
     List<Map<String,Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO);
 }
