@@ -39,6 +39,27 @@ public class CommentParticularsVO implements Serializable{
      */
     private Integer page;
 
+    public void setRows(Integer rows) {
+        this.rows = rows;
+    }
+
+    private Integer rows;
+
+    private int offset;
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+    public Integer getRows() {
+        return rows;
+    }
+
+
     public Integer getPage() {
         return page;
     }

@@ -10,7 +10,11 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 默认展示时获取查询时间通用方法
+ * @author machao
+ * Created on 2018/8/10
+ */
 @Mapper
 public interface AppMonumentProductMapper {
 
@@ -45,6 +49,7 @@ public interface AppMonumentProductMapper {
             +"<if test='word !=null '> AND aea.`comment` LIKE CONCAT('%',#{word},'%') </if> "
             +"<if test='status !=null '> AND aea.`status`=#{status} </if> "
             +"<if test='commentSource !=null '> AND aea.`comment_source`= #{commentSource} </if>"
+            +"limit #{offset}, #{rows}"
             +"</script>")
     public List<Map<String, Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO);
 

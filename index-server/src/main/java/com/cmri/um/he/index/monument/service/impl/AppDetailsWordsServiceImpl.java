@@ -124,10 +124,10 @@ public class AppDetailsWordsServiceImpl implements AppDetailsWordsService {
 
     @Override
     public PagingData<Map<String, Object>> quaryMonthlySentiment(CommentParticularsVO commentParticularsVO) {
-        return new PagingData<Map<String, Object>>(dao.count(commentParticularsVO),
+        return new PagingData<>(dao.count(commentParticularsVO),
                 commentParticularsVO.getPage(),
                 commentParticularsVO.getStep(),
-                dao.quaryCommentParticulars(commentParticularsVO)
+                dao.quaryCommentParticulars(commentParticularsVO,commentParticularsVO.getPage(),commentParticularsVO.getStep())
         );
     }
 }

@@ -27,4 +27,6 @@ public interface AppDetailsWordsService {
      * @return
      */
     PagingData<Map<String, Object>> quaryMonthlySentiment(CommentParticularsVO commentParticularsVO);
+
+
 }
