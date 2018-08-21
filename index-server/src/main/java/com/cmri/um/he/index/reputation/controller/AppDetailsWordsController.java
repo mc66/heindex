@@ -1,13 +1,12 @@
-package com.cmri.um.he.index.monument.controller;
+package com.cmri.um.he.index.reputation.controller;
 
 import com.cmri.spring.common.controller.ZRestController;
 import com.cmri.spring.common.data.ResponseMessage;
-import com.cmri.um.he.index.monument.service.AppDetailsWordsService;
+import com.cmri.um.he.index.reputation.service.AppDetailsWordsService;
 import com.cmri.um.he.index.receivable.CommentParticularsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 

@@ -1,8 +1,6 @@
-package com.cmri.um.he.index.monument.mapper;
+package com.cmri.um.he.index.reputation.mapper;
 
-import com.cmri.um.he.index.monument.entity.AppEmotionAnalyzeEntity;
 import com.cmri.um.he.index.receivable.CommentParticularsVO;
-import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -16,7 +14,7 @@ import java.util.Map;
  * Created on 2018/8/10
  */
 @Mapper
-public interface AppMonumentProductMapper {
+public interface AppProductMapper {
 
     /**
      * 查询日各情感倾向评论数
