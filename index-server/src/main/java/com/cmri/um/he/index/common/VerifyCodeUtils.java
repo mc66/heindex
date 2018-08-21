@@ -55,7 +55,7 @@ public class VerifyCodeUtils {
 
     public static void generateCode(HttpServletRequest request, HttpServletResponse response, int width, int len)
             throws ServletException, IOException {
-        BufferedImage img = paintImage(width, 30, len);
+        BufferedImage img = paintImage(width, 40, len);
         String code = VerifyCodeUtils.getCode();
 
         HttpSession session = request.getSession();
