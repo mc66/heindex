@@ -37,7 +37,7 @@ public class AppLoginController extends ZRestController {
     @RequestMapping(value = "/getCode")
     @ResponseBody
     public void getCode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        VerifyCodeUtils.generateCode(request, response, 110, 4);
+        VerifyCodeUtils.generateCode(request, response, 90, 4);
     }
 
     /**
