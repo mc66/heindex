@@ -2,6 +2,7 @@ package com.cmri.um.he.index.login.controller;
 
 import com.cmri.spring.common.controller.ZRestController;
 import com.cmri.spring.common.data.ResponseMessage;
+import com.cmri.um.he.index.common.ValidateCode;
 import com.cmri.um.he.index.common.VerifyCodeUtils;
 import com.cmri.um.he.index.login.service.AppLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ public class AppLoginController extends ZRestController {
     @ResponseBody
     public void getCode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         VerifyCodeUtils.generateCode(request, response, 110, 4);
+
+
+
     }
 
     /**
@@ -48,8 +52,10 @@ public class AppLoginController extends ZRestController {
      * @param response
      * @return
      */
-    @RequestMapping(value = "login",method = RequestMethod.POST)
-    public Object getlogin(@RequestParam String username,@RequestParam String userpass, HttpServletRequest request,HttpServletResponse response){
+    @RequestMapping(value = "login",method = RequestMethod.GET)
+    public Object getlogin(@RequestParam String username,@RequestParam String userpass, HttpServletRequest request,HttpServletResponse response)throws Exception{
+        String code=(String)request.getSession().getAttribute("code");
+        System.out.println(code);
         Map map = new HashMap(16);
 
         String  login = appLoginService.getlogin(username,userpass,request,response);
@@ -75,15 +81,18 @@ public class AppLoginController extends ZRestController {
         }*/
 
     }
-//    @RequestMapping(value = "code",method = RequestMethod.GET)
-//     public void getCode(HttpServletRequest request, HttpServletResponse response){
-//
-//        ValidateCode.getVerifyCode(request,response);
-//    };
+    @RequestMapping(value = "code",method = RequestMethod.GET)
+     public void getCodes(HttpServletRequest request, HttpServletResponse response){
 
-    @RequestMapping(value = "app-test",method = RequestMethod.POST)
-    public ResponseMessage getTest(@RequestParam String username, @RequestParam String password,HttpServletRequest request, HttpServletResponse response)throws Exception{
+        ValidateCode.getVerifyCode(request,response);
+    };
 
+    @RequestMapping(value = "app-test",method = RequestMethod.GET)
+    public ResponseMessage getTest(@RequestParam String username, @RequestParam String password, HttpServletRequest request, HttpServletResponse response)throws Exception{
+
+        String code=(String)request.getSession().getAttribute("VerifyCode");
+
+        System.out.println(code);
         username= URLDecoder.decode(username,"UTF-8");
         password=URLDecoder.decode(password,"UTF-8");
         Cookie cookie1 =new Cookie("username",username);
