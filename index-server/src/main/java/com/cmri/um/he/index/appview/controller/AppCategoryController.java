@@ -45,6 +45,19 @@ public class AppCategoryController extends ZRestController {
         return responseMessage;
     }
 
+
+    /**
+     * 查询应用类以及对应的所有应用
+     * @return
+     */
+    @RequestMapping(value="/app-category-app",method = RequestMethod.GET)
+    public ResponseMessage getApps() {
+        List resultList = appCategoryService.getApps();
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("categorys",resultList);
+        return responseMessage;
+    }
+
     /**
      * 根据应用类别查app
      * @param category
