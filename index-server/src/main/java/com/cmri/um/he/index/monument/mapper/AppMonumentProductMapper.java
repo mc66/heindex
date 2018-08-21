@@ -49,7 +49,7 @@ public interface AppMonumentProductMapper {
             +"<if test='word !=null '> AND aea.`comment` LIKE CONCAT('%',#{word},'%') </if> "
             +"<if test='status !=null '> AND aea.`status`=#{status} </if> "
             +"<if test='commentSource !=null '> AND aea.`comment_source`= #{commentSource} </if>"
-            +"limit #{offset}, #{rows}"
+            +"ORDER BY aea.`month` DESC limit #{offset}, #{rows} "
             +"</script>")
     public List<Map<String, Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO);
 

@@ -20,6 +20,15 @@ public class AppCategoryServiceImpl implements AppCategoryService {
 
 
     @Override
+    public List<Map<String, Object>> getApps() {
+        List<Map<String, Object>> list = appCategoryDao.getCategory();
+        for (Map<String, Object> map : list) {
+            map.put("children",appCategoryDao.findAppByCategory((int)map.get("id")));
+        }
+        return list;
+    }
+
+    @Override
     public List<Map<String, Object>> find() {
         return appCategoryDao.find();
     }
