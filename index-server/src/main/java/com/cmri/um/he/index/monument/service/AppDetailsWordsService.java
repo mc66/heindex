@@ -28,5 +28,18 @@ public interface AppDetailsWordsService {
      */
     PagingData<Map<String, Object>> quaryMonthlySentiment(CommentParticularsVO commentParticularsVO);
 
-
+    /**
+     *  查询热词
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    List<String> quaryHotWords(String startTime, String endTime);
+    /**
+     *  查询评论来源
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    List<String> quarySourceComment(String startTime, String endTime);
 }

@@ -22,7 +22,6 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/app-bereavement")
-@CrossOrigin
 public class AppBereavementController extends ZRestController{
     @Autowired
     private AppBereavementService service;
@@ -41,35 +40,24 @@ public class AppBereavementController extends ZRestController{
         }else {
             bereavement = service.findBereavement(category, startTime, endTime);
         }
+
         List list1=new ArrayList();
+        List<String> dataMonth = new ArrayList<>();
 
         Map<String,Object> objectMap = new HashMap<>(16);
         for (Map<String, Object> map : bereavement) {
             String o = (String)map.get("name");
+            String month =(String) map.get("month");
+            dataMonth.add(month);
             if (objectMap.containsKey(o)){
                 objectMap.put(o,objectMap.get(o)+","+map.get("value"));
             }else {
                 objectMap.put(o,map.get("value"));
             }
         }
-        Iterator it = objectMap.entrySet().iterator();
-        while (it.hasNext()) {
-            Map<String,Object> map1s = new HashMap<>(16);
-            Map.Entry entry = (Map.Entry) it.next();
-            Object key = entry.getKey();
-            Object value = entry.getValue();
-            map1s.put("name",key);
-            map1s.put("value",value);
-            list1.add(map1s);
-        }
-
-        List<Map<String, Object>> category1 = service.findCategory(category);
-        List<Object> nameList = new ArrayList<>();
-        for (Map<String, Object> mapp : category1) {
-            Object name = mapp.get("name");
-            nameList.add(name);
-        }
-
+        HashSet h = new HashSet(dataMonth);
+        dataMonth.clear();
+        dataMonth.addAll(h);
         List<String> month = new ArrayList<>();
         Calendar min = Calendar.getInstance();
         Calendar max = Calendar.getInstance();
@@ -90,6 +78,36 @@ public class AppBereavementController extends ZRestController{
             month.add(sdf.format(curr.getTime()));
             curr.add(Calendar.MONTH, 1);
         }
+
+        int size = month.size();
+        int size1 = dataMonth.size();
+        int i = 0;
+        if (size>size1){
+            i = size - size1;
+        }
+
+        Iterator it = objectMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map<String,Object> map1s = new HashMap<>(16);
+            Map.Entry entry = (Map.Entry) it.next();
+            Object key = entry.getKey();
+            Object value = entry.getValue();
+            map1s.put("name",key);
+            String a = "";
+            for (int j = 0; j < i; j++) {
+                a += "0,";
+            }
+            map1s.put("value",a+value);
+            list1.add(map1s);
+        }
+
+        List<Map<String, Object>> category1 = service.findCategory(category);
+        List<Object> nameList = new ArrayList<>();
+        for (Map<String, Object> mapp : category1) {
+            Object name = mapp.get("name");
+            nameList.add(name);
+        }
+
 
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("emotion",list1);
@@ -116,7 +134,15 @@ public class AppBereavementController extends ZRestController{
             mapList = service.frequencyCount(app, startTime, endTime);
         }
         ResponseMessage responseMessage = this.genResponseMessage();
-        responseMessage.set("items", mapList);
+        List<Map<String, Object>> mapList1 = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        map.put("name","暂无数据");
+        mapList1.add(map);
+        if(mapList.size() == 0){
+            responseMessage.set("items",mapList1);
+        }else {
+            responseMessage.set("items", mapList);
+        }
         return responseMessage;
     }
 

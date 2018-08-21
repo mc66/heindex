@@ -24,23 +24,12 @@ public interface AppBereavementMapper {
      * @param endTime 结束月份
      * @return 结果集
      * */
-    @Select("SELECT emotion.`month`,info.`name` name,cate.`name`,emotion.emotion_score value FROM app_emotion_parameter emotion\n" +
+    @Select("SELECT emotion.`month` month,info.`name` name,cate.`name`,emotion.emotion_score value FROM app_emotion_parameter emotion\n" +
             "LEFT JOIN app_info info ON emotion.app = info.id\n" +
             "LEFT JOIN app_category cate ON emotion.category = cate.id\n" +
             "WHERE emotion.category = #{category} AND emotion.`month` BETWEEN #{startTime} AND #{endTime}")
     List<Map<String,Object>> findBereavement(@Param("category") Integer category,@Param("startTime") String startTime,@Param("endTime") String endTime);
 
-    /**
-     * 查询指定月份区间的情感趋势变化
-     * @param id appid
-     * @param startTime 开始月份
-     * @param endTime 结束月份
-     * @return 结果集
-     * */
-    @Select("SELECT emotion.emotion_score\n" +
-            "FROM app_emotion_parameter emotion LEFT JOIN app_info info ON emotion.app = info.id\n" +
-            "WHERE emotion.app = #{id} AND emotion.`month` BETWEEN #{startTime} AND #{endTime}")
-    List<Map<String,Object>> findBereavements(@Param("id") Integer id,@Param("startTime") String startTime,@Param("endTime") String endTime);
 
     /**
      * 查询指定月份的情感指数
@@ -72,7 +61,7 @@ public interface AppBereavementMapper {
     @Select("SELECT word_name name,SUM(word_frequency) value\n" +
             "FROM hot_word WHERE app =#{app}\n" +
             " AND date BETWEEN #{startTime} AND #{endTime}\n" +
-            "GROUP BY word_name")
+            "GROUP BY word_name ORDER BY SUM(word_frequency) DESC")
     List<Map<String,Object>> frequencyCount(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
 
 

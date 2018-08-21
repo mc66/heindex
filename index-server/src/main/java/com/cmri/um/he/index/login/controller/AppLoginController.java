@@ -2,7 +2,6 @@ package com.cmri.um.he.index.login.controller;
 
 import com.cmri.spring.common.controller.ZRestController;
 import com.cmri.spring.common.data.ResponseMessage;
-import com.cmri.um.he.index.common.ValidateCode;
 import com.cmri.um.he.index.common.VerifyCodeUtils;
 import com.cmri.um.he.index.login.service.AppLoginService;
 import org.springframework.beans.factory.annotation.Autowired;

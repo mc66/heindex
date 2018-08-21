@@ -19,7 +19,6 @@ import java.util.Map;
  * Created on 2018/6/13
  */
 @RestController
-@CrossOrigin
 public class AppMonthController extends ZRestController {
     @Autowired
     private AppMonthService appMonthService;

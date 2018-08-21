@@ -17,7 +17,6 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/app-emotion")
-@CrossOrigin
 public class AppEmotionController extends ZRestController{
 
     @Autowired
