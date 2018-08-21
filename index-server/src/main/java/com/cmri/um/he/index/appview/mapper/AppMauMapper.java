@@ -57,6 +57,6 @@ public interface AppMauMapper {
      * @param rows     最多查询记录数
      * @return 应用月活集合
      */
-    @Select("SELECT category.name AS category,category.id AS category_id,app.id AS app_id, app.name AS app, logo.logo, active.mau, active.basis FROM app_info app right JOIN app_category category ON app.category = category.id LEFT JOIN app_mau active ON app.id = active.app JOIN app_logo logo ON app.id=logo.app where category.id = #{category} and active.month=#{month} ORDER BY active.mau desc limit #{offset}, #{rows}")
+    @Select("SELECT category.name AS category,category.id AS category_id,app.id AS app_id, app.name AS app, logo.logo, active.mau, active.basis, active.month AS month FROM app_info app right JOIN app_category category ON app.category = category.id LEFT JOIN app_mau active ON app.id = active.app JOIN app_logo logo ON app.id=logo.app where category.id = #{category} and active.month=#{month} ORDER BY active.mau desc limit #{offset}, #{rows}")
     List<Map<String, Object>> findByCategory(@Param("month") String month, @Param("category") String category, @Param("offset") int offset, @Param("rows") int rows);
 }
