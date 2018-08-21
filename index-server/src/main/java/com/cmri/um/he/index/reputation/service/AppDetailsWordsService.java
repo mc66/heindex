@@ -1,4 +1,4 @@
-package com.cmri.um.he.index.monument.service;
+package com.cmri.um.he.index.reputation.service;
 
 import com.cmri.spring.common.data.PagingData;
 import com.cmri.um.he.index.receivable.CommentParticularsVO;

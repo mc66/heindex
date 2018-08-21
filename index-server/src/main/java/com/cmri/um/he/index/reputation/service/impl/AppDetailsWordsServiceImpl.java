@@ -1,11 +1,11 @@
-package com.cmri.um.he.index.monument.service.impl;
+package com.cmri.um.he.index.reputation.service.impl;
 
 import com.cmri.spring.common.data.PagingData;
 import com.cmri.um.he.index.common.CalculateDaysByDate;
 import com.cmri.um.he.index.common.Constants;
-import com.cmri.um.he.index.monument.dao.AppMonumentProductDao;
-import com.cmri.um.he.index.monument.entity.AppEmotionAnalyzeEntity;
-import com.cmri.um.he.index.monument.service.AppMonumentProductService;
+import com.cmri.um.he.index.reputation.dao.AppDetailsWordsDao;
+import com.cmri.um.he.index.reputation.entity.AppEmotionAnalyzeEntity;
+import com.cmri.um.he.index.reputation.service.AppDetailsWordsService;
 import com.cmri.um.he.index.receivable.CommentParticularsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,26 +18,25 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 默认展示时获取查询时间通用方法
- * @author machao
- * Created on 2018/8/10
+ * 默认展示时获取查询时间
+ * @author limin
+ * Created on 2018/8/16
  */
 @Service
-public class AppMonumentProductServiceImpl implements AppMonumentProductService {
+public class AppDetailsWordsServiceImpl implements AppDetailsWordsService {
 
     @Autowired
-    AppMonumentProductDao appMonumentProductDao;
-    private Integer freqPositive;
+    private AppDetailsWordsDao dao;
 
     /**
-     * 查询每日评论数量统计
-     * @param app
+     *  查询每日评论数量统计
+     * @param comment
      * @param startTime
      * @param endTime
      * @return
      */
     @Override
-    public List<Map<String,Object>> quaryDayCommentStatistics(Integer app, String startTime, String endTime)  {
+    public List<Map<String, Object>> quaryquantitative(String comment, String startTime, String endTime) {
         //计算时间范围内的天数，小于三十按天查并返回值，大于三十按半月查
         String firstTime = startTime;
         String lastTime = endTime;
@@ -48,20 +47,20 @@ public class AppMonumentProductServiceImpl implements AppMonumentProductService 
                 for (int i=0;i<days;i++){
                     Map<String,Object> map = new HashMap<>(7);
                     String date = CalculateDaysByDate.getDate(Constants.DAY, i, startTime);
-                    Map<String, Object> dayCommentAmount = appMonumentProductDao.quaryDayCommentAmount(app, date);
+                    Map<String, Object> dayCommentAmount = dao.quaryDayqQuantitative(comment, date);
                     double freqPositive = (long)dayCommentAmount.get("freqPositive");
                     double freqNegativity = (long)dayCommentAmount.get("freqNegativity");
                     double freqNeutral = (long)dayCommentAmount.get("freqNeutral");
                     double sum = freqPositive + freqNegativity + freqNeutral;
-                    if (sum==0){
-                        map.put("freqPositive",0);
-                        map.put("freqNegativity",0);
-                        map.put("freqNeutral",0);
-                        map.put("total",sum);
-                        map.put("petPositive","0.00%");
-                        map.put("petNegativity","0.00%");
-                        map.put("petNeutral","0.00%");
-                        map.put("month",date);
+                    if (sum==0) {
+                        map.put("freqPositive", 0);
+                        map.put("freqNegativity", 0);
+                        map.put("freqNeutral", 0);
+                        map.put("total", sum);
+                        map.put("petPositive", "0.00%");
+                        map.put("petNegativity", "0.00%");
+                        map.put("petNeutral", "0.00%");
+                        map.put("month", date);
                     }else {
                         map.put("freqPositive",freqPositive);
                         map.put("freqNegativity",freqNegativity);
@@ -81,7 +80,7 @@ public class AppMonumentProductServiceImpl implements AppMonumentProductService 
                     AppEmotionAnalyzeEntity appEmotionAnalyzeEntity = new AppEmotionAnalyzeEntity();
                     startTime = CalculateDaysByDate.getDate(Constants.DAY, j*15, firstTime);
                     endTime = CalculateDaysByDate.getDate(Constants.DAY, 14, startTime);
-                    Map<String, Object> commentAmount = appMonumentProductDao.quaryCommentAmount(app, startTime,endTime);
+                    Map<String, Object> commentAmount = dao.quaryquantitative(comment, startTime,endTime);
                     double freqPositive = (long)commentAmount.get("freqPositive");
                     double freqNegativity = (long)commentAmount.get("freqNegativity");
                     double freqNeutral = (long)commentAmount.get("freqNeutral");
@@ -99,7 +98,7 @@ public class AppMonumentProductServiceImpl implements AppMonumentProductService 
                 if(days%15!=0){
                     Map<String,Object> map = new HashMap<>(8);
                     startTime = CalculateDaysByDate.getDate(Constants.DAY, (int)count*15, firstTime);
-                    Map<String, Object> commentAmount = appMonumentProductDao.quaryCommentAmount(app, startTime,lastTime);
+                    Map<String, Object> commentAmount = dao.quaryquantitative(comment, startTime,lastTime);
                     double freqPositive = (long)commentAmount.get("freqPositive");
                     double freqNegativity = (long)commentAmount.get("freqNegativity");
                     double freqNeutral = (long)commentAmount.get("freqNeutral");
@@ -123,42 +122,22 @@ public class AppMonumentProductServiceImpl implements AppMonumentProductService 
         return list;
     }
 
-    /**
-     * 查询评论详情
-     * @param commentParticularsVO
-     * @return
-     */
     @Override
-    public PagingData<Map<String, Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO) {
-        return new PagingData<>(appMonumentProductDao.count(commentParticularsVO),
+    public PagingData<Map<String, Object>> quaryMonthlySentiment(CommentParticularsVO commentParticularsVO) {
+        return new PagingData<>(dao.count(commentParticularsVO),
                 commentParticularsVO.getPage(),
                 commentParticularsVO.getStep(),
-                appMonumentProductDao.quaryCommentParticulars(commentParticularsVO)
+                dao.quaryCommentParticulars(commentParticularsVO,commentParticularsVO.getPage(),commentParticularsVO.getStep())
         );
     }
 
-    /**
-     * 查询热词
-     * @param app
-     * @param startTime
-     * @param endTime
-     * @return
-     */
     @Override
-    public List<String> quaryHotWord(Integer app, String startTime, String endTime) {
-        return appMonumentProductDao.quaryHotWord(app,startTime,endTime);
+    public List<String> quaryHotWords(String startTime, String endTime) {
+        return dao.quaryHotWords(startTime,endTime);
     }
 
-    /**
-     * 查询评论来源
-     * @param app
-     * @param startTime
-     * @param endTime
-     * @return
-     */
     @Override
-    public List<String> quaryCommentSource(Integer app, String startTime, String endTime) {
-        return appMonumentProductDao.quaryCommentSource(app,startTime,endTime);
+    public List<String> quarySourceComment(String startTime, String endTime) {
+        return dao.quarySourceComment(startTime,endTime);
     }
 }
-

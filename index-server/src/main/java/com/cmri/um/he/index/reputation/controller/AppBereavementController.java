@@ -1,4 +1,4 @@
-package com.cmri.um.he.index.monument.controller;
+package com.cmri.um.he.index.reputation.controller;
 
 
 import com.cmri.spring.common.controller.ZRestController;
@@ -6,7 +6,7 @@ import com.cmri.spring.common.data.ResponseMessage;
 import com.cmri.um.he.index.common.CalculateDaysByDate;
 import com.cmri.um.he.index.common.Constants;
 import com.cmri.um.he.index.common.DefaultTime;
-import com.cmri.um.he.index.monument.service.AppBereavementService;
+import com.cmri.um.he.index.reputation.service.AppBereavementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

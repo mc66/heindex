@@ -1,7 +1,7 @@
-package com.cmri.um.he.index.monument.dao;
+package com.cmri.um.he.index.reputation.dao;
 
 
-import com.cmri.um.he.index.monument.mapper.AppMonumentProductMapper;
+import com.cmri.um.he.index.reputation.mapper.AppProductMapper;
 import com.cmri.um.he.index.receivable.CommentParticularsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,10 +15,10 @@ import java.util.Map;
  * Created on 2018/8/10
  */
 @Repository
-public class AppMonumentProductDao extends BaseDao {
+public class AppProductDao extends BaseDao {
 
     @Autowired
-    AppMonumentProductMapper appMonumentProductMapper;
+    AppProductMapper appProductMapper;
 
     /**
      * 查询日各情感倾向评论数
@@ -27,7 +27,7 @@ public class AppMonumentProductDao extends BaseDao {
      * @return
      */
     public Map<String,Object> quaryDayCommentAmount(Integer app, String date){
-        return appMonumentProductMapper.quaryDayCommentAmount(app,date);
+        return appProductMapper.quaryDayCommentAmount(app,date);
     }
     /**
      * 半月查询各情感倾向评论数
@@ -37,7 +37,7 @@ public class AppMonumentProductDao extends BaseDao {
      * @return
      */
     public Map<String,Object> quaryCommentAmount(Integer app, String startTime, String endTime){
-        return appMonumentProductMapper.quaryCommentAmount(app,startTime,endTime);
+        return appProductMapper.quaryCommentAmount(app,startTime,endTime);
     }
 
     /**
@@ -48,7 +48,7 @@ public class AppMonumentProductDao extends BaseDao {
     public List<Map<String, Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO) {
         commentParticularsVO.setOffset(offset(commentParticularsVO.getPage().intValue(),commentParticularsVO.getStep().intValue()));
         commentParticularsVO.setRows(commentParticularsVO.getStep());
-        return addNo(appMonumentProductMapper.quaryCommentParticulars(commentParticularsVO));
+        return addNo(appProductMapper.quaryCommentParticulars(commentParticularsVO));
     }
 
     /**
@@ -57,7 +57,7 @@ public class AppMonumentProductDao extends BaseDao {
      * @return
      */
     public int count(CommentParticularsVO commentParticularsVO) {
-        return appMonumentProductMapper.count(commentParticularsVO);
+        return appProductMapper.count(commentParticularsVO);
     }
 
     /**
@@ -68,7 +68,7 @@ public class AppMonumentProductDao extends BaseDao {
      * @return
      */
     public List<String> quaryHotWord(Integer app, String startTime, String endTime) {
-        return appMonumentProductMapper.quaryHotWord(app,startTime,endTime);
+        return appProductMapper.quaryHotWord(app,startTime,endTime);
     }
 
     /**
@@ -79,7 +79,7 @@ public class AppMonumentProductDao extends BaseDao {
      * @return
      */
     public List<String> quaryCommentSource(Integer app, String startTime, String endTime) {
-        return appMonumentProductMapper.quaryCommentSource(app,startTime,endTime);
+        return appProductMapper.quaryCommentSource(app,startTime,endTime);
     }
 
     /**
