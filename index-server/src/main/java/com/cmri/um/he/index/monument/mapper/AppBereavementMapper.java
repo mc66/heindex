@@ -61,7 +61,7 @@ public interface AppBereavementMapper {
     @Select("SELECT word_name name,SUM(word_frequency) value\n" +
             "FROM hot_word WHERE app =#{app}\n" +
             " AND date BETWEEN #{startTime} AND #{endTime}\n" +
-            "GROUP BY word_name")
+            "GROUP BY word_name ORDER BY SUM(word_frequency) DESC")
     List<Map<String,Object>> frequencyCount(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
 
 
