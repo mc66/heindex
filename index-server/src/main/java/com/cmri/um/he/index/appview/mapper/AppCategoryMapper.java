@@ -21,6 +21,12 @@ public interface AppCategoryMapper {
     List<Map<String,Object>> findCategory();
 
     /**
+     * 查询所有应用类别(不带id为0的全部)
+     */
+    @Select("SELECT id, name FROM app_category where id!=0 order by id")
+    List<Map<String,Object>> getCategory();
+
+    /**
      *c查询应用类别及对应的app数据
      * @return 应用类别集合
      */

@@ -19,6 +19,13 @@ public class AppCategoryDao extends BaseDao {
     private AppCategoryMapper mapper;
 
     /**
+     * 查询所有应用类别(不带id为0的全部)
+     */
+    public List<Map<String, Object>> getCategory() {
+        return mapper.getCategory();
+    }
+
+    /**
      * 查询所有应用类别
      */
     public List<Map<String, Object>> find() {
@@ -40,5 +47,7 @@ public class AppCategoryDao extends BaseDao {
     public List<Map<String, Object>> findAppByCategory(Integer category) {
         return mapper.findAppByCategory(category);
     }
+
+
 
 }
