@@ -52,8 +52,8 @@ public class ValidateCode {
             char rand = s.charAt(random.nextInt(s.length()));
             sRand += rand;
             //设置画随机字符的颜色
-            g.setColor(new Color(20 + random.nextInt(110), random.nextInt(110),
-                    random.nextInt(110)));
+            g.setColor(new Color(20 + random.nextInt(80), random.nextInt(80),
+                    random.nextInt(80)));
             //验证码的范围在s中
             g.drawString(String.valueOf(rand), 13 * i + 6, 16);
         }

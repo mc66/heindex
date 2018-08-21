@@ -130,4 +130,14 @@ public class AppDetailsWordsServiceImpl implements AppDetailsWordsService {
                 dao.quaryCommentParticulars(commentParticularsVO,commentParticularsVO.getPage(),commentParticularsVO.getStep())
         );
     }
+
+    @Override
+    public List<String> quaryHotWords(String startTime, String endTime) {
+        return dao.quaryHotWords(startTime,endTime);
+    }
+
+    @Override
+    public List<String> quarySourceComment(String startTime, String endTime) {
+        return dao.quarySourceComment(startTime,endTime);
+    }
 }
