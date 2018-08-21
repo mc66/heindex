@@ -134,8 +134,12 @@ public class AppBereavementController extends ZRestController{
             mapList = service.frequencyCount(app, startTime, endTime);
         }
         ResponseMessage responseMessage = this.genResponseMessage();
+        List<Map<String, Object>> mapList1 = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        map.put("name","暂无数据");
+        mapList1.add(map);
         if(mapList.size() == 0){
-            responseMessage.set("items","暂无数据");
+            responseMessage.set("items",mapList1);
         }else {
             responseMessage.set("items", mapList);
         }
