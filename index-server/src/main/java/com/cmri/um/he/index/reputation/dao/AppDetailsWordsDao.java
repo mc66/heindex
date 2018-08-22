@@ -1,6 +1,6 @@
-package com.cmri.um.he.index.monument.dao;
+package com.cmri.um.he.index.reputation.dao;
 
-import com.cmri.um.he.index.monument.mapper.AppDetailsWordsMapper;
+import com.cmri.um.he.index.reputation.mapper.AppDetailsWordsMapper;
 import com.cmri.um.he.index.receivable.CommentParticularsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

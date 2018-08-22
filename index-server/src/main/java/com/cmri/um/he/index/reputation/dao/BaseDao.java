@@ -1,4 +1,4 @@
-package com.cmri.um.he.index.monument.dao;
+package com.cmri.um.he.index.reputation.dao;
 
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;

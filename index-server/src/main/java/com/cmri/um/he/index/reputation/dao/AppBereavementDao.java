@@ -1,8 +1,6 @@
-package com.cmri.um.he.index.monument.dao;
+package com.cmri.um.he.index.reputation.dao;
 
-import com.cmri.um.he.index.monument.mapper.AppBereavementMapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import com.cmri.um.he.index.reputation.mapper.AppBereavementMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

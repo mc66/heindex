@@ -1,4 +1,4 @@
-package com.cmri.um.he.index.monument.service;
+package com.cmri.um.he.index.reputation.service;
 
 
 import com.cmri.spring.common.data.PagingData;
@@ -13,7 +13,7 @@ import java.util.Map;
  * @author machao
  * Created on 2018/8/10
  */
-public interface AppMonumentProductService {
+public interface AppProductService {
 
     /**
      * 查询每日评论数量统计

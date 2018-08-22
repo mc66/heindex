@@ -1,7 +1,7 @@
-package com.cmri.um.he.index.monument.service.impl;
+package com.cmri.um.he.index.reputation.service.impl;
 
-import com.cmri.um.he.index.monument.dao.AppBereavementDao;
-import com.cmri.um.he.index.monument.service.AppBereavementService;
+import com.cmri.um.he.index.reputation.dao.AppBereavementDao;
+import com.cmri.um.he.index.reputation.service.AppBereavementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
