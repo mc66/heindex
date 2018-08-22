@@ -40,7 +40,7 @@ public class VerifyCodeUtils {
             int index = rd.nextInt(code.length());
             codesave.append(code.substring(index, index + 1));
 
-            graphics.drawString(code.substring(index, index + 1), width / 8 * (i + 1), height - 4);
+            graphics.drawString(code.substring(index, index + 1), width / 8 * (i + 1), height - 3);
         }
 
         return img;
