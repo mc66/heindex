@@ -2,6 +2,7 @@ package com.cmri.um.he.index.login.controller;
 
 import com.cmri.spring.common.controller.ZRestController;
 import com.cmri.spring.common.data.ResponseMessage;
+import com.cmri.um.he.index.common.ValidateCode;
 import com.cmri.um.he.index.common.VerifyCodeUtils;
 import com.cmri.um.he.index.login.service.AppLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +43,9 @@ public class AppLoginController extends ZRestController {
     @RequestMapping(value = "/getCode")
     @ResponseBody
     public void getCode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        VerifyCodeUtils.generateCode(request, response, 90, 4);
-        String code =  (String) request.getSession().getAttribute("code");
+        ValidateCode.getVerifyCode(request,response);
+        /*VerifyCodeUtils.generateCode(request, response, 90, 4);*/
+        String code =  (String) request.getSession().getAttribute("VerifyCode");
         yzm = code;
     }
 
