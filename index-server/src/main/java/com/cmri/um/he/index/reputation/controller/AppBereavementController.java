@@ -30,9 +30,10 @@ public class AppBereavementController extends ZRestController{
     public ResponseMessage get(@RequestParam Integer category, String startTime,@RequestParam String endTime){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
         List<Map<String, Object>> bereavement = null;
+        String time = null;
         if (startTime.equals("null")){
             try {
-                String time = DefaultTime.getDefaultTimes(Constants.MONTH,5,endTime);
+                time  = DefaultTime.getDefaultTimes(Constants.MONTH,5,endTime);
                 bereavement = service.findBereavement(category, time, endTime);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -62,7 +63,12 @@ public class AppBereavementController extends ZRestController{
         Calendar min = Calendar.getInstance();
         Calendar max = Calendar.getInstance();
         try {
-            min.setTime(sdf.parse(startTime));
+            if (startTime.equals("null")){
+                min.setTime(sdf.parse(time));
+            }else {
+                min.setTime(sdf.parse(startTime));
+            }
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
