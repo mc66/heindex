@@ -17,6 +17,8 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
 /**
  * 登陆页面
  * @author limin
@@ -28,7 +30,7 @@ public class AppLoginController extends ZRestController {
     @Autowired
     private AppLoginService appLoginService;
 
-
+    String yzm = "";
 
     /**
      *   获取验证码
@@ -41,6 +43,8 @@ public class AppLoginController extends ZRestController {
     @ResponseBody
     public void getCode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         VerifyCodeUtils.generateCode(request, response, 90, 4);
+        String code =  (String) request.getSession().getAttribute("code");
+        yzm = code;
     }
 
     /**
@@ -52,27 +56,9 @@ public class AppLoginController extends ZRestController {
      * @return
      */
     @RequestMapping(value = "login",method = RequestMethod.POST)
-    public Object getlogin(@RequestParam String username,@RequestParam String userpass, HttpServletRequest request,HttpServletResponse response){
+    public Object getlogin(@RequestParam String username,@RequestParam String userpass,@RequestParam String userCode, HttpServletRequest request,HttpServletResponse response){
         Map map = new HashMap(16);
-
-        String  login = appLoginService.getlogin(username,userpass,request,response);
-        if (login.equals("loginYes")){
-            map.put("code",200);
-            map.put("msg","登陆成功");
-            map.put("succeed",true );
-        }else if(login.equals("loginNo")){
-            map.put("code",500);
-            map.put("msg","登陆失败");
-            map.put("succeed",false );
-        }else {
-            map.put("msg","用户名不存在");
-        }
-        return  map;
-
-
-
-
-        /*if (yam.equals(userCode)){
+        if (yzm.equals(userCode)){
             String  login = appLoginService.getlogin(username,userpass,request,response);
             if (login.equals("loginYes")){
                 map.put("code",200);
@@ -89,10 +75,7 @@ public class AppLoginController extends ZRestController {
         }else {
             map.put("msg","验证码错误");
             return  map;
-        }*/
-
+        }
     }
-
-
 
 }
