@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -11,8 +12,8 @@ import java.util.Random;
 
 public class ValidateCode {
     private static String s = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
-    private static int width = 60;
-    private static int height = 22;
+    private static int width = 90;
+    private static int height = 40;
     private static int len = 30;
 
     public static void getVerifyCode(HttpServletRequest request,
@@ -33,7 +34,7 @@ public class ValidateCode {
         //画矩形
         g.fillRect(0, 0, width, height);
         //设置字体
-        g.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        g.setFont(new Font("Times New Roman", Font.PLAIN, 32));
         g.draw3DRect(0, 0, width - 2, height - 2, true);
         //设置画线的随机颜色
         g.setColor(getRandColor(160, 200));
@@ -55,10 +56,11 @@ public class ValidateCode {
             g.setColor(new Color(20 + random.nextInt(80), random.nextInt(80),
                     random.nextInt(80)));
             //验证码的范围在s中
-            g.drawString(String.valueOf(rand), 13 * i + 6, 16);
+            g.drawString(String.valueOf(rand), 18 * i + 6, 28);
         }
-
-        request.getSession().setAttribute("VerifyCode", sRand);
+        HttpSession session = request.getSession();
+        session.removeAttribute("code");
+        session.setAttribute("code", sRand.toLowerCase());
         g.dispose();
 
         ServletOutputStream output;
