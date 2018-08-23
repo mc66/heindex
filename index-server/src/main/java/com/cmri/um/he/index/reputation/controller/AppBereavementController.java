@@ -134,7 +134,7 @@ public class AppBereavementController extends ZRestController{
 
         List<Map<String, Object>> mapList = null;
         if (startTime.equals("null")){
-            String time = DefaultTime.getDefaultTimes(Constants.MONTH,5,endTime);
+            String time = CalculateDaysByDate.getDate(Constants.DAY,-29,endTime);
             mapList = service.frequencyCount(app, time, endTime);
         } else {
             mapList = service.frequencyCount(app, startTime, endTime);
@@ -164,7 +164,7 @@ public class AppBereavementController extends ZRestController{
     public ResponseMessage findParameter(@RequestParam Integer category, String startTime,@RequestParam String endTime) throws Exception {
         List<Map<String, Object>> parameter = null;
         if (startTime.equals("null")){
-            String time = CalculateDaysByDate.getDate(Constants.DAY,-30,endTime);
+            String time = CalculateDaysByDate.getDate(Constants.DAY,-29,endTime);
             parameter = service.findParameter(category,time,endTime);
         } else {
             parameter = service.findParameter(category, startTime, endTime);
