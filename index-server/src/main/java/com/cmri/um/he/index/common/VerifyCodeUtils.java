@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Random;
 
 /**
- * @author lch
+ * @author limin
  *         Created on 2018/08/15 15:03
  */
 public class VerifyCodeUtils {
@@ -40,7 +40,7 @@ public class VerifyCodeUtils {
             int index = rd.nextInt(code.length());
             codesave.append(code.substring(index, index + 1));
 
-            graphics.drawString(code.substring(index, index + 1), width / 8 * (i + 1), height - 3);
+            graphics.drawString(code.substring(index, index + 1), width / 6 * (i + 1), height - 5);
         }
 
         return img;

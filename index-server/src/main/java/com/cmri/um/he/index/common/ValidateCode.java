@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -57,8 +58,9 @@ public class ValidateCode {
             //验证码的范围在s中
             g.drawString(String.valueOf(rand), 18 * i + 6, 28);
         }
-        request.getSession().removeAttribute("VerifyCode");
-        request.getSession().setAttribute("VerifyCode", sRand.toLowerCase());
+        HttpSession session = request.getSession();
+        session.removeAttribute("code");
+        session.setAttribute("code", sRand.toLowerCase());
         g.dispose();
 
         ServletOutputStream output;

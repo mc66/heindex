@@ -31,7 +31,6 @@ public class AppLoginController extends ZRestController {
     @Autowired
     private AppLoginService appLoginService;
 
-    String yzm = "";
 
     /**
      *   获取验证码
@@ -45,8 +44,6 @@ public class AppLoginController extends ZRestController {
     public void getCode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ValidateCode.getVerifyCode(request,response);
         /*VerifyCodeUtils.generateCode(request, response, 90, 4);*/
-        String code =  (String) request.getSession().getAttribute("VerifyCode");
-        yzm = code;
     }
 
     /**
@@ -60,7 +57,8 @@ public class AppLoginController extends ZRestController {
     @RequestMapping(value = "login",method = RequestMethod.POST)
     public Object getlogin(@RequestParam String username,@RequestParam String userpass,@RequestParam String userCode, HttpServletRequest request,HttpServletResponse response){
         Map map = new HashMap(16);
-        if (yzm.equals(userCode)){
+        String code =  (String) request.getSession().getAttribute("code");
+        if (code.equals(userCode)){
             String  login = appLoginService.getlogin(username,userpass,request,response);
             if (login.equals("loginYes")){
                 map.put("code",200);
