@@ -1,4 +1,4 @@
-package com.cmri.um.he.index.monument.mapper;
+package com.cmri.um.he.index.reputation.mapper;
 
 import com.cmri.um.he.index.receivable.CommentParticularsVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -61,7 +61,7 @@ public interface AppDetailsWordsMapper {
      * @param endTime
      * @return
      */
-    @Select(" SELECT aea.word_name FROM hot_word aea WHERE aea.date BETWEEN #{startTime} AND #{endTime} ")
+    @Select(" SELECT aea.word_name FROM hot_word aea WHERE aea.date BETWEEN #{startTime} AND #{endTime} GROUP BY aea.word_name ")
     List<String> quaryHotWords(@Param("startTime") String startTime,@Param("endTime") String endTime);
 
     /**
@@ -70,6 +70,6 @@ public interface AppDetailsWordsMapper {
      * @param endTime
      * @return
      */
-    @Select(" SELECT aea.source FROM hot_word aea WHERE aea.date BETWEEN #{startTime} AND #{endTime} ")
+    @Select(" SELECT aea.source FROM hot_word aea WHERE aea.date BETWEEN #{startTime} AND #{endTime} GROUP BY aea.source ")
     List<String> quarySourceComment(@Param("startTime") String startTime,@Param("endTime") String endTime);
 }

@@ -34,7 +34,7 @@ public class ValidateCode {
         g.fillRect(0, 0, width, height);
         //设置字体
         g.setFont(new Font("Times New Roman", Font.PLAIN, 32));
-        g.draw3DRect(0, 0, width -2, height - 2, true);
+        g.draw3DRect(0, 0, width - 2, height - 2, true);
         //设置画线的随机颜色
         g.setColor(getRandColor(160, 200));
         //随机画30条线段
@@ -57,8 +57,8 @@ public class ValidateCode {
             //验证码的范围在s中
             g.drawString(String.valueOf(rand), 18 * i + 6, 28);
         }
-
-        request.getSession().setAttribute("VerifyCode", sRand);
+        request.getSession().removeAttribute("VerifyCode");
+        request.getSession().setAttribute("VerifyCode", sRand.toLowerCase());
         g.dispose();
 
         ServletOutputStream output;

@@ -1,4 +1,4 @@
-package com.cmri.um.he.index.monument.entity;
+package com.cmri.um.he.index.reputation.entity;
 
 import org.springframework.data.annotation.Transient;
 

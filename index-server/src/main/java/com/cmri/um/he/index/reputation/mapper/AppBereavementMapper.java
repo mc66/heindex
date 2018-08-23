@@ -1,4 +1,4 @@
-package com.cmri.um.he.index.monument.mapper;
+package com.cmri.um.he.index.reputation.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

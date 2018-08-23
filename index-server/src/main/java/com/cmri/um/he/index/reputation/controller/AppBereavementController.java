@@ -1,4 +1,4 @@
-package com.cmri.um.he.index.monument.controller;
+package com.cmri.um.he.index.reputation.controller;
 
 
 import com.cmri.spring.common.controller.ZRestController;
@@ -6,7 +6,7 @@ import com.cmri.spring.common.data.ResponseMessage;
 import com.cmri.um.he.index.common.CalculateDaysByDate;
 import com.cmri.um.he.index.common.Constants;
 import com.cmri.um.he.index.common.DefaultTime;
-import com.cmri.um.he.index.monument.service.AppBereavementService;
+import com.cmri.um.he.index.reputation.service.AppBereavementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,9 +30,10 @@ public class AppBereavementController extends ZRestController{
     public ResponseMessage get(@RequestParam Integer category, String startTime,@RequestParam String endTime){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
         List<Map<String, Object>> bereavement = null;
+        String time = null;
         if (startTime.equals("null")){
             try {
-                String time = DefaultTime.getDefaultTimes(Constants.MONTH,5,endTime);
+                time  = DefaultTime.getDefaultTimes(Constants.MONTH,5,endTime);
                 bereavement = service.findBereavement(category, time, endTime);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -62,7 +63,12 @@ public class AppBereavementController extends ZRestController{
         Calendar min = Calendar.getInstance();
         Calendar max = Calendar.getInstance();
         try {
-            min.setTime(sdf.parse(startTime));
+            if (startTime.equals("null")){
+                min.setTime(sdf.parse(time));
+            }else {
+                min.setTime(sdf.parse(startTime));
+            }
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -128,7 +134,7 @@ public class AppBereavementController extends ZRestController{
 
         List<Map<String, Object>> mapList = null;
         if (startTime.equals("null")){
-            String time = DefaultTime.getDefaultTimes(Constants.MONTH,5,endTime);
+            String time = CalculateDaysByDate.getDate(Constants.DAY,-29,endTime);
             mapList = service.frequencyCount(app, time, endTime);
         } else {
             mapList = service.frequencyCount(app, startTime, endTime);
@@ -158,7 +164,7 @@ public class AppBereavementController extends ZRestController{
     public ResponseMessage findParameter(@RequestParam Integer category, String startTime,@RequestParam String endTime) throws Exception {
         List<Map<String, Object>> parameter = null;
         if (startTime.equals("null")){
-            String time = CalculateDaysByDate.getDate(Constants.DAY,-30,endTime);
+            String time = CalculateDaysByDate.getDate(Constants.DAY,-29,endTime);
             parameter = service.findParameter(category,time,endTime);
         } else {
             parameter = service.findParameter(category, startTime, endTime);
