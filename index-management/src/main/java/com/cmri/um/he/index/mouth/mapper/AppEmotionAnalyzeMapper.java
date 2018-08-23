@@ -19,7 +19,7 @@ public interface AppEmotionAnalyzeMapper {
      * @param entity
      * @return
      */
-    @Insert("insert into app_emotion_analyze values (#{id},#{app},#{category},#{month},#{commentSource},#{appName},#{commentAttribute},#{userScore},#{userName},#{comment},#{status},#{atime})")
+    @Insert("insert into app_emotion_analyze values (#{id},#{app},#{category},#{month},#{commentSource},#{actualName},#{commentAttribute},#{userScore},#{userName},#{comment},#{status},#{atime})")
     int saveMouth(AppEmotionAnalyzeEntity entity);
 
 

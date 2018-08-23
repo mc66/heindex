@@ -21,7 +21,7 @@ public class AppEmotionAnalyzeEntity implements Serializable {
     /**
      * app实际名称
      */
-    private String appName;
+    private String actualName;
     /**
      * 评论属性
      */
@@ -85,12 +85,12 @@ public class AppEmotionAnalyzeEntity implements Serializable {
         this.commentSource = commentSource;
     }
 
-    public String getAppName() {
-        return appName;
+    public String getActualName() {
+        return actualName;
     }
 
-    public void setAppName(String appName) {
-        this.appName = appName;
+    public void setActualName(String actualName) {
+        this.actualName = actualName;
     }
 
     public String getCommentAttribute() {
