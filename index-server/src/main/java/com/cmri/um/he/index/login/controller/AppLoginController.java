@@ -1,20 +1,15 @@
 package com.cmri.um.he.index.login.controller;
 
 import com.cmri.spring.common.controller.ZRestController;
-import com.cmri.spring.common.data.ResponseMessage;
 import com.cmri.um.he.index.common.ValidateCode;
-import com.cmri.um.he.index.common.VerifyCodeUtils;
 import com.cmri.um.he.index.login.service.AppLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
