@@ -1,8 +1,8 @@
-package com.cmri.um.he.index.monument.controller;
+package com.cmri.um.he.index.reputation.controller;
 
 import com.cmri.spring.common.controller.ZRestController;
 import com.cmri.spring.common.data.ResponseMessage;
-import com.cmri.um.he.index.monument.service.AppMonumentProductService;
+import com.cmri.um.he.index.reputation.service.AppProductService;
 import com.cmri.um.he.index.receivable.CommentParticularsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +18,10 @@ import java.util.Map;
  */
 @RestController
 @CrossOrigin
-public class AppMonumentProductController extends ZRestController {
+public class AppProductController extends ZRestController {
 
     @Autowired
-    AppMonumentProductService appMonumentProductService;
+    AppProductService appProductService;
 
     /**
      * 查询每日评论数量统计
@@ -34,7 +34,7 @@ public class AppMonumentProductController extends ZRestController {
     public ResponseMessage quaryDayCommentStatistics(Integer app,String startTime,String endTime){
         List<Map<String,Object>> list = null;
         try {
-            list = appMonumentProductService.quaryDayCommentStatistics(app,startTime,endTime);
+            list = appProductService.quaryDayCommentStatistics(app,startTime,endTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class AppMonumentProductController extends ZRestController {
      */
     @RequestMapping(value = "quary-comment-particulars",method = RequestMethod.GET)
     public ResponseMessage quaryCommentParticulars(CommentParticularsVO commentParticularsVO){
-        ResponseMessage responseMessage = appMonumentProductService.quaryCommentParticulars(commentParticularsVO).updateResponse(genResponseMessage());
+        ResponseMessage responseMessage = appProductService.quaryCommentParticulars(commentParticularsVO).updateResponse(genResponseMessage());
         return responseMessage;
     }
 
@@ -63,7 +63,7 @@ public class AppMonumentProductController extends ZRestController {
      */
     @RequestMapping(value = "quary-hot-word",method = RequestMethod.GET)
     public ResponseMessage quaryHotWord(Integer app, String startTime, String endTime){
-        List<String> list = appMonumentProductService.quaryHotWord(app,startTime,endTime);
+        List<String> list = appProductService.quaryHotWord(app,startTime,endTime);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("list",list);
         return responseMessage;
@@ -78,7 +78,7 @@ public class AppMonumentProductController extends ZRestController {
      */
     @RequestMapping(value = "quary-comment-source",method = RequestMethod.GET)
     public ResponseMessage quaryCommentSource(Integer app, String startTime, String endTime){
-        List<String> list = appMonumentProductService.quaryCommentSource(app,startTime,endTime);
+        List<String> list = appProductService.quaryCommentSource(app,startTime,endTime);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("list",list);
         return responseMessage;

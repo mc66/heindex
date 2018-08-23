@@ -1,8 +1,6 @@
-package com.cmri.um.he.index.monument.mapper;
+package com.cmri.um.he.index.reputation.mapper;
 
-import com.cmri.um.he.index.monument.entity.AppEmotionAnalyzeEntity;
 import com.cmri.um.he.index.receivable.CommentParticularsVO;
-import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -16,7 +14,7 @@ import java.util.Map;
  * Created on 2018/8/10
  */
 @Mapper
-public interface AppMonumentProductMapper {
+public interface AppProductMapper {
 
     /**
      * 查询日各情感倾向评论数
@@ -49,7 +47,7 @@ public interface AppMonumentProductMapper {
             +"<if test='word !=null '> AND aea.`comment` LIKE CONCAT('%',#{word},'%') </if> "
             +"<if test='status !=null '> AND aea.`status`=#{status} </if> "
             +"<if test='commentSource !=null '> AND aea.`comment_source`= #{commentSource} </if>"
-            +"limit #{offset}, #{rows}"
+            +"ORDER BY aea.`month` DESC limit #{offset}, #{rows} "
             +"</script>")
     public List<Map<String, Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO);
 
