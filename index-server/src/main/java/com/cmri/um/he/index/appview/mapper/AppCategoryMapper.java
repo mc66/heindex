@@ -17,7 +17,7 @@ public interface AppCategoryMapper {
      * 查询应用类别
      * @return 应用类别集合
      */
-    @Select("SELECT id, name FROM app_category order by id")
+    @Select("SELECT id, name FROM app_category WHERE `status`=1 order by id")
     List<Map<String,Object>> findCategory();
 
     /**
@@ -27,7 +27,7 @@ public interface AppCategoryMapper {
     List<Map<String,Object>> getCategory();
 
     /**
-     *c查询应用类别及对应的app数据
+     * 查询应用类别及对应的app数据
      * @return 应用类别集合
      */
     @Select("SELECT  info.id app_id , category.`name` cate,category.id category_id,info.`name`,CONCAT(category.`name`,'报告') AS newcal\n" +
