@@ -54,10 +54,7 @@ public class AppLoginController extends ZRestController {
      */
     @RequestMapping(value = "login",method = RequestMethod.GET)
     public Object getlogin(@RequestParam String username,@RequestParam String userpass, HttpServletRequest request,HttpServletResponse response)throws Exception{
-        String code=(String)request.getSession().getAttribute("code");
-        System.out.println(code);
         Map map = new HashMap(16);
-
         String  login = appLoginService.getlogin(username,userpass,request,response);
         if (login.equals("loginYes")){
             map.put("code",200);
