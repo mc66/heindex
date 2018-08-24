@@ -1,8 +1,6 @@
 package com.cmri.um.he.index.terminal.mapper;
 
-import com.cmri.um.he.index.receivable.CommentParticularsVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -21,7 +19,7 @@ public interface TerminalOverviewMapper {
      * @return
      */
     @Select("SELECT id,province FROM terminal_province")
-    public List<Map<String,Object>> quaryProvince();
+     List<Map<String,Object>> quaryProvince();
 
     /**
      * 终端指数Top10
@@ -35,7 +33,7 @@ public interface TerminalOverviewMapper {
             + "WHERE ta.`month`='201804'"
             +"<if test='id !=null '> AND ta.`province`=#{id} </if>"
             +"</script>")
-    public List<Map<String,Object>> quaryTerminalExponent(Integer id,String month);
+    List<Map<String,Object>> quaryTerminalExponent(Integer id,String month);
 
     /**
      * 所有终端数量总和
@@ -49,5 +47,9 @@ public interface TerminalOverviewMapper {
             + "WHERE ta.`month`='201804'"
             +"<if test='id !=null '> AND ta.`province`=#{id} </if>"
             +"</script>")
-    public int quaryTotal(Integer id,String month);
+    int quaryTotal(Integer id,String month);
+
+
+    @Select("SELECT * from terminal_brand")
+    List<Map<String, Object>> quaryBrand();
 }

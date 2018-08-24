@@ -1,10 +1,6 @@
 package com.cmri.um.he.index.terminal.service;
 
 
-import com.cmri.spring.common.data.PagingData;
-import com.cmri.um.he.index.receivable.CommentParticularsVO;
-
-import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +15,7 @@ public interface TerminalOverviewService {
      * 查询省份
      * @return
      */
-    public List<Map<String,Object>> quaryProvince();
+     List<Map<String,Object>> quaryProvince();
 
     /**
      * 终端指数Top10
@@ -27,5 +23,11 @@ public interface TerminalOverviewService {
      * @param month
      * @return
      */
-    public List<Map<String,Object>> quaryTerminalExponent(Integer id,String month);
+     List<Map<String,Object>> quaryTerminalExponent(Integer id,String month);
+
+    /**
+     * 终端品牌
+     * @return
+     */
+     List<Map<String,Object>> quaryBrand();
 }

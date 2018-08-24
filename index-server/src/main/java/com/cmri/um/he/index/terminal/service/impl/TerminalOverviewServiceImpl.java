@@ -1,20 +1,11 @@
 package com.cmri.um.he.index.terminal.service.impl;
 
-import com.cmri.spring.common.data.PagingData;
-import com.cmri.um.he.index.common.CalculateDaysByDate;
-import com.cmri.um.he.index.common.Constants;
-import com.cmri.um.he.index.receivable.CommentParticularsVO;
-import com.cmri.um.he.index.reputation.dao.AppProductDao;
-import com.cmri.um.he.index.reputation.entity.AppEmotionAnalyzeEntity;
 import com.cmri.um.he.index.terminal.dao.TerminalOverviewDao;
 import com.cmri.um.he.index.terminal.service.TerminalOverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +43,15 @@ public class TerminalOverviewServiceImpl implements TerminalOverviewService {
     @Override
     public List<Map<String,Object>> quaryProvince() {
         return terminalOverviewDao.quaryProvince();
+    }
+
+    /**
+     * 终端品牌
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> quaryBrand() {
+        return terminalOverviewDao.quaryBrand();
     }
 }
 

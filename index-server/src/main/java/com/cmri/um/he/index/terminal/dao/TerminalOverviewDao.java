@@ -50,4 +50,12 @@ public class TerminalOverviewDao extends BaseDao {
         return terminalOverviewMapper.quaryTotal(id,month);
 
     }
+
+    /**
+     * 终端品牌
+     * @return
+     */
+    public List<Map<String, Object>> quaryBrand() {
+        return terminalOverviewMapper.quaryBrand();
+    }
 }
