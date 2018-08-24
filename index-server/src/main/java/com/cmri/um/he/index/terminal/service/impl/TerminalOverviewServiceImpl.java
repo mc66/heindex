@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +32,8 @@ public class TerminalOverviewServiceImpl implements TerminalOverviewService {
         List<Map<String, Object>> list = terminalOverviewDao.quaryTerminalExponent(id,month);
         double total = terminalOverviewDao.quaryTotal(id, month);
         for (Map<String, Object> map : list) {
-            double amount = (double)map.get("amount");
-            map.put("proportion",new BigDecimal(amount/total*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
+            BigDecimal amount = (BigDecimal)map.get("amount");
+            map.put("proportion",new BigDecimal(amount.doubleValue()/total*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
         }
         return list;
     }
