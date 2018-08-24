@@ -43,4 +43,7 @@ public interface AppCategoryMapper {
      */
     @Select("SELECT app.id,app.`name`,app.flag FROM app_info app WHERE app.category=#{category} ORDER BY app.id")
     List<Map<String,Object>> findAppByCategory(Integer category);
+
+    @Select("SELECT  DISTINCT e.app ,a.name,a.flag from app_emotion_analyze e ,app_info a  where e.app=a.id ANd e.category=#{category}")
+    List<Map<String,Object>> getCategoryByEmotion(Integer category);
 }

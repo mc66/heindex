@@ -2,8 +2,6 @@ package com.cmri.um.he.index.terminal.controller;
 
 import com.cmri.spring.common.controller.ZRestController;
 import com.cmri.spring.common.data.ResponseMessage;
-import com.cmri.um.he.index.receivable.CommentParticularsVO;
-import com.cmri.um.he.index.reputation.service.AppProductService;
 import com.cmri.um.he.index.terminal.service.TerminalOverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +43,18 @@ public class TerminalOverviewController extends ZRestController {
     @RequestMapping(value = "quary-terminal-exponent",method = RequestMethod.GET)
     public ResponseMessage quaryTerminalExponent(Integer id,String month){
         List<Map<String,Object>> list = terminalOverviewService.quaryTerminalExponent(id,month);
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("list",list);
+        return responseMessage;
+    }
+
+    /**
+     * 终端品牌
+     * @return
+     */
+    @RequestMapping(value = "quary-brand",method = RequestMethod.GET)
+    public ResponseMessage quaryBrand(){
+        List<Map<String,Object>> list = terminalOverviewService.quaryBrand();
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("list",list);
         return responseMessage;

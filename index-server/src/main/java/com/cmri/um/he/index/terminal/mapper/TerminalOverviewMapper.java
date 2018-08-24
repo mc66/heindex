@@ -71,4 +71,8 @@ public interface TerminalOverviewMapper {
             "</script>")
     List<Map<String,Object>> findBrand(@Param("month") String month,@Param("start") int start,@Param("end") int end,@Param("pid") int pid,@Param("bid") int bid);
 
+
+
+    @Select("SELECT * from terminal_brand")
+    List<Map<String, Object>> quaryBrand();
 }

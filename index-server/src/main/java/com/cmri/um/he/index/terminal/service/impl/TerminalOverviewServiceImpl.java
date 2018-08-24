@@ -51,5 +51,14 @@ public class TerminalOverviewServiceImpl implements TerminalOverviewService {
     public List<Map<String,Object>> quaryProvince() {
         return terminalOverviewDao.quaryProvince();
     }
+
+    /**
+     * 终端品牌
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> quaryBrand() {
+        return terminalOverviewDao.quaryBrand();
+    }
 }
 
