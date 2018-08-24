@@ -49,4 +49,21 @@ public class TerminalOverviewController extends ZRestController {
         responseMessage.set("list",list);
         return responseMessage;
     }
+
+    /**
+     * 查询指定月份终端型号排行榜
+     * @param month 指定月份
+     * @param start 开始条数
+     * @param end   结束条数
+     * @param pid   省份id
+     * @param bid   品牌id
+     * @return 结果集
+     * */
+    @RequestMapping(value = "quary-brand",method = RequestMethod.GET)
+    public ResponseMessage quaryBrand(@RequestParam String month, @RequestParam String start, @RequestParam String end, @RequestParam String pid, @RequestParam String bid){
+        List<Map<String,Object>> list = terminalOverviewService.findBrand(month, start, end, pid, bid);
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("list",list);
+        return responseMessage;
+    }
 }
