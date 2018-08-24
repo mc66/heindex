@@ -45,6 +45,11 @@ public class TerminalOverviewServiceImpl implements TerminalOverviewService {
         return list;
     }
 
+    @Override
+    public List<Map<String, Object>> findBrand(String month, String start, String end, String pid, String bid) {
+        return terminalOverviewDao.findBrand(month, start, end, pid, bid);
+    }
+
     /**
      * 查询省份
      * @return

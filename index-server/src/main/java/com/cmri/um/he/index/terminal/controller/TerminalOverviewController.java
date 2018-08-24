@@ -6,10 +6,7 @@ import com.cmri.um.he.index.receivable.CommentParticularsVO;
 import com.cmri.um.he.index.reputation.service.AppProductService;
 import com.cmri.um.he.index.terminal.service.TerminalOverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
@@ -41,13 +38,30 @@ public class TerminalOverviewController extends ZRestController {
 
     /**
      * 终端指数Top10
-     * @param province
+     * @param
      * @param month
      * @return
      */
     @RequestMapping(value = "quary-province",method = RequestMethod.GET)
     public ResponseMessage quaryTerminalExponent(Integer id,String month){
         List<Map<String,Object>> list = terminalOverviewService.quaryTerminalExponent(id,month);
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("list",list);
+        return responseMessage;
+    }
+
+    /**
+     * 查询指定月份终端型号排行榜
+     * @param month 指定月份
+     * @param start 开始条数
+     * @param end   结束条数
+     * @param pid   省份id
+     * @param bid   品牌id
+     * @return 结果集
+     * */
+    @RequestMapping(value = "quary-brand",method = RequestMethod.GET)
+    public ResponseMessage quaryBrand(@RequestParam String month, @RequestParam String start, @RequestParam String end, @RequestParam String pid, @RequestParam String bid){
+        List<Map<String,Object>> list = terminalOverviewService.findBrand(month, start, end, pid, bid);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("list",list);
         return responseMessage;
