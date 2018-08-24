@@ -42,5 +42,4 @@ public interface TerminalOverviewService {
      * */
     List<Map<String,Object>> findBrand(String month,String start, String end, String pid,String bid);
 
-    List<Map<String,Object>> quaryTerminalExponent(Integer id,String month);
 }

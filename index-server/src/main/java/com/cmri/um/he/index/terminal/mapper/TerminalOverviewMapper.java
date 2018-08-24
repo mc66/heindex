@@ -69,5 +69,4 @@ public interface TerminalOverviewMapper {
             "</script>")
     List<Map<String,Object>> findBrand(@Param("month") String month,@Param("start") String start,@Param("end") String end,@Param("pid") String pid,@Param("bid") String bid);
 
-    public double quaryTotal(@Param("id") Integer id,@Param("month")String month);
 }
