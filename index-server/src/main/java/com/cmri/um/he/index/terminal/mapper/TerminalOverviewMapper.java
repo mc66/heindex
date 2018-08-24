@@ -32,10 +32,10 @@ public interface TerminalOverviewMapper {
     @Select("<script>"
             +"SELECT tb.`brand_name`AS brandName,ta.`month`,SUM(ta.`terminal_amount`)AS amount "
             +"FROM terminal_ana⁪lyze ta JOIN terminal_brand tb ON ta.`brand`=tb.`id` "
-            + "WHERE ta.`month`='201804'"
+            + "WHERE ta.`month`=#{month}"
             +"<if test='id !=null '> AND ta.`province`=#{id} </if>"
             +"</script>")
-    public List<Map<String,Object>> quaryTerminalExponent(Integer id,String month);
+    public List<Map<String,Object>> quaryTerminalExponent(@Param("id")Integer id,@Param("month")String month);
 
     /**
      * 所有终端数量总和
@@ -46,8 +46,8 @@ public interface TerminalOverviewMapper {
     @Select("<script>"
             +"SELECT SUM(ta.`terminal_amount`)AS total "
             +"FROM terminal_ana⁪lyze ta JOIN terminal_brand tb ON ta.`brand`=tb.`id` "
-            + "WHERE ta.`month`='201804'"
+            + "WHERE ta.`month`=#{month}"
             +"<if test='id !=null '> AND ta.`province`=#{id} </if>"
             +"</script>")
-    public int quaryTotal(Integer id,String month);
+    public double quaryTotal(@Param("id") Integer id,@Param("month")String month);
 }
