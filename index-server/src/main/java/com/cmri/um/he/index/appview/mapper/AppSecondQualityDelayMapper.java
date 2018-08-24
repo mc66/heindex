@@ -23,7 +23,7 @@ public interface AppSecondQualityDelayMapper {
      * @return
      */
     @Select("SELECT app.name,app.flag,delay.measure FROM app_original_delay delay JOIN app_info app ON delay.app=app.id WHERE delay.measuring=#{measuring} AND delay.network=#{network} " +
-            "AND delay.category=(SELECT category.id FROM app_category category LEFT JOIN app_info info ON category.id = info.category WHERE info.id = #{id} ) AND delay.`month`=#{month} ORDER BY measure DESC")
+            "AND delay.category=(SELECT category.id FROM app_category category LEFT JOIN app_info info ON category.id = info.category WHERE info.id = #{id} ) AND delay.`month`=#{month} ORDER BY `name`")
     List<Map<String,Object>> findQualityMeasureBySome(@Param("id") int id, @Param("measuring") String measuring,@Param("network") String network, @Param("month")String month);
 
     /**

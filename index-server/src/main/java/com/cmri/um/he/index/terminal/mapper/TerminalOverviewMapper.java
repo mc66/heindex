@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public interface TerminalOverviewMapper {
             +"FROM terminal_ana⁪lyze ta JOIN terminal_brand tb ON ta.`brand`=tb.`id` "
             + "WHERE ta.`month`=#{month}"
             +"<if test='id !=null '> AND ta.`province`=#{id} </if>"
-            +"</script>")
+            +"GROUP BY ta.`province` ORDER BY amount DESC</script>")
     public List<Map<String,Object>> quaryTerminalExponent(@Param("id")Integer id,@Param("month")String month);
 
     /**
@@ -49,7 +50,7 @@ public interface TerminalOverviewMapper {
             + "WHERE ta.`month`=#{month}"
             +"<if test='id !=null '> AND ta.`province`=#{id} </if>"
             +"</script>")
-    public int quaryTotal(Integer id,String month);
+    public double quaryTotal(@Param("id")Integer id, @Param("month")String month);
 
     /**
      * 查询指定月份终端型号排行榜
