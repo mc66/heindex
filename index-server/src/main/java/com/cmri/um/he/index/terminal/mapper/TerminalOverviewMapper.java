@@ -1,11 +1,9 @@
 package com.cmri.um.he.index.terminal.mapper;
 
-import com.cmri.um.he.index.receivable.CommentParticularsVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +70,10 @@ public interface TerminalOverviewMapper {
     List<Map<String,Object>> findBrand(@Param("month") String month,@Param("start") int start,@Param("end") int end,@Param("pid") int pid,@Param("bid") int bid);
 
 
-
-    @Select("SELECT * from terminal_brand")
+    /**
+     * 终端品牌
+     * @return
+     */
+    @Select("SELECT id,brand_name from terminal_brand")
     List<Map<String, Object>> quaryBrand();
 }
