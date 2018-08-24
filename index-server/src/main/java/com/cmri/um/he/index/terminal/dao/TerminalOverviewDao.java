@@ -4,9 +4,12 @@ package com.cmri.um.he.index.terminal.dao;
 import com.cmri.um.he.index.receivable.CommentParticularsVO;
 import com.cmri.um.he.index.reputation.mapper.AppProductMapper;
 import com.cmri.um.he.index.terminal.mapper.TerminalOverviewMapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -58,4 +61,17 @@ public class TerminalOverviewDao extends BaseDao {
     public List<Map<String, Object>> quaryBrand() {
         return terminalOverviewMapper.quaryBrand();
     }
+
+    /**
+     * 查询指定月份终端型号排行榜
+     * @param month 指定月份
+     * @param start 开始条数
+     * @param end   结束条数
+     * @param pid   省份id
+     * @param bid   品牌id
+     * */
+    public List<Map<String,Object>> findBrand(String month,int start,int end,int pid, int bid){
+        return terminalOverviewMapper.findBrand(month, start, end, pid, bid);
+    }
+
 }

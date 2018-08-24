@@ -1,8 +1,11 @@
 package com.cmri.um.he.index.terminal.mapper;
 
+import com.cmri.um.he.index.receivable.CommentParticularsVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +22,7 @@ public interface TerminalOverviewMapper {
      * @return
      */
     @Select("SELECT id,province FROM terminal_province")
-     List<Map<String,Object>> quaryProvince();
+    public List<Map<String,Object>> quaryProvince();
 
     /**
      * 终端指数Top10
@@ -30,10 +33,10 @@ public interface TerminalOverviewMapper {
     @Select("<script>"
             +"SELECT tb.`brand_name`AS brandName,ta.`month`,SUM(ta.`terminal_amount`)AS amount "
             +"FROM terminal_ana⁪lyze ta JOIN terminal_brand tb ON ta.`brand`=tb.`id` "
-            + "WHERE ta.`month`='201804'"
+            + "WHERE ta.`month`=#{month}"
             +"<if test='id !=null '> AND ta.`province`=#{id} </if>"
-            +"</script>")
-    List<Map<String,Object>> quaryTerminalExponent(Integer id,String month);
+            +"GROUP BY ta.`province` ORDER BY amount DESC</script>")
+    public List<Map<String,Object>> quaryTerminalExponent(@Param("id")Integer id,@Param("month")String month);
 
     /**
      * 所有终端数量总和
@@ -44,10 +47,30 @@ public interface TerminalOverviewMapper {
     @Select("<script>"
             +"SELECT SUM(ta.`terminal_amount`)AS total "
             +"FROM terminal_ana⁪lyze ta JOIN terminal_brand tb ON ta.`brand`=tb.`id` "
-            + "WHERE ta.`month`='201804'"
+            + "WHERE ta.`month`=#{month}"
             +"<if test='id !=null '> AND ta.`province`=#{id} </if>"
             +"</script>")
-    int quaryTotal(Integer id,String month);
+    public double quaryTotal(@Param("id")Integer id, @Param("month")String month);
+
+    /**
+     * 查询指定月份终端型号排行榜
+     * @param month 指定月份
+     * @param start 开始条数
+     * @param end   结束条数
+     * @param pid   省份id
+     * @param bid   品牌id
+     * @return 结果集
+     * */
+    @Select("<script>\n" +
+            "SELECT tb.brand_name,ta.terminal_type,ta.terminal_amount,ta.basis\n" +
+            "FROM terminal_ana⁪lyze ta LEFT JOIN terminal_brand tb ON ta.brand = tb.id\n" +
+            "WHERE ta.`month` = #{month}\n" +
+            "<if test='pid != 0'> AND ta.`province`=#{pid} </if>\n" +
+            "<if test='bid != 0'> AND ta.`brand`=#{bid} </if> " +
+            "ORDER BY ta.terminal_amount LIMIT #{start},#{end}\n" +
+            "</script>")
+    List<Map<String,Object>> findBrand(@Param("month") String month,@Param("start") int start,@Param("end") int end,@Param("pid") int pid,@Param("bid") int bid);
+
 
 
     @Select("SELECT * from terminal_brand")

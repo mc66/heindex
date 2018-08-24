@@ -4,11 +4,9 @@ import com.cmri.spring.common.controller.ZRestController;
 import com.cmri.spring.common.data.ResponseMessage;
 import com.cmri.um.he.index.terminal.service.TerminalOverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +40,7 @@ public class TerminalOverviewController extends ZRestController {
      * @param month
      * @return
      */
-    @RequestMapping(value = "quary-terminalexponent",method = RequestMethod.GET)
+    @RequestMapping(value = "quary-terminal-exponent",method = RequestMethod.GET)
     public ResponseMessage quaryTerminalExponent(Integer id,String month){
         List<Map<String,Object>> list = terminalOverviewService.quaryTerminalExponent(id,month);
         ResponseMessage responseMessage = this.genResponseMessage();
@@ -57,6 +55,26 @@ public class TerminalOverviewController extends ZRestController {
     @RequestMapping(value = "quary-brand",method = RequestMethod.GET)
     public ResponseMessage quaryBrand(){
         List<Map<String,Object>> list = terminalOverviewService.quaryBrand();
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("list",list);
+        return responseMessage;
+    }
+
+    /**
+     * 查询指定月份终端型号排行榜
+     * @param month 指定月份
+     * @param start 开始条数
+     * @param end   结束条数
+     * @param pid   省份id
+     * @param bid   品牌id
+     * @return 结果集
+     * */
+    @RequestMapping(value = "/quary-brand",method = RequestMethod.GET)
+    public ResponseMessage quaryBrand(@RequestParam String month, @RequestParam int start, @RequestParam int end, @RequestParam int pid, @RequestParam int bid){
+
+       // int pId = Integer.parseInt(pid);
+    //    int bID = Integer.parseInt(bid);
+        List<Map<String,Object>> list = terminalOverviewService.findBrand(month, start-1, end, pid, bid);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("list",list);
         return responseMessage;
