@@ -44,7 +44,7 @@ public class AppSecondQualityDelayController extends ZRestController {
         delayMap.add(mapList.get(0));
         delayMap.add(mapList.get(1));
         delayMap.add(mapList.get(2));
-        consumMap.add(mapList.get(3));
+        delayMap.add(mapList.get(3));
         consumMap.add(mapList.get(4));
         consumMap.add(mapList.get(5));
         consumMap.add(mapList.get(6));

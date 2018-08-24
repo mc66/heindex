@@ -65,10 +65,10 @@ public interface TerminalOverviewMapper {
             "SELECT tb.brand_name,ta.terminal_type,ta.terminal_amount,ta.basis\n" +
             "FROM terminal_ana⁪lyze ta LEFT JOIN terminal_brand tb ON ta.brand = tb.id\n" +
             "WHERE ta.`month` = #{month}\n" +
-            "<if test='pid != 0'> AND ta.`province`=#{pid} </if>\n" +
-            "<if test='bid != 0'> AND ta.`brand`=#{bid} </if> " +
+            "<if test='pid != null'> AND ta.`province`=#{pid} </if>\n" +
+            "<if test='bid != null'> AND ta.`brand`=#{bid} </if> " +
             "ORDER BY ta.terminal_amount LIMIT #{start},#{end}\n" +
             "</script>")
-    List<Map<String,Object>> findBrand(@Param("month") String month,@Param("start") int start,@Param("end") int end,@Param("pid") int pid,@Param("bid") int bid);
+    List<Map<String,Object>> findBrand(@Param("month") String month,@Param("start") int start,@Param("end") int end,@Param("pid") Integer pid,@Param("bid") Integer bid);
 
 }

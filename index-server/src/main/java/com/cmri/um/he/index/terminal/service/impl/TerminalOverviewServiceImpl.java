@@ -39,7 +39,7 @@ public class TerminalOverviewServiceImpl implements TerminalOverviewService {
     }
 
     @Override
-    public List<Map<String, Object>> findBrand(String month, int start, int end, int pid, int bid) {
+    public List<Map<String, Object>> findBrand(String month, int start, int end, Integer pid, Integer bid) {
         return terminalOverviewDao.findBrand(month, start, end, pid, bid);
     }
 

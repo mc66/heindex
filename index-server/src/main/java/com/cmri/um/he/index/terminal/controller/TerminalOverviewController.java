@@ -60,7 +60,7 @@ public class TerminalOverviewController extends ZRestController {
      * @return 结果集
      * */
     @RequestMapping(value = "/quary-brand",method = RequestMethod.GET)
-    public ResponseMessage quaryBrand(@RequestParam String month, @RequestParam int start, @RequestParam int end, @RequestParam int pid, @RequestParam int bid){
+    public ResponseMessage quaryBrand( String month,  int start,  int end,Integer pid,Integer bid){
 
        // int pId = Integer.parseInt(pid);
     //    int bID = Integer.parseInt(bid);
