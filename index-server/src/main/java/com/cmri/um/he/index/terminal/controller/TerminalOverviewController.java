@@ -69,7 +69,7 @@ public class TerminalOverviewController extends ZRestController {
      * @return 结果集
      * */
     @RequestMapping(value = "/quary-brand-type",method = RequestMethod.GET)
-    public ResponseMessage quaryBrandType(@RequestParam String month, @RequestParam int start, @RequestParam int end, @RequestParam int pid, @RequestParam int bid){
+    public ResponseMessage quaryBrandType(@RequestParam String month, @RequestParam int start, @RequestParam int end, Integer pid, Integer bid){
 
         List<Map<String,Object>> list = terminalOverviewService.findBrand(month, start-1, end, pid, bid);
         ResponseMessage responseMessage = this.genResponseMessage();
