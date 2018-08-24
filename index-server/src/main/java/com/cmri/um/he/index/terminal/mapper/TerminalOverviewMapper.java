@@ -35,7 +35,7 @@ public interface TerminalOverviewMapper {
             +"FROM terminal_ana⁪lyze ta JOIN terminal_brand tb ON ta.`brand`=tb.`id` "
             + "WHERE ta.`month`=#{month}"
             +"<if test='id !=null '> AND ta.`province`=#{id} </if>"
-            +"</script>")
+            +"GROUP BY ta.`province` </script>")
     public List<Map<String,Object>> quaryTerminalExponent(@Param("id")Integer id,@Param("month")String month);
 
     /**
