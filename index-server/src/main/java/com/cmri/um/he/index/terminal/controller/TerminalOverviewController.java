@@ -6,7 +6,6 @@ import com.cmri.um.he.index.terminal.service.TerminalOverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -69,11 +68,9 @@ public class TerminalOverviewController extends ZRestController {
      * @param bid   品牌id
      * @return 结果集
      * */
-    @RequestMapping(value = "/quary-brand",method = RequestMethod.GET)
-    public ResponseMessage quaryBrand(@RequestParam String month, @RequestParam int start, @RequestParam int end, @RequestParam int pid, @RequestParam int bid){
+    @RequestMapping(value = "/quary-brand-type",method = RequestMethod.GET)
+    public ResponseMessage quaryBrandType(@RequestParam String month, @RequestParam int start, @RequestParam int end, @RequestParam int pid, @RequestParam int bid){
 
-       // int pId = Integer.parseInt(pid);
-    //    int bID = Integer.parseInt(bid);
         List<Map<String,Object>> list = terminalOverviewService.findBrand(month, start-1, end, pid, bid);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("list",list);
