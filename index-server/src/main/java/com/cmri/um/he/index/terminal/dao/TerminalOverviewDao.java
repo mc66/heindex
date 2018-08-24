@@ -46,7 +46,7 @@ public class TerminalOverviewDao extends BaseDao {
      * @param month
      * @return
      */
-    public int quaryTotal(Integer id, String month) {
+    public double quaryTotal(Integer id, String month) {
         return terminalOverviewMapper.quaryTotal(id,month);
 
     }
