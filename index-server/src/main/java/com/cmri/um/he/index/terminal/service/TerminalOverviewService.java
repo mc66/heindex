@@ -21,7 +21,7 @@ public interface TerminalOverviewService {
      * 查询省份
      * @return
      */
-    public List<Map<String,Object>> quaryProvince();
+    List<Map<String,Object>> quaryProvince();
 
     /**
      * 终端指数Top10
@@ -42,4 +42,5 @@ public interface TerminalOverviewService {
      * */
     List<Map<String,Object>> findBrand(String month,String start, String end, String pid,String bid);
 
+    List<Map<String,Object>> quaryTerminalExponent(Integer id,String month);
 }

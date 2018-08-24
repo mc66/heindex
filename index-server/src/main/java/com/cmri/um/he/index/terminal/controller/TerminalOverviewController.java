@@ -38,11 +38,11 @@ public class TerminalOverviewController extends ZRestController {
 
     /**
      * 终端指数Top10
-     * @param
+     * @param id
      * @param month
      * @return
      */
-    @RequestMapping(value = "quary-province",method = RequestMethod.GET)
+    @RequestMapping(value = "quary-terminal-exponent",method = RequestMethod.GET)
     public ResponseMessage quaryTerminalExponent(Integer id,String month){
         List<Map<String,Object>> list = terminalOverviewService.quaryTerminalExponent(id,month);
         ResponseMessage responseMessage = this.genResponseMessage();
