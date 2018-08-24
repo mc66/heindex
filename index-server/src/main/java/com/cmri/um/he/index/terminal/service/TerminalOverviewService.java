@@ -29,7 +29,14 @@ public interface TerminalOverviewService {
      * @param month
      * @return
      */
-    public List<Map<String,Object>> quaryTerminalExponent(Integer id,String month);
+     List<Map<String,Object>> quaryTerminalExponent(Integer id,String month);
+
+    /**
+     * 终端品牌
+     * @return
+     */
+     List<Map<String,Object>> quaryBrand();
+
 
     /**
      * 查询指定月份终端型号排行榜

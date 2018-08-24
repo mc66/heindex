@@ -23,7 +23,18 @@ public class AppCategoryServiceImpl implements AppCategoryService {
     public List<Map<String, Object>> getApps() {
         List<Map<String, Object>> list = appCategoryDao.getCategory();
         for (Map<String, Object> map : list) {
-            map.put("children",appCategoryDao.findAppByCategory((int)map.get("id")));
+            List<Map<String, Object>> lists =appCategoryDao.getCategoryByEmotion((int)map.get("id"));
+            if(lists!=null){
+                map.put("children",lists);
+            }
+
+        }
+        for (int i=0;i<list.size();i++) {
+            List<Map<String, Object>>  children = (List<Map<String,Object>>) list.get(i).get("children");
+            if(children.size()==0){
+               list.remove(list.get(i));
+               i--;
+            }
         }
         return list;
     }

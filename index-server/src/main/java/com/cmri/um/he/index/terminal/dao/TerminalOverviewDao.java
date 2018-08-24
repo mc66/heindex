@@ -55,6 +55,14 @@ public class TerminalOverviewDao extends BaseDao {
     }
 
     /**
+     * 终端品牌
+     * @return
+     */
+    public List<Map<String, Object>> quaryBrand() {
+        return terminalOverviewMapper.quaryBrand();
+    }
+
+    /**
      * 查询指定月份终端型号排行榜
      * @param month 指定月份
      * @param start 开始条数
