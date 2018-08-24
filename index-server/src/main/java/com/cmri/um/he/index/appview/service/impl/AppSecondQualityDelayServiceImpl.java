@@ -30,4 +30,9 @@ public class AppSecondQualityDelayServiceImpl implements AppSecondQualityDelaySe
     public List<Map<String, Object>> findQualityMeasureBySome(Integer id,String measuring, String network, String month) {
         return delayDao.findQualityMeasureBySome(id,measuring,network,month);
     }
+
+    @Override
+    public List<String> findeasureById(int id) {
+        return delayDao.findeasureById(id);
+    }
 }

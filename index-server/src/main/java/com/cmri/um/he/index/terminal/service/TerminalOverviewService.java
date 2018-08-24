@@ -40,6 +40,6 @@ public interface TerminalOverviewService {
      * @param bid   品牌id
      * @return 结果集
      * */
-    List<Map<String,Object>> findBrand(String month,String start, String end, String pid,String bid);
+    List<Map<String,Object>> findBrand(String month,int start, int end, int pid,int bid);
 
 }

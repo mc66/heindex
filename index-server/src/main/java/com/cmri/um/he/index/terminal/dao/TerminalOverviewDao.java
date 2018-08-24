@@ -61,7 +61,7 @@ public class TerminalOverviewDao extends BaseDao {
      * @param pid   省份id
      * @param bid   品牌id
      * */
-    public List<Map<String,Object>> findBrand(String month,String start,String end,String pid, String bid){
+    public List<Map<String,Object>> findBrand(String month,int start,int end,int pid, int bid){
         return terminalOverviewMapper.findBrand(month, start, end, pid, bid);
     }
 

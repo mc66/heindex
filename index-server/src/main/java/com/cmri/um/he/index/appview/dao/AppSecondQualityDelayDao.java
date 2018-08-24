@@ -1,6 +1,8 @@
 package com.cmri.um.he.index.appview.dao;
 
 import com.cmri.um.he.index.appview.mapper.AppSecondQualityDelayMapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -27,5 +29,14 @@ public class AppSecondQualityDelayDao extends BaseDao{
      */
     public List<Map<String,Object>> findQualityMeasureBySome(Integer id,String measuring, String network, String month){
         return delayMapper.findQualityMeasureBySome(id,measuring,network,month);
+    }
+
+    /**
+     * 查询测量指标
+     * @param id   app的id
+     * @return
+     */
+    public List<String> findeasureById(int id){
+        return delayMapper.findeasureById(id);
     }
 }

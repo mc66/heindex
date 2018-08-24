@@ -1,5 +1,8 @@
 package com.cmri.um.he.index.appview.service;
 
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
 import java.util.List;
 import java.util.Map;
 
@@ -19,4 +22,11 @@ public interface AppSecondQualityDelayService {
      * @return
      */
     List<Map<String,Object>> findQualityMeasureBySome(Integer id,String measuring, String network, String month);
+
+    /**
+     * 查询测量指标
+     * @param id   app的id
+     * @return
+     */
+    List<String> findeasureById(int id);
 }
