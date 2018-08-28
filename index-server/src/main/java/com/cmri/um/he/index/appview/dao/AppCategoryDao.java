@@ -54,7 +54,16 @@ public class AppCategoryDao extends BaseDao {
      * @param category
      * @return
      */
-    public List<Map<String, Object>> getCategoryByEmotion(Integer category) {
-        return mapper.getCategoryByEmotion(category);
+    public List<Map<String, Object>> getAppByEmotion(Integer category) {
+        return mapper.getAppByEmotion(category);
     }
+
+    /**
+     * 查询有数据的category
+     * @return
+     */
+    public List<Map<String, Object>> getCategoryByEmotion() {
+        return mapper.getCategoryByEmotion();
+    }
+
 }

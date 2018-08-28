@@ -21,8 +21,8 @@ public interface AppMarketMapper {
      * @param month
      * @return
      */
-    @Select("SELECT ai.`name`,am.`mau_number`,am.`keep_rate`,am.`length_time`,am.`flow`,am.`market`,ai.`flag`\n" +
-            "FROM app_market am JOIN app_info ai ON am.`app`=ai.`id`\n" +
+    @Select("SELECT ai.`name`,am.`monthly_active`AS mau_number,am.`active_next_month_retention_rate` AS keep_rate,am.`monthly_duration_per_person` AS length_time,am.`monthly_dataflow_per_person` AS flow,am.`market_index_score` AS market ,ai.`flag`\n" +
+            "FROM app_market_month am JOIN app_info ai ON am.`app`=ai.`id`\n" +
             "WHERE am.`category`=#{category} AND am.`month`=#{month} ")
     public List<Map<String,Object>> getAppMarketList(@Param("category") int category, @Param("month") String month);
 
@@ -32,9 +32,9 @@ public interface AppMarketMapper {
      * @param month1
      * @return
      */
-    @Select("SELECT m.id , a.`name` ,m.mau_number , \n" +
-            "m.keep_rate ,m. length_time ,m.flow , m.month \n" +
-            "from app_market m ,app_info a where m.app=a.id AND  m.category=#{category} AND m.month BETWEEN #{month1} AND #{month2} ORDER BY m.month")
+    @Select("SELECT m.id , a.`name` ,m.`monthly_active`AS mau_number , \n" +
+            "m.`active_next_month_retention_rate` AS keep_rate ,m.`monthly_duration_per_person` AS length_time ,m.`monthly_dataflow_per_person` AS flow, m.month \n" +
+            "from app_market_month m ,app_info a where m.app=a.id AND  m.category=#{category} AND m.month BETWEEN #{month1} AND #{month2} ORDER BY m.month")
     List<Map<String, Object>> getMarketByMonth(@Param("category") int category, @Param("month1")String month1,@Param("month2")String month2);
 
     /**

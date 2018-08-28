@@ -44,6 +44,18 @@ public interface AppCategoryMapper {
     @Select("SELECT app.id,app.`name`,app.flag FROM app_info app WHERE app.category=#{category} ORDER BY app.id")
     List<Map<String,Object>> findAppByCategory(Integer category);
 
-    @Select("SELECT  DISTINCT e.app ,a.name,a.flag from app_emotion_analyze e ,app_info a  where e.app=a.id ANd e.category=#{category}")
-    List<Map<String,Object>> getCategoryByEmotion(Integer category);
+    /**
+     * 查询有数据的口碑对应的category和 app
+     * @param category
+     * @return
+     */
+    @Select("SELECT  DISTINCT e.app ,a.name,a.flag from app_emotion_parameter e ,app_info a  where e.app=a.id ANd e.category=#{category}")
+    List<Map<String,Object>> getAppByEmotion(Integer category);
+
+    /**
+     * 查询有数据的category
+     * @return
+     */
+    @Select("select DISTINCT e.category , c.name  FROM app_emotion_parameter e LEFT JOIN app_category c on  e.category=c.id;")
+    List<Map<String,Object>> getCategoryByEmotion();
 }
