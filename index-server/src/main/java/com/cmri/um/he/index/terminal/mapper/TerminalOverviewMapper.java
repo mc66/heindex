@@ -53,8 +53,8 @@ public interface TerminalOverviewMapper {
     /**
      * 查询指定月份终端型号排行榜
      * @param month 指定月份
-     * @param start 开始条数
-     * @param end   结束条数
+     * @param offset 分页查询偏移量，从0开始
+     * @param rows   最多查询记录数
      * @param pid   省份id
      * @param bid   品牌id
      * @return 结果集
@@ -63,11 +63,33 @@ public interface TerminalOverviewMapper {
             "SELECT tb.brand_name,ta.terminal_type,ta.terminal_amount,ta.basis\n" +
             "FROM terminal_ana⁪lyze ta LEFT JOIN terminal_brand tb ON ta.brand = tb.id\n" +
             "WHERE ta.`month` = #{month}\n" +
-            "<if test='pid != 0'> AND ta.`province`=#{pid} </if>\n" +
-            "<if test='bid != 0'> AND ta.`brand`=#{bid} </if> " +
-            "ORDER BY ta.terminal_amount LIMIT #{start},#{end}\n" +
+            "<if test='pid != null'> AND ta.`province`=#{pid} </if>\n" +
+            "<if test='bid != null'> AND ta.`brand`=#{bid} </if> " +
+            "ORDER BY ta.terminal_amount LIMIT #{offset},#{rows}\n" +
             "</script>")
-    List<Map<String,Object>> findBrand(@Param("month") String month,@Param("start") int start,@Param("end") int end,@Param("pid") int pid,@Param("bid") int bid);
+    List<Map<String,Object>> findBrand(@Param("month") String month,@Param("offset") int offset,@Param("rows") int rows,@Param("pid") Integer pid,@Param("bid") Integer bid);
+
+    /**
+     * 查询指定月份终端型号排行榜
+     * @param month 指定月份
+     * @param offset 分页查询偏移量，从0开始
+     * @param rows   最多查询记录数
+     * @return 结果集
+     * */
+    @Select("SELECT tb.brand_name,ta.terminal_type,ta.terminal_amount,ta.basis\n" +
+            "FROM terminal_ana⁪lyze ta LEFT JOIN terminal_brand tb ON ta.brand = tb.id\n" +
+            "WHERE ta.`month` = #{month}\n" +
+            "ORDER BY ta.terminal_amount LIMIT #{offset},#{rows}")
+    List<Map<String,Object>> findBrandPage(@Param("month") String month,@Param("offset") int offset,@Param("rows") int rows);
+
+
+    /**
+     * 查询指定月份的应用应用数
+     * @param month    月份
+     * @return 应用数
+     */
+    @Select("SELECT COUNT(id) FROM terminal_ana⁪lyze WHERE `month` = #{month}")
+    int getCount(@Param("month") String month);
 
 
     /**

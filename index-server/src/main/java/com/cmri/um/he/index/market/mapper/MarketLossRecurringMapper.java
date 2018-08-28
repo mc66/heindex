@@ -31,7 +31,7 @@ public interface MarketLossRecurringMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT am.`month`,am.`next_month_loss_num`AS lossNum,am.`active_next_month_loss_rate`AS lossRate FROM app_market am WHERE am.`app`= #{app} AND am.`month` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT am.`month`,am.`next_month_loss_num`AS lossNum,am.`active_next_month_loss_rate`AS lossRate FROM app_market_month am WHERE am.`app`= #{app} AND am.`month` BETWEEN #{startTime} AND #{endTime}")
     List<Map<String, Object>> monthUserActive(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
 
     /**
@@ -50,7 +50,7 @@ public interface MarketLossRecurringMapper {
      * @param month
      * @return
      */
-    @Select("SELECT am.`next_month_loss_num`AS lossNum,am.`active_next_month_loss_rate`AS lossRate,am.`next_month_recurring_num`AS recurringNum,am.`loss_next_month_recurring_rate`AS recurringRate FROM app_market am WHERE am.`app`=#{app} AND am.`month`=#{month}")
+    @Select("SELECT am.`next_month_loss_num`AS lossNum,am.`active_next_month_loss_rate`AS lossRate,am.`next_month_recurring_num`AS recurringNum,am.`loss_next_month_recurring_rate`AS recurringRate FROM app_market_month am WHERE am.`app`=#{app} AND am.`month`=#{month}")
     Map<String, Object>  quaryLossRecurringExponent(@Param("app")Integer app, @Param("month")String month);
 
     /**
@@ -70,7 +70,7 @@ public interface MarketLossRecurringMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT am.`month`,am.`next_month_recurring_num`AS recurringNum,am.`loss_next_month_recurring_rate`AS recurringRate FROM app_market am WHERE am.`app`= #{app} AND am.`month` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT am.`month`,am.`next_month_recurring_num`AS recurringNum,am.`loss_next_month_recurring_rate`AS recurringRate FROM app_market_month am WHERE am.`app`= #{app} AND am.`month` BETWEEN #{startTime} AND #{endTime}")
     List<Map<String, Object>> monthUserRecurring(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
 
     /**
@@ -100,7 +100,7 @@ public interface MarketLossRecurringMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT am.`month`,am.`next_month_recurring_num`AS recurringNum,am.`loss_next_month_recurring_rate`AS recurringRate,am.`next_month_loss_num`AS lossNum,am.`active_next_month_loss_rate`AS lossRate FROM app_market am WHERE am.`app`= #{app} AND am.`month` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT am.`month`,am.`next_month_recurring_num`AS recurringNum,am.`loss_next_month_recurring_rate`AS recurringRate,am.`next_month_loss_num`AS lossNum,am.`active_next_month_loss_rate`AS lossRate FROM app_market_month am WHERE am.`app`= #{app} AND am.`month` BETWEEN #{startTime} AND #{endTime}")
     List<Map<String, Object>> monthStatisticalTable(@Param("app") Integer app,@Param("startTime")String startTime,@Param("endTime") String endTime);
 
     /**

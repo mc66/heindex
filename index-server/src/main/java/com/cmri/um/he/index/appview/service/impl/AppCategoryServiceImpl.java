@@ -32,6 +32,7 @@ public class AppCategoryServiceImpl implements AppCategoryService {
         return list;
     }
 
+
     @Override
     public List<Map<String, Object>> find() {
         return appCategoryDao.find();

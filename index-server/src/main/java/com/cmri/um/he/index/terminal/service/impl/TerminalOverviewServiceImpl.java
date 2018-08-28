@@ -1,5 +1,6 @@
 package com.cmri.um.he.index.terminal.service.impl;
 
+import com.cmri.spring.common.data.PagingData;
 import com.cmri.um.he.index.terminal.dao.TerminalOverviewDao;
 import com.cmri.um.he.index.terminal.service.TerminalOverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,21 @@ public class TerminalOverviewServiceImpl implements TerminalOverviewService {
     }
 
     @Override
-    public List<Map<String, Object>> findBrand(String month, int start, int end, int pid, int bid) {
-        return terminalOverviewDao.findBrand(month, start, end, pid, bid);
+    public PagingData<Map<String, Object>> findBrand(String month, int page, int step, Integer pid, Integer bid) {
+        return new PagingData<>(terminalOverviewDao.getCount(month),
+                page,
+                step,
+                terminalOverviewDao.findBrand(month, page, step,pid,bid)
+        );
+    }
+
+    @Override
+    public PagingData<Map<String, Object>> findBrandPage(String month, int page, int step) {
+        return new PagingData<>(terminalOverviewDao.getCount(month),
+                page,
+                step,
+                terminalOverviewDao.findBrandPage(month, page, step)
+        );
     }
 
     /**

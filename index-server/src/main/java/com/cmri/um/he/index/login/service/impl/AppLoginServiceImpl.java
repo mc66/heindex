@@ -47,17 +47,11 @@ public class AppLoginServiceImpl implements AppLoginService {
                     response.setHeader("Cookie","token=cowshield");
                     //将验证信息保存到Cookie
                     Cookie cid=new Cookie("userid", UUID.randomUUID().toString().replaceAll("-", ""));
-                    Cookie cpass=new Cookie("password",userpass);
                     cid.setPath("/");
-                    cpass.setPath("/");
                     cid.setMaxAge(600);
-                    cpass.setMaxAge(600);
-                    cid.setValue("1");
-                    cpass.setValue("1");
+
                     cid.setHttpOnly(false);
-                    cpass.setHttpOnly(false);
                     response.addCookie(cid);
-                    response.addCookie(cpass);
 
                 } catch (Exception e) {
                     e.printStackTrace();

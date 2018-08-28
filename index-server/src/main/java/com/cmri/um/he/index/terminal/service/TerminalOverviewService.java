@@ -41,12 +41,21 @@ public interface TerminalOverviewService {
     /**
      * 查询指定月份终端型号排行榜
      * @param month 指定月份
-     * @param start 开始条数
-     * @param end   结束条数
+     * @param page  所要查询的分页，从1开始
+     * @param step  每页的记录容量
      * @param pid   省份id
      * @param bid   品牌id
      * @return 结果集
      * */
-    List<Map<String,Object>> findBrand(String month,int start, int end, int pid,int bid);
+    PagingData<Map<String, Object>> findBrand(String month,int page, int step, Integer pid,Integer bid);
+
+    /**
+     * 查询指定月份终端型号排行榜
+     * @param month 指定月份
+     * @param page     所要查询的分页，从1开始
+     * @param step     每页的记录容量
+     * @return 结果集
+     * */
+    PagingData<Map<String, Object>> findBrandPage(String month,int page, int step);
 
 }
