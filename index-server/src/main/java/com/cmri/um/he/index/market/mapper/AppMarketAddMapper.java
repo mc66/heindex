@@ -21,7 +21,7 @@ public interface AppMarketAddMapper {
      * @param month
      * @return
      */
-    @Select("SELECT new_user, new_user_retention_rate AS rate from app_market where category=#{category} AND app=#{app} AND month=#{month}")
+    @Select("SELECT new_user, new_user_retention_rate AS rate from app_market_month where category=#{category} AND app=#{app} AND month=#{month}")
     List<Map<String, Object>> getAppNumber(@Param("category") Integer category,@Param("app") Integer app,@Param("month") String month);
 
     /**
@@ -31,7 +31,7 @@ public interface AppMarketAddMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT new_user ,month AS time from app_market where app=#{app} and month BETWEEN #{startTime} AND #{endTime} order by month")
+    @Select("SELECT new_user ,month AS time from app_market_month where app=#{app} and month BETWEEN #{startTime} AND #{endTime} order by month")
     List<Map<String, Object>> getAppUserByMonth(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
     /**
      * 应用新增页面新增活跃用户展示(根据周区间)
@@ -59,7 +59,7 @@ public interface AppMarketAddMapper {
      * @param endTime
      * @return
      */
-    @Select("select category,app, month ,mau_number ,new_user_retention_rate  from app_market \n" +
+    @Select("select category,app, month ,monthly_active AS mau_number ,new_user_retention_rate  from app_market_month \n" +
             "where app=#{app} and month BETWEEN #{startTime} and #{endTime} ORDER BY month desc\n")
     List<Map<String, Object>> getAddRateByMonth(@Param("app")Integer app,@Param("startTime")String startTime,@Param("endTime")String endTime);
     /**
@@ -91,7 +91,7 @@ public interface AppMarketAddMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT month AS time ,total_user,penetration_rate FROM app_market \n" +
+    @Select("SELECT month AS time ,total_active_num AS total_user,penetration_rate FROM app_market_month \n" +
             "where app=#{app} and month BETWEEN #{startTime} AND #{endTime} order by month desc")
     List<Map<String, Object>> getCountNumberByMonth(@Param("app")Integer app,@Param("startTime")String startTime,@Param("endTime")String endTime);
 
