@@ -79,4 +79,12 @@ public interface AppOperationsService {
      * @return
      */
     List queryQualityExperience(Integer id, String month);
+
+    /**
+     * 查询内容更新和覆盖的峰值
+     * @param category
+     * @param month
+     * @return
+     */
+    List<Map<String,Object>>getContent(Integer category,String month);
 }
