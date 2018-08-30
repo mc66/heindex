@@ -20,7 +20,7 @@ public class AppMarketController extends ZRestController {
     @Autowired
     private AppMarketService appMarketService;
 
-    @RequestMapping(value = "/app-market-list",method = RequestMethod.GET)
+    @RequestMapping(value = "app-market-list",method = RequestMethod.GET)
     public ResponseMessage getAppMarket(@RequestParam int category,@RequestParam String month){
         List<Map<String, Object>> appMarketList = appMarketService.getAppMarketList(category,month);
         ResponseMessage responseMessage = this.genResponseMessage();

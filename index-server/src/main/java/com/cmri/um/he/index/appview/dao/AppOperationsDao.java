@@ -71,21 +71,21 @@ public class AppOperationsDao extends BaseDao {
     }
     /**
      * 查询内容更新的峰值
-     * @param category
+     * @param app
      * @param month
      * @return
      */
-    public List<Map<String,Object>> getContent1(Integer category, String month) {
-        return appOperationsMapper.getContent1(category,month);
+    public List<Map<String,Object>> getContent1(Integer app, String month) {
+        return appOperationsMapper.getContent1(app,month);
     }
 
     /**
      * 查询内容覆盖的峰值
-     * @param category
+     * @param app
      * @param month
      * @return
      */
-    public List<Map<String,Object>> getContent2(Integer category, String month) {
-        return appOperationsMapper.getContent2(category,month);
+    public List<Map<String,Object>> getContent2(Integer app, String month) {
+        return appOperationsMapper.getContent2(app,month);
     }
 }

@@ -84,16 +84,16 @@ public class AppOperationsServiceImpl implements AppOperationsService {
     }
     /**
      * 查询内容更新和覆盖的峰值
-     * @param category
+     * @param app
      * @param month
      * @return
      */
     @Override
-    public List<Map<String, Object>> getContent(Integer category, String month) {
+    public List<Map<String, Object>> getContent(Integer app, String month) {
         List<Map<String, Object>> list3=new ArrayList<>();
         Map<String, Object> map=new HashMap<>();
-        List<Map<String, Object>> list1=appOperationsDao.getContent1(category,month);
-        List<Map<String, Object>> list2=appOperationsDao.getContent2(category,month);
+        List<Map<String, Object>> list1=appOperationsDao.getContent1(app,month);
+        List<Map<String, Object>> list2=appOperationsDao.getContent2(app,month);
         map.put("update",list1);
         map.put("cover",list2);
         list3.add(map);

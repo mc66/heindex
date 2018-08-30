@@ -129,13 +129,13 @@ public class AppOperationsController extends ZRestController {
 
     /**
      * 查询内容更新和覆盖的峰值
-     * @param category
+     * @param app
      * @param month
      * @return
      */
     @RequestMapping( value = "get-content", method = RequestMethod.GET)
-    public ResponseMessage getContent(@RequestParam Integer category,@RequestParam String month){
-        List<Map<String,Object>> list=appOperationsService.getContent(category,month);
+    public ResponseMessage getContent(@RequestParam Integer app,@RequestParam String month){
+        List<Map<String,Object>> list=appOperationsService.getContent(app,month);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("list",list);
         return responseMessage;
