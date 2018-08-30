@@ -50,7 +50,7 @@ public interface MarketLossRecurringMapper {
      * @param month
      * @return
      */
-    @Select("SELECT am.`next_month_loss_num`AS lossNum,am.`active_next_month_loss_rate`AS lossRate,am.`next_month_recurring_num`AS recurringNum,am.`loss_next_month_recurring_rate`AS recurringRate FROM app_market_month am WHERE am.`app`=#{app} AND am.`month`=#{month}")
+    @Select("SELECT FORMAT(am.`next_month_loss_num`,2)AS lossNum,FORMAT(am.`active_next_month_loss_rate`,2)AS lossRate,FORMAT(am.`next_month_recurring_num`,2)AS recurringNum,FORMAT(am.`loss_next_month_recurring_rate`,2)AS recurringRate FROM app_market_month am WHERE am.`app`=#{app} AND am.`month`=#{month}")
     Map<String, Object>  quaryLossRecurringExponent(@Param("app")Integer app, @Param("month")String month);
 
     /**
