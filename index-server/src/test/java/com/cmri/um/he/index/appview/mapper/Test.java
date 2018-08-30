@@ -9,6 +9,6 @@ public class Test {
     public static void main(String[] args) {
         double a = 50;
         double b = 60;
-        System.out.println(new BigDecimal((a-b)/b*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
+        System.out.println(new BigDecimal(-(a-b)/b*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
     }
 }

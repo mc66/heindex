@@ -21,7 +21,7 @@ public interface AppDetailsWordsMapper {
      * @param date
      * @return
      */
-    @Select(" SELECT COUNT(IF(aea.`status`=1,TRUE,NULL))AS freqPositive,COUNT(IF(aea.`status`=-1,TRUE,NULL))AS freqNegativity,COUNT(IF(aea.`status`=NULL,TRUE,NULL))AS freqNeutral FROM app_emotion_analyze aea WHERE aea.`comment` LIKE CONCAT('%',#{comment},'%') AND aea.`month`=#{date}  ")
+    @Select(" SELECT COUNT(IF(aea.`status`=1,TRUE,NULL))AS freqPositive,COUNT(IF(aea.`status`=-1,TRUE,NULL))AS freqNegativity,COUNT(IF(aea.`status`=0,TRUE,NULL))AS freqNeutral FROM app_emotion_analyze aea WHERE aea.`comment` LIKE CONCAT('%',#{comment},'%') AND aea.`month`=#{date}  ")
     Map<String,Object> quaryDayqQuantitative(@Param("comment") String comment,@Param("date") String date);
     /**
      * 半月查询各情感倾向评论数
@@ -30,7 +30,7 @@ public interface AppDetailsWordsMapper {
      * @param endTime
      * @return
      */
-    @Select(" SELECT COUNT(IF(aea.`status`=1,TRUE,NULL))AS freqPositive,COUNT(IF(aea.`status`=-1,TRUE,NULL))AS freqNegativity,COUNT(IF(aea.`status`=NULL,TRUE,NULL))AS freqNeutral FROM app_emotion_analyze aea WHERE aea.`comment` LIKE CONCAT('%',#{comment},'%') AND aea.`month` BETWEEN #{startTime} AND #{endTime} ")
+    @Select(" SELECT COUNT(IF(aea.`status`=1,TRUE,NULL))AS freqPositive,COUNT(IF(aea.`status`=-1,TRUE,NULL))AS freqNegativity,COUNT(IF(aea.`status`=0,TRUE,NULL))AS freqNeutral FROM app_emotion_analyze aea WHERE aea.`comment` LIKE CONCAT('%',#{comment},'%') AND aea.`month` BETWEEN #{startTime} AND #{endTime} ")
     Map<String,Object> quaryquantitative(@Param("comment")String comment,@Param("startTime") String startTime,@Param("endTime") String endTime);
 
     /**
