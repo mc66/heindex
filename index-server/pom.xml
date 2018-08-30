@@ -113,6 +113,11 @@
             <artifactId>lombok</artifactId>
             <version>1.16.20</version>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>RELEASE</version>
+        </dependency>
         <!--fastDFS-->
        <!-- <dependency>
             <groupId>fastdfs_client</groupId>

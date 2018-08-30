@@ -69,4 +69,23 @@ public class AppOperationsDao extends BaseDao {
     public List<Map<String,Object>> queryQualityExperience(Integer id, String month) {
         return appOperationsMapper.queryQualityExperience(id,month);
     }
+    /**
+     * 查询内容更新的峰值
+     * @param category
+     * @param month
+     * @return
+     */
+    public List<Map<String,Object>> getContent1(Integer category, String month) {
+        return appOperationsMapper.getContent1(category,month);
+    }
+
+    /**
+     * 查询内容覆盖的峰值
+     * @param category
+     * @param month
+     * @return
+     */
+    public List<Map<String,Object>> getContent2(Integer category, String month) {
+        return appOperationsMapper.getContent2(category,month);
+    }
 }
