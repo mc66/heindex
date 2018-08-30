@@ -27,9 +27,12 @@ public class AppSecondQualityDelayController extends ZRestController {
         List<Map<String, Object>> list4g = delayService.findQualityMeasureBySome(id,measuring, "4g", month);
         List<Map<String, Object>> listWlan = delayService.findQualityMeasureBySome(id,measuring, "WLAN", month);
         ResponseMessage responseMessage = this.genResponseMessage();
+        List<Map<String, Object>> list3 = new ArrayList<>();
         List list =new ArrayList();
         if(month.equals("2018上")){
             list.add(list3g);
+        }else {
+            list.add(list3);
         }
         list.add(list4g);
         list.add(listWlan);
