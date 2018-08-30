@@ -66,7 +66,7 @@ public interface AppProductMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT hw.`word_name`,SUM(hw.`word_frequency`) FROM hot_word hw WHERE hw.`app`=#{app} AND  hw.`date` BETWEEN #{startTime} AND #{endTime} GROUP BY hw.`word_name` ORDER BY SUM(hw.`word_frequency`) DESC")
+    @Select("SELECT hw.`word_name`,SUM(hw.`word_frequency`) FROM hot_word hw WHERE hw.`app`=#{app} AND  hw.`date` BETWEEN #{startTime} AND #{endTime} GROUP BY hw.`word_name` ORDER BY SUM(hw.`word_frequency`) DESC LIMIT 0,20")
     public List<String> quaryHotWord(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
 
     /**
