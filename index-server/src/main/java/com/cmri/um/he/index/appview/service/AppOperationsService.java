@@ -82,9 +82,9 @@ public interface AppOperationsService {
 
     /**
      * 查询内容更新和覆盖的峰值
-     * @param category
+     * @param app
      * @param month
      * @return
      */
-    List<Map<String,Object>>getContent(Integer category,String month);
+    List<Map<String,Object>>getContent(Integer app,String month);
 }

@@ -22,7 +22,7 @@ public interface AppMarketGeneralMapper {
      * @param month2
      * @return
      */
-    @Select("SELECT am.`monthly_duration_per_person` as lengthTime,am.`monthly_dataflow_per_person` as flow,am.`month` FROM app_market_month am WHERE app=#{app} AND am.`month` BETWEEN #{month1} AND #{month2} ORDER BY am.`month`")
+    @Select("SELECT FORMAT(am.`monthly_duration_per_person`,2) as lengthTime,FORMAT(am.`monthly_dataflow_per_person`,2) as flow,am.`month` FROM app_market_month am WHERE app=#{app} AND am.`month` BETWEEN #{month1} AND #{month2} ORDER BY am.`month`")
     List<Map<String, Object>> getLengthTimeBymonth(@Param("app") Integer app,@Param("month1") String month1,@Param("month2") String month2);
 
     /**
@@ -52,7 +52,7 @@ public interface AppMarketGeneralMapper {
      * @param month2
      * @return
      */
-    @Select("SELECT am.`total_active_num` AS totalUser,am.`new_user` AS newUser,am.`monthly_active` AS mauNumber,am.`active_next_month_retention_rate` AS keepRate,am.`monthly_duration_per_person` AS lengthTime,am.`monthly_dataflow_per_person` AS flow,am.`month` FROM app_market_month am WHERE app=#{app} AND am.`month` BETWEEN #{month1} AND #{month2} ORDER BY am.`month` desc\n")
+    @Select("SELECT FORMAT(am.`total_active_num`,2) AS totalUser,FORMAT(am.`new_user`,2) AS newUser,FORMAT(am.`monthly_active`,2) AS mauNumber,FORMAT(am.`active_next_month_retention_rate`,2) AS keepRate,FORMAT(am.`monthly_duration_per_person`,2) AS lengthTime,FORMAT(am.`monthly_dataflow_per_person`,2) AS flow,am.`month` FROM app_market_month am WHERE app=#{app} AND am.`month` BETWEEN #{month1} AND #{month2} ORDER BY am.`month` desc\n")
     List<Map<String,Object>> quaryGeneralStatisticByMonth(@Param("app")Integer app,@Param("month1")String month1,@Param("month2")String month2);
 
     /**
@@ -82,7 +82,7 @@ public interface AppMarketGeneralMapper {
      * @param month2
      * @return
      */
-    @Select("select category,app, month ,monthly_active AS mau_number ,active_next_month_retention_rate AS keep_rate  from app_market_month \n" +
+    @Select("select category,app, month ,FORMAT(monthly_active,2) AS mau_number ,FORMAT(active_next_month_retention_rate,2) AS keep_rate  from app_market_month \n" +
             "where app=#{app} and month BETWEEN #{month1} and #{month2} ORDER BY month desc\n")
     List<Map<String, Object>> getRateByMonth(@Param("app")Integer app,@Param("month1")String month1,@Param("month2")String month2);
 
@@ -115,7 +115,7 @@ public interface AppMarketGeneralMapper {
      * @param month2
      * @return
      */
-    @Select("SELECT m.app , m.new_user ,m.monthly_active AS mau_number,m.month \n" +
+    @Select("SELECT m.app , FORMAT(m.new_user,2) AS new_user,FORMAT(m.monthly_active,2) AS mau_number,m.month \n" +
             "from app_market_month m\n" +
             "where m.app=#{app} and m.month BETWEEN #{month1} and #{month2} ORDER BY m.month")
     List<Map<String, Object>> getUserNumberByMonth(@Param("app") Integer app,@Param("month1") String  month1,@Param("month2") String  month2 );
@@ -150,7 +150,7 @@ public interface AppMarketGeneralMapper {
      * @param month
      * @return
      */
-    @Select(" SELECT am.total_active_num AS total_user,am.new_user,am.monthly_active AS mau_number,am.monthly_duration_per_person AS length_time,am.monthly_dataflow_per_person AS flow,am.active_next_month_retention_rate AS keep_rate FROM app_market_month am WHERE am.app=#{app} and am.category=#{category} and am.`month`=#{month} ")
+    @Select(" SELECT FORMAT(am.total_active_num,2) AS total_user,FORMAT(am.new_user,2) AS new_user,FORMAT(am.monthly_active,2) AS mau_number,FORMAT(am.monthly_duration_per_person,2) AS length_time,FORMAT(am.monthly_dataflow_per_person,2) AS flow,FORMAT(am.active_next_month_retention_rate,2) AS keep_rate FROM app_market_month am WHERE am.app=#{app} and am.category=#{category} and am.`month`=#{month} ")
     List<Map<String,Object>> getMarketMonth(@Param("category") int category,@Param("app") int app,@Param("month") String month);
 
     /**
@@ -160,7 +160,7 @@ public interface AppMarketGeneralMapper {
      * @param month2
      * @return
      */
-    @Select(" SELECT am.total_active_num AS total_user,am.new_user,am.monthly_active AS mau_number,am.monthly_duration_per_person AS length_time,am.monthly_dataflow_per_person AS flow,am.active_next_month_retention_rate AS keep_rate FROM app_market_month am WHERE am.app=#{app} and am.category=#{category} and am.`month`=#{month2} ")
+    @Select(" SELECT FORMAT(am.total_active_num,2) AS total_user,FORMAT(am.new_user,am.monthly_active,2) AS mau_number,FORMAT(am.monthly_duration_per_person,2) AS length_time,FORMAT(am.monthly_dataflow_per_person,2) AS flow,FORMAT(am.active_next_month_retention_rate,2) AS keep_rate FROM app_market_month am WHERE am.app=#{app} and am.category=#{category} and am.`month`=#{month2} ")
     List<Map<String,Object>> getMarketMonth1(@Param("category") int category,@Param("app") int app,@Param("month2") String month2);
 
     /**
@@ -170,7 +170,7 @@ public interface AppMarketGeneralMapper {
      * @param month2
      * @return
      */
-    @Select(" SELECT am.total_active_num AS total_user,am.`month` FROM app_market_month am WHERE am.app=#{app} and am.`month` BETWEEN #{month1} and #{month2} ")
+    @Select(" SELECT FORMAT(am.total_active_num,2) AS total_user,am.`month` FROM app_market_month am WHERE am.app=#{app} and am.`month` BETWEEN #{month1} and #{month2} ")
     List<Map<String,Object>> getCumulativeListByMonth(@Param("app") int app,@Param("month1") String month1,@Param("month2") String month2);
 
     /**

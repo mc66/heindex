@@ -33,14 +33,14 @@ public class AppMarketGeneralController extends ZRestController {
 
         List<Map<String , Object>> list = appMarketGeneralService.getLengthTime(app,startTime,endTime,status);
         List<String> list1=new ArrayList<>();
-        List<Double> list2=new ArrayList<>();
-        List<Double> list3=new ArrayList<>();
+        List<Object> list2=new ArrayList<>();
+        List<Object> list3=new ArrayList<>();
         for (Map<String, Object> stringObjectMap : list) {
             String month = (String)stringObjectMap.get("month");
             list1.add(month);
-            Double lengthTime = (Double) stringObjectMap.get("lengthTime");
+            Object lengthTime =  stringObjectMap.get("lengthTime");
             list2.add(lengthTime);
-            Double flow = (Double) stringObjectMap.get("flow");
+            Object flow =  stringObjectMap.get("flow");
             list3.add(flow);
         }
         ResponseMessage responseMessage = this.genResponseMessage();
@@ -89,12 +89,12 @@ public class AppMarketGeneralController extends ZRestController {
     @RequestMapping(value = "app-market-num",method = RequestMethod.GET)
     public ResponseMessage getUserNumber(Integer app,String startTime,String endTime,@RequestParam String status){
         List<Map<String, Object>> list=appMarketGeneralService.getUserNumber(app,startTime,endTime,status);
-        List<Double> list1=new ArrayList();
-        List<Double> list2=new ArrayList();
+        List<Object> list1=new ArrayList();
+        List<Object> list2=new ArrayList();
         List<String> list3=new ArrayList();
         for (Map<String, Object> stringObjectMap : list) {
-            double new_user =(double) stringObjectMap.get("new_user");
-            double mau_number =(double) stringObjectMap.get("mau_number");
+            Object new_user =stringObjectMap.get("new_user");
+            Object mau_number = stringObjectMap.get("mau_number");
             String month =(String) stringObjectMap.get("month");
             list1.add(new_user);
             list2.add(mau_number);
@@ -115,7 +115,7 @@ public class AppMarketGeneralController extends ZRestController {
      * @param month
      * @return
      */
-    @RequestMapping(value = "/queryMonthData",method = RequestMethod.GET)
+    @RequestMapping(value = "queryMonthData",method = RequestMethod.GET)
     public ResponseMessage queryMonthData(@RequestParam int category,@RequestParam int app, @RequestParam String month){
         List<Map<String, Object>> queryMonthDataList = appMarketGeneralService.getAppMarketList(category,app,month);
         ResponseMessage responseMessage = this.genResponseMessage();
@@ -137,10 +137,10 @@ public class AppMarketGeneralController extends ZRestController {
     @RequestMapping(value = "/queryCumulative",method = RequestMethod.GET)
     public ResponseMessage queryCumulative(@RequestParam int app, @RequestParam String startTime,@RequestParam String endTime,@RequestParam String status) {
         List<Map<String, Object>> list=appMarketGeneralService.getCumulativeList(app, startTime, endTime,status);
-        List<Double> list1 = new ArrayList();
+        List<Object> list1 = new ArrayList();
         List<String> list2 = new ArrayList();
         for ( Map<String, Object> map :list) {
-            double total_user = (double) map.get("total_user");
+            Object total_user =  map.get("total_user");
            String month = (String) map.get("month");
            list1.add(total_user);
            list2.add(month);
