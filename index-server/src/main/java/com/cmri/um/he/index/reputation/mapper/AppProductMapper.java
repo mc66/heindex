@@ -22,7 +22,7 @@ public interface AppProductMapper {
      * @param date
      * @return
      */
-    @Select("SELECT COUNT(IF(aea.`status`=1,TRUE,NULL))AS freqPositive,COUNT(IF(aea.`status`=-1,TRUE,NULL))AS freqNegativity,COUNT(IF(aea.`status`=NULL,TRUE,NULL))AS freqNeutral FROM app_emotion_analyze aea WHERE app=#{app} AND aea.`month`=#{date} ")
+    @Select("SELECT COUNT(IF(aea.`status`=1,TRUE,NULL))AS freqPositive,COUNT(IF(aea.`status`=-1,TRUE,NULL))AS freqNegativity,COUNT(IF(aea.`status`=0,TRUE,NULL))AS freqNeutral FROM app_emotion_analyze aea WHERE app=#{app} AND aea.`month`=#{date} ")
     public Map<String,Object> quaryDayCommentAmount(@Param("app") Integer app,@Param("date") String date);
 
 
@@ -33,7 +33,7 @@ public interface AppProductMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT COUNT(IF(aea.`status`=1,TRUE,NULL))AS freqPositive,COUNT(IF(aea.`status`=-1,TRUE,NULL))AS freqNegativity,COUNT(IF(aea.`status`=NULL,TRUE,NULL))AS freqNeutral FROM app_emotion_analyze aea WHERE app=#{app} AND aea.`month` BETWEEN #{startTime} AND #{endTime}  ")
+    @Select("SELECT COUNT(IF(aea.`status`=1,TRUE,NULL))AS freqPositive,COUNT(IF(aea.`status`=-1,TRUE,NULL))AS freqNegativity,COUNT(IF(aea.`status`=0,TRUE,NULL))AS freqNeutral FROM app_emotion_analyze aea WHERE app=#{app} AND aea.`month` BETWEEN #{startTime} AND #{endTime}  ")
     public Map<String,Object> quaryCommentAmount(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
 
     /**
