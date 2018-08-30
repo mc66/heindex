@@ -128,4 +128,21 @@ public class CommentParticularsVO implements Serializable{
     public void setCommentSource(String commentSource) {
         this.commentSource = commentSource;
     }
+
+
+    @Override
+    public String toString() {
+        return "CommentParticularsVO{" +
+                "app=" + app +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", word='" + word + '\'' +
+                ", status=" + status +
+                ", commentSource='" + commentSource + '\'' +
+                ", page=" + page +
+                ", rows=" + rows +
+                ", offset=" + offset +
+                ", step=" + step +
+                '}';
+    }
 }

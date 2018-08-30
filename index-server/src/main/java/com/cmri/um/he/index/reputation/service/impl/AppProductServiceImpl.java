@@ -142,7 +142,7 @@ public class AppProductServiceImpl implements AppProductService {
      */
     @Override
     public PagingData<Map<String, Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO) {
-        String key = "quaryCommentParticulars-MaChao";
+        String key = commentParticularsVO.toString()+"quaryCommentParticulars-MaChao";
         Object kobei1 = redisTemplate.opsForValue().get(key);
         PagingData<Map<String, Object>> PageObject = null;
         if (kobei1 == null){
