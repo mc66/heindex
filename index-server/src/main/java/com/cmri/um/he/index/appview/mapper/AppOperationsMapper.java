@@ -108,16 +108,16 @@ public interface AppOperationsMapper {
      * @return
      */
     @Select("select f.name, COUNT(a.app) count from app_original_content a LEFT JOIN app_content_category c on a.content_id=c.id LEFT JOIN app_info f on a.app=f.id\n" +
-            "where c.id=1 AND a.category=#{category} AND month =#{month} GROUP BY a.app")
-    List<Map<String,Object>> getContent1(@Param("category")Integer category,@Param("month") String month);
+            "where c.id=1 AND a.category=(SELECT category from app_info  where id=#{app}) AND month =#{month} GROUP BY a.app")
+    List<Map<String,Object>> getContent1(@Param("app")Integer app,@Param("month") String month);
 
     /**
      * 查询内容覆盖的峰值
-     * @param category
+     * @param app
      * @param month
      * @return
      */
     @Select("select f.name, COUNT(a.app) count from app_original_content a LEFT JOIN app_content_category c on a.content_id=c.id LEFT JOIN app_info f on a.app=f.id\n" +
-            "where c.id=2 AND a.category=#{category} AND month =#{month} GROUP BY a.app")
-    List<Map<String,Object>> getContent2(@Param("category")Integer category,@Param("month") String month);
+            "where c.id=2 AND a.category=(SELECT category from app_info  where id=#{app}) AND month =#{month} GROUP BY a.app")
+    List<Map<String,Object>> getContent2(@Param("app")Integer app,@Param("month") String month);
 }
