@@ -52,7 +52,7 @@ public interface AppMarketGeneralMapper {
      * @param month2
      * @return
      */
-    @Select("SELECT am.`total_active_num` AS totalUser,am.`new_user` AS newUser,am.`monthly_active` AS mauNumber,am.`active_next_month_retention_rate` AS keepRate,am.`monthly_duration_per_person` AS lengthTime,am.`monthly_dataflow_per_person` AS flow,am.`month` FROM app_market_month am WHERE app=#{app} AND am.`month` BETWEEN #{month1} AND #{month2} ORDER BY am.`month`\n")
+    @Select("SELECT am.`total_active_num` AS totalUser,am.`new_user` AS newUser,am.`monthly_active` AS mauNumber,am.`active_next_month_retention_rate` AS keepRate,am.`monthly_duration_per_person` AS lengthTime,am.`monthly_dataflow_per_person` AS flow,am.`month` FROM app_market_month am WHERE app=#{app} AND am.`month` BETWEEN #{month1} AND #{month2} ORDER BY am.`month` desc\n")
     List<Map<String,Object>> quaryGeneralStatisticByMonth(@Param("app")Integer app,@Param("month1")String month1,@Param("month2")String month2);
 
     /**
@@ -62,7 +62,7 @@ public interface AppMarketGeneralMapper {
      * @param month2
      * @return
      */
-    @Select("SELECT am.`total_active_num` AS totalUser,am.`new_user` AS newUser,am.`weekly_active` AS mauNumber,am.`active_next_week_retention_rate` AS keepRate,am.`weekly_duration_per_person` AS lengthTime,am.`weekly_dataflow_per_person` AS flow,am.`week` AS month FROM app_market_week am WHERE app=#{app} AND am.`week` BETWEEN #{month1} AND #{month2} ORDER BY am.`week`\n")
+    @Select("SELECT am.`total_active_num` AS totalUser,am.`new_user` AS newUser,am.`weekly_active` AS mauNumber,am.`active_next_week_retention_rate` AS keepRate,am.`weekly_duration_per_person` AS lengthTime,am.`weekly_dataflow_per_person` AS flow,am.`week` AS month FROM app_market_week am WHERE app=#{app} AND am.`week` BETWEEN #{month1} AND #{month2} ORDER BY am.`week` desc\n")
     List<Map<String,Object>> quaryGeneralStatisticByWeek(@Param("app")Integer app,@Param("month1")String month1,@Param("month2")String month2);
 
     /**
@@ -72,7 +72,7 @@ public interface AppMarketGeneralMapper {
      * @param month2
      * @return
      */
-    @Select("SELECT am.`total_active_num` AS totalUser,am.`new_user` AS newUser,am.`dately_active` AS mauNumber,am.`active_next_date_retention_rate` AS keepRate,am.`dately_duration_per_person` AS lengthTime,am.`dately_dataflow_per_person` AS flow,am.`date`AS month FROM app_market_date am WHERE app=#{app} AND am.`date` BETWEEN #{month1} AND #{month2} ORDER BY am.`date`\n")
+    @Select("SELECT am.`total_active_num` AS totalUser,am.`new_user` AS newUser,am.`dately_active` AS mauNumber,am.`active_next_date_retention_rate` AS keepRate,am.`dately_duration_per_person` AS lengthTime,am.`dately_dataflow_per_person` AS flow,am.`date`AS month FROM app_market_date am WHERE app=#{app} AND am.`date` BETWEEN #{month1} AND #{month2} ORDER BY am.`date`desc\n")
     List<Map<String,Object>> quaryGeneralStatisticByDate(@Param("app")Integer app,@Param("month1")String month1,@Param("month2")String month2);
 
     /**

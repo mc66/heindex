@@ -60,7 +60,7 @@ public interface MarketUserRetentiveMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT amw.`week`AS month,amw.`next_week_retention_num`AS retentionNum,amw.`active_next_week_retention_rate`AS retentionRate  FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT amw.`week`AS month,amw.`next_week_retention_num`AS retentionNum,amw.`active_next_week_retention_rate`AS retentionRate  FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime} ORDER BY amw.`week` desc")
     List<Map<String, Object>> weekUserRetentiveTable(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime") String endTime);
 
     /**
@@ -70,7 +70,7 @@ public interface MarketUserRetentiveMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT am.`month`,am.`next_month_retention_num`AS retentionNum,am.`active_next_month_retention_rate`AS retentionRate FROM app_market_month am WHERE am.`app`= #{app} AND am.`month` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT am.`month`,am.`next_month_retention_num`AS retentionNum,am.`active_next_month_retention_rate`AS retentionRate FROM app_market_month am WHERE am.`app`= #{app} AND am.`month` BETWEEN #{startTime} AND #{endTime} ORDER BY am.`month` desc")
     List<Map<String, Object>> monthUserRetentiveTable(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime") String endTime);
 
     /**
@@ -80,7 +80,7 @@ public interface MarketUserRetentiveMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT amd.`date`AS month,amd.`next_date_retention_num`AS retentionNum,amd.`active_next_date_retention_rate`AS retentionRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}")
+    @Select("SELECT amd.`date`AS month,amd.`next_date_retention_num`AS retentionNum,amd.`active_next_date_retention_rate`AS retentionRate FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime}ORDER BY amd.`date` desc")
     List<Map<String, Object>> dayUserRetentiveTable(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime") String endTime);
 
 
