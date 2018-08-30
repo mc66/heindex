@@ -136,7 +136,7 @@ public class AppDetailsWordsServiceImpl implements AppDetailsWordsService {
 
     @Override
     public PagingData<Map<String, Object>> quaryMonthlySentiment(CommentParticularsVO commentParticularsVO) {
-        String key = "quaryMonthlySentiment-LiMin";
+        String key = commentParticularsVO.toString()+"quaryMonthlySentiment-LiMin";
         Object kobei1 = redisTemplate.opsForValue().get(key);
         PagingData<Map<String, Object>> PageObject = null;
         if (kobei1 == null){
