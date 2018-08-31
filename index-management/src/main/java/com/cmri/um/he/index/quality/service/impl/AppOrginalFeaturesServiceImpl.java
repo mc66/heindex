@@ -17,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ import java.util.*;
 
 /**
  * @author shihao
- *         Created on 2018/6/24
+ * Created on 2018/6/24
  */
 @Service
 public class AppOrginalFeaturesServiceImpl implements AppOrginalFeaturesService {
@@ -116,7 +117,7 @@ public class AppOrginalFeaturesServiceImpl implements AppOrginalFeaturesService 
         appCalculationQualityEntity.setFeatures((double) feaScore);
         appCalculationQualityEntity.setView((double) viewScore);
         appCalculationQualityEntity.setApp(app);
-
+        appCalculationQualityEntity.setMonth(list.get(0).getMonth());
         return appCalculationQualityEntity;
     }
 
@@ -160,7 +161,7 @@ public class AppOrginalFeaturesServiceImpl implements AppOrginalFeaturesService 
                             entity.setApp(excelDao.findIdByAppName(appName));
                         } else if (c == 4) {
                             entity.setVersion(cell.getStringCellValue());
-                        }else if (c == 5) {
+                        } else if (c == 5) {
                             entity.setDimensions(cell.getStringCellValue());
                         } else if (c == 6) {
                             entity.setDes(cell.getStringCellValue());
@@ -197,8 +198,10 @@ public class AppOrginalFeaturesServiceImpl implements AppOrginalFeaturesService 
                 boolean b = saveList(list1);
                 AppCalculationQualityEntity entity = getScore(list1);
                 int i = appCalculationQualityService.update(entity);
-                if (b&&i>0){
-                    continue;
+                if (!b || i==0){
+                    //手动回滚事物
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    return "失败";
                 }
             }
             return "成功!";

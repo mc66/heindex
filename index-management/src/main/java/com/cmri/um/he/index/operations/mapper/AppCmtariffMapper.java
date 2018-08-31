@@ -30,16 +30,16 @@ public interface AppCmtariffMapper {
      * @param dimensions
      * @return
      */
-    @Select(" SELECT count(*) FROM app_original_operations ao WHERE ao.measure_value=1 AND ao.dimensions=#{dim} ")
-    int queryAppCalculationOperationsEntityByMeasureValue(@Param("dim") String dimensions);
+    @Select(" SELECT count(*) FROM app_original_operations ao WHERE ao.measure_value=1 AND ao.dimensions=#{dim} AND ao.app=#{app} AND ao.month=#{month}")
+    int queryAppCalculationOperationsEntityByMeasureValue(@Param("dim") String dimensions,@Param("app") int app,@Param("month") String month);
 
     /**
      *  查询所有的条数
      * @param dimensions
      * @return
      */
-    @Select(" SELECT count(*) FROM app_original_operations  WHERE dimensions=#{dim} ")
-    int queryAppCalculationOperationsEntityByDimensionsId( @Param("dim") String dimensions);
+    @Select(" SELECT count(*) FROM app_original_operations  WHERE dimensions=#{dim} AND app=#{app} AND month=#{month}")
+    int queryAppCalculationOperationsEntityByDimensionsId( @Param("dim") String dimensions,@Param("app") int app,@Param("month") String month);
 
     /**
      *  查询 app_calculation_operations是否有数据
