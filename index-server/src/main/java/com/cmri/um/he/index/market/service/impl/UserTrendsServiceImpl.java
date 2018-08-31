@@ -29,9 +29,9 @@ public class UserTrendsServiceImpl implements UserTrendsService {
                 Map<String, Object> map = list.get(0);
                 if (list.size() != 0 && list1.size() != 0) {
                     Map<String, Object> map1 = list1.get(0);
-                    int totaLus = (int) map.get("total_user");
+                    double totaLus = (double) map.get("total_user");
                     double penetrationRate = (double) map.get("penetration_rate");
-                    int totaLus1 = (int) map1.get("total_user");
+                    double totaLus1 = (double) map1.get("total_user");
                     double penetrationRate1 = (double) map1.get("penetration_rate");
                     if (totaLus > totaLus1) {
                         map.put("totaLusState", 1);
