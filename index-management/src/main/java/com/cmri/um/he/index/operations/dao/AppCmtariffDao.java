@@ -30,12 +30,12 @@ public class AppCmtariffDao extends BaseDao {
         }
     }
 
-    public int queryAppCalculationOperationsEntityByMeasureValue(String dimensions) {
-        return appCmtariffMapper.queryAppCalculationOperationsEntityByMeasureValue(dimensions);
+    public int queryAppCalculationOperationsEntityByMeasureValue(String dimensions,int app,String month) {
+        return appCmtariffMapper.queryAppCalculationOperationsEntityByMeasureValue(dimensions,app,month);
     }
 
-    public int queryAppCalculationOperationsEntityByDimensionsId(String dimensions) {
-        return appCmtariffMapper.queryAppCalculationOperationsEntityByDimensionsId(dimensions);
+    public int queryAppCalculationOperationsEntityByDimensionsId(String dimensions,int app,String month) {
+        return appCmtariffMapper.queryAppCalculationOperationsEntityByDimensionsId(dimensions,app,month);
     }
 
     public List<Map<String,Object>> queryAppCalculationOperations( int app, String month) {
