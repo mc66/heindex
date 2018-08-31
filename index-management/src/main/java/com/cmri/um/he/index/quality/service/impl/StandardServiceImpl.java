@@ -52,7 +52,6 @@ public class StandardServiceImpl implements StandardService {
 
         int i = 0;
         for (AppCalculationQualityEntity appCalculationQualityEntity : appCalculationQualityEntities) {
-            if (appCalculationQualityEntities.size()>6){
                 //功能
                 double features = appCalculationQualityEntity.getFeatures();
                 featureArr[i] = features;
@@ -68,7 +67,6 @@ public class StandardServiceImpl implements StandardService {
                 //使用体验
                 double experience = appCalculationQualityEntity.getExperience();
                 experienceArr[i] = experience;
-            }
             i++;
         }
 

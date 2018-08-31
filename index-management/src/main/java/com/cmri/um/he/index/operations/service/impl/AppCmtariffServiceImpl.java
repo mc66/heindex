@@ -14,14 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
  * 渠道、营销、资费、服务原始数据
  *
  * @author limin
- *         Created on 2018/7/10
+ * Created on 2018/7/10
  */
 @Service
 public class AppCmtariffServiceImpl implements AppCmtariffService {
@@ -30,6 +30,8 @@ public class AppCmtariffServiceImpl implements AppCmtariffService {
     private AppCmtariffDao appCmtariffDao;
     @Autowired
     private AppExcelDao excelDao;
+
+    private final static DecimalFormat DF = new DecimalFormat("####0.00");
 
     @Override
     public boolean saveAppOriginalContentEntity(List<AppOriginalOperationsEntity> list) {
@@ -43,51 +45,44 @@ public class AppCmtariffServiceImpl implements AppCmtariffService {
 
     @Override
     public boolean updateAppOriginalContentEntity(List<AppOriginalOperationsEntity> list) {
-        for (AppOriginalOperationsEntity ao : list) {
-            int bars = appCmtariffDao.queryAppCalculationOperationsEntityByMeasureValue(ao.getDimensions());
-            int total = appCmtariffDao.queryAppCalculationOperationsEntityByDimensionsId(ao.getDimensions());
-            AppCalculationOperationsEntity aco = new AppCalculationOperationsEntity();
-            aco.setMonth(ao.getMonth());
-            aco.setApp(ao.getApp());
-            aco.setAtime(new Date());
-            aco.setCategory(ao.getCategory());
-            aco.setStatus(0);
-            aco.setVersion(ao.getVersion());
-            if (total == 0) {
-                double channel = 0.00;
-                double tariff = 0.00;
-                double ser = 0.00;
-                double market = 0.00;
-                aco.setChannel(channel);
-                aco.setTariff(tariff);
-                aco.setService(ser);
-                aco.setMarket(market);
-                List<Map<String, Object>> dataList = appCmtariffDao.queryAppCalculationOperations(ao.getApp(), ao.getMonth());
-                if (dataList == null) {
-                    appCmtariffDao.saveAppCalculationOperations(aco);
-                } else {
-                    appCmtariffDao.updateAppCalculationOperations(aco.getChannel(), aco.getMarket(), aco.getService(), aco.getTariff(), ao.getApp(), ao.getMonth());
-                }
-            } else {
-                double channel = new BigDecimal((float) bars / total * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                double tariff = new BigDecimal((float) bars / total * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                double ser = new BigDecimal((float) bars / total * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                double market = new BigDecimal((float) bars / total * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                aco.setChannel(channel);
-                aco.setTariff(tariff);
-                aco.setService(ser);
-                aco.setMarket(market);
-                List<Map<String, Object>> dataList = appCmtariffDao.queryAppCalculationOperations(ao.getApp(), ao.getMonth());
-                if (dataList.size() == 0) {
-                    appCmtariffDao.saveAppCalculationOperations(aco);
-                } else {
-                    appCmtariffDao.updateAppCalculationOperations(aco.getChannel(), aco.getMarket(), aco.getService(), aco.getTariff(), ao.getApp(), ao.getMonth());
-                }
-            }
-
+        int app = list.get(0).getApp();
+        String month = list.get(0).getMonth();
+        Set<String> set=new HashSet();
+        for (AppOriginalOperationsEntity appOriginalOperationsEntity : list) {
+            set.add(appOriginalOperationsEntity.getDimensions());
         }
-
-        return true;
+        double v1=0;
+        double v2=0;
+        double v3=0;
+        double v4=0;
+        for (String dimensions : set) {
+            if (dimensions.equals("服务")){
+                int bars1 = appCmtariffDao.queryAppCalculationOperationsEntityByMeasureValue("服务",app,month);
+                int total1 = appCmtariffDao.queryAppCalculationOperationsEntityByDimensionsId("服务",app,month);
+                v1 = (double) bars1 / total1;
+            }else if (dimensions.equals("渠道")){
+                int bars2 = appCmtariffDao.queryAppCalculationOperationsEntityByMeasureValue("渠道",app,month);
+                int total2 = appCmtariffDao.queryAppCalculationOperationsEntityByDimensionsId("渠道",app,month);
+                v2 = (double) bars2 / total2;
+            }else if (dimensions.equals("营销")){
+                int bars3 = appCmtariffDao.queryAppCalculationOperationsEntityByMeasureValue("营销",app,month);
+                int total3 = appCmtariffDao.queryAppCalculationOperationsEntityByDimensionsId("营销",app,month);
+                v3 = (double) bars3 / total3;
+            }else if (dimensions.equals("资费")){
+                int bars4 = appCmtariffDao.queryAppCalculationOperationsEntityByMeasureValue("资费",app,month);
+                int total4 = appCmtariffDao.queryAppCalculationOperationsEntityByDimensionsId("资费",app,month);
+                v4 = (double) bars4 / total4;
+            }
+        }
+        AppCalculationOperationsEntity entity=new AppCalculationOperationsEntity();
+        entity.setApp(app);
+        entity.setMonth(month);
+        entity.setService(Double.valueOf(DF.format(v1)));
+        entity.setChannel(Double.valueOf(DF.format(v2)));
+        entity.setMarket(Double.valueOf(DF.format(v3)));
+        entity.setTariff(Double.valueOf(DF.format(v4)));
+        boolean b = appCmtariffDao.updateAppCalculationOperations(entity.getChannel(), entity.getMarket(), entity.getService(), entity.getTariff(), entity.getApp(), entity.getMonth());
+        return b;
     }
 
     @Override

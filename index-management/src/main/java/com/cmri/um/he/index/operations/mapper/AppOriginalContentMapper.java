@@ -36,8 +36,8 @@ public interface AppOriginalContentMapper {
      * @param contentId
      * @return
      */
-    @Select("SELECT count(*) from app_original_content WHERE content_id=#{contentId} AND app=#{app}")
-    int getContentByContentId(@Param("contentId") int contentId,@Param("app") int app);
+    @Select("SELECT count(*) from app_original_content WHERE content_id=#{contentId} AND app=#{app} AND month=#{month}")
+    int getContentByContentId(@Param("contentId") int contentId,@Param("app") int app,@Param("month") String month);
 
     /**
      * 查得测量值为1的数据数
@@ -45,6 +45,6 @@ public interface AppOriginalContentMapper {
      * @param measuredValue
      * @return
      */
-    @Select("SELECT count(*) from app_original_content WHERE content_id=#{contentId} AND measured_value=#{measuredValue} AND app=#{app}")
-    int getContentByContentIdAndMeasureValue(@Param("contentId") int contentId,@Param("measuredValue") int measuredValue,@Param("app") int app);
+    @Select("SELECT count(*) from app_original_content WHERE content_id=#{contentId} AND measured_value=#{measuredValue} AND app=#{app} AND month=#{month}")
+    int getContentByContentIdAndMeasureValue(@Param("contentId") int contentId,@Param("measuredValue") int measuredValue,@Param("app") int app,@Param("month") String month);
 }
