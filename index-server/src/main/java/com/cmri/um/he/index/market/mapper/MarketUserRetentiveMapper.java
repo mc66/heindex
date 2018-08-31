@@ -50,7 +50,7 @@ public interface MarketUserRetentiveMapper {
      * @param month
      * @return
      */
-    @Select("SELECT FORMAT(am.`next_month_retention_num`,2)AS retentionNum,FORMAT(am.`active_next_month_retention_rate`,2)AS retentionRate FROM app_market_month am WHERE am.`app`=#{app} AND am.`month`=#{month}")
+    @Select("SELECT am.`next_month_retention_num`AS retentionNum,am.`active_next_month_retention_rate`AS retentionRate FROM app_market_month am WHERE am.`app`=#{app} AND am.`month`=#{month}")
     Map<String, Object>  quaryUserRetentiveExponent(@Param("app") Integer app, @Param("month") String month);
 
     /**
@@ -128,7 +128,7 @@ public interface MarketUserRetentiveMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT FORMAT(am.`monthly_active`,2) FROM app_market_month am WHERE am.`app`=#{app} AND am.`month` BETWEEN #{startTime} AND #{endTime} ORDER BY am.`month` DESC")
+    @Select("SELECT am.`monthly_active` FROM app_market_month am WHERE am.`app`=#{app} AND am.`month` BETWEEN #{startTime} AND #{endTime} ORDER BY am.`month` DESC")
     List<Double> monthUserActiveList(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime")String endTime);
 
     /**
@@ -148,7 +148,7 @@ public interface MarketUserRetentiveMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT FORMAT(amw.`active_next_week_retention_rate`,2) FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime} ORDER BY amw.`week`")
+    @Select("SELECT amw.`active_next_week_retention_rate` FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime} ORDER BY amw.`week`")
     List<Double> weekRetentiveRateList(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime")String endTime);
 
     /**
@@ -158,7 +158,7 @@ public interface MarketUserRetentiveMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT FORMAT(am.`active_next_month_retention_rate`,2) FROM app_market_month am WHERE am.`app`=#{app} AND am.`month` BETWEEN #{startTime} AND #{endTime} ORDER BY am.`month`")
+    @Select("SELECT am.`active_next_month_retention_rate` FROM app_market_month am WHERE am.`app`=#{app} AND am.`month` BETWEEN #{startTime} AND #{endTime} ORDER BY am.`month`")
     List<Double> monthRetentiveRateList(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime")String endTime);
 
     /**
@@ -168,7 +168,7 @@ public interface MarketUserRetentiveMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT FORMAT(amd.`active_next_date_retention_rate`,2) FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime} ORDER BY amd.`date`")
+    @Select("SELECT amd.`active_next_date_retention_rate` FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime} ORDER BY amd.`date`")
     List<Double> dayRetentiveRateList(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime")String endTime);
 
 }
