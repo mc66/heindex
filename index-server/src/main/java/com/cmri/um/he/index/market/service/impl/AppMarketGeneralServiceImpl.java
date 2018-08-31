@@ -277,14 +277,14 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
                 Map<String, Object> map = list.get(0);
                 if (list.size() != 0 && list1.size() != 0) {
                     Map<String, Object> map1 = list1.get(0);
-                    int total_us = (int) map.get("total_user");
-                    int new_us = (int) map.get("new_user");
+                    double total_us = (double) map.get("total_user");
+                    double new_us = (double) map.get("new_user");
                     double mau_number = (double) map.get("mau_number");
                     double length_time = (double) map.get("length_time");
                     double flow = (double) map.get("flow");
                     double keep_rate = (double) map.get("keep_rate");
-                    int total_us1 = (int) map1.get("total_user");
-                    int new_us1 = (int) map1.get("new_user");
+                    double total_us1 = (double) map1.get("total_user");
+                    double new_us1 = (double) map1.get("new_user");
                     double mau_number1 = (double) map1.get("mau_number");
                     double length_time1 = (double) map1.get("length_time");
                     double flow1 = (double) map1.get("flow");
