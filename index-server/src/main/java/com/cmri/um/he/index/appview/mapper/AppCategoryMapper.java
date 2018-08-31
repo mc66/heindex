@@ -17,7 +17,7 @@ public interface AppCategoryMapper {
      * 查询应用类别
      * @return 应用类别集合
      */
-    @Select("SELECT id, name FROM app_category WHERE order by id")
+    @Select("SELECT id, name FROM app_category  order by id")
     List<Map<String,Object>> findCategory();
 
     /**

@@ -31,7 +31,7 @@ public interface AppMarketAddMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT new_user ,month AS time from app_market_month where app=#{app} and month BETWEEN #{startTime} AND #{endTime} order by month desc")
+    @Select("SELECT new_user ,month AS time from app_market_month where app=#{app} and month BETWEEN #{startTime} AND #{endTime} order by month ")
     List<Map<String, Object>> getAppUserByMonth(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
     /**
      * 应用新增页面新增活跃用户展示(根据周区间)
@@ -40,7 +40,7 @@ public interface AppMarketAddMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT new_user ,week AS time from app_market_week where app=#{app} and week BETWEEN #{startTime} AND #{endTime} order by week desc")
+    @Select("SELECT new_user ,week AS time from app_market_week where app=#{app} and week BETWEEN #{startTime} AND #{endTime} order by week ")
     List<Map<String, Object>> getAppUserByWeek(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
     /**
      * 应用新增页面新增活跃用户展示(根据日区间)
@@ -49,7 +49,7 @@ public interface AppMarketAddMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT new_user ,date AS time from app_market_date where app=#{app} and date BETWEEN #{startTime} AND #{endTime} order by date desc")
+    @Select("SELECT new_user ,date AS time from app_market_date where app=#{app} and date BETWEEN #{startTime} AND #{endTime} order by date ")
     List<Map<String, Object>> getAppUserByDate(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
 
     /**
