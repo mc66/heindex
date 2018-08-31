@@ -46,7 +46,8 @@ public class AppMauServiceImpl implements AppActiveService {
     public  PagingData<Map<String, Object>> getPagingData(PagingData<Map<String, Object>> pagingData){
         List<Map<String, Object>> data = pagingData.getData();
         for (Map<String, Object> datum : data) {
-            double mau = (double)datum.get("mau");
+            Object mau1 = datum.get("mau");
+            Double mau = Double.parseDouble(mau1.toString());
             int app = Integer.parseInt(datum.get("app_id").toString());
             String month = (String)datum.get("month");
             try {
