@@ -41,8 +41,8 @@ public class AppOriginalContentDao {
      * @param contentId
      * @return
      */
-    public int getContentByContentId(int contentId ,int app){
-        int count1= mapper.getContentByContentId(contentId,app);
+    public int getContentByContentId(int contentId,int app,String month){
+        int count1= mapper.getContentByContentId(contentId,app,month);
         return count1;
     }
 
@@ -52,9 +52,8 @@ public class AppOriginalContentDao {
      * @param measuredValue
      * @return
      */
-    public int getContentByContentIdAndMeasureValue(int contentId,int measuredValue,int app){
-        measuredValue=1;
-        int count2= mapper.getContentByContentIdAndMeasureValue(contentId,measuredValue,app);
+    public int getContentByContentIdAndMeasureValue(int contentId,int measuredValue,int app,String month){
+        int count2= mapper.getContentByContentIdAndMeasureValue(contentId,measuredValue,app,month);
         return count2;
     }
 }

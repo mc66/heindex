@@ -15,6 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -80,6 +81,8 @@ public class AppOriginalContentServiceImpl implements AppOriginalContentService 
         for (List<AppOriginalContentEntity> entityList : map.values()) {
             boolean b = saveContent(entityList);
             if (!b){
+                //手动回滚事物
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 return "失败!";
             }
         }
@@ -209,12 +212,10 @@ public class AppOriginalContentServiceImpl implements AppOriginalContentService 
         int app = 0;
         String month = "";
         int category = 0;
-        String version = "";
         for (AppOriginalContentEntity appOriginalContentEntity : list) {
             app = appOriginalContentEntity.getApp();
             category = appOriginalContentEntity.getCategory();
             month = appOriginalContentEntity.getMonth();
-            version = appOriginalContentEntity.getVersion();
             List<Map<String, Object>> list2 = appOriginalContentDao.getContent();
             for (int i = 0; i < list2.size(); i++) {
                 int id = (int) list2.get(i).get("id");
@@ -230,9 +231,9 @@ public class AppOriginalContentServiceImpl implements AppOriginalContentService 
         for (int i = 0; i < list4.size(); i++) {
             //查得样本库大小
             int contentId = (int) list4.get(i).get("id");
-            int count1 = appOriginalContentDao.getContentByContentId(contentId, app);
+            int count1 = appOriginalContentDao.getContentByContentId(contentId, app,month);
             //查得测量值为1的数据数
-            int count2 = appOriginalContentDao.getContentByContentIdAndMeasureValue(contentId, 1, app);
+            int count2 = appOriginalContentDao.getContentByContentIdAndMeasureValue(contentId, 1, app,month);
             //计算得分
             if (count1 == 0) {
                 double sorce = 0.0;
