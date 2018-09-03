@@ -5,12 +5,13 @@ import com.cmri.spring.common.data.ResponseMessage;
 import com.cmri.um.he.index.quality.service.AppOrginalFeaturesService;
 import com.cmri.um.he.index.quality.service.AppOriginalDelayService;
 import com.cmri.um.he.index.quality.service.AppOriginalExperienceService;
+import com.cmri.um.he.index.quality.service.AppQualityExcelExportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * 应用品质excel数据导入接口
+ * 应用品质excel数据导入、导出接口
  * @author lch
  * Created on 2018/08/03 10:50
  */
@@ -25,6 +26,8 @@ public class AppQualityExcelController extends ZRestController {
     private AppOrginalFeaturesService featuresService;
     @Autowired
     private AppOriginalExperienceService experienceService;
+    @Autowired
+    private AppQualityExcelExportService exportService;
 
     /**
      * 处理时延、功耗原始数据
@@ -65,5 +68,13 @@ public class AppQualityExcelController extends ZRestController {
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.setMsg(result);
         return responseMessage;
+    }
+
+    /**
+     * 导出品质计算值
+     */
+    @RequestMapping(value = "/exportQuality", method = RequestMethod.GET)
+    public void exportQualityExcel() {
+        exportService.exportQualityExcel();
     }
 }
