@@ -148,8 +148,8 @@ public interface MarketUserRetentiveMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT amw.`active_next_week_retention_rate` FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime} ORDER BY amw.`week`")
-    List<Double> weekRetentiveRateList(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime")String endTime);
+    @Select("SELECT concat(amw.`active_next_week_retention_rate`,'%') FROM app_market_week amw WHERE amw.`app`=#{app} AND amw.`week` BETWEEN #{startTime} AND #{endTime} ORDER BY amw.`week`")
+    List<String> weekRetentiveRateList(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime")String endTime);
 
     /**
      * 查询月的留存率
@@ -158,8 +158,8 @@ public interface MarketUserRetentiveMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT am.`active_next_month_retention_rate` FROM app_market_month am WHERE am.`app`=#{app} AND am.`month` BETWEEN #{startTime} AND #{endTime} ORDER BY am.`month`")
-    List<Double> monthRetentiveRateList(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime")String endTime);
+    @Select("SELECT concat(am.`active_next_month_retention_rate`,'%') FROM app_market_month am WHERE am.`app`=#{app} AND am.`month` BETWEEN #{startTime} AND #{endTime} ORDER BY am.`month`")
+    List<String> monthRetentiveRateList(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime")String endTime);
 
     /**
      * 查询日的留存率
@@ -168,7 +168,7 @@ public interface MarketUserRetentiveMapper {
      * @param endTime
      * @return
      */
-    @Select("SELECT amd.`active_next_date_retention_rate` FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime} ORDER BY amd.`date`")
-    List<Double> dayRetentiveRateList(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime")String endTime);
+    @Select("SELECT concat(amd.`active_next_date_retention_rate`,'%') FROM app_market_date amd WHERE amd.`app`=#{app} AND amd.`date` BETWEEN #{startTime} AND #{endTime} ORDER BY amd.`date`")
+    List<String> dayRetentiveRateList(@Param("app") Integer app, @Param("startTime") String startTime, @Param("endTime")String endTime);
 
 }

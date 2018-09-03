@@ -161,7 +161,7 @@ public class MarketUserRetentiveDao extends BaseDao{
      * @param endTime
      * @return
      */
-    public List<Double> weekRetentiveRateList(Integer app, String startTime, String endTime){
+    public List<String> weekRetentiveRateList(Integer app, String startTime, String endTime){
         return marketUserRetentiveMapper.weekRetentiveRateList(app,startTime,endTime);
     }
     /**
@@ -171,7 +171,7 @@ public class MarketUserRetentiveDao extends BaseDao{
      * @param endTime
      * @return
      */
-    public List<Double> monthRetentiveRateList(Integer app, String startTime, String endTime){
+    public List<String> monthRetentiveRateList(Integer app, String startTime, String endTime){
         return marketUserRetentiveMapper.monthRetentiveRateList(app,startTime,endTime);
     }
     /**
@@ -181,7 +181,7 @@ public class MarketUserRetentiveDao extends BaseDao{
      * @param endTime
      * @return
      */
-    public List<Double> dayRetentiveRateList(Integer app, String startTime, String endTime){
+    public List<String> dayRetentiveRateList(Integer app, String startTime, String endTime){
         return marketUserRetentiveMapper.dayRetentiveRateList(app,startTime,endTime);
     }
 }
