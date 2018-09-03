@@ -67,10 +67,10 @@ public class MarketUserRetentiveServiceImpl implements MarketUserRetentiveServic
             String[] title={"时间","活跃用户数(万)","第2周","第3周","第4周","第5周","第6周","第7周","第8周","第9周"};
             List<String> month = marketUserRetentiveDao.weekMonthList(app,startTime,endTime);
             List<Double> userActive = marketUserRetentiveDao.weekUserActiveList(app,startTime,endTime);
-            List<List<Double>> retentiveRate=new ArrayList(month.size());
+            List<List<String>> retentiveRate=new ArrayList(month.size());
             for(int i=0;i<month.size();i++){
                 startTime=month.get(i);
-                List<Double> list= marketUserRetentiveDao.weekRetentiveRateList(app,startTime,endTime);
+                List<String> list= marketUserRetentiveDao.weekRetentiveRateList(app,startTime,endTime);
                 retentiveRate.add(i,list);
             }
             map.put("title",title);
@@ -91,10 +91,10 @@ public class MarketUserRetentiveServiceImpl implements MarketUserRetentiveServic
             String[] title={"时间","活跃用户数(万)","第2月","第3月","第4月","第5月","第6月","第7月","第8月","第9月"};
             List<String> month = marketUserRetentiveDao.monthMonthList(app,startTime,endTime);
             List<Double> userActive = marketUserRetentiveDao.monthUserActiveList(app,startTime,endTime);
-            List<List<Double>> retentiveRate=new ArrayList(month.size());
+            List<List<String>> retentiveRate=new ArrayList(month.size());
             for(int i=0;i<month.size();i++){
                 startTime=month.get(i);
-                List<Double> list= marketUserRetentiveDao.monthRetentiveRateList(app,startTime,endTime);
+                List<String> list= marketUserRetentiveDao.monthRetentiveRateList(app,startTime,endTime);
                 retentiveRate.add(i,list);
             }
             map.put("title",title);
@@ -107,10 +107,10 @@ public class MarketUserRetentiveServiceImpl implements MarketUserRetentiveServic
             String[] title={"时间","活跃用户数(万)","第2日","第3日","第4日","第5日","第6日","第7日","第15日","第30日"};
             List<String> month = marketUserRetentiveDao.dayMonthList(app,startTime,endTime);
             List<Double> userActive = marketUserRetentiveDao.dayUserActiveList(app,startTime,endTime);
-            List<List<Double>> retentiveRate=new ArrayList(month.size());
+            List<List<String>> retentiveRate=new ArrayList(month.size());
             for(int i=0;i<month.size();i++){
                 startTime=month.get(i);
-                List<Double> list= marketUserRetentiveDao.dayRetentiveRateList(app,startTime,endTime);
+                List<String> list= marketUserRetentiveDao.dayRetentiveRateList(app,startTime,endTime);
                 retentiveRate.add(i,list);
             }
             map.put("title",title);
