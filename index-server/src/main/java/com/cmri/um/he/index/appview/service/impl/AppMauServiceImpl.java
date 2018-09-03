@@ -56,12 +56,14 @@ public class AppMauServiceImpl implements AppActiveService {
                 if (lastMau!=null) {
                     if ((mau - lastMau) > 0) {
                         datum.put("status", 1);
-                    } else {
+                    } else if ((mau - lastMau) == 0){
                         datum.put("status", 0);
+                    }else {
+                        datum.put("status", -1);
                     }
                     datum.put("basis", (new BigDecimal((mau - lastMau) / lastMau * 100).setScale(2, BigDecimal.ROUND_HALF_UP) + "%"));
                 }else {
-                    datum.put("basis","0.00%");
+                    datum.put("basis","100.00%");
                     datum.put("status", 1);
                 }
             } catch (Exception e) {
