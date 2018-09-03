@@ -114,7 +114,8 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
                         Collections.reverse(list2);
                         List list4=new ArrayList();
                         for (Map<String, Object> obmap : list2) {
-                            Object keep_rate = obmap.get("keep_rate");
+                            double rate = (double)obmap.get("keep_rate");
+                            String keep_rate =String.valueOf(rate) +"%";
                             list4.add(keep_rate);
                         }
                         list.add(list4);
@@ -150,7 +151,8 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
                     Collections.reverse(list2);
                     List list4=new ArrayList();
                     for (Map<String, Object> obmap : list2) {
-                        Object keep_rate = obmap.get("keep_rate");
+                        double rate =(double) obmap.get("keep_rate");
+                        String keep_rate =String.valueOf(rate) +"%";
                         list4.add(keep_rate);
                     }
                     list.add(list4);
@@ -183,7 +185,8 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
                 Collections.reverse(list2);
                 List list4=new ArrayList();
                 for (Map<String, Object> obmap : list2) {
-                    Object keep_rate = obmap.get("active_next_week_retention_rate");
+                    double rate =(double)obmap.get("active_next_week_retention_rate");
+                    String keep_rate =String.valueOf(rate) +"%";
                     list4.add(keep_rate);
                 }
                 list.add(list4);
@@ -215,7 +218,8 @@ public class AppMarketGeneralServiceImpl implements AppMarketGeneralService{
                 Collections.reverse(list2);
                 List list4=new ArrayList();
                 for (Map<String, Object> obmap : list2) {
-                    Object keep_rate = obmap.get("active_next_date_retention_rate");
+                    double rate = (double)obmap.get("active_next_date_retention_rate");
+                    String keep_rate =String.valueOf(rate) +"%";
                     list4.add(keep_rate);
                 }
                 list.add(list4);
