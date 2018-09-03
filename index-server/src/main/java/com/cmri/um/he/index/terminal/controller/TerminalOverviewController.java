@@ -68,7 +68,6 @@ public class TerminalOverviewController extends ZRestController {
      * */
     @RequestMapping(value = "/quary-brand-Page",method = RequestMethod.GET)
     public ResponseMessage quaryBrandPage(@RequestParam String month, @RequestParam Integer page, @RequestParam Integer step){
-
         return terminalOverviewService.findBrandPage(month,page,step).updateResponse(genResponseMessage());
     }
 
