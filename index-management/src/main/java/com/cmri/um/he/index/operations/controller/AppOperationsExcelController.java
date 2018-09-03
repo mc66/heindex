@@ -4,6 +4,7 @@ import com.cmri.spring.common.controller.ZRestController;
 import com.cmri.spring.common.data.ResponseMessage;
 import com.cmri.um.he.index.operations.service.AppCmtariffService;
 import com.cmri.um.he.index.operations.service.AppOperationExperienceService;
+import com.cmri.um.he.index.operations.service.AppOperationsExcelExportService;
 import com.cmri.um.he.index.operations.service.AppOriginalContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 /**
- * 应用运营excel数据导入接口
+ * 应用运营excel数据导入、导出接口
  *
  * @author lch
  * Created on 2018/08/13 10:47
@@ -27,6 +28,8 @@ public class AppOperationsExcelController extends ZRestController {
     private AppCmtariffService cmtariffService;
     @Autowired
     private AppOperationExperienceService experienceService;
+    @Autowired
+    private AppOperationsExcelExportService service;
 
     /**
      * 处理内容原始数据
@@ -65,5 +68,13 @@ public class AppOperationsExcelController extends ZRestController {
         String result = experienceService.readExcelFile(file);
         ResponseMessage responseMessage = this.genResponseMessage();
         return responseMessage.setMsg(result);
+    }
+
+    /**
+     * 导出运营计算值
+     */
+    @RequestMapping(value = "/exportOperationsExcel", method = RequestMethod.GET)
+    public void exportQualityExcel() {
+        service.exportQualityExcel();
     }
 }

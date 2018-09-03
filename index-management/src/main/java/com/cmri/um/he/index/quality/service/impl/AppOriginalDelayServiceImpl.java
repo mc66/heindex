@@ -273,7 +273,7 @@ public class AppOriginalDelayServiceImpl implements AppOriginalDelayService {
         double delayDF = Double.valueOf(DF.format(delay));
         double consumeDF = Double.valueOf(DF.format(consume));
         //补全数据
-        AppCalculationQualityEntity entity = new AppCalculationQualityEntity(0, 0, list.get(0).getApp(), list.get(0).getCategory(), 0.0, 0.0, delayDF, consumeDF, 0.0, "", 0, list.get(0).getMonth(), new Date());
+        AppCalculationQualityEntity entity = new AppCalculationQualityEntity(0, list.get(0).getApp(), list.get(0).getCategory(), 0.0, 0.0, delayDF, consumeDF, 0.0, "", 0, list.get(0).getMonth(), new Date());
         int i = delayDao.saveDelay(entity);
         if (i > 0) {
             return true;

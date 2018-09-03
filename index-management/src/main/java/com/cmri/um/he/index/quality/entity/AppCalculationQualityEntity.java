@@ -11,7 +11,6 @@ import java.util.Date;
  */
 public class AppCalculationQualityEntity implements Serializable{
     private Integer id;
-    private Integer special;
     private Integer app;
     private Integer category;
     private Double features;
@@ -28,7 +27,6 @@ public class AppCalculationQualityEntity implements Serializable{
     public String toString() {
         return "AppCalculationQualityEntity{" +
                 "id=" + id +
-                ", special=" + special +
                 ", app=" + app +
                 ", category=" + category +
                 ", features=" + features +
@@ -49,14 +47,6 @@ public class AppCalculationQualityEntity implements Serializable{
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getSpecial() {
-        return special;
-    }
-
-    public void setSpecial(Integer special) {
-        this.special = special;
     }
 
     public Integer getApp() {
@@ -151,10 +141,9 @@ public class AppCalculationQualityEntity implements Serializable{
 
     }
 
-    public AppCalculationQualityEntity(Integer id, Integer special, Integer app, Integer category, Double features, Double view, Double delay, Double consume, Double experience, String version, Integer status, String month, Date atime) {
+    public AppCalculationQualityEntity(Integer id, Integer app, Integer category, Double features, Double view, Double delay, Double consume, Double experience, String version, Integer status, String month, Date atime) {
 
         this.id = id;
-        this.special = special;
         this.app = app;
         this.category = category;
         this.features = features;
