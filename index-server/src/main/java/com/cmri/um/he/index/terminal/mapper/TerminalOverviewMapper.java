@@ -49,7 +49,7 @@ public interface TerminalOverviewMapper {
             +"WHERE ta.`month`=#{month} "
             +"<if test='id !=null '> AND ta.province_id=#{id} </if>"
             +"</script>")
-    double quaryTotal(@Param("id")Integer id, @Param("month")String month);
+    Double quaryTotal(@Param("id")Integer id, @Param("month")String month);
 
     /**
      * 查询指定月份终端型号排行榜
