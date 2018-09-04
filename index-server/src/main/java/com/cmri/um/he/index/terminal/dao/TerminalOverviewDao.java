@@ -101,4 +101,11 @@ public class TerminalOverviewDao extends BaseDao {
         return terminalOverviewMapper.getCount(month);
     }
 
+    /**
+     * 查询上个月的销售数量
+     * */
+    public BigDecimal quaryMonthBrand( String imei,String month){
+        return terminalOverviewMapper.quaryMonthBrand(imei,month);
+    }
+
 }

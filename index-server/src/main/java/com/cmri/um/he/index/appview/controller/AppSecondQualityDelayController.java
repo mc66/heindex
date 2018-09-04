@@ -45,14 +45,33 @@ public class AppSecondQualityDelayController extends ZRestController {
         List<String> mapList = delayService.findeasureById(id);
         List<String> delayMap = new ArrayList<>();
         List<String> consumMap = new ArrayList<>();
-        delayMap.add(mapList.get(0));
-        delayMap.add(mapList.get(1));
-        delayMap.add(mapList.get(2));
-        delayMap.add(mapList.get(3));
-        consumMap.add(mapList.get(4));
-        consumMap.add(mapList.get(5));
-        consumMap.add(mapList.get(6));
-
+        List<Integer> idList = new ArrayList<>();
+        idList.add(8);
+        idList.add(11);
+        idList.add(12);
+        idList.add(17);
+        idList.add(92);
+        idList.add(93);
+        if (idList.contains(id)){
+            delayMap.add(mapList.get(0));
+            delayMap.add(mapList.get(1));
+            delayMap.add(mapList.get(2));
+            delayMap.add(mapList.get(3));
+            consumMap.add(mapList.get(4));
+            consumMap.add(mapList.get(5));
+            consumMap.add(mapList.get(6));
+            consumMap.add(mapList.get(7));
+            consumMap.add(mapList.get(8));
+            consumMap.add(mapList.get(9));
+        }else {
+            delayMap.add(mapList.get(0));
+            delayMap.add(mapList.get(1));
+            delayMap.add(mapList.get(2));
+            delayMap.add(mapList.get(3));
+            consumMap.add(mapList.get(4));
+            consumMap.add(mapList.get(5));
+            consumMap.add(mapList.get(6));
+        }
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("delay",delayMap);
         responseMessage.set("consum",consumMap);
