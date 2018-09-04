@@ -35,7 +35,7 @@ public class TerminalOverviewServiceImpl implements TerminalOverviewService {
     @Override
     public List<Map<String, Object>> quaryTerminalExponent(Integer id, String month) {
         List<Map<String, Object>> list = terminalOverviewDao.quaryTerminalExponent(id,month);
-        double total = terminalOverviewDao.quaryTotal(id, month);
+        Double total = terminalOverviewDao.quaryTotal(id, month);
         for (Map<String, Object> map : list) {
             if (total!=0){
                 BigDecimal amount = (BigDecimal)map.get("amount");
