@@ -37,8 +37,12 @@ public class TerminalOverviewServiceImpl implements TerminalOverviewService {
         List<Map<String, Object>> list = terminalOverviewDao.quaryTerminalExponent(id,month);
         double total = terminalOverviewDao.quaryTotal(id, month);
         for (Map<String, Object> map : list) {
-            BigDecimal amount = (BigDecimal)map.get("amount");
-            map.put("proportion",new BigDecimal(amount.doubleValue()/total*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
+            if (total!=0){
+                BigDecimal amount = (BigDecimal)map.get("amount");
+                map.put("proportion",new BigDecimal(amount.doubleValue()/total*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
+            }else {
+                map.put("proportion","0.00%");
+            }
         }
         return list;
     }
