@@ -30,11 +30,11 @@ public interface TerminalOverviewMapper {
      * @return
      */
     @Select("<script>"
-            +"SELECT tb.`brand_name`AS brandName,ta.`month`,SUM(ta.`terminal_amount`)AS amount "
-            +"FROM terminal_ana⁪lyze ta JOIN terminal_brand tb ON ta.`brand`=tb.`id` "
-            + "WHERE ta.`month`=#{month}"
-            +"<if test='id !=null '> AND ta.`province`=#{id} </if>"
-            +"GROUP BY ta.`province` ORDER BY amount DESC</script>")
+            +"SELECT tb.`brand_name`AS brandName,ta.`month`,SUM(ta.sale_number)AS amount "
+            +"FROM terminal_analyzes ta JOIN terminal_brand tb ON ta.brand_id=tb.`id` "
+            +"WHERE ta.`month`=#{month} "
+            +"<if test='id !=null '> AND ta.province_id=#{id} </if>"
+            +"GROUP BY ta.brand_id ORDER BY amount DESC</script>")
     List<Map<String,Object>> quaryTerminalExponent(@Param("id")Integer id,@Param("month")String month);
 
     /**
@@ -44,10 +44,10 @@ public interface TerminalOverviewMapper {
      * @return
      */
     @Select("<script>"
-            +"SELECT SUM(ta.`terminal_amount`)AS total "
-            +"FROM terminal_ana⁪lyzes ta JOIN terminal_brand tb ON ta.`brand`=tb.`id` "
-            + "WHERE ta.`month`=#{month}"
-            +"<if test='id !=null '> AND ta.`province`=#{id} </if>"
+            +"SELECT SUM(ta.sale_number)AS total "
+            +"FROM terminal_analyzes ta JOIN terminal_brand tb ON ta.brand_id=tb.`id` "
+            +"WHERE ta.`month`=#{month} "
+            +"<if test='id !=null '> AND ta.province_id=#{id} </if>"
             +"</script>")
     double quaryTotal(@Param("id")Integer id, @Param("month")String month);
 

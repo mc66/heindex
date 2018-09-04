@@ -77,4 +77,12 @@ public class AppOperationsExcelController extends ZRestController {
     public void exportQualityExcel() {
         service.exportQualityExcel();
     }
+
+    /**
+     * 导出品质得分值
+     */
+    @RequestMapping(value = "/exportContentScore", method = RequestMethod.GET)
+    public void exportContentScore(String month) {
+        service.exportContentScore(month);
+    }
 }
