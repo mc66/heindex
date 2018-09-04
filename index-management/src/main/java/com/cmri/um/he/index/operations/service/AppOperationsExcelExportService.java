@@ -7,4 +7,9 @@ package com.cmri.um.he.index.operations.service;
  */
 public interface AppOperationsExcelExportService {
     void exportQualityExcel();
+
+    /**
+     * 体验指数-产品运营-导出内容得分方法
+     */
+    void exportContentScore(String month);
 }
