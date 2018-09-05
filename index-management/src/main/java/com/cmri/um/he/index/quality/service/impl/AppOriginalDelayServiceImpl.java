@@ -12,6 +12,8 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -70,7 +74,6 @@ public class AppOriginalDelayServiceImpl implements AppOriginalDelayService {
         //查询权重配置
         int category = list.get(0).getCategory();
         AppWeightQualityEntity qualityConfig = weightQualityDao.findQualityConfig(category);
-
         double delay=0;
         double consume=0;
         if (list.size()==14){
@@ -286,7 +289,7 @@ public class AppOriginalDelayServiceImpl implements AppOriginalDelayService {
         double s1 = dealEntity(entity1) * config.getW3g();
         double s2 = dealEntity(entity2) * config.getW4g();
         double s3 = dealEntity(entity3) * config.getWwlan();
-        double s = (s1 + s2 + s3) / 3;
+        double s = s1 + s2 + s3;
         return s;
     }
 
@@ -300,7 +303,7 @@ public class AppOriginalDelayServiceImpl implements AppOriginalDelayService {
     private double dealNo3gEntityList(AppOriginalDelayEntity entity1, AppOriginalDelayEntity entity2, AppWeightQualityEntity config) {
         double s1 = dealEntity(entity1) * config.getW4g();
         double s2 = dealEntity(entity2) * config.getWwlan();
-        double s = (s1 + s2) / 2;
+        double s = s1 + s2 ;
         return s;
     }
     /**
@@ -313,18 +316,39 @@ public class AppOriginalDelayServiceImpl implements AppOriginalDelayService {
     private double dealNoWlanEntityList(AppOriginalDelayEntity entity1, AppOriginalDelayEntity entity2, AppWeightQualityEntity config) {
         double s1 = dealEntity(entity1) * config.getW3g();
         double s2 = dealEntity(entity2) * config.getW4g();
-        double s = (s1 + s2) / 2;
+        double s = s1 + s2 ;
         return s;
     }
 
     private double dealEntity(AppOriginalDelayEntity entity) {
+        double sx=0;
         //测量值
         double x = entity.getMeasure();
         //挑战值
         double a = entity.getChallenge();
         //达标值
         double b = entity.getStandard();
-        double sx = (b - x) / (b - a) * 40 + 60;
+        if (entity.getMeasuring().contains("速率")){
+            if (x>b){
+                sx=100;
+            }else if (a<x&&x<b){
+                sx=(b - x) / (b - a) * 40 + 60;
+            }else if (a/2<x&&x<a){
+                sx=60;
+            }else if (x<a/2){
+                sx=0;
+            }
+        }else {
+            if (x>2*a){
+                sx=0;
+            }else if (a<x&&x<2*a){
+                sx=60;
+            }else if (b<x&&x<a){
+                sx=(b - x) / (b - a) * 40 + 60;
+            }else if (x<b){
+                sx=100;
+            }
+        }
         return sx;
     }
 
@@ -384,6 +408,13 @@ public class AppOriginalDelayServiceImpl implements AppOriginalDelayService {
                 // 添加到list
                 list.add(entity);
             }
+            //处理中间值，导出excel
+            List score=new ArrayList();
+            for (AppOriginalDelayEntity entity : list) {
+                double v = dealEntity(entity);
+                score.add(v);
+            }
+            exportDelayExcel(list,score,name);
             //app+version组成的字符串来去重
             Set<String> set=new HashSet();
             for(AppOriginalDelayEntity entity:list){
@@ -402,7 +433,7 @@ public class AppOriginalDelayServiceImpl implements AppOriginalDelayService {
             for (List<AppOriginalDelayEntity> list1:map.values()){
                 boolean b1 = saveAppOriginalDelayList(list1);
                 boolean b2 = dealAppOriginalDelayList(list1);
-                if (!b1 || !b2) {
+                if (!b1||!b2) {
                     //手动回滚事物
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                     return "失败";
@@ -413,5 +444,55 @@ public class AppOriginalDelayServiceImpl implements AppOriginalDelayService {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    /**
+     * 导出时延功耗的excel
+     * @param entityList
+     * @param score
+     * @param name
+     */
+    private void exportDelayExcel(List<AppOriginalDelayEntity> entityList,List<Double> score,String name) {
+        XSSFWorkbook wb = new XSSFWorkbook();
+        XSSFSheet sheet=wb.createSheet("sheet1");
+        XSSFRow row1=sheet.createRow(0);
+        //创建单元格并设置单元格内容
+        row1.createCell(0).setCellValue("测评阶段");
+        row1.createCell(1).setCellValue("产品类别");
+        row1.createCell(2).setCellValue("产品名称");
+        row1.createCell(3).setCellValue("产品版本");
+        row1.createCell(4).setCellValue("测量指标");
+        row1.createCell(5).setCellValue("网络环境");
+        row1.createCell(6).setCellValue("测量值");
+        row1.createCell(7).setCellValue("达标值");
+        row1.createCell(8).setCellValue("挑战值");
+        row1.createCell(9).setCellValue("中间值");
+        int i=1;
+        for (AppOriginalDelayEntity entity : entityList) {
+            XSSFRow row=sheet.createRow(i);
+            row.createCell(0).setCellValue(entity.getMonth());
+            row.createCell(1).setCellValue(excelDao.findCategoryNameById(entity.getCategory()));
+            row.createCell(2).setCellValue(excelDao.findAppNameById(entity.getApp()));
+            row.createCell(3).setCellValue(entity.getVersion());
+            row.createCell(4).setCellValue(entity.getMeasuring());
+            row.createCell(5).setCellValue(entity.getNetwork());
+            row.createCell(6).setCellValue(entity.getMeasure());
+            row.createCell(7).setCellValue(entity.getStandard());
+            row.createCell(8).setCellValue(entity.getChallenge());
+            row.createCell(9).setCellValue(score.get(i-1));
+            i++;
+        }
+        //输出Excel文件
+        try {
+            File file=new File("D:/时延功耗");
+            if(!file.exists()){
+                file.mkdir();
+            }
+            String fileName = name.substring(0, name.lastIndexOf("."));
+            wb.write(new FileOutputStream(new File("D:/时延功耗/"+fileName+".xlsx")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

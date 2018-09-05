@@ -14,6 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -105,7 +106,12 @@ public class AppOperationExperienceServiceImpl implements AppOperationExperience
                 list.add(entity);
             }
             for (AppCalculationOperationsEntity entity:list){
-                appOperationExperienceDao.updateExperience(entity);
+                int i = appOperationExperienceDao.updateExperience(entity);
+                if (i==0){
+                    //手动回滚事物
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    return "失败!";
+                }
             }
             List<AppCalculationOperationsEntity> entities = conversionService.queryUnConversion(list.get(0).getCategory(), list.get(0).getMonth());
             conversionService.saveAll(entities);

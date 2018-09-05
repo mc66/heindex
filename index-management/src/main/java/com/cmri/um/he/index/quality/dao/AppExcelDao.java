@@ -24,6 +24,13 @@ public class AppExcelDao extends BaseDao {
         return excelMapper.findIdByAppName(appName);
     }
 
+    public String findCategoryNameById(int categoryId) {
+        return excelMapper.findCategoryNameById(categoryId);
+    }
+
+    public String findAppNameById(int appId) {
+        return excelMapper.findAppNameById(appId);
+    }
 
     public List<Map<String, Object>> getMonth() {
         return excelMapper.getMonth();
@@ -32,6 +39,5 @@ public class AppExcelDao extends BaseDao {
     public List<Map<String,Object>> getAPP(String month) {
         return excelMapper.getAPP(month);
     }
-
 
 }

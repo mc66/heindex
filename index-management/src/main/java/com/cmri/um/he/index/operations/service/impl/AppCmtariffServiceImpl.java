@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -63,19 +64,19 @@ public class AppCmtariffServiceImpl implements AppCmtariffService {
             if (dimensions.equals("服务")){
                 int bars1 = appCmtariffDao.queryAppCalculationOperationsEntityByMeasureValue("服务",app,month);
                 int total1 = appCmtariffDao.queryAppCalculationOperationsEntityByDimensionsId("服务",app,month);
-                v1 = (double) bars1 / total1;
+                v1 = (double) bars1 / total1*100;
             }else if (dimensions.equals("渠道")){
                 int bars2 = appCmtariffDao.queryAppCalculationOperationsEntityByMeasureValue("渠道",app,month);
                 int total2 = appCmtariffDao.queryAppCalculationOperationsEntityByDimensionsId("渠道",app,month);
-                v2 = (double) bars2 / total2;
+                v2 = (double) bars2 / total2*100;
             }else if (dimensions.equals("营销")){
                 int bars3 = appCmtariffDao.queryAppCalculationOperationsEntityByMeasureValue("营销",app,month);
                 int total3 = appCmtariffDao.queryAppCalculationOperationsEntityByDimensionsId("营销",app,month);
-                v3 = (double) bars3 / total3;
+                v3 = (double) bars3 / total3*100;
             }else if (dimensions.equals("资费")){
                 int bars4 = appCmtariffDao.queryAppCalculationOperationsEntityByMeasureValue("资费",app,month);
                 int total4 = appCmtariffDao.queryAppCalculationOperationsEntityByDimensionsId("资费",app,month);
-                v4 = (double) bars4 / total4;
+                v4 = (double) bars4 / total4*100;
             }
         }
         AppCalculationOperationsEntity entity=new AppCalculationOperationsEntity();
@@ -124,7 +125,9 @@ public class AppCmtariffServiceImpl implements AppCmtariffService {
         for (List<AppOriginalOperationsEntity> entityList : map.values()) {
             boolean b1 = saveAppOriginalContentEntity(entityList);
             boolean b2 = updateAppOriginalContentEntity(entityList);
-            if (!b1 || !b2) {
+            if (!b1||!b2) {
+                //手动回滚事物
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 return "失败!";
             }
         }

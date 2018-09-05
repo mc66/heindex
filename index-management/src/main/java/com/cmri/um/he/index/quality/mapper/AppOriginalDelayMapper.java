@@ -5,6 +5,7 @@ import com.cmri.um.he.index.quality.entity.AppOriginalDelayEntity;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 import java.util.Map;
@@ -43,4 +44,11 @@ public interface AppOriginalDelayMapper {
             "#{consume},#{experience},#{status},#{version},#{month},#{atime})")
     int saveDelay(AppCalculationQualityEntity entity);
 
+    /**
+     * 延时功耗计算值入库
+     * @param entity
+     * @return
+     */
+    @Update("update app_calculation_quality set delay=#{delay},consume=#{consume},atime=#{atime} where app=#{app} and month=#{month}")
+    int updateDelay(AppCalculationQualityEntity entity);
 }

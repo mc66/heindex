@@ -15,12 +15,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * @author lch
- * Created on 2018/08/31 16:41
+ *         Created on 2018/08/31 16:41
  */
 @Service
-public class AppQualityExcelExportServiceImpl implements AppQualityExcelExportService{
+public class AppQualityExcelExportServiceImpl implements AppQualityExcelExportService {
 
     @Autowired
     private AppQualityExcelExportDao excelExportDao;
@@ -29,8 +28,8 @@ public class AppQualityExcelExportServiceImpl implements AppQualityExcelExportSe
     public void exportQualityExcel() {
         List<Map<String, Object>> list = excelExportDao.getAllCalculationQuality();
         XSSFWorkbook wb = new XSSFWorkbook();
-        XSSFSheet sheet=wb.createSheet("品质计算值表");
-        XSSFRow row1=sheet.createRow(0);
+        XSSFSheet sheet = wb.createSheet("品质计算值表");
+        XSSFRow row1 = sheet.createRow(0);
         //创建单元格并设置单元格内容
         row1.createCell(0).setCellValue("测评阶段");
         row1.createCell(1).setCellValue("产品类别");
@@ -40,9 +39,9 @@ public class AppQualityExcelExportServiceImpl implements AppQualityExcelExportSe
         row1.createCell(5).setCellValue("功能");
         row1.createCell(6).setCellValue("界面");
         row1.createCell(7).setCellValue("使用体验");
-        int i=1;
+        int i = 1;
         for (Map<String, Object> entity : list) {
-            XSSFRow row=sheet.createRow(i);
+            XSSFRow row = sheet.createRow(i);
             row.createCell(0).setCellValue((String) entity.get("month"));
             row.createCell(1).setCellValue((String) entity.get("category"));
             row.createCell(2).setCellValue((String) entity.get("app"));
@@ -55,8 +54,8 @@ public class AppQualityExcelExportServiceImpl implements AppQualityExcelExportSe
         }
         //输出Excel文件
         try {
-            File file=new File("D:/计算值");
-            if(!file.exists()){
+            File file = new File("D:/计算值");
+            if (!file.exists()) {
                 file.mkdir();
             }
             wb.write(new FileOutputStream(new File("D:/计算值/品质计算值表.xlsx")));
@@ -64,15 +63,76 @@ public class AppQualityExcelExportServiceImpl implements AppQualityExcelExportSe
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void exportWeightExcel() {
+        List<Map<String, Object>> list = excelExportDao.getAllWeight();
+        XSSFWorkbook wb = new XSSFWorkbook();
+        XSSFSheet sheet = wb.createSheet("权重表");
+        XSSFRow row1 = sheet.createRow(0);
+        //创建单元格并设置单元格内容
+        row1.createCell(0).setCellValue("应用类别");
+        row1.createCell(1).setCellValue("3G权重");
+        row1.createCell(2).setCellValue("4G权重");
+        row1.createCell(3).setCellValue("WLAN权重");
+        row1.createCell(4).setCellValue("高严重等级权重");
+        row1.createCell(5).setCellValue("中严重等级权重");
+        row1.createCell(6).setCellValue("低严重等级权重");
+        row1.createCell(7).setCellValue("延时权重");
+        row1.createCell(8).setCellValue("功耗权重");
+        row1.createCell(9).setCellValue("功能权重");
+        row1.createCell(10).setCellValue("界面权重");
+        row1.createCell(11).setCellValue("品质体验权重");
+        row1.createCell(12).setCellValue("内容权重");
+        row1.createCell(13).setCellValue("渠道权重");
+        row1.createCell(14).setCellValue("营销权重");
+        row1.createCell(15).setCellValue("资费权重");
+        row1.createCell(16).setCellValue("服务权重");
+        row1.createCell(17).setCellValue("运营体验权重");
+        int i = 1;
+        for (Map<String, Object> entity : list) {
+            XSSFRow row = sheet.createRow(i);
+            row.createCell(0).setCellValue((String) entity.get("category"));
+            row.createCell(1).setCellValue((Double) entity.get("w3g"));
+            row.createCell(2).setCellValue((Double) entity.get("w4g"));
+            row.createCell(3).setCellValue((Double) entity.get("wwlan"));
+            row.createCell(4).setCellValue((Integer) entity.get("whigh"));
+            row.createCell(5).setCellValue((Integer) entity.get("wmiddle"));
+            row.createCell(6).setCellValue((Integer) entity.get("wlow"));
+            row.createCell(7).setCellValue((Double) entity.get("wdelay"));
+            row.createCell(8).setCellValue((Double) entity.get("wconsume"));
+            row.createCell(9).setCellValue((Double) entity.get("wfeatures"));
+            row.createCell(10).setCellValue((Double) entity.get("wview"));
+            row.createCell(11).setCellValue((Double) entity.get("wexperience"));
+            row.createCell(12).setCellValue((Double) entity.get("wcontent"));
+            row.createCell(13).setCellValue((Double) entity.get("wchannel"));
+            row.createCell(14).setCellValue((Double) entity.get("wmarket"));
+            row.createCell(15).setCellValue((Double) entity.get("wexpenses"));
+            row.createCell(16).setCellValue((Double) entity.get("wservice"));
+            row.createCell(17).setCellValue((Double) entity.get("wexperience_operation"));
+            i++;
+        }
+        //输出Excel文件
+        try {
+            File file = new File("D:/计算值");
+            if (!file.exists()) {
+                file.mkdir();
+            }
+            wb.write(new FileOutputStream(new File("D:/计算值/权重表.xlsx")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 导出功能界面计算值
      */
     @Override
     public void exportFeaturesExcel() {
-        List<Map<String,Object>> list=excelExportDao.getMonth();
+        List<Map<String, Object>> list = excelExportDao.getMonth();
         XSSFWorkbook wb = new XSSFWorkbook();
-        XSSFSheet sheet=wb.createSheet("功能界面计算值表");
-        XSSFRow rows=sheet.createRow(0);
+        XSSFSheet sheet = wb.createSheet("功能界面计算值表");
+        XSSFRow rows = sheet.createRow(0);
         //创建单元格并设置单元格内容
         rows.createCell(0).setCellValue("测评阶段");
         rows.createCell(1).setCellValue("产品类别");
@@ -82,22 +142,22 @@ public class AppQualityExcelExportServiceImpl implements AppQualityExcelExportSe
         rows.createCell(5).setCellValue("中等级数量");
         rows.createCell(6).setCellValue("低等级数量");
 
-        int i=1;
+        int i = 1;
         for (Map<String, Object> stringObjectMap : list) {
-            String month=(String)stringObjectMap.get("month");
-            List<Map<String,Object>> list1=excelExportDao.getAPP(month);
+            String month = (String) stringObjectMap.get("month");
+            List<Map<String, Object>> list1 = excelExportDao.getAPP(month);
             for (Map<String, Object> objectMap : list1) {
-                int app=(int)objectMap.get("app");
-                String appName =(String)objectMap.get("appName");
-                String categoryName =(String)objectMap.get("categoryName");
-                List<Map<String,Object>> list2=excelExportDao.getWeight(app,month);
+                int app = (int) objectMap.get("app");
+                String appName = (String) objectMap.get("appName");
+                String categoryName = (String) objectMap.get("categoryName");
+                List<Map<String, Object>> list2 = excelExportDao.getWeight(app, month);
                 for (Map<String, Object> map : list2) {
-                    String dimensions=(String) map.get("dimensions");
-                    int count1=excelExportDao.getCount1(app,month,dimensions);
-                    int count2=excelExportDao.getCount2(app,month,dimensions);
-                    int count3=excelExportDao.getCount3(app,month,dimensions);
+                    String dimensions = (String) map.get("dimensions");
+                    int count1 = excelExportDao.getCount1(app, month, dimensions);
+                    int count2 = excelExportDao.getCount2(app, month, dimensions);
+                    int count3 = excelExportDao.getCount3(app, month, dimensions);
 
-                    XSSFRow row5=sheet.createRow(i);
+                    XSSFRow row5 = sheet.createRow(i);
                     row5.createCell(0).setCellValue(month);
                     row5.createCell(1).setCellValue(categoryName);
                     row5.createCell(2).setCellValue(appName);
