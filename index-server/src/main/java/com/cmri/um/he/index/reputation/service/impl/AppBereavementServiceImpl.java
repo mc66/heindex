@@ -130,11 +130,9 @@ public class AppBereavementServiceImpl implements AppBereavementService {
                     maps.put("pet_positives", pet_positives);
                     maps.put("pet_negativitys", pet_negativitys);
                     maps.put("pet_neutrals", pet_neutrals);
-
+                    appNames.add(maps);
                 }
-                appNames.add(maps);
                 redisTemplate.opsForValue().set(key,appNames,30, TimeUnit.DAYS);
-
             }
         } else {
             appNames = (List<Map<String, Object>>) redisTemplate.opsForValue().get(key);

@@ -113,6 +113,8 @@ public class AppOrginalFeaturesServiceImpl implements AppOrginalFeaturesService 
         int feaScore = 100 - (appWeightQualityEntity.getWhigh() * count3 + appWeightQualityEntity.getWmiddle() * count2 + appWeightQualityEntity.getWlow() * count1);
         int viewScore = 100 - (appWeightQualityEntity.getWhigh() * count6 + appWeightQualityEntity.getWmiddle() * count5 + appWeightQualityEntity.getWlow() * count4);
 
+        if(feaScore<0){ feaScore=0; }
+        if(viewScore<0){ viewScore=0; }
         AppCalculationQualityEntity appCalculationQualityEntity = new AppCalculationQualityEntity();
         appCalculationQualityEntity.setFeatures((double) feaScore);
         appCalculationQualityEntity.setView((double) viewScore);
