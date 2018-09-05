@@ -227,7 +227,7 @@ public class AppOriginalContentServiceImpl implements AppOriginalContentService 
             }
         }
         List list3 = new ArrayList();
-        List<Map<String, Object>> list4 = appOriginalContentDao.getContent();
+        List<Map<String, Object>> list4 = appOriginalContentDao.getContentByapp(app,month);
         for (int i = 0; i < list4.size(); i++) {
             //查得样本库大小
             int contentId = (int) list4.get(i).get("id");
@@ -243,12 +243,14 @@ public class AppOriginalContentServiceImpl implements AppOriginalContentService 
                 list3.add(sorce);
             }
         }
+
+        int num=list4.size();
         double content = 0.0;
         double contents = 0.0;
         for (int i = 0; i < list3.size(); i++) {
             contents += (double) list3.get(i);
-            content = new BigDecimal((float) contents / 3).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         }
+        content = new BigDecimal((float) contents / num).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         //封装数据
         AppCalculationOperationsEntity appCalculationOperationsEntity = new AppCalculationOperationsEntity();
         appCalculationOperationsEntity.setCategory(category);

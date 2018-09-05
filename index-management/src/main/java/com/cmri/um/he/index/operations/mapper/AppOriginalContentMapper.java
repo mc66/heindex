@@ -16,12 +16,19 @@ import java.util.Map;
 @Mapper
 public interface AppOriginalContentMapper {
 
+
     /**
-     * 查询内容分类
+     * 查询内容的所有分类
+     */
+    @Select("SELECT * from app_content_category")
+    List<Map<String, Object>> getContent();
+
+    /**
+     * 查询对应app和月份的内容分类
      * @return
      */
-    @Select("SElECT * from app_content_category")
-    List<Map<String, Object>> getContent();
+    @Select("SElECT DISTINCT content_id from app_original_content where  app=#{app} AND month =#{month}")
+    List<Map<String, Object>> getContentByapp(@Param("app") int app,@Param("month") String month);
 
     /**
      * 添加内容数据
