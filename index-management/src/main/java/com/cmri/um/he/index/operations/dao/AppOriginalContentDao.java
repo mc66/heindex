@@ -19,11 +19,20 @@ public class AppOriginalContentDao {
     private AppOriginalContentMapper mapper;
 
     /**
-     * 查询内容的分类
+     * 查询内容分类
      * @return list
      */
     public List<Map<String, Object>> getContent(){
         List<Map<String, Object>> list=mapper.getContent();
+        return list;
+    }
+
+    /**
+     * 查询对应app和月份的内容分类
+     * @return list
+     */
+    public List<Map<String, Object>> getContentByapp(int app,String month){
+        List<Map<String, Object>> list=mapper.getContentByapp(app,month);
         return list;
     }
 

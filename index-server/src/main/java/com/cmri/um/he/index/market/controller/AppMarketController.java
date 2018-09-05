@@ -20,7 +20,7 @@ public class AppMarketController extends ZRestController {
     @Autowired
     private AppMarketService appMarketService;
 
-    @RequestMapping(value = "/app-market-list",method = RequestMethod.GET)
+    @RequestMapping(value = "app-market-list",method = RequestMethod.GET)
     public ResponseMessage getAppMarket(@RequestParam int category,@RequestParam String month){
         List<Map<String, Object>> appMarketList = appMarketService.getAppMarketList(category,month);
         ResponseMessage responseMessage = this.genResponseMessage();
@@ -80,7 +80,7 @@ public class AppMarketController extends ZRestController {
             map1s.put("mau_number",value);
             list1.add(map1s);
         }
-        Iterator it2 = map1.entrySet().iterator();
+        Iterator it2 = map2.entrySet().iterator();
         while (it2.hasNext()) {
             Map<String,Object> map2s = new HashMap<>(16);
             Map.Entry entry = (Map.Entry) it2.next();
@@ -90,7 +90,7 @@ public class AppMarketController extends ZRestController {
             map2s.put("keep_rate",value);
             list2.add(map2s);
         }
-        Iterator it3 = map1.entrySet().iterator();
+        Iterator it3 = map3.entrySet().iterator();
         while (it3.hasNext()) {
             Map<String,Object> map3s = new HashMap<>(16);
             Map.Entry entry = (Map.Entry) it3.next();
@@ -100,7 +100,7 @@ public class AppMarketController extends ZRestController {
             map3s.put("length_time",value);
             list3.add(map3s);
         }
-        Iterator it4 = map1.entrySet().iterator();
+        Iterator it4 = map4.entrySet().iterator();
         while (it4.hasNext()) {
             Map<String,Object> map4s = new HashMap<>(16);
             Map.Entry entry = (Map.Entry) it4.next();

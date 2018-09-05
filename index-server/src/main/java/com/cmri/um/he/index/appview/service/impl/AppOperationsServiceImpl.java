@@ -6,6 +6,8 @@ import com.cmri.um.he.index.appview.service.AppOperationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,5 +81,22 @@ public class AppOperationsServiceImpl implements AppOperationsService {
     @Override
     public List<Map<String, Object>> queryQualityExperience(Integer id, String month) {
         return appOperationsDao.queryQualityExperience(id,month);
+    }
+    /**
+     * 查询内容更新和覆盖的峰值
+     * @param app
+     * @param month
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> getContent(Integer app, String month) {
+        List<Map<String, Object>> list3=new ArrayList<>();
+        Map<String, Object> map=new HashMap<>();
+        List<Map<String, Object>> list1=appOperationsDao.getContent1(app,month);
+        List<Map<String, Object>> list2=appOperationsDao.getContent2(app,month);
+        map.put("update",list1);
+        map.put("cover",list2);
+        list3.add(map);
+        return  list3;
     }
 }

@@ -20,7 +20,30 @@ public class AppQualityExcelExportDao {
         return mapper.getAllCalculationQuality();
     }
 
-    public List<Map<String,Object>> getAllWeight(){
+
+    public List<Map<String,Object>> getAllWeight() {
         return mapper.getAllWeight();
+    }
+
+    public List<Map<String,Object>> getMonth(){
+        return mapper.getMonth();
+    }
+
+    public List<Map<String,Object>> getAPP(String month){
+        return mapper.getAPP(month);
+    }
+
+    public List<Map<String,Object>> getWeight(int app,String month){
+        return mapper.getWeight(app,month);
+    }
+    public int getCount1(Integer app,String month,String dimensions){
+        return mapper.getCount1(app,month,dimensions);
+    }
+    public int getCount2(Integer app,String month,String dimensions){
+        return mapper.getCount2(app,month,dimensions);
+    }
+    public int getCount3(Integer app,String month,String dimensions){
+        return mapper.getCount3(app,month,dimensions);
+
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 /**
- * 默认展示时获取查询时间通用方法
+ * 用户新增
  * @author shihao
  * Created on 2018/8/1
  */
@@ -31,7 +31,11 @@ public class AppMarketAddController extends ZRestController {
     public ResponseMessage getAppNumber(@RequestParam Integer category , @RequestParam Integer app, @RequestParam String month){
         List<Map<String, Object>> list=appMarketAddService.getAppNumber(category,app,month);
         ResponseMessage responseMessage =this.genResponseMessage();
-        responseMessage.set("list",list);
+        if (list!=null&&list.size()>0){
+            responseMessage.set("list",list);
+        }else {
+            responseMessage.setMsg("现在还没有数据！");
+        }
         return  responseMessage;
     }
 

@@ -117,7 +117,7 @@ public interface AppEmotionAnalyzeMapper {
      * @param month
      * @return
      */
-    @Select("SELECT app,mau from app_mau where month=#{month} AND  app in\n" +
+    @Select("SELECT app,monthly_active from app_market_month where month=#{month} AND  app in\n" +
             "(SELECT app from app_emotion_parameter where category =#{category} and month =#{month})")
     List<Map<String,Object>> getMau(@Param("category") int category,@Param("month")String month);
 

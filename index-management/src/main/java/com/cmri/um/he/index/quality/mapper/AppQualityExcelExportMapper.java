@@ -1,6 +1,7 @@
 package com.cmri.um.he.index.quality.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -17,4 +18,21 @@ public interface AppQualityExcelExportMapper {
 
     @Select("SELECT cat.name category,awq.w3g,awq.w4g,awq.wwlan,awq.whigh,awq.wmiddle,awq.wlow,awq.wdelay,awq.wconsume,awq.wfeatures,awq.wview,awq.wexperience,awq.wcontent,awq.wchannel,awq.wmarket,awq.wexpenses,awq.wservice,awq.wexperience_operation FROM app_weight_quality awq JOIN app_category cat ON awq.category=cat.id")
     List<Map<String,Object>> getAllWeight();
+
+    @Select("select DISTINCT month from app_original_features")
+    List<Map<String,Object>> getMonth();
+
+    @Select("select DISTINCT f.app , i.`name` appName,c.`name` categoryName from app_original_features f LEFT JOIN app_info i ON f.app=i.id  LEFT JOIN app_category c ON c.id=f.category where month=#{month}")
+    List<Map<String,Object>>  getAPP(@Param("month") String month);
+
+    @Select("select DISTINCT dimensions  from app_original_features where app=#{app} AND month=#{month}")
+    List<Map<String,Object>>  getWeight(@Param("app") int app,@Param("month") String month);
+
+    @Select("select COUNT(*) from app_original_features where app=#{app} AND month=#{month} AND dimensions =#{dimensions} and degree ='高'")
+    int getCount1(@Param("app") Integer app,@Param("month") String month,@Param("dimensions") String dimensions);
+    @Select("select COUNT(*) from app_original_features where app=#{app} AND month=#{month} AND dimensions =#{dimensions} and degree ='中'")
+    int getCount2(@Param("app") Integer app,@Param("month") String month,@Param("dimensions") String dimensions);
+    @Select("select COUNT(*) from app_original_features where app=#{app} AND month=#{month} AND dimensions =#{dimensions} and degree ='低'")
+    int getCount3(@Param("app") Integer app,@Param("month") String month,@Param("dimensions") String dimensions);
+
 }

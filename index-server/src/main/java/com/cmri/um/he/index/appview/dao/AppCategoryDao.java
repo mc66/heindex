@@ -49,5 +49,21 @@ public class AppCategoryDao extends BaseDao {
     }
 
 
+    /**
+     * 查询有数据的口碑对应的category和 app
+     * @param category
+     * @return
+     */
+    public List<Map<String, Object>> getAppByEmotion(Integer category) {
+        return mapper.getAppByEmotion(category);
+    }
+
+    /**
+     * 查询有数据的category
+     * @return
+     */
+    public List<Map<String, Object>> getCategoryByEmotion() {
+        return mapper.getCategoryByEmotion();
+    }
 
 }

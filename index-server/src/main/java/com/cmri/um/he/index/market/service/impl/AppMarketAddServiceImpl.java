@@ -35,21 +35,25 @@ public class AppMarketAddServiceImpl implements AppMarketAddService {
             List<Map<String, Object>> list1 = appMarketAddDao.getAppNumber(category, app, month);
             List<Map<String, Object>> list2 = appMarketAddDao.getAppNumber(category, app, defaultTime);
 
-            if ((int) list1.get(0).get("new_user") >= (int) list2.get(0).get("new_user")) {
-                list1.get(0).put("new_userSatte", 1);
-            } else {
-                list1.get(0).put("new_userSatte", 0);
-            }
-            if ((double) list1.get(0).get("rate") >=(double) list2.get(0).get("rate")) {
-                list1.get(0).put("rateSatte", 1);
-            } else {
-                list1.get(0).put("rateSatte", 0);
-            }
-            if (list2 == null && list2.size() == 0) {
+            if (list2.size() == 0) {
                 list1.get(0).put("new_userSatte", 1);
                 list1.get(0).put("rateSatte", 1);
+                return list1;
+            } else {
+                double newuser1 = (double) list1.get(0).get("new_user");
+                double newuser2 = (double) list2.get(0).get("new_user");
+                if (newuser1 > newuser2) {
+                    list1.get(0).put("new_userSatte", 1);
+                } else {
+                    list1.get(0).put("new_userSatte", 0);
+                }
+                if (newuser1 > newuser2) {
+                    list1.get(0).put("rateSatte", 1);
+                } else {
+                    list1.get(0).put("rateSatte", 0);
+                }
+                return list1;
             }
-            return list1;
         } catch (Exception e) {
             return null;
         }
@@ -122,7 +126,8 @@ public class AppMarketAddServiceImpl implements AppMarketAddService {
                         Collections.reverse(list2);
                         List list4 = new ArrayList();
                         for (Map<String, Object> obmap : list2) {
-                            Object keep_rate = obmap.get("new_user_retention_rate");
+                            double rate = (double)obmap.get("new_user_retention_rate");
+                            String keep_rate =String.valueOf(rate) +"%";
                             list4.add(keep_rate);
                         }
                         list.add(list4);
@@ -157,7 +162,8 @@ public class AppMarketAddServiceImpl implements AppMarketAddService {
                     Collections.reverse(list2);
                     List list4 = new ArrayList();
                     for (Map<String, Object> obmap : list2) {
-                        Object keep_rate = obmap.get("new_user_retention_rate");
+                        double rate = (double)obmap.get("new_user_retention_rate");
+                        String keep_rate =String.valueOf(rate) +"%";
                         list4.add(keep_rate);
                     }
                     list.add(list4);
@@ -189,7 +195,8 @@ public class AppMarketAddServiceImpl implements AppMarketAddService {
                 Collections.reverse(list2);
                 List list4 = new ArrayList();
                 for (Map<String, Object> obmap : list2) {
-                    Object keep_rate = obmap.get("new_user_retention_rate");
+                    double rate = (double)obmap.get("new_user_retention_rate");
+                    String keep_rate =String.valueOf(rate) +"%";
                     list4.add(keep_rate);
                 }
                 list.add(list4);
@@ -222,7 +229,8 @@ public class AppMarketAddServiceImpl implements AppMarketAddService {
                 Collections.reverse(list2);
                 List list4 = new ArrayList();
                 for (Map<String, Object> obmap : list2) {
-                    Object keep_rate = obmap.get("new_user_retention_rate");
+                    double rate = (double)obmap.get("new_user_retention_rate");
+                    String keep_rate =String.valueOf(rate) +"%";
                     list4.add(keep_rate);
                 }
                 list.add(list4);

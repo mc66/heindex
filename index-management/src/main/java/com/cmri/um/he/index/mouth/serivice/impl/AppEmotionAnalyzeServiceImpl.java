@@ -146,7 +146,7 @@ public class AppEmotionAnalyzeServiceImpl implements AppEmotionAnalyzeService {
                 List<Map<String,Object>> list6=appEmotionAnalyzeDao.getMau(category,month);
                 List<Double> list7 =new ArrayList();
                 for (Map<String, Object> objectMap : list6) {
-                    double mau = (Long)objectMap.get("mau");
+                    double mau = (double)objectMap.get("monthly_active");
                     list7.add(mau);
                 }
                 if(list6.size()==0){
@@ -158,7 +158,7 @@ public class AppEmotionAnalyzeServiceImpl implements AppEmotionAnalyzeService {
                     Double mau_dev = StandardDeviationUtil.getStandardDeviation(dou);
                     //计算月活数的Z分,T分
                     for (Map<String, Object> objectMap : list6) {
-                        double mau = (Long)objectMap.get("mau");
+                        double mau = (double)objectMap.get("monthly_active");
                         int app= (int)objectMap.get("app");
                         //Z分
                         double mauZ=0.0;

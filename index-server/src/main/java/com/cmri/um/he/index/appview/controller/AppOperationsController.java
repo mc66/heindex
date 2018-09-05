@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 查询单个应用运营数据
@@ -126,5 +127,19 @@ public class AppOperationsController extends ZRestController {
         return responseMessage;
     }
 
+    /**
+     * 查询内容更新和覆盖的峰值
+     * @param app
+     * @param month
+     * @return
+     */
+    @RequestMapping( value = "get-content", method = RequestMethod.GET)
+    public ResponseMessage getContent(@RequestParam Integer app,@RequestParam String month){
+        List<Map<String,Object>> list=appOperationsService.getContent(app,month);
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("list",list);
+        return responseMessage;
+
+    }
 
 }

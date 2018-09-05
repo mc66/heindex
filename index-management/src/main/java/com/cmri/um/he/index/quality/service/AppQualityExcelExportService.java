@@ -9,4 +9,8 @@ public interface AppQualityExcelExportService {
     void exportQualityExcel();
 
     void exportWeightExcel();
+
+    void exportFeaturesExcel();
+
+
 }

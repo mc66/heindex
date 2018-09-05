@@ -16,23 +16,65 @@ import java.util.Map;
  * Created on 2018/07/03 09:39
  */
 @RestController
-@RequestMapping("/app-second-quality-delay")
 @CrossOrigin
 public class AppSecondQualityDelayController extends ZRestController {
     @Autowired
     private AppSecondQualityDelayService delayService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/app-second-quality-delay",method = RequestMethod.GET)
     public ResponseMessage get(@RequestParam Integer id,@RequestParam String measuring,@RequestParam String month) {
         List<Map<String, Object>> list3g = delayService.findQualityMeasureBySome(id,measuring, "3g", month);
         List<Map<String, Object>> list4g = delayService.findQualityMeasureBySome(id,measuring, "4g", month);
         List<Map<String, Object>> listWlan = delayService.findQualityMeasureBySome(id,measuring, "WLAN", month);
         ResponseMessage responseMessage = this.genResponseMessage();
+        List<Map<String, Object>> list3 = new ArrayList<>();
         List list =new ArrayList();
-        list.add(list3g);
+        if(month.equals("2018上")){
+            list.add(list3g);
+        }else {
+            list.add(list3);
+        }
         list.add(list4g);
         list.add(listWlan);
         responseMessage.set("list",list);
+        return responseMessage;
+    }
+
+    @RequestMapping(value = "/get-measuring",method = RequestMethod.GET)
+    public ResponseMessage getMeasuring(@RequestParam int id){
+        List<String> mapList = delayService.findeasureById(id);
+        List<String> delayMap = new ArrayList<>();
+        List<String> consumMap = new ArrayList<>();
+        List<Integer> idList = new ArrayList<>();
+        idList.add(8);
+        idList.add(11);
+        idList.add(12);
+        idList.add(17);
+        idList.add(92);
+        idList.add(93);
+        if (idList.contains(id)){
+            delayMap.add(mapList.get(0));
+            delayMap.add(mapList.get(1));
+            delayMap.add(mapList.get(2));
+            delayMap.add(mapList.get(3));
+            consumMap.add(mapList.get(4));
+            consumMap.add(mapList.get(5));
+            consumMap.add(mapList.get(6));
+            consumMap.add(mapList.get(7));
+            consumMap.add(mapList.get(8));
+            consumMap.add(mapList.get(9));
+        }else {
+            delayMap.add(mapList.get(0));
+            delayMap.add(mapList.get(1));
+            delayMap.add(mapList.get(2));
+            delayMap.add(mapList.get(3));
+            consumMap.add(mapList.get(4));
+            consumMap.add(mapList.get(5));
+            consumMap.add(mapList.get(6));
+        }
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("delay",delayMap);
+        responseMessage.set("consum",consumMap);
         return responseMessage;
     }
 }

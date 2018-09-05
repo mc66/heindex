@@ -1,14 +1,12 @@
 package com.cmri.um.he.index.terminal.controller;
 
 import com.cmri.spring.common.controller.ZRestController;
+import com.cmri.spring.common.data.PagingData;
 import com.cmri.spring.common.data.ResponseMessage;
-import com.cmri.um.he.index.receivable.CommentParticularsVO;
-import com.cmri.um.he.index.reputation.service.AppProductService;
 import com.cmri.um.he.index.terminal.service.TerminalOverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -51,19 +49,43 @@ public class TerminalOverviewController extends ZRestController {
     }
 
     /**
-     * 查询指定月份终端型号排行榜
-     * @param month 指定月份
-     * @param start 开始条数
-     * @param end   结束条数
-     * @param pid   省份id
-     * @param bid   品牌id
-     * @return 结果集
-     * */
+     * 终端品牌
+     * @return
+     */
     @RequestMapping(value = "quary-brand",method = RequestMethod.GET)
-    public ResponseMessage quaryBrand(@RequestParam String month, @RequestParam String start, @RequestParam String end, @RequestParam String pid, @RequestParam String bid){
-        List<Map<String,Object>> list = terminalOverviewService.findBrand(month, start, end, pid, bid);
+    public ResponseMessage quaryBrand(){
+        List<Map<String,Object>> list = terminalOverviewService.quaryBrand();
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("list",list);
         return responseMessage;
+    }
+
+    /**
+     * 查询指定月份终端型号排行榜
+     * @param month 指定月份
+     * @param page     所要查询的分页，从1开始
+     * @param step     每页的记录容量
+     * @return 结果集
+     * */
+    @RequestMapping(value = "/quary-brand-Page",method = RequestMethod.GET)
+    public ResponseMessage quaryBrandPage(@RequestParam String month, @RequestParam Integer page, @RequestParam Integer step){
+        return terminalOverviewService.findBrandPage(month,page,step).updateResponse(genResponseMessage());
+    }
+
+    /**
+     * 查询指定月份终端型号排行榜
+     * @param month 指定月份
+     * @param page     所要查询的分页，从1开始
+     * @param step     每页的记录容量
+     * @return 结果集
+     * */
+    @RequestMapping(value = "/quary-brand-type",method = RequestMethod.GET)
+    public ResponseMessage quaryBrandType(@RequestParam String month, @RequestParam Integer page, @RequestParam Integer step,Integer pid,Integer bid){
+        if (pid == null && bid == null) {
+            return terminalOverviewService.findBrandPage(month,page,step).updateResponse(genResponseMessage());
+        } else {
+            return terminalOverviewService.findBrand(month,page,step,pid,bid).updateResponse(genResponseMessage());
+        }
+
     }
 }

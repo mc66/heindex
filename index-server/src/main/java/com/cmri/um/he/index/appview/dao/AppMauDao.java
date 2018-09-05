@@ -56,4 +56,14 @@ public class AppMauDao extends BaseDao {
         return items;
     }
 
+    /**
+     * 查询上月用户活跃数
+     * @param app
+     * @param time
+     * @return
+     */
+    public Double quaryLastMonthMau(int app,String time){
+        return mapper.quaryLastMonthMau(app,time);
+    }
+
 }

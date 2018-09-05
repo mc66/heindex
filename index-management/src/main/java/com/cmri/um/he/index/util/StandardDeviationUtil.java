@@ -20,11 +20,14 @@ public class StandardDeviationUtil {
      */
     public static double getAverage(Double[] x){
         int m = x.length;
-        int sum = 0;
+        double sum = 0;
         for(int i = 0;i < m;i++){
             sum += x[i];
         }
-        return (double)(sum / m);
+        double d  = sum / m;
+        String format = DF.format(d);
+        Double aDouble = Double.valueOf(format);
+        return aDouble;
     }
 
     /**
