@@ -19,4 +19,8 @@ public class AppQualityExcelExportDao {
     public List<Map<String,Object>> getAllCalculationQuality(){
         return mapper.getAllCalculationQuality();
     }
+
+    public List<Map<String,Object>> getAllWeight(){
+        return mapper.getAllWeight();
+    }
 }

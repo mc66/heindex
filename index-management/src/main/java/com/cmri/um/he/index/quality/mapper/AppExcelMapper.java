@@ -24,4 +24,20 @@ public interface AppExcelMapper {
      */
     @Select("SELECT id from app_info WHERE `name`=#{app}")
     int findIdByAppName(String app);
+    /**
+     * 查询应用类别
+     * @param category
+     * @return 应用类别id
+     */
+
+    @Select("SELECT name from app_category WHERE id=#{category}")
+    String findCategoryNameById(int category);
+
+    /**
+     * 查询应用类别
+     * @param app
+     * @return 应用类别id
+     */
+    @Select("SELECT name from app_info WHERE id=#{app}")
+    String findAppNameById(int app);
 }

@@ -44,8 +44,7 @@ public class AppOperationExperienceDao extends BaseDao{
         appOperationExperienceMapper.add(appCalculationOperationsEntity);
     }
 
-    public void updateExperience(AppCalculationOperationsEntity appCalculationOperationsEntity){
-        int i = appOperationExperienceMapper.updateExperience(appCalculationOperationsEntity);
-        System.out.println(i);
+    public int updateExperience(AppCalculationOperationsEntity appCalculationOperationsEntity){
+        return appOperationExperienceMapper.updateExperience(appCalculationOperationsEntity);
     }
 }
