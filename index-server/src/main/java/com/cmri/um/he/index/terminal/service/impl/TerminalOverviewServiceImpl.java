@@ -35,10 +35,14 @@ public class TerminalOverviewServiceImpl implements TerminalOverviewService {
     @Override
     public List<Map<String, Object>> quaryTerminalExponent(Integer id, String month) {
         List<Map<String, Object>> list = terminalOverviewDao.quaryTerminalExponent(id,month);
-        double total = terminalOverviewDao.quaryTotal(id, month);
+        Double total = terminalOverviewDao.quaryTotal(id, month);
         for (Map<String, Object> map : list) {
-            BigDecimal amount = (BigDecimal)map.get("amount");
-            map.put("proportion",new BigDecimal(amount.doubleValue()/total*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
+            if (total!=0){
+                BigDecimal amount = (BigDecimal)map.get("amount");
+                map.put("proportion",new BigDecimal(amount.doubleValue()/total*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
+            }else {
+                map.put("proportion","0.00%");
+            }
         }
         return list;
     }
@@ -59,7 +63,16 @@ public class TerminalOverviewServiceImpl implements TerminalOverviewService {
             BigDecimal sale = (BigDecimal)map.get("value");
             BigDecimal sale1 = terminalOverviewDao.quaryMonthBrand(imei, date);
             ratio = (sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).multiply(new BigDecimal(100)).setScale(2)+"%";
+            int flag;
+            if ((sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).compareTo(BigDecimal.ZERO)==0 ){
+                flag = 0;
+            }else if ((sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).compareTo(BigDecimal.ZERO)>0 ){
+                flag = 1;
+            }else {
+                flag = -1;
+            }
             map.put("ratio",ratio);
+            map.put("flag",flag);
         }
         return new PagingData<>(terminalOverviewDao.getCount(month),
                 page,
@@ -83,7 +96,20 @@ public class TerminalOverviewServiceImpl implements TerminalOverviewService {
             String imei = (String) map.get("imei");
             BigDecimal sale = (BigDecimal)map.get("value");
             BigDecimal sale1 = terminalOverviewDao.quaryMonthBrand(imei, date);
-            ratio = (sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).multiply(new BigDecimal(100)).setScale(2)+"%";
+            if (sale1.equals(null)){
+                ratio = "100%";
+            }else {
+                ratio = (sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).multiply(new BigDecimal(100)).setScale(2)+"%";
+            }
+            int flag;
+            if ((sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).compareTo(BigDecimal.ZERO)==0 ){
+                flag = 0;
+            }else if ((sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).compareTo(BigDecimal.ZERO)>0 ){
+                flag = 1;
+            }else {
+                flag = -1;
+            }
+            map.put("flag",flag);
             map.put("ratio",ratio);
         }
         Map<String, Object> ratioMap = new HashMap<>();
