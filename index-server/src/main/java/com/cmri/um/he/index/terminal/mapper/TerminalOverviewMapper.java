@@ -61,7 +61,7 @@ public interface TerminalOverviewMapper {
      * @return 结果集
      * */
     @Select("<script>\n" +
-            "SELECT ta.imei,tb.brand_name,tp.terminal_type,SUM(ta.sale_number) value\n" +
+            "SELECT ta.imei,tb.brand_name,tp.terminal_type,tb.brand_logo,SUM(ta.sale_number) value\n" +
             "FROM terminal_analyzes ta JOIN terminal_property tp ON ta.imei = tp.imei\n" +
             "JOIN terminal_brand tb ON tp.brand = tb.id\n" +
             "WHERE ta.`month` = #{month}\n" +
@@ -78,7 +78,7 @@ public interface TerminalOverviewMapper {
      * @param rows   最多查询记录数
      * @return 结果集
      * */
-    @Select("SELECT ta.imei,tb.brand_name,tp.terminal_type,SUM(ta.sale_number) value\n" +
+    @Select("SELECT ta.imei,tb.brand_name,tp.terminal_type,tb.brand_logo,SUM(ta.sale_number) value\n" +
             "FROM terminal_analyzes ta JOIN terminal_property tp ON ta.imei = tp.imei\n" +
             "JOIN terminal_brand tb ON tp.brand = tb.id\n" +
             "WHERE ta.`month` = #{month}\n" +
