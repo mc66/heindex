@@ -82,8 +82,6 @@ public class TerminalOverviewController extends ZRestController {
      * */
     @RequestMapping(value = "/quary-brand-type",method = RequestMethod.GET)
     public ResponseMessage quaryBrandType(@RequestParam String month, @RequestParam Integer page, @RequestParam Integer step,Integer pid,Integer bid){
-        PagingData<Map<String, Object>> brandPage = terminalOverviewService.findBrandPage(month, page, step);
-
         if (pid == null && bid == null) {
             return terminalOverviewService.findBrandPage(month,page,step).updateResponse(genResponseMessage());
         } else {
