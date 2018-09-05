@@ -20,6 +20,11 @@ public class AppQualityExcelExportDao {
         return mapper.getAllCalculationQuality();
     }
 
+
+    public List<Map<String,Object>> getAllWeight() {
+        return mapper.getAllWeight();
+    }
+
     public List<Map<String,Object>> getMonth(){
         return mapper.getMonth();
     }
@@ -39,5 +44,6 @@ public class AppQualityExcelExportDao {
     }
     public int getCount3(Integer app,String month,String dimensions){
         return mapper.getCount3(app,month,dimensions);
+
     }
 }

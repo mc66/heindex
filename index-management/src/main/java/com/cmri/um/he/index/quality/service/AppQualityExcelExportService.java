@@ -8,6 +8,9 @@ package com.cmri.um.he.index.quality.service;
 public interface AppQualityExcelExportService {
     void exportQualityExcel();
 
+    void exportWeightExcel();
+
     void exportFeaturesExcel();
+
 
 }
