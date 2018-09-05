@@ -47,4 +47,10 @@ public class AppEmotionAnalyzeController extends ZRestController {
         }
         return  responseMessage;
     }
+
+    @RequestMapping(value = "app-he",method = RequestMethod.GET)
+    public String getHe(){
+
+        return  "hello world";
+    }
 }
