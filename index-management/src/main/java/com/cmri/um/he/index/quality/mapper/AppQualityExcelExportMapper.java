@@ -16,6 +16,9 @@ public interface AppQualityExcelExportMapper {
     @Select("SELECT app.name app,category.name category,acq.delay,acq.consume,acq.features,acq.`view`,acq.experience,acq.`month` FROM app_calculation_quality acq JOIN app_info app ON acq.app=app.id JOIN app_category category ON acq.category=category.id ORDER BY `month`,category,app")
     List<Map<String,Object>> getAllCalculationQuality();
 
+    @Select("SELECT cat.name category,awq.w3g,awq.w4g,awq.wwlan,awq.whigh,awq.wmiddle,awq.wlow,awq.wdelay,awq.wconsume,awq.wfeatures,awq.wview,awq.wexperience,awq.wcontent,awq.wchannel,awq.wmarket,awq.wexpenses,awq.wservice,awq.wexperience_operation FROM app_weight_quality awq JOIN app_category cat ON awq.category=cat.id")
+    List<Map<String,Object>> getAllWeight();
+
     @Select("select DISTINCT month from app_original_features")
     List<Map<String,Object>> getMonth();
 
@@ -31,4 +34,5 @@ public interface AppQualityExcelExportMapper {
     int getCount2(@Param("app") Integer app,@Param("month") String month,@Param("dimensions") String dimensions);
     @Select("select COUNT(*) from app_original_features where app=#{app} AND month=#{month} AND dimensions =#{dimensions} and degree ='低'")
     int getCount3(@Param("app") Integer app,@Param("month") String month,@Param("dimensions") String dimensions);
+
 }

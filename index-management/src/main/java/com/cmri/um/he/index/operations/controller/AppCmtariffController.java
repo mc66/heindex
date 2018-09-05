@@ -39,4 +39,12 @@ public class AppCmtariffController extends ZRestController{
         return responseMessage;
     }
 
+    /**
+     * 导出渠道、营销、资费、服务计算值
+     */
+    @RequestMapping(value = "/exportCmtariffExcel", method = RequestMethod.GET)
+    public void exportCmtariffExcel() {
+        appCmtariffService.exportCmtariffExcel();
+    }
+
 }

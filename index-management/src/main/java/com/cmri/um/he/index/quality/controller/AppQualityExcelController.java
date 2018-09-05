@@ -79,6 +79,13 @@ public class AppQualityExcelController extends ZRestController {
     }
 
     /**
+     * 导出权重表
+     */
+    @RequestMapping(value = "/exportWeight", method = RequestMethod.GET)
+    public void exportWeightExcel() {
+        exportService.exportWeightExcel();
+    }
+        /**
      * 导出功能界面计算值
      */
     @RequestMapping(value = "/exportFeatures", method = RequestMethod.GET)

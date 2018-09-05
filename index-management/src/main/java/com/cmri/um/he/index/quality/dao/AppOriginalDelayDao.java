@@ -46,4 +46,11 @@ public class AppOriginalDelayDao extends BaseDao{
         return mapper.saveDelay(entity);
     }
 
+    /**
+     * 修改时延
+     * @param entity
+     * @return
+     */
+    public int updateDelay(AppCalculationQualityEntity entity){return mapper.updateDelay(entity);}
+
 }

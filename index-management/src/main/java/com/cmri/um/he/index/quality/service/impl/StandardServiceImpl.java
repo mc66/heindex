@@ -86,6 +86,9 @@ public class StandardServiceImpl implements StandardService {
             if (StandardDeviationUtil.getStandardDeviation(featureArr) != 0) {
                 newFeatures = 80 + 10 * ((features - StandardDeviationUtil.getAverage(featureArr)) / StandardDeviationUtil.getStandardDeviation(featureArr));
             }
+            if (newFeatures > 100){
+                newFeatures = 100;
+            }
             String format = DF.format(newFeatures);
             Double newFea = Double.valueOf(format);
             //界面
@@ -93,6 +96,9 @@ public class StandardServiceImpl implements StandardService {
             double newVie = 80;
             if (StandardDeviationUtil.getStandardDeviation(viewsArr) != 0) {
                 newVie = 80 + 10 * ((views - StandardDeviationUtil.getAverage(viewsArr)) / StandardDeviationUtil.getStandardDeviation(viewsArr));
+            }
+            if (newVie > 100){
+                newVie = 100;
             }
             String formatViews = DF.format(newVie);
             Double newView = Double.valueOf(formatViews);
@@ -102,11 +108,20 @@ public class StandardServiceImpl implements StandardService {
             if (StandardDeviationUtil.getStandardDeviation(delayArr) != 0){
                 newDela = 80+10*((delay-StandardDeviationUtil.getAverage(delayArr))/StandardDeviationUtil.getStandardDeviation(delayArr));
             }
+            if (newDela > 100){
+                newDela = 100;
+            }
             String formatDelay = DF.format(newDela);
             Double newDelay = Double.valueOf(formatDelay);
             //功耗
             double consume = appCalculation.getConsume();
-            double newCo = 80+10*((consume-StandardDeviationUtil.getAverage(consumeArr))/StandardDeviationUtil.getStandardDeviation(consumeArr));
+            double newCo = 80;
+            if (StandardDeviationUtil.getStandardDeviation(consumeArr) != 0) {
+                newCo = 80 + 10 * ((consume - StandardDeviationUtil.getAverage(consumeArr)) / StandardDeviationUtil.getStandardDeviation(consumeArr));
+            }
+            if (newCo > 100){
+                newCo = 100;
+            }
             String formatCon = DF.format(newCo);
             double newCon = Double.valueOf(formatCon);
             //使用体验
@@ -114,6 +129,9 @@ public class StandardServiceImpl implements StandardService {
             double newExperience = 80;
             if (StandardDeviationUtil.getStandardDeviation(experienceArr) != 0) {
                 newExperience = 80 + 10 * ((experience - StandardDeviationUtil.getAverage(experienceArr)) / StandardDeviationUtil.getStandardDeviation(experienceArr));
+            }
+            if (newExperience > 100){
+                newExperience = 100;
             }
             String formatExperience = DF.format(newExperience);
             double newExperiences = Double.valueOf(formatExperience);
