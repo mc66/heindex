@@ -230,7 +230,7 @@ public class AppOriginalContentServiceImpl implements AppOriginalContentService 
         List<Map<String, Object>> list4 = appOriginalContentDao.getContentByapp(app,month);
         for (int i = 0; i < list4.size(); i++) {
             //查得样本库大小
-            int contentId = (int) list4.get(i).get("id");
+            int contentId = (int) list4.get(i).get("content_id");
             int count1 = appOriginalContentDao.getContentByContentId(contentId, app,month);
             //查得测量值为1的数据数
             int count2 = appOriginalContentDao.getContentByContentIdAndMeasureValue(contentId, 1, app,month);

@@ -16,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -119,12 +120,14 @@ public class AppOriginalExperienceServiceImpl implements AppOriginalExperienceSe
             //计算应用的品质总分
             List<Map<String, Object>> quary = appQualityService.quary();
             boolean b = appQualityService.setQindex(quary);
-            if (b){
-                return "成功!";
+            if (!b){
+                //手动回滚事物
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return "失败!";
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "失败!";
+        return "成功!";
     }
 }
