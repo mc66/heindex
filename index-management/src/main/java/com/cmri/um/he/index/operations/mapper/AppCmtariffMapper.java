@@ -70,5 +70,6 @@ public interface AppCmtariffMapper {
      */
     @Update(" UPDATE app_calculation_operations aca SET aca.channel=#{channel},aca.market=#{market},aca.service=#{service},aca.tariff=#{tariff} WHERE aca.app=#{app} AND aca.`month`=#{month}")
     int updateAppCalculationOperations(@Param("channel") Double channel,@Param("market") Double market,@Param("month") String month,@Param("service") Double service,@Param("tariff") Double tariff,@Param("app") int app);
-
+    @Select(" SELECT * FROM app_original_features ")
+    List<AppOriginalOperationsEntity> QueryCmtariff();
 }

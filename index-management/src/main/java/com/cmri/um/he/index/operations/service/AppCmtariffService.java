@@ -31,4 +31,6 @@ public interface AppCmtariffService {
      * @return
      */
     String readExcelFile(List<MultipartFile> files);
+
+    void exportCmtariffExcel();
 }
