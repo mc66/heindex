@@ -58,22 +58,29 @@ public class TerminalOverviewServiceImpl implements TerminalOverviewService {
             e.printStackTrace();
         }
         String ratio = "";
+        int flag;
         for (Map<String, Object> map : brand) {
             String imei = (String) map.get("imei");
             BigDecimal sale = (BigDecimal)map.get("value");
             BigDecimal sale1 = terminalOverviewDao.quaryMonthBrand(imei, date);
-            ratio = (sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).multiply(new BigDecimal(100)).setScale(2)+"%";
-            int flag;
-            if ((sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).compareTo(BigDecimal.ZERO)==0 ){
-                flag = 0;
-            }else if ((sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).compareTo(BigDecimal.ZERO)>0 ){
+            if (sale1==null){
+                ratio = "100%";
                 flag = 1;
             }else {
-                flag = -1;
+                ratio = (sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).multiply(new BigDecimal(100)).setScale(2)+"%";
+                if ((sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).compareTo(BigDecimal.ZERO)==0){
+                    flag = 0;
+                }else if ((sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).compareTo(BigDecimal.ZERO)>0 ){
+                    flag = 1;
+                }else {
+                    flag = -1;
+                }
             }
-            map.put("ratio",ratio);
+
             map.put("flag",flag);
+            map.put("ratio",ratio);
         }
+
         return new PagingData<>(terminalOverviewDao.getCount(month),
                 page,
                 step,
@@ -92,27 +99,28 @@ public class TerminalOverviewServiceImpl implements TerminalOverviewService {
             e.printStackTrace();
         }
         String ratio = "";
+        int flag;
         for (Map<String, Object> map : brandPage) {
             String imei = (String) map.get("imei");
             BigDecimal sale = (BigDecimal)map.get("value");
             BigDecimal sale1 = terminalOverviewDao.quaryMonthBrand(imei, date);
-            if (sale1.equals(null)){
+            if (sale1==null){
                 ratio = "100%";
-            }else {
-                ratio = (sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).multiply(new BigDecimal(100)).setScale(2)+"%";
-            }
-            int flag;
-            if ((sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).compareTo(BigDecimal.ZERO)==0 ){
-                flag = 0;
-            }else if ((sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).compareTo(BigDecimal.ZERO)>0 ){
                 flag = 1;
             }else {
-                flag = -1;
+                ratio = (sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).multiply(new BigDecimal(100)).setScale(2)+"%";
+                if ((sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).compareTo(BigDecimal.ZERO)==0){
+                    flag = 0;
+                }else if ((sale.subtract(sale1).divide(sale1,4, RoundingMode.HALF_UP)).compareTo(BigDecimal.ZERO)>0 ){
+                    flag = 1;
+                }else {
+                    flag = -1;
+                }
             }
+
             map.put("flag",flag);
             map.put("ratio",ratio);
         }
-        Map<String, Object> ratioMap = new HashMap<>();
 
         return new PagingData<>(terminalOverviewDao.getCount(month),
                 page,
