@@ -91,6 +91,9 @@ public class AppConversionServiceImpl implements AppConversionService {
                 if (b!=0){
                     newContent = 80 + 10 * ((content - a) / b);
                 }
+                if (newContent > 100){
+                    newContent = 100;
+                }
                 String format = DF.format(newContent);
                 double newCon = Double.valueOf(format);
 
@@ -98,6 +101,9 @@ public class AppConversionServiceImpl implements AppConversionService {
                 double channel = appCalculationOperationsEntity.getChannel();
                 if (StandardDeviationUtil.getStandardDeviation(channelArr)!=0){
                     newChannel = 80 + 10 * ((channel - StandardDeviationUtil.getAverage(channelArr)) / StandardDeviationUtil.getStandardDeviation(channelArr));
+                }
+                if (newChannel > 100){
+                    newChannel = 100;
                 }
                 String forCha = DF.format(newChannel);
                 double newCha = Double.valueOf(forCha);
@@ -107,6 +113,9 @@ public class AppConversionServiceImpl implements AppConversionService {
                 if (StandardDeviationUtil.getStandardDeviation(tariffArr)!=0) {
                     newTariff = 80 + 10 * ((tariff - StandardDeviationUtil.getAverage(tariffArr)) / StandardDeviationUtil.getStandardDeviation(tariffArr));
                 }
+                if (newTariff > 100){
+                    newTariff = 100;
+                }
                 String forTar = DF.format(newTariff);
                 double newTar = Double.valueOf(forTar);
 
@@ -114,6 +123,9 @@ public class AppConversionServiceImpl implements AppConversionService {
                 double newService = 80;
                 if (StandardDeviationUtil.getStandardDeviation(serviceArr)!=0) {
                     newService = 80 + 10 * ((service - StandardDeviationUtil.getAverage(serviceArr)) / StandardDeviationUtil.getStandardDeviation(serviceArr));
+                }
+                if (newService > 100){
+                    newService = 100;
                 }
                 String forSer = DF.format(newService);
                 double newSer = Double.valueOf(forSer);
@@ -123,6 +135,9 @@ public class AppConversionServiceImpl implements AppConversionService {
                 if (StandardDeviationUtil.getStandardDeviation(marketArr) != 0) {
                     newMarket = 80 + 10 * ((market - StandardDeviationUtil.getAverage(marketArr)) / StandardDeviationUtil.getStandardDeviation(marketArr));
                 }
+                if (newMarket > 100){
+                    newMarket = 100;
+                }
                 String forMar = DF.format(newMarket);
                 double newMar = Double.valueOf(forMar);
 
@@ -130,6 +145,9 @@ public class AppConversionServiceImpl implements AppConversionService {
                 double newExperience = 80;
                 if (StandardDeviationUtil.getStandardDeviation(experienceArr) != 0){
                     newExperience = 80 + 10 * ((experience - StandardDeviationUtil.getAverage(experienceArr)) / StandardDeviationUtil.getStandardDeviation(experienceArr));
+                }
+                if (newExperience > 100){
+                    newExperience = 100;
                 }
                 String forEx = DF.format(newExperience);
                 double newEx = Double.valueOf(forEx);
