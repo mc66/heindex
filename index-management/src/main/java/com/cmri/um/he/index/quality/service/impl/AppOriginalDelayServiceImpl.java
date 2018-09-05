@@ -324,16 +324,16 @@ public class AppOriginalDelayServiceImpl implements AppOriginalDelayService {
         double sx=0;
         //测量值
         double x = entity.getMeasure();
-        //挑战值
-        double a = entity.getChallenge();
         //达标值
-        double b = entity.getStandard();
+        double a = entity.getStandard();
+        //挑战值
+        double b = entity.getChallenge();
         if (entity.getMeasuring().contains("速率")){
             if (x>b){
                 sx=100;
-            }else if (a<x&&x<b){
+            }else if (a<x&&x<=b){
                 sx=(b - x) / (b - a) * 40 + 60;
-            }else if (a/2<x&&x<a){
+            }else if (a/2<=x&&x<=a){
                 sx=60;
             }else if (x<a/2){
                 sx=0;
@@ -341,9 +341,9 @@ public class AppOriginalDelayServiceImpl implements AppOriginalDelayService {
         }else {
             if (x>2*a){
                 sx=0;
-            }else if (a<x&&x<2*a){
+            }else if (a<x&&x<=2*a){
                 sx=60;
-            }else if (b<x&&x<a){
+            }else if (b<=x&&x<=a){
                 sx=(b - x) / (b - a) * 40 + 60;
             }else if (x<b){
                 sx=100;
