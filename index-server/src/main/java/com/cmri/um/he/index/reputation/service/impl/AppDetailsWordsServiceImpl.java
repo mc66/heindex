@@ -41,10 +41,10 @@ public class AppDetailsWordsServiceImpl implements AppDetailsWordsService {
      */
     @Override
     public List<Map<String, Object>> quaryquantitativeLi(String comment, String startTime, String endTime) {
-        String key = startTime+endTime;
-        Object kobei1 = redisTemplate.opsForValue().get(key);
+        String key = startTime+endTime+"详情缓存";
+        Object kobei = redisTemplate.opsForValue().get(key);
         List<Map<String,Object>> list = new ArrayList<>();
-        if (kobei1 == null){
+        if (kobei == null){
             //计算时间范围内的天数，小于三十按天查并返回值，大于三十按半月查
             String firstTime = startTime;
             String lastTime = endTime;
