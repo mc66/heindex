@@ -12,5 +12,6 @@
     
     <modules>
         <module>index-server</module>
+        <module>index-management</module>
     </modules>
 </project>

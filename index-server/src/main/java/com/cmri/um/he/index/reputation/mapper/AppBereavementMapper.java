@@ -48,7 +48,7 @@ public interface AppBereavementMapper {
      * @param category 指定类别
      * @return 结果集
      * */
-    @Select("SELECT  DISTINCT a.id,  a.name FROM app_emotion_analyze e LEFT JOIN app_info a ON e.category  =a.category  where e.category  =#{category}")
+    @Select("SELECT  DISTINCT a.id,  a.name FROM app_emotion_analyze e LEFT JOIN app_info a ON e.app  =a.id  where e.category  =#{category}")
     List<Map<String,Object>> findCategory(Integer category);
 
     /**

@@ -35,4 +35,22 @@ public class AppEmotionAnalyzeController extends ZRestController {
         }
        return  responseMessage;
     }
+
+    @RequestMapping(value = "app-emotion",method = RequestMethod.GET)
+    public ResponseMessage getEmotion(){
+        Boolean flag = appEmotionAnalyzeService.getEmotionScore();
+        ResponseMessage responseMessage =this.genResponseMessage();
+        if(flag){
+            responseMessage.setMsg("计算成功");
+        }else {
+            responseMessage.setMsg("计算失败");
+        }
+        return  responseMessage;
+    }
+
+    @RequestMapping(value = "app-he",method = RequestMethod.GET)
+    public String getHe(){
+
+        return  "hello world";
+    }
 }
