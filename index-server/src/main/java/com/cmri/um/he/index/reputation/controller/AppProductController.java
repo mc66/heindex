@@ -32,6 +32,10 @@ public class AppProductController extends ZRestController {
      */
     @RequestMapping(value = "quary-comment-statistics",method = RequestMethod.GET)
     public ResponseMessage quaryDayCommentStatistics(Integer app,String startTime,String endTime){
+
+        //long start = System.currentTimeMillis(); // 获取开始时间
+
+
         List<Map<String,Object>> list = null;
         try {
             list = appProductService.quaryDayCommentStatistics(app,startTime,endTime);
@@ -40,6 +44,10 @@ public class AppProductController extends ZRestController {
         }
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("list",list);
+
+
+        //long end = System.currentTimeMillis(); // 获取结束时间
+        //long time = end-start;
         return responseMessage;
     }
 
