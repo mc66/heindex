@@ -23,7 +23,7 @@ public interface AppMarketMapper {
      */
     @Select("SELECT ai.`name`,ai.id ,am.`monthly_active`AS mau_number,am.`active_next_month_retention_rate` AS keep_rate,am.`monthly_duration_per_person` AS length_time,am.`monthly_dataflow_per_person` AS flow,am.`market_index_score` AS market ,ai.`flag`\n" +
             "FROM app_market_month am JOIN app_info ai ON am.`app`=ai.`id`\n" +
-            "WHERE am.`category`=#{category} AND am.`month`=#{month} ")
+            "WHERE am.`category`=#{category} AND am.`month`=#{month} ORDER BY market DESC")
     public List<Map<String,Object>> getAppMarketList(@Param("category") int category, @Param("month") String month);
 
     /**
