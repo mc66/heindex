@@ -32,7 +32,6 @@ public class AppMarketAddController extends ZRestController {
         List<Map<String, Object>> list=appMarketAddService.getAppNumber(category,app,month);
         ResponseMessage responseMessage =this.genResponseMessage();
         responseMessage.set("list",list);
-
         return  responseMessage;
     }
 
