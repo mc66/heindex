@@ -40,8 +40,8 @@ public class AppDetailsWordsServiceImpl implements AppDetailsWordsService {
      * @return
      */
     @Override
-    public List<Map<String, Object>> quaryquantitative(String comment, String startTime, String endTime) {
-        String key = comment+startTime+endTime+"quaryquantitative_limin";
+    public List<Map<String, Object>> quaryquantitativeLi(String comment, String startTime, String endTime) {
+        String key = comment+"Li"+startTime+endTime+"quaryquantitativeLi_limin";
         Object kobei1 = redisTemplate.opsForValue().get(key);
         List<Map<String,Object>> list = new ArrayList<>();
         if (kobei1 == null){
@@ -121,7 +121,7 @@ public class AppDetailsWordsServiceImpl implements AppDetailsWordsService {
                         list.add(map);
                     }
                 }
-                redisTemplate.opsForValue().set(key,list,30, TimeUnit.DAYS);
+                redisTemplate.opsForValue().set(key,list,30,TimeUnit.DAYS);
             } catch (ParseException e) {
                 e.printStackTrace();
             } catch (Exception e) {
