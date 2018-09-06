@@ -41,7 +41,7 @@ public class AppDetailsWordsServiceImpl implements AppDetailsWordsService {
      */
     @Override
     public List<Map<String, Object>> quaryquantitativeLi(String comment, String startTime, String endTime) {
-        String key = comment+"Li"+startTime+endTime+"quaryquantitativeLi_limin";
+        String key = startTime+endTime;
         Object kobei1 = redisTemplate.opsForValue().get(key);
         List<Map<String,Object>> list = new ArrayList<>();
         if (kobei1 == null){
