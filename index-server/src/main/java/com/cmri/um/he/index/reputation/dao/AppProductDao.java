@@ -21,6 +21,15 @@ public class AppProductDao extends BaseDao {
     AppProductMapper appProductMapper;
 
     /**
+     * 查询日各情感倾向评论数方法二
+     */
+    public List<Map<String,Object>> quary(Integer app, String startTime,String endTime){
+        return appProductMapper.quary(app,startTime,endTime);
+    }
+
+
+
+    /**
      * 查询日各情感倾向评论数
      * @param app
      * @param date
@@ -91,4 +100,6 @@ public class AppProductDao extends BaseDao {
         }
         return items;
     }
+
+
 }

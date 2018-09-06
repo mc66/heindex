@@ -17,13 +17,27 @@ import java.util.Map;
 public interface AppProductMapper {
 
     /**
+     * 查询日各情感倾向评论数方法二
+     */
+    @Select("SELECT COUNT(IF(aea.`status`=1,TRUE,NULL))AS freqPositive," +
+            "COUNT(IF(aea.`status`=-1,TRUE,NULL))AS freqNegativity," +
+            "COUNT(IF(aea.`status`=0,TRUE,NULL))AS freqNeutral," +
+            "aea.`month` " +
+            "FROM app_emotion_analyze aea WHERE app=#{app} " +
+            "AND aea.`month` BETWEEN #{startTime} and #{endTime} " +
+            "GROUP BY aea.`month` ")
+    List<Map<String,Object>> quary(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
+
+
+
+    /**
      * 查询日各情感倾向评论数
      * @param app
      * @param date
      * @return
      */
     @Select("SELECT COUNT(IF(aea.`status`=1,TRUE,NULL))AS freqPositive,COUNT(IF(aea.`status`=-1,TRUE,NULL))AS freqNegativity,COUNT(IF(aea.`status`=0,TRUE,NULL))AS freqNeutral FROM app_emotion_analyze aea WHERE app=#{app} AND aea.`month`=#{date} ")
-    public Map<String,Object> quaryDayCommentAmount(@Param("app") Integer app,@Param("date") String date);
+    Map<String,Object> quaryDayCommentAmount(@Param("app") Integer app,@Param("date") String date);
 
 
     /**
@@ -34,7 +48,7 @@ public interface AppProductMapper {
      * @return
      */
     @Select("SELECT COUNT(IF(aea.`status`=1,TRUE,NULL))AS freqPositive,COUNT(IF(aea.`status`=-1,TRUE,NULL))AS freqNegativity,COUNT(IF(aea.`status`=0,TRUE,NULL))AS freqNeutral FROM app_emotion_analyze aea WHERE app=#{app} AND aea.`month` BETWEEN #{startTime} AND #{endTime}  ")
-    public Map<String,Object> quaryCommentAmount(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
+    Map<String,Object> quaryCommentAmount(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
 
     /**
      * 分页查询评论详情
@@ -49,7 +63,7 @@ public interface AppProductMapper {
             +"<if test='commentSource !=null '> AND aea.`comment_source`= #{commentSource} </if>"
             +"ORDER BY aea.`month` DESC limit #{offset}, #{rows} "
             +"</script>")
-    public List<Map<String, Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO);
+    List<Map<String, Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO);
 
     /**
      * 查询评论个数
@@ -57,7 +71,7 @@ public interface AppProductMapper {
      * @return
      */
     @Select("<script>SELECT COUNT(0) FROM app_emotion_analyze aea WHERE aea.`app`=#{app} AND aea.`month` BETWEEN #{startTime} AND #{endTime} <if test='word !=null '> AND aea.`comment` LIKE CONCAT('%',#{word},'%') </if><if test='status !=null '> AND aea.`status`=#{status} </if><if test='commentSource !=null '>AND aea.`comment_source`= #{commentSource} </if></script>")
-    public int count(CommentParticularsVO commentParticularsVO);
+    int count(CommentParticularsVO commentParticularsVO);
 
     /**
      * 查询热词
@@ -67,7 +81,7 @@ public interface AppProductMapper {
      * @return
      */
     @Select("SELECT hw.`word_name`,SUM(hw.`word_frequency`) FROM hot_word hw WHERE hw.`app`=#{app} AND  hw.`date` BETWEEN #{startTime} AND #{endTime} GROUP BY hw.`word_name` ORDER BY SUM(hw.`word_frequency`) DESC LIMIT 0,20")
-    public List<String> quaryHotWord(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
+    List<String> quaryHotWord(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
 
     /**
      * 查询评论来源
@@ -77,5 +91,5 @@ public interface AppProductMapper {
      * @return
      */
     @Select("SELECT DISTINCT aea.`comment_source` FROM app_emotion_analyze aea WHERE app=#{app} AND aea.`month` BETWEEN #{startTime} AND #{endTime}")
-    public List<String> quaryCommentSource(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
+    List<String> quaryCommentSource(@Param("app") Integer app,@Param("startTime") String startTime,@Param("endTime") String endTime);
 }
