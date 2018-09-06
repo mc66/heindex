@@ -43,9 +43,10 @@ public class UserTrendsServiceImpl implements UserTrendsService {
                     } else {
                         map.put("penetrationRateState", 0);
                     }
-                }
+                }else {
                     map.put("totaLusState", 1);
                     map.put("penetrationRateState", 1);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

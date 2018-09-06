@@ -52,7 +52,27 @@ public class AppProductServiceImpl implements AppProductService {
             try {
                 int days = CalculateDaysByDate.calculateDaysByDate(startTime, endTime);
                 if (days<=30){
-                    for (int i=0;i<days;i++){
+                    List<Map<String, Object>> quary = appProductDao.quary(app, startTime, endTime);
+                    for (Map<String, Object> dayCommentAmount : quary) {
+                        double freqPositive = (long)dayCommentAmount.get("freqPositive");
+                        double freqNegativity = (long)dayCommentAmount.get("freqNegativity");
+                        double freqNeutral = (long)dayCommentAmount.get("freqNeutral");
+                        double sum = freqPositive + freqNegativity + freqNeutral;
+                        if (sum==0){
+                            dayCommentAmount.put("total",sum);
+                            dayCommentAmount.put("petPositive","0.00%");
+                            dayCommentAmount.put("petNegativity","0.00%");
+                            dayCommentAmount.put("petNeutral","0.00%");
+                        }else {
+                            dayCommentAmount.put("total",sum);
+                            dayCommentAmount.put("petPositive",new BigDecimal(freqPositive/sum*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
+                            dayCommentAmount.put("petNegativity",new BigDecimal(freqNegativity/sum*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
+                            dayCommentAmount.put("petNeutral",new BigDecimal(freqNeutral/sum*100).setScale(2,BigDecimal.ROUND_HALF_UP)+"%");
+                        }
+
+                    }
+                    return quary;
+                    /*for (int i=0;i<days;i++){
                         Map<String,Object> map = new HashMap<>(7);
                         String date = CalculateDaysByDate.getDate(Constants.DAY, i, startTime);
                         Map<String, Object> dayCommentAmount = appProductDao.quaryDayCommentAmount(app, date);
@@ -80,7 +100,7 @@ public class AppProductServiceImpl implements AppProductService {
                             map.put("month",date);
                             list.add(map);
                         }
-                    }
+                    }*/
                 }else {
                     int count = CalculateDaysByDate.calculateCountByDate(startTime, endTime);
                     for (int j=0;j<count;j++){

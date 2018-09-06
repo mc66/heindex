@@ -25,6 +25,7 @@ public class AppMonthController extends ZRestController {
     @RequestMapping(value = "/app-month",method = RequestMethod.GET)
     public ResponseMessage getMonth(){
         List<Map<String, Object>> maps = appMonthService.findMonths();
+        maps.remove(0);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("items",maps);
         return responseMessage;

@@ -23,7 +23,7 @@ public class AppOwnDescController extends ZRestController {
     private AppOwnDescService service;
 
     /**
-     * 咪咕视频介绍以及所属类品质分数
+     * 咪咕视频所属类品质分数
      * @param id
      * @param month
      * @return
@@ -41,6 +41,21 @@ public class AppOwnDescController extends ZRestController {
         List<Map<String, Object>> appDesc = service.findByIdAndMonth(id, month);
         ResponseMessage responseMessage = this.genResponseMessage();
         responseMessage.set("items",appDesc);
+        return responseMessage;
+    }
+
+    /**
+     * 体验指数中产品品质和运营中的产品简介
+     * @param id
+     * @param month
+     * @param flag
+     * @return
+     */
+    @RequestMapping(value = "/info",method = RequestMethod.GET)
+    public ResponseMessage getAppInfo(@RequestParam Integer id,@RequestParam String month,@RequestParam Integer flag){
+        List<Map<String, Object>> appInfo = service.findAppInfoByIdAndMonth(id, month, flag);
+        ResponseMessage responseMessage = this.genResponseMessage();
+        responseMessage.set("appInfo",appInfo);
         return responseMessage;
     }
 }

@@ -19,7 +19,7 @@ public interface AppDetailsWordsService {
      * @param endTime
      * @return
      */
-    List<Map<String,Object>> quaryquantitative(String comment, String startTime, String endTime);
+    List<Map<String,Object>> quaryquantitativeLi(String comment, String startTime, String endTime);
 
     /**
      *   查询月情感指数表
