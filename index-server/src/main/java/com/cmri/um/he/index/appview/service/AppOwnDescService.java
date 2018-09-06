@@ -28,4 +28,13 @@ public interface AppOwnDescService {
      */
     List<Map<String,Object>> findByIdAndMonth(Integer id,String month);
 
+    /**
+     * 体验指数中查询指定期数app的描述
+     * @param id
+     * @param month
+     * @param flag
+     * @return
+     */
+    List<Map<String,Object>> findAppInfoByIdAndMonth(Integer id,String month,Integer flag);
+
 }
