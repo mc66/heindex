@@ -104,7 +104,7 @@ public class AppOperationsServiceImpl implements AppOperationsService {
             double count = new BigDecimal((float)count2/count1*100).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
             String s = String.valueOf(count);
             map.put("name",name);
-            map.put("cover",s+"%");
+            map.put("cover",s);
             list3.add(map);
         }
         List<Map<String, Object>> list2=appOperationsDao.getContent2(app,month);
@@ -116,7 +116,7 @@ public class AppOperationsServiceImpl implements AppOperationsService {
             double count = new BigDecimal((float)count4/count3*100).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
             String s = String.valueOf(count);
             map.put("name",name);
-            map.put("update",s+"%");
+            map.put("update",s);
             list4.add(map);
         }
         maps.put("cover",list3);
