@@ -61,13 +61,13 @@ public interface TerminalOverviewMapper {
      * @return 结果集
      * */
     @Select("<script>\n" +
-            "SELECT ta.imei,tb.brand_name,tp.terminal_type,tb.brand_logo,SUM(ta.sale_number) value\n" +
-            "FROM terminal_analyzes ta JOIN terminal_property tp ON ta.imei = tp.imei\n" +
+            "SELECT ta.type_imei,tb.brand_name,tp.terminal_type,tb.brand_logo,SUM(ta.sale_number) value\n" +
+            "FROM terminal_analyzes ta JOIN terminal_property tp ON ta.type_imei = tp.imei\n" +
             "JOIN terminal_brand tb ON tp.brand = tb.id\n" +
             "WHERE ta.`month` = #{month}\n" +
             "<if test='pid != null'> AND ta.`province_id`=#{pid} </if>\n" +
             "<if test='bid != null'> AND tb.`id`=#{bid} </if> " +
-            "GROUP BY ta.imei ORDER BY SUM(ta.sale_number) LIMIT #{offset},#{rows}\n" +
+            "GROUP BY ta.type_imei ORDER BY SUM(ta.sale_number) LIMIT #{offset},#{rows}\n" +
             "</script>")
     List<Map<String,Object>> findBrand(@Param("month") String month,@Param("offset") int offset,@Param("rows") int rows,@Param("pid") Integer pid,@Param("bid") Integer bid);
 
@@ -78,18 +78,18 @@ public interface TerminalOverviewMapper {
      * @param rows   最多查询记录数
      * @return 结果集
      * */
-    @Select("SELECT ta.imei,tb.brand_name,tp.terminal_type,tb.brand_logo,SUM(ta.sale_number) value\n" +
-            "FROM terminal_analyzes ta JOIN terminal_property tp ON ta.imei = tp.imei\n" +
+    @Select("SELECT ta.type_imei,tb.brand_name,tp.terminal_type,tb.brand_logo,SUM(ta.sale_number) value\n" +
+            "FROM terminal_analyzes ta JOIN terminal_property tp ON ta.type_imei = tp.imei\n" +
             "JOIN terminal_brand tb ON tp.brand = tb.id\n" +
             "WHERE ta.`month` = #{month}\n" +
-            "GROUP BY ta.imei ORDER BY SUM(ta.sale_number) LIMIT #{offset},#{rows}")
+            "GROUP BY ta.type_imei ORDER BY SUM(ta.sale_number) LIMIT #{offset},#{rows}")
     List<Map<String,Object>> findBrandPage(@Param("month") String month,@Param("offset") int offset,@Param("rows") int rows);
 
     /**
      * 查询上个月的销售数量
      * @return
      */
-    @Select("SELECT SUM(sale_number) FROM terminal_analyzes WHERE imei = #{imei} AND  month = #{month}")
+    @Select("SELECT SUM(sale_number) FROM terminal_analyzes WHERE type_imei = #{imei} AND  month = #{month}")
     BigDecimal quaryMonthBrand(@Param("imei") String imei, @Param("month") String month);
 
     /**
