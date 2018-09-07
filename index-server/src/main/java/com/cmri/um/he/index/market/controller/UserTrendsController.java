@@ -37,7 +37,7 @@ public class UserTrendsController extends ZRestController{
         if (queryMonthsData!=null&&queryMonthsData.size()>0){
             responseMessage.set("MonthsData",queryMonthsData);
         }else {
-            responseMessage.setMsg("没有当月数据！");
+            responseMessage.setMsg("{}");
         }
         return responseMessage;
     }
@@ -56,7 +56,7 @@ public class UserTrendsController extends ZRestController{
         if (list!=null&&list.size()>0){
             responseMessage.set("trendsCumulative",list);
         }else {
-            responseMessage.setMsg("没有当月数据！");
+            responseMessage.setMsg("{}");
         }
         return responseMessage;
     }
@@ -76,7 +76,7 @@ public class UserTrendsController extends ZRestController{
         if (queryPenetration != null && queryPenetration.size() > 0) {
             responseMessage.set("penetration", queryPenetration);
         } else {
-            responseMessage.setMsg("没有当月数据！");
+            responseMessage.setMsg("{}");
         }
         return responseMessage;
     }
@@ -96,7 +96,7 @@ public class UserTrendsController extends ZRestController{
         if (queryUserStatistics!=null&&queryUserStatistics.size()>0){
             responseMessage.set("userStatistics",queryUserStatistics);
         }else {
-            responseMessage.setMsg("没有当月数据！");
+            responseMessage.setMsg("{}");
         }
         return responseMessage;
     }

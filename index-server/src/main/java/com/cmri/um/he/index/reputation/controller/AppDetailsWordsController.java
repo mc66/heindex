@@ -33,7 +33,7 @@ public class AppDetailsWordsController extends ZRestController {
     public ResponseMessage quaryquantitative(@RequestParam String word, @RequestParam String startTime,@RequestParam String endTime){
         List<Map<String,Object>> list = null;
         try {
-            list = appDetailsWordsService.quaryquantitative(word,startTime,endTime);
+            list = appDetailsWordsService.quaryquantitativeLi(word,startTime,endTime);
         } catch (Exception e) {
             e.printStackTrace();
         }

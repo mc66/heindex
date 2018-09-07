@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -37,11 +35,7 @@ public class AppProblemController extends ZRestController{
     public ResponseMessage getAppQualityProblem(int id, String dimensions, String month){
         List<Map<String, Object>> appQualityProblemList = appProblemService.getAppQualityProblem(id, dimensions,month);
         ResponseMessage responseMessage=this.genResponseMessage();
-        if (appQualityProblemList!=null && appQualityProblemList.size()!=0){
-            responseMessage.set("appQualityProblemList",appQualityProblemList);
-        }else {
-            responseMessage.set("message","当前维度还没有记录问题！！！");
-        }
+        responseMessage.set("list",appQualityProblemList);
         return responseMessage;
     }
 
@@ -57,11 +51,7 @@ public class AppProblemController extends ZRestController{
     public ResponseMessage getAppOperationProblem(int id,String dimensions,String month){
         List<Map<String, Object>> appOperationProblemList = appProblemService.getAppOperationProblem(id, dimensions,month);
         ResponseMessage responseMessage=this.genResponseMessage();
-        if (appOperationProblemList!=null && appOperationProblemList.size()!=0){
-            responseMessage.set("appOperationProblemList",appOperationProblemList);
-        }else {
-            responseMessage.set("message","当前维度还没有记录问题！！！");
-        }
+        responseMessage.set("list",appOperationProblemList);
         return responseMessage;
     }
 }

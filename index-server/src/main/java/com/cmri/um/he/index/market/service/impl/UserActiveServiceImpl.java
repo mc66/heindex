@@ -72,13 +72,14 @@ public class UserActiveServiceImpl implements UserActiveService {
                     } else {
                         map.put("keep_rateState", 0);
                     }
+                }else {
+                    map.put("total_usState", 1);
+                    map.put("new_usState", 1);
+                    map.put("mau_numberState", 1);
+                    map.put("length_timeState", 1);
+                    map.put("flowState", 1);
+                    map.put("keep_rateState", 1);
                 }
-                map.put("total_usState", 1);
-                map.put("new_usState", 1);
-                map.put("mau_numberState", 1);
-                map.put("length_timeState", 1);
-                map.put("flowState", 1);
-                map.put("keep_rateState", 1);
             }
         } catch (Exception e) {
             e.printStackTrace();

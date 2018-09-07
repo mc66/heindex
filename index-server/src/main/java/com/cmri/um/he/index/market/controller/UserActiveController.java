@@ -33,7 +33,7 @@ public class UserActiveController extends ZRestController {
         if (queryActiveMonthDataList!=null&&queryActiveMonthDataList.size()>0){
             responseMessage.set("ActiveMonthData",queryActiveMonthDataList);
         }else {
-            responseMessage.setMsg("没有当月数据！");
+            responseMessage.setMsg("{}");
         }
         return responseMessage;
     }
@@ -53,7 +53,7 @@ public class UserActiveController extends ZRestController {
         if (queryActivity!=null&&queryActivity.size()>0){
             responseMessage.set("activity",queryActivity);
         }else {
-            responseMessage.setMsg("没有当月数据！");
+            responseMessage.setMsg("{}");
         }
         return responseMessage;
     }
@@ -73,7 +73,7 @@ public class UserActiveController extends ZRestController {
         if (queryNumberDay!=null&&queryNumberDay.size()>0){
             responseMessage.set("numberday",queryNumberDay);
         }else {
-            responseMessage.setMsg("没有当月数据！");
+            responseMessage.setMsg("{}");
         }
         return responseMessage;
     }
@@ -93,7 +93,7 @@ public class UserActiveController extends ZRestController {
         if (queryBehavior!=null&&queryBehavior.size()>0){
             responseMessage.set("behavior",queryBehavior);
         }else {
-            responseMessage.setMsg("没有当月数据！");
+            responseMessage.setMsg("{}");
         }
         return responseMessage;
     }
@@ -113,7 +113,7 @@ public class UserActiveController extends ZRestController {
         if (queryStatistical!=null&&queryStatistical.size()>0){
             responseMessage.set("behavior",queryStatistical);
         }else {
-            responseMessage.setMsg("没有当月数据！");
+            responseMessage.setMsg("{}");
         }
         return responseMessage;
     }

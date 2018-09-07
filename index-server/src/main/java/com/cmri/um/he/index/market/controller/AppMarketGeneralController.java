@@ -124,11 +124,8 @@ public class AppMarketGeneralController extends ZRestController {
     public ResponseMessage queryMonthData(@RequestParam int category,@RequestParam int app, @RequestParam String month){
         List<Map<String, Object>> queryMonthDataList = appMarketGeneralService.getAppMarketList(category,app,month);
         ResponseMessage responseMessage = this.genResponseMessage();
-        if (queryMonthDataList!=null&&queryMonthDataList.size()>0){
-            responseMessage.set("marketList",queryMonthDataList);
-        }else {
-            responseMessage.setMsg("没有当月数据！");
-        }
+        responseMessage.set("marketList",queryMonthDataList);
+
         return responseMessage;
     }
 

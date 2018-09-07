@@ -6,6 +6,7 @@ import com.cmri.um.he.index.appview.service.AppOperationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -91,12 +92,37 @@ public class AppOperationsServiceImpl implements AppOperationsService {
     @Override
     public List<Map<String, Object>> getContent(Integer app, String month) {
         List<Map<String, Object>> list3=new ArrayList<>();
-        Map<String, Object> map=new HashMap<>();
+        List<Map<String, Object>> list4=new ArrayList<>();
+        List<Map<String, Object>> list5=new ArrayList<>();
+        Map<String, Object> maps=new HashMap<>();
         List<Map<String, Object>> list1=appOperationsDao.getContent1(app,month);
+        for (Map<String, Object> stringObjectMap : list1) {
+            Map<String, Object> map=new HashMap<>();
+            String  name = (String)stringObjectMap.get("name");
+            Long count1 = (Long)stringObjectMap.get("count1");
+            Long count2 = (Long)stringObjectMap.get("count2");
+            double count = new BigDecimal((float)count2/count1*100).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+            String s = String.valueOf(count);
+            map.put("name",name);
+            map.put("cover",s);
+            list3.add(map);
+        }
         List<Map<String, Object>> list2=appOperationsDao.getContent2(app,month);
-        map.put("update",list1);
-        map.put("cover",list2);
-        list3.add(map);
-        return  list3;
+        for (Map<String, Object> stringObjectMap : list2) {
+            Map<String, Object> map=new HashMap<>();
+            String  name = (String)stringObjectMap.get("name");
+            Long count3 = (Long)stringObjectMap.get("count1");
+            Long count4 = (Long)stringObjectMap.get("count2");
+            double count = new BigDecimal((float)count4/count3*100).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+            String s = String.valueOf(count);
+            map.put("name",name);
+            map.put("update",s);
+            list4.add(map);
+        }
+        maps.put("cover",list3);
+        maps.put("update",list4);
+
+        list5.add(maps);
+        return  list5;
     }
 }

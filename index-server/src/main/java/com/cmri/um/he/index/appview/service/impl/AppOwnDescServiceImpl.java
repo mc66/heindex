@@ -28,4 +28,14 @@ public class AppOwnDescServiceImpl implements AppOwnDescService {
     public List<Map<String, Object>> findByIdAndMonth(Integer id, String month) {
         return dao.findByIdAndMonth(id, month);
     }
+
+    @Override
+    public List<Map<String, Object>> findAppInfoByIdAndMonth(Integer id, String month, Integer flag) {
+        if (flag==1){
+            return dao.findAppInfo1ByIdAndMonth(id,month);
+        }else if (flag==2){
+            return dao.findAppInfo2ByIdAndMonth(id,month);
+        }
+        return null;
+    }
 }

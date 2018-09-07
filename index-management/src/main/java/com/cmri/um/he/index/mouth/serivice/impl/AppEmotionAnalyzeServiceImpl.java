@@ -171,7 +171,9 @@ public class AppEmotionAnalyzeServiceImpl implements AppEmotionAnalyzeService {
                         double sd=10;
                         double avg=80;
                         double mauT=mauZ*sd + avg;
-
+                        if(mauT>100){
+                            mauT=100;
+                        }
                         //保存在该月份下的app的月活数的Z/T分
                         flag=appEmotionAnalyzeDao.updateMau( category,app, month,mauZ, mauT);
                     }
@@ -208,13 +210,14 @@ public class AppEmotionAnalyzeServiceImpl implements AppEmotionAnalyzeService {
                     double sd=10;
                     double avg=80;
                     double emotionScore=emotionRateZ*sd + avg;
-
+                    if(emotionScore>100){
+                        emotionScore=100;
+                    }
                     //保存情感得分
                     flag=appEmotionAnalyzeDao.updateEmotionScore(category,app,month,emotionRateOriginal,emotionRateZ,emotionScore);
                 }
             }
         }
-
         if (flag>0){
             return true;
         }else {

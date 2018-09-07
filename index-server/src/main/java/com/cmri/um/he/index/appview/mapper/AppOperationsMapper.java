@@ -102,22 +102,28 @@ public interface AppOperationsMapper {
     List<Map<String,Object>> queryQualityExperience(@Param("id")Integer id,@Param("month") String month);
 
     /**
-     * 查询内容更新的峰值
-     * @param category
-     * @param month
-     * @return
-     */
-    @Select("select f.name, COUNT(a.app) count from app_original_content a LEFT JOIN app_content_category c on a.content_id=c.id LEFT JOIN app_info f on a.app=f.id\n" +
-            "where c.id=1 AND a.category=(SELECT category from app_info  where id=#{app}) AND month =#{month} GROUP BY a.app")
-    List<Map<String,Object>> getContent1(@Param("app")Integer app,@Param("month") String month);
-
-    /**
-     * 查询内容覆盖的峰值
+     * 查询内容更新
      * @param app
      * @param month
      * @return
      */
-    @Select("select f.name, COUNT(a.app) count from app_original_content a LEFT JOIN app_content_category c on a.content_id=c.id LEFT JOIN app_info f on a.app=f.id\n" +
-            "where c.id=2 AND a.category=(SELECT category from app_info  where id=#{app}) AND month =#{month} GROUP BY a.app")
+    @Select("SELECT c1.app,c1.name,c1.count1,c2.count2 from(\n" +
+            "select a.app,f.name, COUNT(a.app) count1 from app_original_content a LEFT JOIN app_content_category c on a.content_id=c.id LEFT JOIN app_info f on a.app=f.id\n" +
+            "            where c.id=1 AND  a.category=(SELECT category from app_info  where id=#{app}) AND month =#{month} GROUP BY a.app) c1  ,\n" +
+            "(select a.app,f.name, COUNT(a.app) count2 from app_original_content a LEFT JOIN app_content_category c on a.content_id=c.id LEFT JOIN app_info f on a.app=f.id\n" +
+            "            where c.id=1 AND  a.measured_value=1 AND a.category=(SELECT category from app_info  where id=#{app}) AND month =#{month} GROUP BY a.app) c2  where c1.app=c2.app")
+    List<Map<String,Object>> getContent1(@Param("app")Integer app,@Param("month") String month);
+
+    /**
+     * 查询内容覆盖
+     * @param app
+     * @param month
+     * @return
+     */
+    @Select("SELECT c1.app,c1.name,c1.count1,c2.count2 from(\n" +
+            "select a.app,f.name, COUNT(a.app) count1 from app_original_content a LEFT JOIN app_content_category c on a.content_id=c.id LEFT JOIN app_info f on a.app=f.id\n" +
+            "            where c.id=2 AND  a.category=(SELECT category from app_info  where id=#{app}) AND month =#{month} GROUP BY a.app) c1  ,\n" +
+            "(select a.app,f.name, COUNT(a.app) count2 from app_original_content a LEFT JOIN app_content_category c on a.content_id=c.id LEFT JOIN app_info f on a.app=f.id\n" +
+            "            where c.id=2 AND  a.measured_value=1 AND a.category=(SELECT category from app_info  where id=#{app}) AND month =#{month} GROUP BY a.app) c2  where c1.app=c2.app")
     List<Map<String,Object>> getContent2(@Param("app")Integer app,@Param("month") String month);
 }
