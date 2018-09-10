@@ -24,11 +24,8 @@ public class AppMarketController extends ZRestController {
     public ResponseMessage getAppMarket(@RequestParam int category,@RequestParam String month){
         List<Map<String, Object>> appMarketList = appMarketService.getAppMarketList(category,month);
         ResponseMessage responseMessage = this.genResponseMessage();
-        if (appMarketList!=null&&appMarketList.size()>0){
-            responseMessage.set("marketList",appMarketList);
-        }else {
-            responseMessage.setMsg("现在还没有数据！");
-        }
+        responseMessage.set("marketList",appMarketList);
+
         return responseMessage;
     }
 
@@ -111,15 +108,13 @@ public class AppMarketController extends ZRestController {
             list4.add(map4s);
         }
             ResponseMessage responseMessage=this.genResponseMessage();
-        if (list!=null&&list.size()>0){
+
             responseMessage.set("mau_number",list1);
             responseMessage.set("keep_rate",list2);
             responseMessage.set("length_time",list3);
             responseMessage.set("flow",list4);
             responseMessage.set("list",list);
-        }else {
-            responseMessage.setMsg("未添加数据！");
-        }
+
         return responseMessage;
 
     }
