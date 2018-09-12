@@ -48,14 +48,14 @@ public interface AppBereavementMapper {
      * @param category 指定类别
      * @return 结果集
      * */
-    @Select("SELECT  DISTINCT a.id,  a.name FROM app_emotion_analyze e LEFT JOIN app_info a ON e.app  =a.id  where e.category  =#{category}")
+    @Select("SELECT  DISTINCT a.id,  a.name FROM app_emotion_analyze e LEFT JOIN app_info a ON e.app  =a.id  where e.  =#{category}")
     List<Map<String,Object>> findCategory(Integer category);
 
     /**
      * 查询评论热词  词频统计
      * @param app 指定app
      * @param startTime 开始时间
-     * @param endTime 结束时间
+    category    * @param endTime 结束时间
      * @return 结果集
      * */
     @Select("SELECT word_name name,SUM(word_frequency) value\n" +
