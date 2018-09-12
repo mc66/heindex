@@ -29,69 +29,36 @@ public class AppBereavementServiceImpl implements AppBereavementService {
 
     @Override
     public List<Map<String, Object>> findBereavement(Integer category, String startTime, String endTime) {
-        String key = category.toString()+startTime+endTime+"findBereavement";
-        Object kobei1 = redisTemplate.opsForValue().get(key);
-        List<Map<String, Object>> bereavment = null;
-        if (kobei1 == null){
-            bereavment = dao.findBereavement(category, startTime, endTime);
-            redisTemplate.opsForValue().set(key,bereavment,30, TimeUnit.DAYS);
-        }else {
-            bereavment = (List<Map<String, Object>>) redisTemplate.opsForValue().get(key);
-        }
+
+        List<Map<String, Object>>  bereavment = dao.findBereavement(category, startTime, endTime);
+
         return bereavment;
     }
 
     @Override
     public List<Map<String, Object>> findMoonEmotion(Integer category, String endTime) {
-        String key = category.toString()+endTime+"findMoonEmotion";
-        Object kobei1 = redisTemplate.opsForValue().get(key);
-        List<Map<String, Object>> bereavment = null;
-        if(kobei1 == null){
-            bereavment = dao.findMoonEmotion(category, endTime);
-            redisTemplate.opsForValue().set(key,bereavment,30, TimeUnit.DAYS);
-        }else {
-            bereavment = (List<Map<String, Object>>) redisTemplate.opsForValue().get(key);
-        }
 
+        List<Map<String, Object>> bereavment = null; bereavment = dao.findMoonEmotion(category, endTime);
         return bereavment;
 
     }
 
     @Override
     public List<Map<String, Object>> frequencyCount(Integer app, String startTime, String endTime) {
-        String key = app.toString()+startTime+endTime+"frequencyCount";
-        Object kobei1 = redisTemplate.opsForValue().get(key);
-        List<Map<String, Object>> mapList = null;
-        if (kobei1 == null){
-            mapList = dao.frequencyCount(app, startTime, endTime);
-            redisTemplate.opsForValue().set(key,mapList,30, TimeUnit.DAYS);
-        }else {
-            mapList = (List<Map<String, Object>>) redisTemplate.opsForValue().get(key);
-        }
+
+        List<Map<String, Object>> mapList = dao.frequencyCount(app, startTime, endTime);
         return mapList;
     }
 
     @Override
     public List<Map<String, Object>> findCategory(Integer category) {
-        String key = category.toString()+"findCategory";
-        Object kobei1 = redisTemplate.opsForValue().get(key);
-        List<Map<String, Object>> list = null;
-        if (kobei1 == null){
-            list = dao.findCategory(category);
-            redisTemplate.opsForValue().set(key,list,30, TimeUnit.DAYS);
-        }else {
-            list = (List<Map<String, Object>>) redisTemplate.opsForValue().get(key);
-        }
+        List<Map<String, Object>> list = dao.findCategory(category);
         return list;
     }
 
-
     @Override
     public  List<Map<String, Object>> findParameter(Integer category, String startTime, String endTime) {
-        String key = category.toString()+startTime+endTime+"findParameter";
-        Object kobei1 = redisTemplate.opsForValue().get(key);
-        List<Map<String, Object>> appNames = new ArrayList<>();
-        if (kobei1 == null) {
+            List<Map<String, Object>> appNames = new ArrayList<>();
             List<Map<String, Object>> appName = dao.findCategory(category);
             for (Map<String, Object> map : appName) {
                 Map<String, Object> maps = new HashMap<>();
@@ -132,11 +99,9 @@ public class AppBereavementServiceImpl implements AppBereavementService {
                     maps.put("pet_neutrals", pet_neutrals);
                     appNames.add(maps);
                 }
-                redisTemplate.opsForValue().set(key,appNames,30, TimeUnit.DAYS);
+
             }
-        } else {
-            appNames = (List<Map<String, Object>>) redisTemplate.opsForValue().get(key);
-        }
+
          return appNames;
     }
 

@@ -41,10 +41,8 @@ public class AppDetailsWordsServiceImpl implements AppDetailsWordsService {
      */
     @Override
     public List<Map<String, Object>> quaryquantitativeLi(String comment, String startTime, String endTime) {
-        String key = startTime+endTime+"详情缓存";
-        Object kobei = redisTemplate.opsForValue().get(key);
+
         List<Map<String,Object>> list = new ArrayList<>();
-        if (kobei == null){
             //计算时间范围内的天数，小于三十按天查并返回值，大于三十按半月查
             String firstTime = startTime;
             String lastTime = endTime;
@@ -121,63 +119,36 @@ public class AppDetailsWordsServiceImpl implements AppDetailsWordsService {
                         list.add(map);
                     }
                 }
-                redisTemplate.opsForValue().set(key,list,30,TimeUnit.DAYS);
+
             } catch (ParseException e) {
                 e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else {
-            list = (List<Map<String, Object>>) redisTemplate.opsForValue().get(key);
-        }
+
 
         return list;
     }
 
     @Override
     public PagingData<Map<String, Object>> quaryMonthlySentiment(CommentParticularsVO commentParticularsVO) {
-        String key = commentParticularsVO.toString()+"quaryMonthlySentiment-LiMin";
-        Object kobei1 = redisTemplate.opsForValue().get(key);
-        PagingData<Map<String, Object>> PageObject = null;
-        if (kobei1 == null){
-            PageObject = new PagingData<>(dao.count(commentParticularsVO),
-                    commentParticularsVO.getPage(),
-                    commentParticularsVO.getStep(),
-                    dao.quaryCommentParticulars(commentParticularsVO,commentParticularsVO.getPage(),commentParticularsVO.getStep())
-            );
-            redisTemplate.opsForValue().set(key,PageObject,30,TimeUnit.DAYS);
-        }else {
-            PageObject = (PagingData<Map<String, Object>>)redisTemplate.opsForValue().get(key);
-        }
 
-        return PageObject;
+        return  new PagingData<>(dao.count(commentParticularsVO),
+                commentParticularsVO.getPage(),
+                commentParticularsVO.getStep(),
+                dao.quaryCommentParticulars(commentParticularsVO,commentParticularsVO.getPage(),commentParticularsVO.getStep())
+        );
     }
 
     @Override
     public List<String> quaryHotWords(String startTime, String endTime) {
-        String key = startTime+endTime+"quaryHotWords";
-        Object kobei1 = redisTemplate.opsForValue().get(key);
-        List<String> list = null;
-        if (kobei1 ==null){
-           list = dao.quaryHotWords(startTime,endTime);
-           redisTemplate.opsForValue().set(key,list,30,TimeUnit.DAYS);
-        }else {
-            list = (List<String>) redisTemplate.opsForValue().get(key);
-        }
+        List<String> list = dao.quaryHotWords(startTime,endTime);
         return list;
     }
 
     @Override
     public List<String> quarySourceComment(String startTime, String endTime) {
-        String key = startTime+endTime+"quarySourceComment";
-        Object kobei1 = redisTemplate.opsForValue().get(key);
-        List<String> list = null;
-        if (kobei1 == null){
-            list = dao.quarySourceComment(startTime,endTime);
-            redisTemplate.opsForValue().set(key,list,30,TimeUnit.DAYS);
-        }else {
-            list = (List<String>)redisTemplate.opsForValue().get(key);
-        }
+        List<String> list = dao.quarySourceComment(startTime,endTime);
         return list;
     }
 }
