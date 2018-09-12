@@ -30,7 +30,7 @@ public interface AppCategoryMapper {
      * 查询应用类别及对应的app数据
      * @return 应用类别集合
      */
-    @Select("SELECT  info.id app_id , category.`name` cate,category.id category_id,info.`name`,CONCAT(category.`name`,'报告') AS newcal\n" +
+    @Select("SELECT  info.id app_id , category.`name` cate,category.id category_id,info.`name`,category.`name` AS newcal\n" +
             "from app_category category \n" +
             "LEFT JOIN app_info info ON category.id = info.category\n" +
             "WHERE info.flag = 1;")
