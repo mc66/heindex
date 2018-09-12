@@ -24,36 +24,28 @@ public class AppBereavementServiceImpl implements AppBereavementService {
 
     @Autowired
     private AppBereavementDao dao;
-    @Autowired
-    private RedisTemplate redisTemplate;
 
     @Override
     public List<Map<String, Object>> findBereavement(Integer category, String startTime, String endTime) {
-
-        List<Map<String, Object>>  bereavment = dao.findBereavement(category, startTime, endTime);
-
-        return bereavment;
+        return  dao.findBereavement(category, startTime, endTime);
     }
 
     @Override
     public List<Map<String, Object>> findMoonEmotion(Integer category, String endTime) {
 
-        List<Map<String, Object>> bereavment = null; bereavment = dao.findMoonEmotion(category, endTime);
-        return bereavment;
+        return dao.findMoonEmotion(category, endTime);
 
     }
 
     @Override
     public List<Map<String, Object>> frequencyCount(Integer app, String startTime, String endTime) {
 
-        List<Map<String, Object>> mapList = dao.frequencyCount(app, startTime, endTime);
-        return mapList;
+        return dao.frequencyCount(app, startTime, endTime);
     }
 
     @Override
     public List<Map<String, Object>> findCategory(Integer category) {
-        List<Map<String, Object>> list = dao.findCategory(category);
-        return list;
+        return dao.findCategory(category);
     }
 
     @Override
@@ -101,7 +93,6 @@ public class AppBereavementServiceImpl implements AppBereavementService {
                 }
 
             }
-
          return appNames;
     }
 
