@@ -27,7 +27,8 @@ public class AppBereavementServiceImpl implements AppBereavementService {
 
     @Override
     public List<Map<String, Object>> findBereavement(Integer category, String startTime, String endTime) {
-        return  dao.findBereavement(category, startTime, endTime);
+        List<Map<String, Object>> list = dao.findBereavement(category, startTime, endTime);
+        return  list;
     }
 
     @Override
