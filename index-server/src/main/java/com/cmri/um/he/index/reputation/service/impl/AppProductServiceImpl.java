@@ -42,10 +42,8 @@ public class AppProductServiceImpl implements AppProductService {
      */
     @Override
     public List<Map<String,Object>> quaryDayCommentStatistics(Integer app, String startTime, String endTime)  {
-        String key = app.toString()+startTime+endTime+"quaryDayCommentStatistics";
-        Object kobei1 = redisTemplate.opsForValue().get(key);
+
         List<Map<String,Object>> list = new ArrayList<>();
-        if(kobei1 == null){
             //计算时间范围内的天数，小于三十按天查并返回值，大于三十按半月查
             String firstTime = startTime;
             String lastTime = endTime;
@@ -142,15 +140,13 @@ public class AppProductServiceImpl implements AppProductService {
                         list.add(map);
                     }
                 }
-                redisTemplate.opsForValue().set(key,list,30, TimeUnit.DAYS);
+
             } catch (ParseException e) {
                 e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else {
-            list = (List<Map<String, Object>>) redisTemplate.opsForValue().get(key);
-        }
+
 
         return list;
     }
@@ -162,21 +158,11 @@ public class AppProductServiceImpl implements AppProductService {
      */
     @Override
     public PagingData<Map<String, Object>> quaryCommentParticulars(CommentParticularsVO commentParticularsVO) {
-        String key = commentParticularsVO.toString()+"quaryCommentParticulars-MaChao";
-        Object kobei1 = redisTemplate.opsForValue().get(key);
-        PagingData<Map<String, Object>> PageObject = null;
-        if (kobei1 == null){
-            PageObject = new PagingData<>(appProductDao.count(commentParticularsVO),
-                    commentParticularsVO.getPage(),
-                    commentParticularsVO.getStep(),
-                    appProductDao.quaryCommentParticulars(commentParticularsVO)
-            );
-            redisTemplate.opsForValue().set(key,PageObject,30,TimeUnit.DAYS);
-        }else {
-            PageObject = (PagingData<Map<String, Object>>)redisTemplate.opsForValue().get(key);
-        }
-
-        return PageObject;
+        return new PagingData<>(appProductDao.count(commentParticularsVO),
+                commentParticularsVO.getPage(),
+                commentParticularsVO.getStep(),
+                appProductDao.quaryCommentParticulars(commentParticularsVO)
+        );
     }
 
     /**
@@ -188,15 +174,7 @@ public class AppProductServiceImpl implements AppProductService {
      */
     @Override
     public List<String> quaryHotWord(Integer app, String startTime, String endTime) {
-        String key = app.toString()+startTime+endTime+"quaryHotWord";
-        Object kobei1 = redisTemplate.opsForValue().get(key);
-        List<String> list = null;
-        if (kobei1 == null){
-          list =  appProductDao.quaryHotWord(app,startTime,endTime);
-          redisTemplate.opsForValue().set(key,list,30,TimeUnit.DAYS);
-        }else {
-            list = (List<String>) redisTemplate.opsForValue().get(key);
-        }
+        List<String> list =  appProductDao.quaryHotWord(app,startTime,endTime);
         return list;
     }
 
@@ -209,15 +187,7 @@ public class AppProductServiceImpl implements AppProductService {
      */
     @Override
     public List<String> quaryCommentSource(Integer app, String startTime, String endTime) {
-        String key = app.toString()+startTime+endTime+"quaryCommentSource";
-        Object kobei1 = redisTemplate.opsForValue().get(key);
-        List<String> list = null;
-        if (kobei1 == null){
-            list =  appProductDao.quaryCommentSource(app,startTime,endTime);
-            redisTemplate.opsForValue().set(key,list,30,TimeUnit.DAYS);
-        }else {
-            list = (List<String>) redisTemplate.opsForValue().get(key);
-        }
+        List<String> list =  appProductDao.quaryCommentSource(app,startTime,endTime);
         return list;
     }
 }
