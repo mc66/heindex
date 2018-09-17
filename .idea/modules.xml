@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/heindex/heindex.iml" filepath="$PROJECT_DIR$/heindex/heindex.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/hezhishu.iml" filepath="$PROJECT_DIR$/.idea/hezhishu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/heindex/index-management/index-management.iml" filepath="$PROJECT_DIR$/heindex/index-management/index-management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/heindex/index-server/index-server.iml" filepath="$PROJECT_DIR$/heindex/index-server/index-server.iml" />
+    </modules>
+  </component>
+</project>
